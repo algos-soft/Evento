@@ -1,0 +1,22 @@
+package it.algos.evento.entities.rappresentazione;
+
+import it.algos.evento.multiazienda.EventoEntity_;
+import it.algos.evento.entities.evento.Evento;
+import it.algos.evento.entities.insegnante.Insegnante;
+import it.algos.evento.entities.sala.Sala;
+
+import java.util.Date;
+
+import javax.persistence.metamodel.ListAttribute;
+import javax.persistence.metamodel.SingularAttribute;
+import javax.persistence.metamodel.StaticMetamodel;
+
+@StaticMetamodel(Rappresentazione.class)
+public class Rappresentazione_ extends EventoEntity_ {
+	public static volatile SingularAttribute<Rappresentazione, Evento> evento;
+	public static volatile SingularAttribute<Rappresentazione, Sala> sala;
+	public static volatile SingularAttribute<Rappresentazione, Integer> capienza;
+	public static volatile SingularAttribute<Rappresentazione, Date> dataRappresentazione;
+	public static volatile SingularAttribute<Rappresentazione, String> note;
+	public static volatile ListAttribute<Rappresentazione, Insegnante> insegnanti;
+}// end of entity class

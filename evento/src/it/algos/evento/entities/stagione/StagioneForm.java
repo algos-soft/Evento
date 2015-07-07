@@ -1,0 +1,62 @@
+package it.algos.evento.entities.stagione;
+
+import com.vaadin.data.Item;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Field;
+import com.vaadin.ui.Layout;
+import it.algos.web.field.DateField;
+import it.algos.web.field.TextField;
+import it.algos.web.form.AForm;
+import it.algos.web.form.AFormLayout;
+import it.algos.web.module.ModulePop;
+
+@SuppressWarnings("serial")
+public class StagioneForm extends AForm {
+
+	public StagioneForm(Item item) {
+		super(item);
+		doInit();
+	}
+
+	public StagioneForm(ModulePop modulo) {
+		super(modulo);
+		doInit();
+	}
+
+	public StagioneForm(ModulePop modulo, Item item) {
+		super(modulo, item);
+		doInit();
+	}
+	
+	private void doInit(){
+		//setMargin(true);
+	}
+
+	@Override
+	protected void createFields() {
+		@SuppressWarnings("rawtypes")
+		Field field;
+
+		field = new TextField("Sigla stagione");
+		field.setWidth("120px");
+		field.focus();
+		addField(Stagione_.sigla, field);
+
+		field = new DateField("Data inizio");
+		addField(Stagione_.datainizio, field);
+
+		field = new DateField("Data fine");
+		addField(Stagione_.datafine, field);
+
+
+	}
+
+	protected Component createComponent() {
+		Layout layout = new AFormLayout();
+		layout.addComponent(getField(Stagione_.sigla));
+		layout.addComponent(getField(Stagione_.datainizio));
+		layout.addComponent(getField(Stagione_.datafine));
+		return incapsulaPerMargine(layout);
+	}
+
+}

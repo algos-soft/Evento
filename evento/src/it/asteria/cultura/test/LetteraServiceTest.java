@@ -1,0 +1,59 @@
+package it.asteria.cultura.test;
+
+import static org.junit.Assert.fail;
+import it.algos.evento.entities.lettera.LetteraService;
+
+import org.apache.commons.mail.EmailException;
+import org.junit.Test;
+
+public class LetteraServiceTest {
+
+	@Test
+	public void testGetTesto() {
+		System.out.println("prova pippo");
+	}// end of single test
+
+	@Test
+	public void testSend() {
+		String dest = "gac@algos.it";
+		String oggetto = "prova";
+		String testo = "testo senza allegati";
+		String errore = "";
+
+		try {
+			if (LetteraService.sendMail(dest, oggetto, testo, false)) {
+				System.out.println("spedita senza allegati");
+			} else {
+				System.out.println("Non spedita");
+				fail("Non spedita");
+			}// end of if/else cycle
+		} catch (EmailException e) {
+			errore = e.getMessage();
+			System.out.println("Non spedita");
+			fail("Non spedita");
+		}
+	}// end of single test
+
+	@Test
+	public void testSendMailAllegati() {
+		String dest = "gac@algos.it";
+		String oggetto = "prova";
+		String testo = "testo con allegati\n";
+		String allegati = "pippoz.csv,Mario.rtf";
+		String errore = "";
+
+		try {
+			if (LetteraService.sendMail(dest, oggetto, testo, false, allegati)) {
+				System.out.println("spedita con allegati");
+			} else {
+				System.out.print("Non spedita");
+				fail("Non spedita");
+			}// end of if/else cycle
+		} catch (EmailException e) {
+			errore = e.getMessage();
+			System.out.println("Non spedita");
+			fail("Non spedita");
+		}
+	}// end of single test
+
+}// end of test class

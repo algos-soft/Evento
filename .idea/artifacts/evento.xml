@@ -1,0 +1,26 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="evento">
+    <output-path>$PROJECT_DIR$/out/artifacts/evento</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="directory" name="META-INF">
+            <element id="file-copy" path="$PROJECT_DIR$/evento/persistence.xml" />
+          </element>
+          <element id="module-output" name="evento" />
+        </element>
+        <element id="directory" name="data">
+          <element id="dir-copy" path="$PROJECT_DIR$/evento/data" />
+        </element>
+        <element id="file-copy" path="$PROJECT_DIR$/evento/web.xml" />
+        <element id="directory" name="lib">
+          <element id="library" level="module" name="IvyIDEA" module-name="evento" />
+          <element id="library" level="project" name="webbase_jar" />
+        </element>
+      </element>
+      <element id="directory" name="VAADIN">
+        <element id="dir-copy" path="$PROJECT_DIR$/evento/vaadin" />
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,358 @@
+package it.algos.evento.pref;
+
+import it.algos.evento.EventoSession;
+import it.algos.evento.entities.company.Company;
+import it.algos.evento.multiazienda.EROContainer;
+import it.algos.web.entity.EM;
+import it.algos.web.lib.LibImage;
+import it.algos.web.lib.LibResource;
+import it.algos.web.pref.AbsPref;
+import it.algos.web.pref.AbsPref.PrefType;
+import it.algos.web.pref.PrefIF;
+
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Date;
+
+import javax.persistence.EntityManager;
+
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.data.Container.Filter;
+import com.vaadin.data.util.filter.Compare;
+import com.vaadin.server.Resource;
+import com.vaadin.ui.Image;
+
+/**
+ * Enum delle preferenze del programma con i relativi valori di default.
+ * <p>
+ * All'avvio del servlet controlla l'esistenza di tutte le preferenze e aggiunge
+ * quelle eventualmente mancanti.
+ */
+public enum CompanyPrefs implements PrefIF {
+	nextNumPren("nextNumPren", PrefType.integer, 1),
+
+	ggScadConfermaPrenotazione("ggScadConfermaPrenotazione", PrefType.integer, 7),
+
+	ggScadConfermaPagamento("ggScadConfermaPagamento", PrefType.integer, 60),
+
+	ggProlungamentoConfDopoSollecito("ggProlungamentoConfDopoSollecito", PrefType.integer, 7),
+
+	ggProlungamentoPagamDopoSollecito("ggProlungamentoPagamDopoSollecito", PrefType.integer, 7),
+
+	senderEmailAddress("senderEmailAddress", PrefType.string, ""),
+
+	backupEmail("sendMailToBackup", PrefType.bool, false),
+
+	backupEmailAddress("backupEmailAddress", PrefType.string, ""),
+
+	importoBaseInteri("importoBaseInteri", PrefType.decimal, new BigDecimal(10)),
+
+	importoBaseRidotti("importoBaseRidotti", PrefType.decimal, new BigDecimal(0)),
+
+	importoBaseDisabili("importoBaseDisabili", PrefType.decimal, new BigDecimal(0)),
+
+	importoBaseAccomp("importoBaseAccomp", PrefType.decimal, new BigDecimal(0)),
+
+	idSalaDefault("idSalaDefault", PrefType.integer, 0),
+
+	oraRunSolleciti("oraRunSolleciti", PrefType.integer, 23),
+
+	doRunSolleciti("doRunSolleciti", PrefType.bool, false),
+
+	splashImage("splashImage", PrefType.bytes, LibResource.getImgBytes("splash_image.png")),
+
+	menubarIcon("menubarIcon", PrefType.bytes, LibResource.getImgBytes("default_menubar_icon.png")),
+
+	sendMailInfoPren("sendMailInfoPren", PrefType.bool, true),
+	sendMailScadPren("sendMailScadPren", PrefType.bool, true),
+	sendMailConfPren("sendMailConfPren", PrefType.bool, true),
+	sendMailScadPaga("sendMailScadPaga", PrefType.bool, false),
+	sendMailConfPaga("sendMailConfPaga", PrefType.bool, false),
+	sendMailRegisPaga("sendMailRegisPaga", PrefType.bool, true),
+	sendMailCongOpzione("sendMailCongOpzione", PrefType.bool, true),
+
+	sendMailInfoPrenRef("sendMailInfoPrenRef", PrefType.bool, true),
+	sendMailScadPrenRef("sendMailScadPrenRef", PrefType.bool, true),
+	sendMailConfPrenRef("sendMailConfPrenRef", PrefType.bool, true),
+	sendMailScadPagaRef("sendMailScadPagaRef", PrefType.bool, false),
+	sendMailConfPagaRef("sendMailConfPagaRef", PrefType.bool, false),
+	sendMailRegisPagaRef("sendMailRegisPagaRef", PrefType.bool, true),
+	sendMailCongOpzioneRef("sendMailCongOpzioneRef", PrefType.bool, true),
+
+	sendMailInfoPrenScuola("sendMailInfoPrenScuola", PrefType.bool, false),
+	sendMailScadPrenScuola("sendMailScadPrenScuola", PrefType.bool, false),
+	sendMailConfPrenScuola("sendMailConfPrenScuola", PrefType.bool, false),
+	sendMailScadPagaScuola("sendMailScadPagaScuola", PrefType.bool, false),
+	sendMailConfPagaScuola("sendMailConfPagaScuola", PrefType.bool, false),
+	sendMailRegisPagaScuola("sendMailRegisPagaScuola", PrefType.bool, false),
+	sendMailCongOpzioneScuola("sendMailCongOpzioneScuola", PrefType.bool, false),
+
+	sendMailInfoPrenNP("sendMailInfoPrenNP", PrefType.bool, false),
+	sendMailScadPrenNP("sendMailScadPrenNP", PrefType.bool, false),
+	sendMailConfPrenNP("sendMailConfPrenNP", PrefType.bool, false),
+	sendMailScadPagaNP("sendMailScadPagaNP", PrefType.bool, false),
+	sendMailConfPagaNP("sendMailConfPagaNP", PrefType.bool, false),
+	sendMailRegisPagaNP("sendMailRegisPagaNP", PrefType.bool, false),
+	sendMailCongOpzioneNP("sendMailCongOpzioneNP", PrefType.bool, false),
+
+	;
+
+	private String code;
+	private PrefType type;
+	private Object defaultValue;
+
+	private CompanyPrefs(String key, PrefType type, Object defaultValue) {
+		this.code = key;
+		this.type = type;
+		this.defaultValue = defaultValue;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public PrefType getType() {
+		return type;
+	}
+
+	public Object getDefaultValue() {
+		return defaultValue;
+	}
+
+	/**
+	 * Recupera il valore di questa preferenza per una data azienda
+	 * <p>
+	 * Il valore ritornato è già convertito nel tipo previsto. Se la preferenza
+	 * manca ritorna il valore di default
+	 * 
+	 * @param company
+	 *            - l'azienda
+	 * @return il valore della preferenza
+	 *         <p>
+	 */
+	public Object get(Company company) {
+		Object obj = null;
+		PrefEventoEntity entity = getPreference(company);
+
+		if (entity != null) {
+			byte[] bytes = entity.getValue();
+			obj = bytesToObject(bytes);
+		} else {
+			obj = getDefaultValue();
+		}
+
+		return obj;
+	}
+
+	/**
+	 * Recupera il valore di questa preferenza per l'azienda corrente
+	 * <p>
+	 * Il valore ritornato è già convertito nel tipo previsto.
+	 * 
+	 * @return il valore della preferenza
+	 */
+	public Object get() {
+		//return get(EventoApp.COMPANY);
+		return get(EventoSession.getCompany());
+	}
+
+	public boolean getBool() {
+		return (boolean) get();
+	}
+
+	public byte[] getBytes() {
+		return (byte[]) get();
+	}
+
+	public Date getDate() {
+		return (Date) get();
+	}
+
+	public BigDecimal getDecimal() {
+		return (BigDecimal) get();
+	}
+
+	public Image getImage() {
+		Image img = null;
+		byte[] bytes = getBytes();
+		if (bytes.length > 0) {
+			img = LibImage.getImage(bytes);
+		}
+		return img;
+	}
+
+	public int getInt() {
+		return (int) get();
+	}
+
+	public Resource getResource() {
+		Resource res = null;
+		Image img = getImage();
+		if (img != null) {
+			res = img.getSource();
+		}
+		return res;
+	}
+
+	public String getString() {
+		return (String) get();
+	}
+
+	/**
+	 * Scrive un valore nello storage per questa preferenza per una data
+	 * azienda.
+	 * <p>
+	 * Se la preferenza non esiste nello storage la crea ora.
+	 *
+	 * @param company
+	 *            l'azienda di riferimento
+	 * @param value
+	 *            il valore da scrivere
+	 */
+	public void put(Company company, Object value) {
+		PrefEventoEntity entity = getPreference(company);
+		if (entity == null) {
+			entity = new PrefEventoEntity();
+			entity.setCode(getCode());
+			entity.setCompany(company);
+		}
+		entity.setValue(objectToBytes(value));
+
+		EntityManager manager = EM.createEntityManager();
+		manager.getTransaction().begin();
+		try {
+			if (entity.getId() != null) {
+				manager.merge(entity);
+			} else {
+				manager.persist(entity);
+			}
+			manager.getTransaction().commit();
+		} catch (Exception e) {
+			manager.getTransaction().rollback();
+		}
+
+		manager.close();
+
+	}
+
+	/**
+	 * Scrive un valore nello storage per l'azienda corrente.
+	 * <p>
+	 * Se la preferenza non esiste nello storage la crea ora.
+	 *
+	 * @param value
+	 *            il valore da scrivere
+	 */
+	public void put(Object value) {
+		//put(EventoApp.COMPANY, value);
+		put(EventoSession.getCompany(), value);
+	}
+
+	/**
+	 * Rimuove dallo storage questa preferenza per una data azienda.
+	 * <p>
+	 * 
+	 * @param company
+	 *            l'azienda di riferimento
+	 */
+
+	private void remove(Company company) {
+		PrefEventoEntity entity = getPreference(company);
+		if (entity != null) {
+
+			EntityManager manager = EM.createEntityManager();
+			manager.getTransaction().begin();
+			try {
+				entity = manager.merge(entity);
+				manager.remove(entity);
+				manager.getTransaction().commit();
+			} catch (Exception e) {
+				manager.getTransaction().rollback();
+			}
+
+			manager.close();
+
+		}
+	}
+
+	/**
+	 * Rimuove dallo storage questa preferenza per l'azienda corrente.
+	 * <p>
+	 */
+	public void remove() {
+		//remove(EventoApp.COMPANY);
+		remove(EventoSession.getCompany());
+	}
+
+	/**
+	 * Resetta questa preferenza al valore di default per una data azienda.
+	 * <p>
+	 * 
+	 * @param company
+	 *            l'azienda di riferimento
+	 */
+	public void reset(Company company) {
+		put(company, getDefaultValue());
+	}
+
+	/**
+	 * Resetta questa preferenza al valore di default per l'azienda corrente.
+	 */
+	public void reset() {
+		//Company comp=EventoApp.COMPANY;
+		Company comp=EventoSession.getCompany();
+		put(comp, getDefaultValue());
+	}
+
+	/**
+	 * Recupera dallo storage questa preferenza per una data azienda
+	 * <p>
+	 * param company - l'azienda
+	 * 
+	 * @return la preferenza, null se non trovata
+	 */
+	private PrefEventoEntity getPreference(Company company) {
+		PrefEventoEntity entity = null;
+		JPAContainer<?> container;
+
+		EntityManager manager = EM.createEntityManager();
+		container = new EROContainer(PrefEventoEntity.class, manager);
+		Filter filter = new Compare.Equal(PrefEventoEntity_.code.getName(), getCode());
+		container.addContainerFilter(filter);
+
+		if (container.size() > 0) {
+			Collection<Object> ids = container.getItemIds();
+			Object id = ids.iterator().next();
+			entity = (PrefEventoEntity) container.getItem(id).getEntity();
+		}
+
+		manager.close();
+
+		return entity;
+	}
+
+	/**
+	 * Converte un valore Object in ByteArray per questa preferenza.
+	 * <p>
+	 * 
+	 * @param obj
+	 *            il valore Object
+	 * @return il valore convertito in byte[]
+	 */
+	private byte[] objectToBytes(Object obj) {
+		return AbsPref.objectToBytes(this, obj);
+	}
+
+	/**
+	 * Converte un byte[] in Object del tipo adatto per questa preferenza.
+	 * <p>
+	 * 
+	 * @param bytes
+	 *            il valore come byte[]
+	 * @return il valore convertito nell'oggetto del tipo adeguato
+	 */
+	private Object bytesToObject(byte[] bytes) {
+		return AbsPref.bytesToObject(this, bytes);
+	}
+
+}
