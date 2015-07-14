@@ -14,6 +14,7 @@ import it.algos.web.dialog.ConfirmDialog;
 import it.algos.web.lib.Lib;
 import it.algos.web.lib.LibResource;
 import it.algos.web.lib.LibSession;
+import it.algos.web.screen.ErrorScreen;
 import it.algos.web.ui.AlgosUI;
 import it.algos.evento.entities.comune.ComuneModulo;
 import it.algos.evento.config.ConfigScreen;

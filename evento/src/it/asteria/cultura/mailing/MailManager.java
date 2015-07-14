@@ -4,14 +4,15 @@ import com.vaadin.data.Property;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.OptionGroup;
+import it.algos.evento.entities.lettera.Lettera;
+import it.algos.evento.entities.lettera.LetteraService;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.web.dialog.ConfirmDialog;
 import it.algos.web.field.ArrayComboField;
 import it.algos.web.field.TextField;
 import it.algos.web.lib.LibSession;
-import it.algos.evento.entities.lettera.Lettera;
-import it.algos.evento.entities.lettera.LetteraService;
+import it.asteria.cultura.destinatarimailing.Destinatarimailing;
 
 import java.util.ArrayList;
 
@@ -82,7 +83,7 @@ public class MailManager extends ConfirmDialog {
         ArrayList<String> destinatari = this.getDestinatari();
 
         if (destinatari != null && destinatari.size() > 0) {
-            this.gestioneMailing(titolo, lettera, destinatari);
+            this.gestione(titolo, lettera, destinatari);
         } else {
             new Notification("Non risulta nessun destinatario del mailing",
                     "Controlla le opzioni",
@@ -92,11 +93,66 @@ public class MailManager extends ConfirmDialog {
 
     }// end of method
 
+    /**
+     * Gestione <br>
+     */
+    private void gestione(String titolo, Lettera lettera, ArrayList<String> destinatari) {
+        this.registrazione(titolo, lettera, destinatari);
+        this.spedizione(titolo, lettera, destinatari);
+    }// end of method
+
+    /**
+     * Registrazione <br>
+     * Creazione di 1 record di Mailing <br>
+     * Creazione di n records di Destinatarimailing <br>
+     */
+    private void registrazione(String titolo, Lettera lettera, ArrayList<String> destinatari) {
+        Mailing mailing = null;
+
+        mailing = this.registrazioneMailing(titolo, lettera);
+        if (mailing != null) {
+            this.registrazioneDestinatari(mailing, destinatari);
+        }// fine del blocco if
+
+    }// end of method
+
+    /**
+     * Registrazione <br>
+     * Creazione di 1 record di Mailing <br>
+     * Creazione di n records di Destinatarimailing <br>
+     */
+    private Mailing registrazioneMailing(String titolo, Lettera lettera) {
+        Mailing mailing = new Mailing();
+        mailing.setTitolo(titolo);
+        mailing.setLettera(lettera);
+        mailing.save();
+
+        return mailing;
+    }// end of method
+
+    /**
+     * Registrazione <br>
+     * Creazione di 1 record di Mailing <br>
+     * Creazione di n records di Destinatarimailing <br>
+     */
+    private void registrazioneDestinatari(Mailing mailing, ArrayList<String> destinatari) {
+        String indirizzo = "";
+        Destinatarimailing destinatario = null;
+
+        for (int k = 0; k < destinatari.size(); k++) {
+            indirizzo = destinatari.get(k);
+            destinatario = new Destinatarimailing();
+            destinatario.setMailing(mailing);
+            destinatario.setIndirizzo(indirizzo);
+            destinatario.save();
+        } // fine del ciclo for
+
+    }// end of method
 
     /**
      * Spedizione <br>
      */
-    private void gestioneMailing(String titolo, Lettera lettera, ArrayList<String> destinatari) {
+    private void spedizione(String titolo, Lettera lettera, ArrayList<String> destinatari) {
         String dest = "";
         String oggetto = "";
         String testo = "";
@@ -117,7 +173,7 @@ public class MailManager extends ConfirmDialog {
             testo = lettera.getTesto();
 
             try { // prova ad eseguire il codice
-                spedita = LetteraService.sendMail(hostName, smtpPort, useAuth, username, password, from, dest, oggetto, testo, html, allegati);
+//                spedita = LetteraService.sendMail(hostName, smtpPort, useAuth, username, password, from, dest, oggetto, testo, html, allegati);
                 spedita = LetteraService.sendMail(dest, oggetto, testo, false);
             } catch (Exception unErrore) { // intercetta l'errore
                 String alfa = "";

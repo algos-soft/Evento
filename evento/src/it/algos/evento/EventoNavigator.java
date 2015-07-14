@@ -14,6 +14,7 @@ import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.SingleComponentContainer;
 import com.vaadin.ui.UI;
+import it.algos.web.screen.ErrorScreen;
 
 @SuppressWarnings("serial")
 public class EventoNavigator extends Navigator{
