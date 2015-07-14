@@ -1,4 +1,4 @@
-package it.asteria.cultura.destinatarimailing;
+package it.asteria.cultura.destinatario;
 
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.web.module.ModulePop;
@@ -6,10 +6,10 @@ import it.algos.web.module.ModulePop;
 import javax.persistence.metamodel.Attribute;
 
 @SuppressWarnings("serial")
-public class DestinatarimailingModulo extends EModulePop {
+public class DestinatarioModulo extends EModulePop {
 
-    public DestinatarimailingModulo() {
-        super(Destinatarimailing.class);
+    public DestinatarioModulo() {
+        super(Destinatario.class);
     }// end of constructor
 
     /**
@@ -53,7 +53,7 @@ public class DestinatarimailingModulo extends EModulePop {
      * sovrascrivere creaFieldsList, creaFieldsForm e creaFieldsSearch <br>
      */
     protected Attribute<?, ?>[] creaFieldsAll() {
-        return new Attribute[]{Destinatarimailing_.mailing, Destinatarimailing_.indirizzo, Destinatarimailing_.dataSpedizione, Destinatarimailing_.spedita};
+        return new Attribute[]{Destinatario_.mailing, Destinatario_.indirizzo, Destinatario_.dataSpedizione, Destinatario_.spedita};
     }// end of method
 
 }// end of class

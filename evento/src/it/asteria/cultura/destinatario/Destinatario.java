@@ -1,4 +1,4 @@
-package it.asteria.cultura.destinatarimailing;
+package it.asteria.cultura.destinatario;
 
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.multiazienda.EventoEntityQuery;
@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import java.util.Date;
 
 @Entity
-public class Destinatarimailing extends EventoEntity {
+public class Destinatario extends EventoEntity {
 
     @NotNull
     private Mailing mailing = null;
@@ -27,13 +27,13 @@ public class Destinatarimailing extends EventoEntity {
 
     private boolean spedita;
 
-    public static EventoEntityQuery<Destinatarimailing> query = new EventoEntityQuery(Destinatarimailing.class);
+    public static EventoEntityQuery<Destinatario> query = new EventoEntityQuery(Destinatario.class);
 
-    public Destinatarimailing() {
+    public Destinatario() {
         this(null, "", null,false);
     }// end of constructor
 
-    public Destinatarimailing(Mailing mailing, String indirizzo, Date dataSpedizione,boolean spedita) {
+    public Destinatario(Mailing mailing, String indirizzo, Date dataSpedizione,boolean spedita) {
         super();
         this.setMailing(mailing);
         this.setIndirizzo(indirizzo);

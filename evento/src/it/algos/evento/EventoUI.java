@@ -21,7 +21,7 @@ import it.algos.evento.config.ConfigScreen;
 import it.algos.evento.config.GeneralDaemonConfigComponent;
 import it.algos.evento.config.SMTPServerConfigComponent;
 import it.algos.evento.debug.DialogoCheckPrenScadute;
-import it.asteria.cultura.destinatarimailing.DestinatarimailingModulo;
+import it.asteria.cultura.destinatario.DestinatarioModulo;
 import it.algos.evento.entities.evento.EventoModulo;
 import it.algos.evento.help.HelpModulo;
 import it.algos.evento.info.InfoModulo;
@@ -338,7 +338,7 @@ public class EventoUI extends AlgosUI {
         item.addItem("Configurazione", null, new MenuCommand(menubar, "config", new ConfigScreen()));
         if (LibSession.isDeveloper()) { //@todo da fissare nella versione definitiva in cui si vende questa funzionalità
             item.addItem("Mailing", null, new MenuCommand(menubar,"mailing", new MailingModulo()));
-            item.addItem("Destinatari", null, new MenuCommand(menubar,"destinatarimailing", new DestinatarimailingModulo()));
+            item.addItem("Destinatari", null, new MenuCommand(menubar,"destinatarimailing", new DestinatarioModulo()));
         }// fine del blocco if
 
 

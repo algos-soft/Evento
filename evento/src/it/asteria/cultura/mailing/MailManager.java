@@ -12,7 +12,7 @@ import it.algos.web.dialog.ConfirmDialog;
 import it.algos.web.field.ArrayComboField;
 import it.algos.web.field.TextField;
 import it.algos.web.lib.LibSession;
-import it.asteria.cultura.destinatarimailing.Destinatarimailing;
+import it.asteria.cultura.destinatario.Destinatario;
 
 import java.util.ArrayList;
 
@@ -137,11 +137,11 @@ public class MailManager extends ConfirmDialog {
      */
     private void registrazioneDestinatari(Mailing mailing, ArrayList<String> destinatari) {
         String indirizzo = "";
-        Destinatarimailing destinatario = null;
+        Destinatario destinatario = null;
 
         for (int k = 0; k < destinatari.size(); k++) {
             indirizzo = destinatari.get(k);
-            destinatario = new Destinatarimailing();
+            destinatario = new Destinatario();
             destinatario.setMailing(mailing);
             destinatario.setIndirizzo(indirizzo);
             destinatario.save();

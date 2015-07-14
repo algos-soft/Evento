@@ -15,7 +15,7 @@ import it.algos.web.query.EntityQuery;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;
-import it.asteria.cultura.destinatarimailing.Destinatarimailing;
+import it.asteria.cultura.destinatario.Destinatario;
 import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.entities.lettera.allegati.Allegato;
 import it.algos.evento.entities.modopagamento.ModoPagamento;
@@ -339,7 +339,7 @@ public class Company extends BaseEntity {
 		AQuery.delete(Scuola.class,  EventoEntity_.company, this);
 		AQuery.delete(OrdineScuola.class,  EventoEntity_.company, this);
 		AQuery.delete(Comune.class,  EventoEntity_.company, this);
-		AQuery.delete(Destinatarimailing.class,  EventoEntity_.company, this);
+		AQuery.delete(Destinatario.class,  EventoEntity_.company, this);
 		AQuery.delete(Mailing.class,  EventoEntity_.company, this);
 		AQuery.delete(PrefEventoEntity.class, EventoEntity_.company, this);
 		AQuery.delete(UtenteRuolo.class, EventoEntity_.company, this);
