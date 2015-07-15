@@ -27,7 +27,7 @@ public class MailingModulo extends EModulePop {
      */
     public static void gestioneMailing(Object[] ids, UI gui) {
         if (ids != null && ids.length > 0) {
-            new MailManager(ids).show(gui);
+            new MailDialog(ids).show(gui);
         } else {
             new Notification("Non risulta selezionata nessuna prenotazione",
                     "Devi selezionare una o più prenotazioni",
