@@ -15,6 +15,8 @@ import it.algos.web.table.TablePortal;
 import it.algos.web.toolbar.Toolbar;
 import it.asteria.cultura.mailing.MailingModulo;
 
+import java.util.ArrayList;
+
 @SuppressWarnings("serial")
 public class PrenotazioneTablePortal extends TablePortal {
 
@@ -172,8 +174,9 @@ public class PrenotazioneTablePortal extends TablePortal {
             item.addItem(CMD_GESTIONE_MAILING, ICON_GESTIONE_MAILING, new MenuBar.Command() {
                 public void menuSelected(MenuItem selectedItem) {
                     Object[] selected = getTable().getSelectedIds();
+                    ArrayList<Long> selezionati = getSelIds(selected);
                     if (selected != null) {
-                        MailingModulo.gestioneMailing(selected, getUI());
+                        MailingModulo.gestioneMailing(selezionati, getUI());
                     } else {
                         msgNoSelection();
                     }
@@ -204,6 +207,27 @@ public class PrenotazioneTablePortal extends TablePortal {
             }
         });// end of anonymous class
 
+    }// end of method
+
+    /**
+     * Gli oggetti selezionati sono SEMPRE dei valori Long
+     * Trasformo in un array di long, più facile da gestire
+     */
+    private ArrayList<Long> getSelIds(Object[] selected) {
+        ArrayList<Long> selezionati = null;
+
+        if (selected != null && selected.length > 0) {
+            selezionati = new ArrayList<Long>();
+
+            for (Object obj : selected) {
+                if (obj instanceof Long) {
+                    selezionati.add((long) obj);
+                }// fine del blocco if
+            } // fine del ciclo for-each
+
+        }// fine del blocco if
+
+        return selezionati;
     }// end of method
 
     private void msgNoSelection() {

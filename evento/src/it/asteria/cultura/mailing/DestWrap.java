@@ -17,6 +17,14 @@ public class DestWrap {
     private HashMap<String, String> mappa = null;
 
     /**
+     * Costruttore ridotto
+     * Nessuna mappa di sostituzione
+     */
+    public DestWrap(String indirizzo) {
+        this(indirizzo, null);
+    }// end of constructor
+
+    /**
      * Costruttore semplificato
      */
     public DestWrap(String indirizzo, String chiave, String valore) {

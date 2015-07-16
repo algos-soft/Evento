@@ -5,21 +5,18 @@ import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.OptionGroup;
 import it.algos.evento.entities.lettera.Lettera;
-import it.algos.evento.entities.lettera.LetteraService;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.web.dialog.ConfirmDialog;
 import it.algos.web.field.ArrayComboField;
 import it.algos.web.field.TextField;
-import it.algos.web.lib.LibSession;
-import it.asteria.cultura.destinatario.Destinatario;
 
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class MailDialog extends ConfirmDialog {
 
-    private Object[] ids;
+    private ArrayList<Long> listaPrenotazioniIds;
     private TextField titoloField;
     private ArrayComboField letteraField;
     private OptionGroup destinatariOptions;
@@ -29,9 +26,9 @@ public class MailDialog extends ConfirmDialog {
     private String currentItem = "";
 
 
-    public MailDialog(Object[] ids) {
+    public MailDialog(ArrayList<Long> listaPrenotazioniIds) {
         super(null);
-        this.ids = ids;
+        this.listaPrenotazioniIds = listaPrenotazioniIds;
         this.inizializzazioneGUI();
     }// end of constructor
 
@@ -76,111 +73,19 @@ public class MailDialog extends ConfirmDialog {
     /**
      * Dialogo confermato <br>
      * Recupera i valori dalla GUI <br>
+     * Recupera le informazioni e prepara un wrapper di tiupo MailWrap, da passare a MailManager
+     * MailWrapper necessita del titolo, della lettera e della lista (DestWrap) dei destinatari
      */
     private void dialogoConfermato() {
         String titolo = this.getTitolo();
         Lettera lettera = this.getLettera();
-        ArrayList<String> destinatari = this.getDestinatari();
+        ArrayList<DestWrap> destinatari = this.getDestinatari();
 
         if (destinatari != null && destinatari.size() > 0) {
-            this.gestione(titolo, lettera, destinatari);
+            new MailWrap(titolo, lettera, destinatari);
         } else {
             new Notification("Non risulta nessun destinatario del mailing",
                     "Controlla le opzioni",
-                    Notification.TYPE_ERROR_MESSAGE, true)
-                    .show(Page.getCurrent());
-        }// fine del blocco if-else
-
-    }// end of method
-
-    /**
-     * Gestione <br>
-     */
-    private void gestione(String titolo, Lettera lettera, ArrayList<String> destinatari) {
-        this.registrazione(titolo, lettera, destinatari);
-        this.spedizione(titolo, lettera, destinatari);
-    }// end of method
-
-    /**
-     * Registrazione <br>
-     * Creazione di 1 record di Mailing <br>
-     * Creazione di n records di Destinatarimailing <br>
-     */
-    private void registrazione(String titolo, Lettera lettera, ArrayList<String> destinatari) {
-        Mailing mailing = null;
-
-        mailing = this.registrazioneMailing(titolo, lettera);
-        if (mailing != null) {
-            this.registrazioneDestinatari(mailing, destinatari);
-        }// fine del blocco if
-
-    }// end of method
-
-    /**
-     * Registrazione <br>
-     * Creazione di 1 record di Mailing <br>
-     * Creazione di n records di Destinatarimailing <br>
-     */
-    private Mailing registrazioneMailing(String titolo, Lettera lettera) {
-        Mailing mailing = new Mailing();
-        mailing.setTitolo(titolo);
-        mailing.setLettera(lettera);
-        mailing.save();
-
-        return mailing;
-    }// end of method
-
-    /**
-     * Registrazione <br>
-     * Creazione di 1 record di Mailing <br>
-     * Creazione di n records di Destinatarimailing <br>
-     */
-    private void registrazioneDestinatari(Mailing mailing, ArrayList<String> destinatari) {
-        String indirizzo = "";
-        Destinatario destinatario = null;
-
-        for (int k = 0; k < destinatari.size(); k++) {
-            indirizzo = destinatari.get(k);
-            destinatario = new Destinatario();
-            destinatario.setMailing(mailing);
-            destinatario.setIndirizzo(indirizzo);
-            destinatario.save();
-        } // fine del ciclo for
-
-    }// end of method
-
-    /**
-     * Spedizione <br>
-     */
-    private void spedizione(String titolo, Lettera lettera, ArrayList<String> destinatari) {
-        String dest = "";
-        String oggetto = "";
-        String testo = "";
-        boolean spedita = false;
-
-        if (LibSession.isDebug()) {
-            String hostName = "smtp.algos.it";
-            int smtpPort = 25;
-            boolean useAuth = true;
-            String username = "gac@algos.it";
-            String password = "fulvia";
-            String from = "alex@algos.it";
-            boolean html = false;
-            String allegati = "";
-
-            dest = "gac@algos.it";
-            oggetto = "Test/Prova";
-            testo = lettera.getTesto();
-
-            try { // prova ad eseguire il codice
-//                spedita = LetteraService.sendMail(hostName, smtpPort, useAuth, username, password, from, dest, oggetto, testo, html, allegati);
-                spedita = LetteraService.sendMail(dest, oggetto, testo, false);
-            } catch (Exception unErrore) { // intercetta l'errore
-                String alfa = "";
-            }// fine del blocco try-catch
-        } else {
-            new Notification("Occhio che non sei in debug!",
-                    "Cambia il parametro d'ingresso",
                     Notification.TYPE_ERROR_MESSAGE, true)
                     .show(Page.getCurrent());
         }// fine del blocco if-else
@@ -283,15 +188,10 @@ public class MailDialog extends ConfirmDialog {
      * Sviluppa l'elenco dei destinatari <br>
      * Chi non ha indirizzo email non viene considerato <br>
      */
-    private ArrayList<String> getDestinatari() {
-        ArrayList<String> destinatari = new ArrayList<String>();
+    private ArrayList<DestWrap> getDestinatari() {
+        ArrayList<DestWrap> destinatari = new ArrayList<DestWrap>();
         boolean usaReferente = false;
         boolean usaScuola = false;
-        long idPrenotazione = 0;
-        Prenotazione prenotazione = null;
-        String destRef = "";
-        String destScuola = "";
-        Scuola scuola = null;
 
         if (currentItem.equals(itemReferente)) {
             usaReferente = true;
@@ -306,41 +206,76 @@ public class MailDialog extends ConfirmDialog {
             usaScuola = true;
         }// fine del blocco if
 
-        if (ids != null) {
-
-            for (Object value : ids) {
-                if (value instanceof Long) {
-                    idPrenotazione = (Long) value;
+        if (listaPrenotazioniIds != null && listaPrenotazioniIds.size() > 0) {
+            for (Long idPren : listaPrenotazioniIds) {
+                if (usaReferente) {
+                    destinatari.add(getWrapRef(idPren));
                 }// fine del blocco if
-                if (idPrenotazione > 0) {
-                    prenotazione = Prenotazione.read(idPrenotazione);
+                if (usaScuola) {
+                    destinatari.add(getWrapScuola(idPren));
                 }// fine del blocco if
-                if (prenotazione != null) {
-                    destRef = prenotazione.getEmailRiferimento();
-                    scuola = prenotazione.getScuola();
-                    if (scuola != null) {
-                        destScuola = scuola.getEmail();
-                    }// fine del blocco if
-                }// fine del blocco if
-
-                if (usaReferente && !destRef.equals("")) {
-                    destinatari.add(destRef);
-                }// fine del blocco if
-                if (usaScuola && !destScuola.equals("")) {
-                    destinatari.add(destScuola);
-                }// fine del blocco if
-            }// fine del blocco if
-
+            } // fine del ciclo for-each
         }// fine del blocco if
-
 
         return destinatari;
     }// end of method
 
+    /**
+     * Costruisce il singolo wrap
+     */
+    private DestWrap getWrapRef(long idPrenotazione) {
+        DestWrap wrap = null;
+        Prenotazione prenotazione = null;
+        String destRef = "";
+
+        if (idPrenotazione > 0) {
+            prenotazione = Prenotazione.read(idPrenotazione);
+        }// fine del blocco if
+
+        if (prenotazione != null) {
+            destRef = prenotazione.getEmailRiferimento();
+        }// fine del blocco if
+
+        if (!destRef.equals("")) {
+            wrap = new DestWrap(destRef);
+        }// fine del blocco if
+
+        return wrap;
+    }// end of method
+
+    /**
+     * Costruisce il singolo wrap
+     */
+    private DestWrap getWrapScuola(long idPrenotazione) {
+        DestWrap wrap = null;
+        Prenotazione prenotazione = null;
+        Scuola scuola = null;
+        String destScuola = "";
+
+        if (idPrenotazione > 0) {
+            prenotazione = Prenotazione.read(idPrenotazione);
+        }// fine del blocco if
+
+        if (prenotazione != null) {
+            scuola = prenotazione.getScuola();
+        }// fine del blocco if
+
+        if (scuola != null) {
+            destScuola = scuola.getEmail();
+        }// fine del blocco if
+
+        if (!destScuola.equals("")) {
+            wrap = new DestWrap(destScuola);
+        }// fine del blocco if
+
+        return wrap;
+    }// end of method
+
+
     private boolean esistonoPrenotazioni() {
         boolean status = false;
 
-        if (ids != null && ids.length > 0) {
+        if (listaPrenotazioniIds != null && listaPrenotazioniIds.size() > 0) {
             status = true;
         }// fine del blocco if
 
@@ -349,7 +284,7 @@ public class MailDialog extends ConfirmDialog {
 
     private boolean esistonoDestinatari() {
         boolean status = false;
-        ArrayList<String> destinatari = getDestinatari();
+        ArrayList<DestWrap> destinatari = getDestinatari();
 
         if (destinatari != null && destinatari.size() > 0) {
             status = true;

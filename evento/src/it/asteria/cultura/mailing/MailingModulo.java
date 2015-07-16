@@ -6,6 +6,7 @@ import com.vaadin.ui.UI;
 import it.algos.evento.multiazienda.EModulePop;
 
 import javax.persistence.metamodel.Attribute;
+import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class MailingModulo extends EModulePop {
@@ -25,8 +26,8 @@ public class MailingModulo extends EModulePop {
      * Creazione di 1 record di Mailing <br>
      * Creazione di n records di Destinatarimailing <br>
      */
-    public static void gestioneMailing(Object[] ids, UI gui) {
-        if (ids != null && ids.length > 0) {
+    public static void gestioneMailing(ArrayList<Long> ids, UI gui) {
+        if (ids != null && ids.size() > 0) {
             new MailDialog(ids).show(gui);
         } else {
             new Notification("Non risulta selezionata nessuna prenotazione",

@@ -79,6 +79,20 @@ public class MailWrapTest {
     }// end of single test
 
     @Test
+    public void testDestWrap4() {
+        DestWrap wrap = null;
+        Object mappa;
+
+        wrap = new DestWrap(INDIRIZZO);
+
+        ottenuto = wrap.getIndirizzo();
+        assertEquals(ottenuto, INDIRIZZO);
+
+        mappa = wrap.getMappa();
+        assertNull(mappa);
+    }// end of single test
+
+    @Test
     public void testMailtWrap() {
         Lettera lettera = new Lettera();
         MailWrap wrapper = null;
