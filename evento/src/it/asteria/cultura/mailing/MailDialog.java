@@ -77,12 +77,10 @@ public class MailDialog extends ConfirmDialog {
      * MailWrapper necessita del titolo, della lettera e della lista (DestWrap) dei destinatari
      */
     private void dialogoConfermato() {
-        String titolo = this.getTitolo();
-        Lettera lettera = this.getLettera();
         ArrayList<DestWrap> destinatari = this.getDestinatari();
 
         if (destinatari != null && destinatari.size() > 0) {
-            new MailWrap(titolo, lettera, destinatari);
+            this.gestioneSpedizioni(destinatari);
         } else {
             new Notification("Non risulta nessun destinatario del mailing",
                     "Controlla le opzioni",
@@ -92,6 +90,16 @@ public class MailDialog extends ConfirmDialog {
 
     }// end of method
 
+
+    /**
+     * Gestione delle spedizioni <br>
+     */
+    private void gestioneSpedizioni(ArrayList<DestWrap> destinatari) {
+        String titolo = this.getTitolo();
+        Lettera lettera = this.getLettera();
+        MailWrap wrap = new MailWrap(titolo, lettera, destinatari);
+        new MailManager(wrap);
+    }// end of method
 
     /**
      * Elenco delle lettere <br>
