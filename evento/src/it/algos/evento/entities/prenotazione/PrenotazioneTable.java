@@ -3,6 +3,7 @@ package it.algos.evento.entities.prenotazione;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.ui.*;
+import it.algos.evento.EventoApp;
 import it.algos.evento.entities.modopagamento.ModoPagamento;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.ETable;
@@ -429,7 +430,7 @@ public class PrenotazioneTable extends ETable {
             }
             Image img = null;
             if (imgName != null) {
-                img = new Image(null, LibResource.getImgResource(imgName));
+                img = new Image(null, LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME,imgName));
                 img.setDescription(description);
             }
 
@@ -474,7 +475,7 @@ public class PrenotazioneTable extends ETable {
             }
             Image img = null;
             if (imgName != null) {
-                img = new Image(null, LibResource.getImgResource(imgName));
+                img = new Image(null, LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME,imgName));
                 img.setDescription(description);
             }
 
@@ -490,16 +491,16 @@ public class PrenotazioneTable extends ETable {
         @Override
         public Object generateCell(Table source, Object itemId, Object columnId) {
             boolean priv = Lib.getBool(getContainerProperty(itemId, Prenotazione_.privato.getName()).getValue());
-            String img_name="";
+            String loc_img_name="";
             String description="";
             if(priv){
-                img_name="person_20px.png";
+                loc_img_name="person_20px.png";
                 description="Il referente è un privato";
             }else{
-                img_name="teacher_20px.png";
+                loc_img_name="teacher_20px.png";
                 description="Il referente è un docente";
             }
-            Image img = new Image(null, LibResource.getImgResource(img_name));
+            Image img = new Image(null, LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME,loc_img_name));
             img.setDescription(description);
             return img;
         }

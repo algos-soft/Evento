@@ -3,6 +3,7 @@ package it.algos.evento;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
+import it.algos.evento.daemons.DaemonPrenScadute;
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.entities.lettera.LetteraKeys;
@@ -12,88 +13,109 @@ import it.algos.evento.multiazienda.AsteriaMigration;
 import it.algos.evento.pref.EventoPrefs;
 import it.algos.web.BootStrap;
 import it.algos.web.entity.BaseEntity;
+import it.algos.web.entity.EM;
 import it.algos.web.query.AQuery;
-import it.algos.evento.daemons.DaemonPrenScadute;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import java.util.List;
 
+/**
+ * Executed on container startup
+ * <p>
+ * Setup non-UI logic here <br>
+ * Classe eseguita solo quando l'applicazione viene caricata/parte nel server (Tomcat od altri) <br>
+ * Eseguita quindi ad ogni avvio/riavvio del server e NON ad ogni sessione <br>
+ * È OBBLIGATORIO creare la sottoclasse per regolare il valore della persistence unit che crea l'EntityManager <br>
+ */
 public class EventoBootStrap extends BootStrap {
 
-	/**
-	 * Executed on container startup
-	 * <p>
-	 * Setup non-UI logic here
-	 */
-	@Override
-	public void contextInitialized(ServletContextEvent sce) {
-		super.contextInitialized(sce);
-		ServletContext svltCtx = super.getServletContext();
+    /**
+     * Valore standard suggerito per ogni progetto
+     * Questo singolo progetto può modificarlo nel metodo setPersistenceEntity()
+     */
+    private static final String DEFAULT_PERSISTENCE_UNIT = "MySqlUnit";
 
-		// registra il servlet context non appena è disponibile
-		EventoApp.setServletContext(svltCtx);
+    /**
+     * @return the name of the current user
+     */
+    public static String getUsername() {
+        return ""; // not implemented
+    }// end of method
 
-		// Creo l'azienda Asteria se non esiste.
-		AsteriaMigration.ensureCompanyAsteria();
-		
-		// Creo l'azienda Demo se non esiste
-		DemoDataGenerator.ensureCompanyDemo();
+    /**
+     * Regola il valore della persistence unit per crearae l'EntityManager <br>
+     * DEVE essere sovrascritto (obbligatorio) nella sottoclasse del progetto <br>
+     */
+    @Override
+    public void setPersistenceEntity() {
+        EM.PERSISTENCE_UNIT = DEFAULT_PERSISTENCE_UNIT;
+    }// end of method
 
-		// avvia lo scheduler controllo solleciti che esegue ogni ora
-		if (EventoPrefs.startDaemonAtStartup.getBool()) {
-			DaemonPrenScadute.getInstance().start();
-		}
+    /**
+     * Executed on container startup
+     * <p>
+     * Setup non-UI logic here
+     */
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        super.contextInitialized(sce);
+        ServletContext svltCtx = BootStrap.getServletContext();
 
-		//esegue qualcosa per ogni Company
-		List<Company> comps = Company.query.getList();
-		for(Company company : comps){
-			doForCompany(company);
-		}
+        // registra il servlet context non appena è disponibile
+        EventoApp.setServletContext(svltCtx);
 
-	}// end of method
+        // Creo l'azienda Asteria se non esiste.
+        AsteriaMigration.ensureCompanyAsteria();
 
+        // Creo l'azienda Demo se non esiste
+        DemoDataGenerator.ensureCompanyDemo();
 
-	/**
-	 * Esegue per ogni company allo startup del server
-	 */
-	private void doForCompany(Company company) {
+        // avvia lo scheduler controllo solleciti che esegue ogni ora
+        if (EventoPrefs.startDaemonAtStartup.getBool()) {
+            DaemonPrenScadute.getInstance().start();
+        }// fine del blocco if
 
-		// Controlla che esista la lettera demo con elencate
-		// le sostituzioni della Enumeration LetteraKeys.
-		// Se manca la crea ora.
-		Container.Filter fComp = new Compare.Equal(Lettera_.company.getName(), company);
-		Container.Filter fType = new Compare.Equal(Lettera_.sigla.getName(), ModelliLettere.demo.getDbCode());
-		Container.Filter filter = new And(fComp,fType);
-		BaseEntity entity = AQuery.getEntity(Lettera.class, filter);
-		if (entity==null){
-			String siglaDemo = ModelliLettere.demo.getDbCode();
-			Lettera lettera = new Lettera(siglaDemo, ModelliLettere.demo.getOggettoDefault(), LetteraKeys.getTestoDemo());
-			lettera.setCompany(company);
-			lettera.save();
-		}
-	}
+        //esegue qualcosa per ogni Company
+        List<Company> comps = Company.query.getList();
+        for (Company company : comps) {
+            doForCompany(company);
+        } // fine del ciclo for
+    }// end of method
 
 
-	/**
-	 * Tear down logic here<br>
-	 * Sovrascritto
-	 */
-	@Override
-	public void contextDestroyed(ServletContextEvent sce) {
+    /**
+     * Esegue per ogni company allo startup del server
+     */
+    private void doForCompany(Company company) {
 
-		// arresta gli schedulers
-		DaemonPrenScadute.getInstance().stop();
+        // Controlla che esista la lettera demo con elencate
+        // le sostituzioni della Enumeration LetteraKeys.
+        // Se manca la crea ora.
+        Container.Filter fComp = new Compare.Equal(Lettera_.company.getName(), company);
+        Container.Filter fType = new Compare.Equal(Lettera_.sigla.getName(), ModelliLettere.demo.getDbCode());
+        Container.Filter filter = new And(fComp, fType);
+        BaseEntity entity = AQuery.getEntity(Lettera.class, filter);
+        if (entity == null) {
+            String siglaDemo = ModelliLettere.demo.getDbCode();
+            Lettera lettera = new Lettera(siglaDemo, ModelliLettere.demo.getOggettoDefault(), LetteraKeys.getTestoDemo());
+            lettera.setCompany(company);
+            lettera.save();
+        }// fine del blocco if
+    }// end of method
 
-		super.contextDestroyed(sce);
+    /**
+     * Tear down logic here<br>
+     * Sovrascritto
+     */
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
 
-	}// end of method
+        // arresta gli schedulers
+        DaemonPrenScadute.getInstance().stop();
 
-	/**
-	 * @retturn the name of the current user
-	 */
-	public static String getUsername() {
-		return ""; // not implemented
-	}
+        super.contextDestroyed(sce);
 
-}// end of class
+    }// end of method
+
+}// end of boot class

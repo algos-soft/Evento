@@ -1,34 +1,23 @@
 package it.algos.evento;
 
+import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Title;
 import com.vaadin.server.*;
 import com.vaadin.ui.*;
-import it.algos.evento.entities.company.Company;
-import it.algos.evento.entities.company.CompanyModule;
-import it.algos.evento.entities.company.Company_;
-import it.algos.evento.entities.ordinescuola.OrdineScuolaModulo;
-import it.algos.evento.entities.stagione.StagioneModulo;
-import it.algos.evento.multiazienda.AsteriaMigration;
-import it.algos.evento.pref.CompanyPrefs;
-import it.algos.evento.entities.tiporicevuta.TipoRicevutaModulo;
-import it.algos.web.dialog.ConfirmDialog;
-import it.algos.web.lib.Lib;
-import it.algos.web.lib.LibResource;
-import it.algos.web.lib.LibSession;
-import it.algos.web.screen.ErrorScreen;
-import it.algos.web.ui.AlgosUI;
-import it.algos.evento.entities.comune.ComuneModulo;
+import com.vaadin.ui.MenuBar.MenuItem;
 import it.algos.evento.config.ConfigScreen;
 import it.algos.evento.config.GeneralDaemonConfigComponent;
 import it.algos.evento.config.SMTPServerConfigComponent;
 import it.algos.evento.debug.DialogoCheckPrenScadute;
-import it.asteria.cultura.destinatario.DestinatarioModulo;
+import it.algos.evento.entities.company.Company;
+import it.algos.evento.entities.company.CompanyModule;
+import it.algos.evento.entities.company.Company_;
+import it.algos.evento.entities.comune.ComuneModulo;
 import it.algos.evento.entities.evento.EventoModulo;
-import it.algos.evento.help.HelpModulo;
-import it.algos.evento.info.InfoModulo;
 import it.algos.evento.entities.insegnante.InsegnanteModulo;
 import it.algos.evento.entities.lettera.LetteraModulo;
 import it.algos.evento.entities.modopagamento.ModoPagamentoModulo;
-import it.asteria.cultura.mailing.MailingModulo;
+import it.algos.evento.entities.ordinescuola.OrdineScuolaModulo;
 import it.algos.evento.entities.prenotazione.PrenotazioneModulo;
 import it.algos.evento.entities.prenotazione.eventi.EventoPrenModulo;
 import it.algos.evento.entities.progetto.ProgettoModulo;
@@ -36,15 +25,24 @@ import it.algos.evento.entities.rappresentazione.RappresentazioneModulo;
 import it.algos.evento.entities.sala.SalaModulo;
 import it.algos.evento.entities.scuola.ScuolaModulo;
 import it.algos.evento.entities.spedizione.SpedizioneModulo;
+import it.algos.evento.entities.stagione.StagioneModulo;
+import it.algos.evento.entities.tiporicevuta.TipoRicevutaModulo;
+import it.algos.evento.help.HelpModulo;
+import it.algos.evento.info.InfoModulo;
+import it.algos.evento.multiazienda.AsteriaMigration;
+import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.statistiche.StatisticheModulo;
+import it.algos.web.dialog.ConfirmDialog;
+import it.algos.web.lib.Lib;
+import it.algos.web.lib.LibResource;
+import it.algos.web.lib.LibSession;
+import it.algos.web.screen.ErrorScreen;
+import it.algos.web.ui.AlgosUI;
+import it.asteria.cultura.destinatario.DestinatarioModulo;
+import it.asteria.cultura.mailing.MailingModulo;
 import it.asteria.cultura.test.StressTest;
 
 import javax.servlet.http.Cookie;
-
-import com.vaadin.annotations.Theme;
-import com.vaadin.annotations.Title;
-import com.vaadin.ui.MenuBar.MenuItem;
-
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -58,6 +56,10 @@ public class EventoUI extends AlgosUI {
     private static final boolean DEBUG_GUI = false;
     private SplashScreen splashScreen;
     private MenuItem loginItem; // il menuItem di login
+
+    public static EventoUI getCurrent() {
+        return (EventoUI) UI.getCurrent();
+    }
 
     @Override
     protected void init(VaadinRequest request) {
@@ -152,7 +154,6 @@ public class EventoUI extends AlgosUI {
 
     }// end of method
 
-
     /**
      * Legge eventuali parametri passati nella request
      * <p>
@@ -173,7 +174,6 @@ public class EventoUI extends AlgosUI {
 
     }// end of method
 
-
     /**
      * Mostra la UI per una Company, o per il Manager se la company è null.
      */
@@ -189,7 +189,7 @@ public class EventoUI extends AlgosUI {
         }
 
         // recupera la Company dalla sessione
-        Company company= EventoSession.getCompany();
+        Company company = EventoSession.getCompany();
 
         // crea la MenuBar principale
         MenuBar mainBar = createMenuBar(company);
@@ -268,7 +268,6 @@ public class EventoUI extends AlgosUI {
         return menubar;
     }
 
-
     /**
      * Crea la MenuBar in base alla Company.
      * <p>
@@ -308,10 +307,8 @@ public class EventoUI extends AlgosUI {
         MenuBar menubar = new MenuBar();
 
 
-
         // Menu Home
-        menubar.addItem("", CompanyPrefs.menubarIcon.getResource(), new MenuCommand(menubar, "splash",
-                splashScreen));
+        menubar.addItem("", CompanyPrefs.menubarIcon.getResource(), new MenuCommand(menubar, "splash", splashScreen));
 
         // Menu principali
         menubar.addItem("Eventi", null, new MenuCommand(menubar, "eventi", new EventoModulo()));
@@ -337,8 +334,8 @@ public class EventoUI extends AlgosUI {
         item.addItem("Registro spedizioni", null, new MenuCommand(menubar, "registrospedizioni", new SpedizioneModulo()));
         item.addItem("Configurazione", null, new MenuCommand(menubar, "config", new ConfigScreen()));
         if (LibSession.isDeveloper()) { //@todo da fissare nella versione definitiva in cui si vende questa funzionalità
-            item.addItem("Mailing", null, new MenuCommand(menubar,"mailing", new MailingModulo()));
-            item.addItem("Destinatari", null, new MenuCommand(menubar,"destinatarimailing", new DestinatarioModulo()));
+            item.addItem("Mailing", null, new MenuCommand(menubar, "mailing", new MailingModulo()));
+            item.addItem("Destinatari", null, new MenuCommand(menubar, "destinatarimailing", new DestinatarioModulo()));
         }// fine del blocco if
 
 
@@ -365,7 +362,6 @@ public class EventoUI extends AlgosUI {
         return menubar;
     }// end of method
 
-
     /**
      * Crea la MenuBar per il Manager
      */
@@ -374,7 +370,7 @@ public class EventoUI extends AlgosUI {
         MenuBar menubar = new MenuBar();
 
         // Menu Home
-        menubar.addItem("", LibResource.getImgResource("manager_menubar_icon.png"), new MenuCommand(menubar, "splash",
+        menubar.addItem("", LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME,"manager_menubar_icon.png"), new MenuCommand(menubar, "splash",
                 splashScreen));
 
         // Menu principali
@@ -401,8 +397,7 @@ public class EventoUI extends AlgosUI {
 
 
         return menubar;
-    }
-
+    }// end of method
 
     /**
      * Crea il menu Programmatore per la menubar Company
@@ -436,7 +431,7 @@ public class EventoUI extends AlgosUI {
             }
         });
 
-    }
+    }// end of method
 
     /**
      * Crea il menu Programmatore per la menubar Manager
@@ -496,14 +491,7 @@ public class EventoUI extends AlgosUI {
             }
         });
 
-    }
-
-
-    public static EventoUI getCurrent() {
-        return (EventoUI) UI.getCurrent();
-    }
-
-
+    }// end of method
 
 
 //	/**
@@ -555,6 +543,155 @@ public class EventoUI extends AlgosUI {
 //		}
 //
 //	}
+
+    /**
+     * Richiede e valida le credenziali
+     */
+    private void doLogin(Company company) {
+
+        // listener per la conferma
+        ConfirmDialog.Listener listener = new ConfirmDialog.Listener() {
+
+            @Override
+            public void onClose(ConfirmDialog dialog, boolean confirmed) {
+                if (confirmed) {
+                    String username = ((LoginDialog) dialog).getUsername();
+
+                    // Store the current user in the service session
+                    getSession().setAttribute("user", username);
+
+                    // Cookie userCookie = new Cookie("user", username);
+                    // userCookie
+                    // .setComment("Cookie for storing the name of the user");
+                    // userCookie.setMaxAge(2592000); // 30gg
+                    // userCookie.setPath(VaadinService.getCurrentRequest()
+                    // .getContextPath());
+                    // VaadinService.getCurrentResponse().addCookie(userCookie);
+                    startUI();
+                }
+            }
+
+        };
+
+        // crea e visualizza il dialogo di inserimento delle credenziali
+        LoginDialog dialogo = new LoginDialog(company, listener);
+        dialogo.show(UI.getCurrent());
+
+    }// end of method
+
+    private void logoutOld() {
+        Cookie userCookie = getCookieByName("user");
+        userCookie.setValue("");
+        VaadinService.getCurrentResponse().addCookie(userCookie);
+
+        // Close the VaadinServiceSession
+        // getUI().getSession().close();
+
+        // Invalidate underlying session instead if login info is stored there
+        VaadinService.getCurrentRequest().getWrappedSession().invalidate();
+
+        // Redirect to avoid keeping the removed UI open in the browser
+        // URI uri = getUI().getPage().getLocation();
+        getUI().getPage().setLocation("/evento");
+
+    }// end of method
+
+    /**
+     * Il bottone login è stato premuto
+     */
+    private void loginCommandSelected() {
+        login();
+        updateLoginUI();
+    }// end of method
+
+    private void logoutCommandSelected() {
+        logout();
+        updateLoginUI();
+    }// end of method
+
+    /**
+     * Operazioni effettive di login (senza UI)
+     */
+    private void login() {
+        getSession().setAttribute(EventoApp.KEY_USERID, 1);
+    }// end of method
+
+    /**
+     * Operazioni effettive di logout (senza UI)
+     */
+    private void logout() {
+
+
+        // "Logout" the user
+        // inutile perché gli attributi vengono persi quando
+        // poi chiudo la sessione
+        // getSession().setAttribute(EventoApp.KEY_USERID, null);
+
+        // Show the splash page
+        getUI().getNavigator().navigateTo("splash");
+
+
+        // Redirect this page immediately
+        // ThemeResource resource = new ThemeResource("layouts/login.html");
+
+        //getPage().setLocation(resource.toString());
+
+
+        // Close the VaadinServiceSession
+        getSession().close();
+
+        // Reload the current page and get a new session
+        getPage().reload();
+
+        //getMainWindow().executeJavaScript("window.location.reload();");
+        //getUI().getWindow().executeJavaScript("wnd.location.reload(true);");
+        //Page.getCurrent().getJavaScript().execute("wnd.location.reload();");
+
+    }// end of method
+
+    /**
+     * Aggiorna la UI di login in base ai contenuti della session
+     */
+    private void updateLoginUI() {
+        Object attr = VaadinSession.getCurrent().getAttribute(EventoApp.KEY_USERID);
+        if (attr == null) {
+            loginItem.setText("Login");
+            loginItem.setCommand(new MenuBar.Command() {
+                @Override
+                public void menuSelected(MenuItem selectedItem) {
+                    loginCommandSelected();
+                }
+            });
+
+        } else {
+            String username = "Alessandro Valbonesi";
+            loginItem.setCommand(null);
+            loginItem.setText(username);
+            loginItem.removeChildren();
+            loginItem.addItem("Logout", new MenuBar.Command() {
+                @Override
+                public void menuSelected(MenuItem selectedItem) {
+                    logoutCommandSelected();
+                }
+            });
+        }
+    }// end of method
+
+    private Cookie getCookieByName(String name) {
+        Cookie cookieOut = null;
+        // Fetch all cookies from the request
+        Cookie[] cookies = VaadinService.getCurrentRequest().getCookies();
+
+        // Iterate to find cookie by its name
+        for (Cookie cookie : cookies) {
+            if (name.equals(cookie.getName())) {
+                cookieOut = cookie;
+                break;
+            }
+        }
+
+        return cookieOut;
+    }// end of method
 
     /**
      * Custom menu command to show a component in the placeholder
@@ -628,161 +765,6 @@ public class EventoUI extends AlgosUI {
             return comp;
         }
 
-    }
-
-    /**
-     * Richiede e valida le credenziali
-     */
-    private void doLogin(Company company) {
-
-        // listener per la conferma
-        ConfirmDialog.Listener listener = new ConfirmDialog.Listener() {
-
-            @Override
-            public void onClose(ConfirmDialog dialog, boolean confirmed) {
-                if (confirmed) {
-                    String username = ((LoginDialog) dialog).getUsername();
-
-                    // Store the current user in the service session
-                    getSession().setAttribute("user", username);
-
-                    // Cookie userCookie = new Cookie("user", username);
-                    // userCookie
-                    // .setComment("Cookie for storing the name of the user");
-                    // userCookie.setMaxAge(2592000); // 30gg
-                    // userCookie.setPath(VaadinService.getCurrentRequest()
-                    // .getContextPath());
-                    // VaadinService.getCurrentResponse().addCookie(userCookie);
-                    startUI();
-                }
-            }
-
-        };
-
-        // crea e visualizza il dialogo di inserimento delle credenziali
-        LoginDialog dialogo = new LoginDialog(company, listener);
-        dialogo.show(UI.getCurrent());
-
-    }
-
-    private void logoutOld() {
-        Cookie userCookie = getCookieByName("user");
-        userCookie.setValue("");
-        VaadinService.getCurrentResponse().addCookie(userCookie);
-
-        // Close the VaadinServiceSession
-        // getUI().getSession().close();
-
-        // Invalidate underlying session instead if login info is stored there
-        VaadinService.getCurrentRequest().getWrappedSession().invalidate();
-
-        // Redirect to avoid keeping the removed UI open in the browser
-        // URI uri = getUI().getPage().getLocation();
-        getUI().getPage().setLocation("/evento");
-
-    }
-
-
-
-    /**
-     * Il bottone login è stato premuto
-     */
-    private void loginCommandSelected() {
-        login();
-        updateLoginUI();
-    }
-
-
-    private void logoutCommandSelected(){
-        logout();
-        updateLoginUI();
-    }
-
-
-    /**
-     * Operazioni effettive di login (senza UI)
-     */
-    private void login(){
-        getSession().setAttribute(EventoApp.KEY_USERID, 1);
-    }
-
-    /**
-     * Operazioni effettive di logout (senza UI)
-     */
-    private void logout() {
-
-
-        // "Logout" the user
-        // inutile perché gli attributi vengono persi quando
-        // poi chiudo la sessione
-        // getSession().setAttribute(EventoApp.KEY_USERID, null);
-
-        // Show the splash page
-        getUI().getNavigator().navigateTo("splash");
-
-
-        // Redirect this page immediately
-        // ThemeResource resource = new ThemeResource("layouts/login.html");
-
-        //getPage().setLocation(resource.toString());
-
-
-        // Close the VaadinServiceSession
-        getSession().close();
-
-        // Reload the current page and get a new session
-        getPage().reload();
-
-        //getMainWindow().executeJavaScript("window.location.reload();");
-        //getUI().getWindow().executeJavaScript("wnd.location.reload(true);");
-        //Page.getCurrent().getJavaScript().execute("wnd.location.reload();");
-
-    }
-
-
-    /**
-     * Aggiorna la UI di login in base ai contenuti della session
-     */
-    private void updateLoginUI() {
-        Object attr = VaadinSession.getCurrent().getAttribute(EventoApp.KEY_USERID);
-        if (attr == null) {
-            loginItem.setText("Login");
-            loginItem.setCommand(new MenuBar.Command() {
-                @Override
-                public void menuSelected(MenuItem selectedItem) {
-                    loginCommandSelected();
-                }
-            });
-
-        } else {
-            String username="Alessandro Valbonesi";
-            loginItem.setCommand(null);
-            loginItem.setText(username);
-            loginItem.removeChildren();
-            loginItem.addItem("Logout", new MenuBar.Command() {
-                @Override
-                public void menuSelected(MenuItem selectedItem) {
-                    logoutCommandSelected();
-                }
-            });
-        }
-    }
-
-
-    private Cookie getCookieByName(String name) {
-        Cookie cookieOut = null;
-        // Fetch all cookies from the request
-        Cookie[] cookies = VaadinService.getCurrentRequest().getCookies();
-
-        // Iterate to find cookie by its name
-        for (Cookie cookie : cookies) {
-            if (name.equals(cookie.getName())) {
-                cookieOut = cookie;
-                break;
-            }
-        }
-
-        return cookieOut;
     }
 
 }// end of class

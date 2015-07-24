@@ -5,6 +5,7 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Table;
+import it.algos.evento.EventoApp;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.multiazienda.ETable;
@@ -66,7 +67,7 @@ public class InsegnanteTable extends ETable {
 		addGeneratedColumn(COL_PRIVATO, (source, itemId, columnId) -> {
             boolean priv = Lib.getBool(getContainerProperty(itemId, Insegnante_.privato.getName()).getValue());
             String img_name=(priv? "person_20px.png":"teacher_20px.png");
-            return new Image(null, LibResource.getImgResource(img_name));
+            return new Image(null, LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME,img_name));
         });
 
 	}

@@ -17,6 +17,9 @@
           <element id="library" level="module" name="IvyIDEA" module-name="evento" />
           <element id="library" level="project" name="webbase_jar" />
         </element>
+        <element id="directory" name="img">
+          <element id="dir-copy" path="$PROJECT_DIR$/evento/data/img" />
+        </element>
       </element>
       <element id="directory" name="VAADIN">
         <element id="dir-copy" path="$PROJECT_DIR$/evento/vaadin" />

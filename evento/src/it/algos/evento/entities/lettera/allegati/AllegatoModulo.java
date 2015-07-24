@@ -2,7 +2,7 @@ package it.algos.evento.entities.lettera.allegati;
 
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
-import it.algos.web.Application;
+import it.algos.web.AlgosApp;
 import it.algos.web.form.AForm;
 import it.algos.web.lib.LibFile;
 import it.algos.web.table.ATable;
@@ -101,7 +101,7 @@ public class AllegatoModulo extends EModulePop {
 	 */
 	public void addAllegato() {
 
-		FileUploader uploader = new FileUploader(Application.UPLOAD_FOLDER_NAME);
+		FileUploader uploader = new FileUploader(AlgosApp.UPLOAD_FOLDER_NAME);
 		uploader.setTitle("Importazione allegati");
 		uploader.setButtonText("importa");
 		uploader.setOverwriteExisting(true);
@@ -252,7 +252,7 @@ public class AllegatoModulo extends EModulePop {
 	public static ArrayList<Allegato> getDemoData(){
 		ArrayList<Allegato> lista = new ArrayList<Allegato>();
 		
-		Path path = Paths.get(Application.getDemoDataFolderPath().toString(),"allegati");
+		Path path = Paths.get(AlgosApp.getDemoDataFolderPath().toString(),"allegati");
 		File folder = path.toFile();
 		if (folder.isDirectory()) {
 			File[] files = folder.listFiles();

@@ -2,6 +2,7 @@ package it.algos.evento.multiazienda;
 
 import it.algos.evento.EventoSession;
 import it.algos.evento.entities.company.Company;
+import it.algos.web.AlgosApp;
 import it.algos.web.entity.BaseEntity;
 
 import javax.persistence.ManyToOne;

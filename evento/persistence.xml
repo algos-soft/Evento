@@ -29,7 +29,7 @@
 		<class>it.algos.evento.entities.tiporicevuta.TipoRicevuta</class>
 		<class>it.algos.evento.entities.ordinescuola.OrdineScuola</class>
 		<class>it.asteria.cultura.mailing.Mailing</class>
-		<class>it.asteria.cultura.destinatarimailing.Destinatarimailing</class>
+		<class>it.asteria.cultura.destinatario.Destinatario</class>
 		<class>it.algos.evento.entities.stagione.Stagione</class>
 
 

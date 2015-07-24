@@ -1,6 +1,7 @@
 package it.algos.evento.ui.manager;
 
 import com.vaadin.ui.MenuBar;
+import it.algos.evento.EventoApp;
 import it.algos.web.lib.LibResource;
 import it.algos.web.lib.LibSession;
 
@@ -17,7 +18,7 @@ public class ManagerMenuBar extends MenuBar {
         }
 
         addItem("",
-                LibResource.getImgResource("manager_menubar_icon.png"),
+                LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME,"manager_menubar_icon.png"),
                 new MenuBar.Command() {
 
                     @Override

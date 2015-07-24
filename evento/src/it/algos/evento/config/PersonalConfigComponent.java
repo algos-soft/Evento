@@ -54,8 +54,8 @@ public class PersonalConfigComponent extends BaseConfigPanel {
 
 		public PersonalizzazioneItem() {
 			super();
-			addItemProperty(KEY_SPLASHIMAGE, new ObjectProperty<byte[]>(CompanyPrefs.splashImage.getBytes()));
-			addItemProperty(KEY_MENUBAR_ICON, new ObjectProperty<byte[]>(CompanyPrefs.menubarIcon.getBytes()));
+            addItemProperty(KEY_SPLASHIMAGE, new ObjectProperty<byte[]>(CompanyPrefs.splashImage.getBytes()));
+            addItemProperty(KEY_MENUBAR_ICON, new ObjectProperty<byte[]>(CompanyPrefs.menubarIcon.getBytes()));
 		}
 
 		public void persist() {

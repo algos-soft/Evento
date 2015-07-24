@@ -11,7 +11,7 @@ import it.algos.evento.multiazienda.EROContainer;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
-import it.algos.web.Application;
+import it.algos.web.AlgosApp;
 import it.algos.web.entity.BaseEntity;
 import it.algos.web.entity.EM;
 import it.algos.evento.entities.comune.Comune;
@@ -267,7 +267,7 @@ public class DemoDataGenerator {
 	public static void creaComuni() {
 		ServletContext svlContext = EventoApp.getServletContext();
 		String fullPath = svlContext
-				.getRealPath(Application.DEMODATA_FOLDER_NAME
+				.getRealPath(AlgosApp.DEMODATA_FOLDER_NAME
 						+ "comuni/comuni.xls");
 		ComuneImport.doImport(fullPath);
 	}// end of method

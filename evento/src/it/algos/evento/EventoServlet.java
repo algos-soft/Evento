@@ -3,6 +3,7 @@ package it.algos.evento;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.ServiceException;
 import com.vaadin.server.SessionInitEvent;
+import it.algos.web.entity.EM;
 import it.algos.web.servlet.AlgosServlet;
 
 import javax.servlet.annotation.WebServlet;
@@ -31,7 +32,6 @@ public class EventoServlet extends AlgosServlet {
         // Do session start stuff here
         EventoSession.setManager(false);
         EventoSession.setCompany(null);
-
     }// end of method
 
 }// end of class

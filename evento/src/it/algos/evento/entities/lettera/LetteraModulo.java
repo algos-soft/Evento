@@ -2,7 +2,7 @@ package it.algos.evento.entities.lettera;
 
 import it.algos.evento.EventoApp;
 import it.algos.evento.multiazienda.EModulePop;
-import it.algos.web.Application;
+import it.algos.web.AlgosApp;
 import it.algos.web.form.AForm;
 import it.algos.web.table.ATable;
 import it.algos.web.table.TablePortal;
@@ -158,7 +158,7 @@ public class LetteraModulo extends EModulePop {
         Path demofile = null;
         String filename = modello.getDbCode() + ".txt";
         ServletContext svlContext = EventoApp.getServletContext();
-        String fullPath = svlContext.getRealPath(Application.DEMODATA_FOLDER_NAME + "lettere/" + filename);
+        String fullPath = svlContext.getRealPath(AlgosApp.DEMODATA_FOLDER_NAME + "lettere/" + filename);
         Path path = Paths.get(fullPath);
         File file = path.toFile();
         if (file.exists()) {

@@ -1,12 +1,12 @@
 package it.algos.evento;
 
-import it.algos.web.Application;
+import it.algos.web.AlgosApp;
 
 
 /**
  * Contenitore di costanti della applicazione
  */
-public class EventoApp extends Application {
+public abstract class EventoApp extends AlgosApp {
 
     /**
      * the application name
@@ -53,5 +53,13 @@ public class EventoApp extends Application {
      */
     public static final Boolean USA_GESTIONE_MAILING = true;
 
+    private static final String KEY_SPLASHIMAGE = "splashimage";
+    private static final String KEY_MENUBAR_ICON = "menubaricon";
 
-}// end of class
+    /**
+     * Name of the local folder for images.<br>
+     */
+    public static final String IMG_FOLDER_NAME = "WEB-INF/data/img/";
+
+
+}// end of static abstract class
