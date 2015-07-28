@@ -189,6 +189,7 @@ public class Lettera extends EventoEntity {
 		return lista;
 	}// end of method
 
+
 	public String getTestOut(HashMap<String, String> mappaEscape) {
 		String testoOut = "";
 		String testoIn = "";

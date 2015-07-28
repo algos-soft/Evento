@@ -7,7 +7,7 @@ import com.vaadin.ui.OptionGroup;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.entities.lettera.LetteraKeys;
-import it.algos.evento.entities.prenotazione.Prenotazione;
+import it.algos.evento.entities.lettera.ModelliLettere;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.web.dialog.ConfirmDialog;
 import it.algos.web.field.ArrayComboField;
@@ -15,6 +15,7 @@ import it.algos.web.field.TextField;
 import it.asteria.cultura.mailing.DestWrap;
 import it.asteria.cultura.mailing.MailManager;
 import it.asteria.cultura.mailing.MailWrap;
+import org.apache.poi.ss.formula.functions.T;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -113,9 +114,18 @@ public class MailDialog extends ConfirmDialog {
      */
     private Object[] getLettere() {
         Object[] values = null;
-        ArrayList lista = null;
+        ArrayList<Lettera> lista = new ArrayList<>();
+        ArrayList<Lettera> listaAllDB = Lettera.readAll();
+        ArrayList<String> listaModelliSigla = ModelliLettere.getAllDbCode();
+        String sigla;
 
-        lista = Lettera.readAll();
+        for (Lettera lettera : listaAllDB) {
+            sigla = lettera.getSigla();
+            if (!listaModelliSigla.contains(sigla)) {
+                lista.add(lettera);
+            }// fine del blocco if
+        } // fine del ciclo for-each
+
         if (lista != null) {
             values = lista.toArray();
         }// fine del blocco if
