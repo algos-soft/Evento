@@ -206,14 +206,14 @@ public class MailManager {
         boolean spedita = false;
 
         if (LibSession.isDebug()) {
-            String hostName = "smtp.algos.it";
-            int smtpPort = 25;
-            boolean useAuth = true;
-            String username = "gac@algos.it";
-            String password = "fulvia";
-            String from = "alex@algos.it";
-            boolean html = false;
-            String allegati = "";
+//            String hostName = "smtp.algos.it";
+//            int smtpPort = 25;
+//            boolean useAuth = true;
+//            String username = "gac@algos.it";
+//            String password = "fulvia";
+//            String from = "alex@algos.it";
+//            boolean html = false;
+//            String allegati = "";
 
             dest = "gac@algos.it";
             oggetto = "Test/Prova";
