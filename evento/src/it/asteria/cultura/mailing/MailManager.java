@@ -196,43 +196,6 @@ public class MailManager {
         return spedita;
     }// end of method
 
-    /**
-     * Spedizione <br>
-     */
-    private void spedisceOld(String titolo, Lettera lettera, ArrayList<String> destinatari) {
-        String dest = "";
-        String oggetto = "";
-        String testo = "";
-        boolean spedita = false;
-
-        if (LibSession.isDebug()) {
-//            String hostName = "smtp.algos.it";
-//            int smtpPort = 25;
-//            boolean useAuth = true;
-//            String username = "gac@algos.it";
-//            String password = "fulvia";
-//            String from = "alex@algos.it";
-//            boolean html = false;
-//            String allegati = "";
-
-            dest = "gac@algos.it";
-            oggetto = "Test/Prova";
-            testo = lettera.getTesto();
-
-            try { // prova ad eseguire il codice
-//                spedita = LetteraService.sendMail(hostName, smtpPort, useAuth, username, password, from, dest, oggetto, testo, html, allegati);
-                spedita = LetteraService.sendMail(dest, oggetto, testo, false);
-            } catch (Exception unErrore) { // intercetta l'errore
-                String alfa = "";
-            }// fine del blocco try-catch
-        } else {
-            new Notification("Occhio che non sei in debug!",
-                    "Cambia il parametro d'ingresso",
-                    Notification.TYPE_ERROR_MESSAGE, true)
-                    .show(Page.getCurrent());
-        }// fine del blocco if-else
-
-    }// end of method
 
     /**
      * Conferma la singola spedizione (una per ogni destinatario)

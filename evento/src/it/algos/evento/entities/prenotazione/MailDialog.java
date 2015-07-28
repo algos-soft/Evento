@@ -51,6 +51,7 @@ public class MailDialog extends ConfirmDialog {
         addComponent(titoloField);
 
         letteraField = new ArrayComboField(this.getLettere(), "Seleziona una lettera");
+        letteraField.setRequired(true);
         addComponent(letteraField);
 
         destinatariOptions = new OptionGroup();
