@@ -1,5 +1,6 @@
 package it.asteria.cultura.destinatario;
 
+import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.multiazienda.EventoEntityQuery;
 import it.asteria.cultura.mailing.Mailing;
@@ -72,6 +73,17 @@ public class Destinatario extends EventoEntity {
     public void setSpedita(boolean spedita) {
         this.spedita = spedita;
     }
+
+    public String getOggetto() {
+        String oggetto = "";
+        Mailing mailing = this.getMailing();
+
+        if (mailing != null) {
+            oggetto = mailing.getOggetto();
+        }// fine del blocco if
+
+        return oggetto;
+    }// end of method
 
     public String getTitolo() {
         String titolo = "";

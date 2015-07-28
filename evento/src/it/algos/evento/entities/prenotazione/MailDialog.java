@@ -1,4 +1,4 @@
-package it.asteria.cultura.mailing;
+package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.data.Property;
 import com.vaadin.server.Page;
@@ -12,6 +12,9 @@ import it.algos.evento.entities.scuola.Scuola;
 import it.algos.web.dialog.ConfirmDialog;
 import it.algos.web.field.ArrayComboField;
 import it.algos.web.field.TextField;
+import it.asteria.cultura.mailing.DestWrap;
+import it.asteria.cultura.mailing.MailManager;
+import it.asteria.cultura.mailing.MailWrap;
 
 import java.util.ArrayList;
 import java.util.HashMap;

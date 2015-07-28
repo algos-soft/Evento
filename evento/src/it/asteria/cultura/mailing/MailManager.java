@@ -4,6 +4,7 @@ import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
 import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.entities.lettera.LetteraService;
+import it.algos.web.lib.LibDate;
 import it.algos.web.lib.LibSession;
 import it.asteria.cultura.destinatario.Destinatario;
 
@@ -83,7 +84,7 @@ public class MailManager {
     /**
      * Registrazione
      * <p>
-     * Creazione di n records di Destinatarimailing <br>
+     * Creazione di n records di Destinatari <br>
      * Sono già stati eliminati gli indirizzi doppi
      * <p>
      * Spazzola la lista di destinatari e per ognuno:
@@ -117,10 +118,14 @@ public class MailManager {
             spedita = spedisce(destinatario, wrap);
         }// fine del blocco if
 
+        if (spedita) {
+            conferma(destinatario);
+        }// fine del blocco if
+
     }// end of method
 
     /**
-     * Registra la spedizione
+     * Registra la spedizione (una per ogni destinatario)
      */
     private Destinatario registra(Mailing mailing, String indirizzo) {
         Destinatario destinatario = null;
@@ -140,48 +145,52 @@ public class MailManager {
      */
     private boolean spedisce(Destinatario destinatario, DestWrap wrap) {
         boolean spedita = false;
+        String oggetto = "";
         String titolo = "";
-        String speditoA = "";
-        String testoDest = "";
+        String dest = "";
         String testo = "";
         HashMap<String, String> mappa = wrap.getMappa();
 
         if (destinatario != null && wrap != null) {
-            speditoA = destinatario.getIndirizzo();
+            dest = destinatario.getIndirizzo();
+            oggetto = destinatario.getOggetto();
             titolo = destinatario.getTitolo();
-            testoDest = destinatario.getTesto(mappa);
+            testo = destinatario.getTesto(mappa);
 
             if (LibSession.isDebug()) {
-                String hostName = "smtp.algos.it";
-                int smtpPort = 25;
-                boolean useAuth = true;
-                String username = "gac@algos.it";
-                String password = "fulvia";
-                String from = "alex@algos.it";
-                boolean html = false;
-                String allegati = "";
+                String testoDebug;
 
-                String dest = "alex@algos.it";
-                String oggetto = "Cosa devo scrivere?";
-                testo += "Titolo della mail: ";
-                testo += titolo + "\n\n";
-                testo += "Spedita a: ";
-                testo += speditoA + "\n\n";
-                testo += "Testo definitivo: \n";
-                testo += testoDest;
+//                String hostName = "smtp.algos.it";
+//                int smtpPort = 25;
+//                boolean useAuth = true;
+//                String username = "gac@algos.it";
+//                String password = "fulvia";
+//                String from = "alex@algos.it";
+//                boolean html = false;
+//                String allegati = "";
 
-                try { // prova ad eseguire il codice
-//                    spedita = LetteraService.sendMail(hostName, smtpPort, useAuth, username, password, from, dest, oggetto, testo, html, allegati);
-                    spedita = LetteraService.sendMail(dest, oggetto, testo);
-                } catch (Exception unErrore) { // intercetta l'errore
-                    String alfa = "";
-                }// fine del blocco try-catch
+                testoDebug = "Titolo della mail: ";
+                testoDebug += titolo + "\n\n";
+                testoDebug += "Spedita a: ";
+                testoDebug += dest + "\n\n";
+                testoDebug += "Testo definitivo: \n";
+
+                dest = "gac@algos.it";
+                testo = testoDebug + testo;
+
             } else {
-                new Notification("Occhio che non sei in debug!",
-                        "Cambia il parametro d'ingresso",
-                        Notification.TYPE_ERROR_MESSAGE, true)
-                        .show(Page.getCurrent());
+//                new Notification("Occhio che non sei in debug!",
+//                        "Cambia il parametro d'ingresso",
+//                        Notification.TYPE_ERROR_MESSAGE, true)
+//                        .show(Page.getCurrent());
             }// fine del blocco if-else
+
+            try { // prova ad eseguire il codice
+                spedita = LetteraService.sendMail(dest, oggetto, testo);
+            } catch (Exception unErrore) { // intercetta l'errore
+                String alfa = "";
+            }// fine del blocco try-catch
+
         }// fine del blocco if
 
         return spedita;
@@ -225,6 +234,18 @@ public class MailManager {
 
     }// end of method
 
+    /**
+     * Conferma la singola spedizione (una per ogni destinatario)
+     */
+    private void conferma(Destinatario destinatario) {
+
+        if (destinatario != null) {
+            destinatario.setSpedita(true);
+            destinatario.setDataSpedizione(LibDate.today());
+            destinatario.save();
+        }// fine del blocco if
+
+    }// end of method
 
     private String getTitolo() {
         return titolo;

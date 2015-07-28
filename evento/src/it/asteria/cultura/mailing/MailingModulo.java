@@ -3,6 +3,7 @@ package it.asteria.cultura.mailing;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
+import it.algos.evento.entities.prenotazione.MailDialog;
 import it.algos.evento.multiazienda.EModulePop;
 
 import javax.persistence.metamodel.Attribute;

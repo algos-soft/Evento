@@ -67,6 +67,17 @@ public class Mailing extends EventoEntity {
         this.dataCreazione = dataCreazione;
     }
 
+    public String getOggetto() {
+        String oggetto = "";
+        Lettera lettera = this.getLettera();
+
+        if (lettera != null) {
+            oggetto = lettera.getOggetto();
+        }// fine del blocco if
+
+        return oggetto;
+    }// end of method
+
     public String getTestOut(HashMap<String, String> mappaEscape) {
         String testo = "";
         Lettera lettera = this.getLettera();
