@@ -10,6 +10,7 @@ import java.util.HashMap;
  * -   una mappa di sostituzione (chiave-valore)
  */
 public class DestWrap {
+
     //-- indirizzo e-mail
     private String indirizzo = "";
 
@@ -48,5 +49,9 @@ public class DestWrap {
 
     public HashMap<String, String> getMappa() {
         return mappa;
+    }
+
+    public void setMappa(HashMap<String, String> mappa) {
+        this.mappa = mappa;
     }
 }// end of internal wrapper class

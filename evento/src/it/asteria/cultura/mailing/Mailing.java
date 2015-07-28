@@ -1,8 +1,8 @@
 package it.asteria.cultura.mailing;
 
+import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.web.lib.LibDate;
-import it.algos.evento.entities.lettera.Lettera;
 
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
@@ -10,6 +10,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.HashMap;
 
 @Entity
 public class Mailing extends EventoEntity {
@@ -23,7 +24,7 @@ public class Mailing extends EventoEntity {
     private Lettera lettera = null;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dataCreazione= LibDate.today();
+    private Date dataCreazione = LibDate.today();
 
     public Mailing() {
         this("", null, LibDate.today());
@@ -65,4 +66,16 @@ public class Mailing extends EventoEntity {
     public void setDataCreazione(Date dataCreazione) {
         this.dataCreazione = dataCreazione;
     }
+
+    public String getTestOut(HashMap<String, String> mappaEscape) {
+        String testo = "";
+        Lettera lettera = this.getLettera();
+
+        if (lettera != null) {
+            testo = lettera.getTestOut(mappaEscape);
+        }// fine del blocco if
+
+        return testo;
+    }// end of method
+
 }// end of entity class

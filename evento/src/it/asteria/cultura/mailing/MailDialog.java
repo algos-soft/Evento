@@ -4,7 +4,9 @@ import com.vaadin.data.Property;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.OptionGroup;
+import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.lettera.Lettera;
+import it.algos.evento.entities.lettera.LetteraKeys;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.web.dialog.ConfirmDialog;
@@ -12,6 +14,7 @@ import it.algos.web.field.ArrayComboField;
 import it.algos.web.field.TextField;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @SuppressWarnings("serial")
 public class MailDialog extends ConfirmDialog {
@@ -198,6 +201,7 @@ public class MailDialog extends ConfirmDialog {
      */
     private ArrayList<DestWrap> getDestinatari() {
         ArrayList<DestWrap> destinatari = new ArrayList<DestWrap>();
+        DestWrap wrap = null;
         boolean usaReferente = false;
         boolean usaScuola = false;
 
@@ -217,10 +221,18 @@ public class MailDialog extends ConfirmDialog {
         if (listaPrenotazioniIds != null && listaPrenotazioniIds.size() > 0) {
             for (Long idPren : listaPrenotazioniIds) {
                 if (usaReferente) {
-                    destinatari.add(getWrapRef(idPren));
+                    wrap = getWrapRef(idPren);
+                    if (wrap != null) {
+                        wrap = this.setWrapInfo(idPren, wrap);
+                        destinatari.add(wrap);
+                    }// fine del blocco if
                 }// fine del blocco if
                 if (usaScuola) {
-                    destinatari.add(getWrapScuola(idPren));
+                    wrap = getWrapScuola(idPren);
+                    if (wrap != null) {
+                        wrap = this.setWrapInfo(idPren, wrap);
+                        destinatari.add(wrap);
+                    }// fine del blocco if
                 }// fine del blocco if
             } // fine del ciclo for-each
         }// fine del blocco if
@@ -264,7 +276,7 @@ public class MailDialog extends ConfirmDialog {
             prenotazione = Prenotazione.read(idPrenotazione);
         }// fine del blocco if
 
-        if (prenotazione != null) {
+        if (prenotazione != null && !prenotazione.isPrivato()) {
             scuola = prenotazione.getScuola();
         }// fine del blocco if
 
@@ -279,6 +291,29 @@ public class MailDialog extends ConfirmDialog {
         return wrap;
     }// end of method
 
+    /**
+     * Aggiunge le informazioni della persona
+     */
+    private DestWrap setWrapInfo(Long idPren, DestWrap wrap) {
+        Prenotazione prenotazione = null;
+        HashMap<String, String> escapeMap = new HashMap<String, String>();
+        Insegnante insegnante;
+
+        if (idPren > 0) {
+            prenotazione = Prenotazione.read(idPren);
+        }// fine del blocco if
+
+        if (prenotazione != null) {
+            insegnante = prenotazione.getInsegnante();
+            if (insegnante != null) {
+                escapeMap.put(LetteraKeys.nomeInsegnante.getKey(), insegnante.getNome());
+                escapeMap.put(LetteraKeys.cognomeInsegnante.getKey(), insegnante.getCognome());
+                wrap.setMappa(escapeMap);
+            }// fine del blocco if
+        }// fine del blocco if
+
+        return wrap;
+    }// end of method
 
     private boolean esistonoPrenotazioni() {
         boolean status = false;

@@ -8,6 +8,7 @@ import it.algos.web.lib.LibSession;
 import it.asteria.cultura.destinatario.Destinatario;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @SuppressWarnings("serial")
 public class MailManager {
@@ -139,8 +140,17 @@ public class MailManager {
      */
     private boolean spedisce(Destinatario destinatario, DestWrap wrap) {
         boolean spedita = false;
+        String titolo = "";
+        String speditoA = "";
+        String testoDest = "";
+        String testo = "";
+        HashMap<String, String> mappa = wrap.getMappa();
 
         if (destinatario != null && wrap != null) {
+            speditoA = destinatario.getIndirizzo();
+            titolo = destinatario.getTitolo();
+            testoDest = destinatario.getTesto(mappa);
+
             if (LibSession.isDebug()) {
                 String hostName = "smtp.algos.it";
                 int smtpPort = 25;
@@ -151,13 +161,18 @@ public class MailManager {
                 boolean html = false;
                 String allegati = "";
 
-//                dest = "gac@algos.it";
-//                oggetto = "Test/Prova";
-//                testo = lettera.getTesto();
+                String dest = "alex@algos.it";
+                String oggetto = "Cosa devo scrivere?";
+                testo += "Titolo della mail: ";
+                testo += titolo + "\n\n";
+                testo += "Spedita a: ";
+                testo += speditoA + "\n\n";
+                testo += "Testo definitivo: \n";
+                testo += testoDest;
 
                 try { // prova ad eseguire il codice
-//                spedita = LetteraService.sendMail(hostName, smtpPort, useAuth, username, password, from, dest, oggetto, testo, html, allegati);
-//                    spedita = LetteraService.sendMail(dest, oggetto, testo, false);
+//                    spedita = LetteraService.sendMail(hostName, smtpPort, useAuth, username, password, from, dest, oggetto, testo, html, allegati);
+                    spedita = LetteraService.sendMail(dest, oggetto, testo);
                 } catch (Exception unErrore) { // intercetta l'errore
                     String alfa = "";
                 }// fine del blocco try-catch
