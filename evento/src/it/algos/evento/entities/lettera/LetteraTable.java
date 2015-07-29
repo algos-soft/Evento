@@ -43,10 +43,10 @@ public class LetteraTable extends ETable {
             if (lettera != null) {
                 sigla = lettera.getSigla();
                 if (ModelliLettere.getAllDbCode().contains(sigla)) {
-                    locImgName = "bell_num_1_20px.png";
+                    locImgName = "lock-icon.png";
                     description = "Lettera standard";
                 } else {
-                    locImgName = "bell_num_2_20px.png";
+                    locImgName = "lock-open-icon.png";
                     description = "Lettera extra";
                 }// fine del blocco if-else
             }// fine del blocco if
