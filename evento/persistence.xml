@@ -36,6 +36,7 @@
 		<class>it.algos.domain.ruolo.Ruolo</class>
 		<class>it.algos.domain.utente.Utente</class>
 		<class>it.algos.domain.utenteruolo.UtenteRuolo</class>
+		<class>it.algos.domain.versione.Versione</class>
 
 	    <!--<class>it.asteria.cultura.preferenze.Preferenze</class>-->
 

@@ -3,6 +3,7 @@ package it.algos.evento;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
+import it.algos.domain.versione.LibVers;
 import it.algos.evento.daemons.DaemonPrenScadute;
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.lettera.Lettera;
@@ -65,6 +66,9 @@ public class EventoBootStrap extends BootStrap {
         // registra il servlet context non appena è disponibile
         EventoApp.setServletContext(svltCtx);
 
+        // Controllo, aggiunta, esecuzione di pacth e versioni (principalmente dei dati)
+        this.versioneBootStrap(svltCtx);
+
         // Creo l'azienda Asteria se non esiste.
         AsteriaMigration.ensureCompanyAsteria();
 
@@ -126,4 +130,17 @@ public class EventoBootStrap extends BootStrap {
 
     }// end of method
 
-}// end of boot class
+    /**
+     * tutte le aggiunte, modifiche e patch vengono inserite con una versione<br>
+     * l'ordine di inserimento è FONDAMENTALE
+     *
+     * Se le versioni aumentano, conviene spostare in una classe esterna
+     */
+    private void versioneBootStrap(ServletContext svltCtx) {
+        //--prima installazione del programma
+        if (LibVers.installaVersione(1)) {
+            LibVers.newVersione("Setup", "Installazione iniziale");
+        }// fine del blocco if
+    }// end of method
+
+    }// end of boot class

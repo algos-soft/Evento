@@ -5,6 +5,7 @@ import com.vaadin.annotations.Title;
 import com.vaadin.server.*;
 import com.vaadin.ui.*;
 import com.vaadin.ui.MenuBar.MenuItem;
+import it.algos.domain.versione.VersioneModulo;
 import it.algos.evento.config.ConfigScreen;
 import it.algos.evento.config.GeneralDaemonConfigComponent;
 import it.algos.evento.config.SMTPServerConfigComponent;
@@ -430,6 +431,7 @@ public class EventoUI extends AlgosUI {
                 st.run();
             }
         });
+        item.addItem("Versioni", null, new MenuCommand(menubar, "versioni", new VersioneModulo()));
 
     }// end of method
 
