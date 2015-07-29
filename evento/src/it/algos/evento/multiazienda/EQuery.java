@@ -149,17 +149,6 @@ public class EQuery {
 	 */
 	@SuppressWarnings("unchecked")
 	public static List<? extends EventoEntity> getList(Class<? extends EventoEntity> clazz) {
-//		EntityManager manager = EM.createEntityManager();
-//		CriteriaBuilder cb = manager.getCriteriaBuilder();
-//		CriteriaQuery<? extends EventoEntity> cq = cb.createQuery(clazz);
-//		Root<? extends EventoEntity> root = (Root<EventoEntity>) cq.from(clazz);
-//		Predicate predicate = cb.equal(root.get(EventoEntity_.company), EventoApp.COMPANY);
-//		cq.where(predicate);
-//		TypedQuery<? extends EventoEntity> query = manager.createQuery(cq);
-//		List<? extends EventoEntity> entities = (List<? extends EventoEntity>)query.getResultList();
-//		manager.close();
-//		return entities;
-		
 		return getList(clazz, null);
 	}// end of method
 

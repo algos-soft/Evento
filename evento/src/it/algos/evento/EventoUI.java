@@ -410,7 +410,7 @@ public class EventoUI extends AlgosUI {
 
             @Override
             public void menuSelected(MenuItem selectedItem) {
-                DemoDataGenerator.creaComuni();
+                DemoDataGenerator.creaComuni(null);
             }
         });
 

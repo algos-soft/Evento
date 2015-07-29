@@ -32,7 +32,7 @@ public class StressTest implements Runnable {
 	// test create
 	private ArrayList<Prenotazione> testCreate(){
 		ArrayList<Prenotazione> prenotazioni = new ArrayList<Prenotazione>();
-		prenotazioni.addAll(DemoDataGenerator.creaPrenotazioni());
+		prenotazioni.addAll(DemoDataGenerator.creaPrenotazioni(null));
 		return prenotazioni;
 	}
 	

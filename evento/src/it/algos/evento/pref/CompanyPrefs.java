@@ -2,22 +2,26 @@ package it.algos.evento.pref;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container.Filter;
+import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Image;
 import it.algos.evento.EventoApp;
 import it.algos.evento.EventoSession;
 import it.algos.evento.entities.company.Company;
-import it.algos.evento.multiazienda.EROContainer;
+import it.algos.evento.entities.evento.Evento_;
+import it.algos.web.entity.BaseEntity;
 import it.algos.web.entity.EM;
 import it.algos.web.lib.LibImage;
 import it.algos.web.lib.LibResource;
 import it.algos.web.pref.AbsPref;
 import it.algos.web.pref.AbsPref.PrefType;
 import it.algos.web.pref.PrefIF;
+import it.algos.web.query.AQuery;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -148,9 +152,10 @@ public enum CompanyPrefs implements PrefIF {
      * @return il valore della preferenza
      */
     public Object get() {
-        //return get(EventoApp.COMPANY);
         return get(EventoSession.getCompany());
     }
+
+
 
     public boolean getBool() {
         return (boolean) get();
@@ -179,6 +184,10 @@ public enum CompanyPrefs implements PrefIF {
 
     public int getInt() {
         return (int) get();
+    }
+
+    public int getInt(Company company) {
+        return (int) get(company);
     }
 
     public Resource getResource() {
@@ -237,7 +246,6 @@ public enum CompanyPrefs implements PrefIF {
      * @param value il valore da scrivere
      */
     public void put(Object value) {
-        //put(EventoApp.COMPANY, value);
         put(EventoSession.getCompany(), value);
     }
 
@@ -296,7 +304,8 @@ public enum CompanyPrefs implements PrefIF {
     }
 
     /**
-     * Recupera dallo storage questa preferenza per una data azienda
+     * Recupera dallo storage questa preferenza per una data azienda.
+     * Non usa le classi filtrate tipo EQuery quindi si può chiamare anche se non c'è sessione
      * <p>
      * param company - l'azienda
      *
@@ -304,21 +313,13 @@ public enum CompanyPrefs implements PrefIF {
      */
     private PrefEventoEntity getPreference(Company company) {
         PrefEventoEntity entity = null;
-        JPAContainer<?> container;
-
-        EntityManager manager = EM.createEntityManager();
-        container = new EROContainer(PrefEventoEntity.class, manager);
-        Filter filter = new Compare.Equal(PrefEventoEntity_.code.getName(), getCode());
-        container.addContainerFilter(filter);
-
-        if (container.size() > 0) {
-            Collection<Object> ids = container.getItemIds();
-            Object id = ids.iterator().next();
-            entity = (PrefEventoEntity) container.getItem(id).getEntity();
+        Filter f1 = new Compare.Equal(Evento_.company.getName(), company);
+        Filter f2 = new Compare.Equal(PrefEventoEntity_.code.getName(), getCode());
+        Filter filter = new And(f1,f2);
+        ArrayList<BaseEntity> list=AQuery.getList(PrefEventoEntity.class, filter);
+        if(list.size()>0){
+            entity=(PrefEventoEntity)list.get(0);
         }
-
-        manager.close();
-
         return entity;
     }
 

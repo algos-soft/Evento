@@ -1,5 +1,6 @@
 package it.algos.evento.entities.comune;
 
+import it.algos.evento.entities.company.Company;
 import it.algos.web.dialog.AlertDialog;
 import it.algos.web.dialog.BaseDialog;
 import it.algos.web.dialog.ConfirmDialog;
@@ -32,53 +33,56 @@ public class ComuneImport {
 	private ATable table;
 	private Path file;
 	private DoneListener listener;
+	private Company company;
 
-	public ComuneImport(ATable table, DoneListener listener) {
-		super();
-		this.table = table;
-		this.listener = listener;
-		start();
-	}
+//	public ComuneImport(ATable table, DoneListener listener, Company company) {
+//		super();
+//		this.table = table;
+//		this.listener = listener;
+//		this.company=company;
+//		start();
+//	}
 	
-	public ComuneImport() {
+	public ComuneImport(Company company) {
 		super();
+		this.company=company;
 	}
 
 
-	/**
-	 * Importa i comuni  da un file excel custom.
-	 * <p>
-	 * Presenta il dialogo di scelta, carica il file sul server, lo elabora e crea i record, aggiorna la lista, cancella
-	 * il file importato, presenta il dialogo di esito
-	 */
-	private void start() {
-
-		FileUploader uploader = new FileUploader();
-		uploader.setTitle("Importazione comuni");
-		uploader.setMessage("Formato file: Excel.<br>La prima riga deve contenere i titoli delle colonne.<br>Colonne riconosciute:"
-				+ Columns.getHTMLList());
-		uploader.setButtonText("importa");
-
-		uploader.addUploadFinishedListener(new UploadFinishedListener() {
-
-			@Override
-			public void uploadFinished(final Path file) {
-				setFile(file);
-				mUploadFinished();
-			}
-		});
-
-		uploader.show(UI.getCurrent());
-
-	}
+//	/**
+//	 * Importa i comuni  da un file excel custom.
+//	 * <p>
+//	 * Presenta il dialogo di scelta, carica il file sul server, lo elabora e crea i record, aggiorna la lista, cancella
+//	 * il file importato, presenta il dialogo di esito
+//	 */
+//	private void start() {
+//
+//		FileUploader uploader = new FileUploader();
+//		uploader.setTitle("Importazione comuni");
+//		uploader.setMessage("Formato file: Excel.<br>La prima riga deve contenere i titoli delle colonne.<br>Colonne riconosciute:"
+//				+ Columns.getHTMLList());
+//		uploader.setButtonText("importa");
+//
+//		uploader.addUploadFinishedListener(new UploadFinishedListener() {
+//
+//			@Override
+//			public void uploadFinished(final Path file) {
+//				setFile(file);
+//				mUploadFinished();
+//			}
+//		});
+//
+//		uploader.show(UI.getCurrent());
+//
+//	}
 	
 	/**
 	 * Importa i comuni da un file excel embedded.
 	 * <p>
 	 * Nessuna GUI visualizzata (esegue su server)
 	 */
-	public static void doImport(String fullPath) {
-		final ComuneImport imp = new ComuneImport();
+	public static void doImport(String fullPath, Company company) {
+		final ComuneImport imp = new ComuneImport(company);
 		
 		Path file = Paths.get(fullPath);
 		imp.setFile(file);
@@ -150,6 +154,7 @@ public class ComuneImport {
 
 		// create entity from excel data
 		Comune comune = comuneFromExcel(valueMap);
+		comune.setCompany(company);
 
 		// try to save the entity, or send back the validation exception
 		ConstraintViolationException exception = null;
@@ -257,6 +262,8 @@ public class ComuneImport {
 		string = valueMap.get(Columns.sigla_prov.getTitoloColonna());
 		string = LibText.fixSpaces(string);
 		comune.setSiglaProvincia(string);
+
+
 		
 		return comune;
 

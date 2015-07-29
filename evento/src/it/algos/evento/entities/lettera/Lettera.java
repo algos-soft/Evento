@@ -1,5 +1,10 @@
 package it.algos.evento.entities.lettera;
 
+import com.vaadin.data.Container;
+import com.vaadin.data.util.filter.And;
+import com.vaadin.data.util.filter.Compare;
+import it.algos.evento.entities.company.Company;
+import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.multiazienda.EventoEntityQuery;
@@ -153,31 +158,6 @@ public class Lettera extends EventoEntity {
 	}
 
 
-	public static void sostituisce(String sigla, String oggetto, String testo) {
-		Lettera lettera = readBySigla(sigla);
-
-		if (lettera != null) {
-			lettera.delete();
-		}// end of if cycle
-		new Lettera(sigla, oggetto, testo).save();
-
-	}// end of method
-
-
-	public static Lettera readBySigla(String sigla) {
-		Lettera lettera = null;
-		BaseEntity bean = null;
-
-		bean = EQuery.queryFirst(Lettera.class, Lettera_.sigla, sigla);
-
-		if (bean != null) {
-			if (bean instanceof Lettera) {
-				lettera = (Lettera) bean;
-			}// end of if cycle
-		}// end of if cycle
-
-		return lettera;
-	}// end of method
 
 	/**
 	 * Recupera una istanza di Lettera usando la query specifica

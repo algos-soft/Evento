@@ -91,17 +91,25 @@ public class EventoBootStrap extends BootStrap {
 
         // Controlla che esista la lettera demo con elencate
         // le sostituzioni della Enumeration LetteraKeys.
-        // Se manca la crea ora.
+        // Se manca la crea ora, se c'è la aggiorna.
         Container.Filter fComp = new Compare.Equal(Lettera_.company.getName(), company);
         Container.Filter fType = new Compare.Equal(Lettera_.sigla.getName(), ModelliLettere.demo.getDbCode());
         Container.Filter filter = new And(fComp, fType);
         BaseEntity entity = AQuery.getEntity(Lettera.class, filter);
+
+        Lettera lettera;
         if (entity == null) {
             String siglaDemo = ModelliLettere.demo.getDbCode();
-            Lettera lettera = new Lettera(siglaDemo, ModelliLettere.demo.getOggettoDefault(), LetteraKeys.getTestoDemo());
+            lettera = new Lettera(siglaDemo, ModelliLettere.demo.getOggettoDefault(), LetteraKeys.getTestoDemo());
             lettera.setCompany(company);
-            lettera.save();
+        }else{
+            lettera=(Lettera)entity;
+            lettera.setTesto(LetteraKeys.getTestoDemo());
         }// fine del blocco if
+
+        lettera.save();
+
+
     }// end of method
 
     /**
