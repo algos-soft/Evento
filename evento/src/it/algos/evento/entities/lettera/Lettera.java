@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
+import it.algos.web.query.AQuery;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -176,6 +177,24 @@ public class Lettera extends EventoEntity {
 		}// end of if cycle
 
 		return lettera;
+	}// end of method
+
+	/**
+	 * Recupera una istanza di Lettera usando la query specifica
+	 *
+	 * @return istanza di Lettera, null se non trovata
+	 */
+	public static Lettera find(long id) {
+		Lettera instance = null;
+		BaseEntity entity = AQuery.queryById(Lettera.class, id);
+
+		if (entity != null) {
+			if (entity instanceof Lettera) {
+				instance = (Lettera) entity;
+			}// end of if cycle
+		}// end of if cycle
+
+		return instance;
 	}// end of method
 
 	public static ArrayList< Lettera> readAll() {
