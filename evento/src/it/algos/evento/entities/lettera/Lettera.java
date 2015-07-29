@@ -1,5 +1,6 @@
 package it.algos.evento.entities.lettera;
 
+import it.algos.evento.entities.spedizione.Spedizione;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
@@ -158,6 +159,61 @@ public class Lettera extends EventoEntity {
 	}
 
 
+    /**
+     * @param sigla the sigla to set
+     */
+    public void setSigla(String sigla) {
+        this.sigla = sigla;
+    }
+
+    /**
+     * @return the oggetto
+     */
+    public String getOggetto() {
+        return oggetto;
+    }
+
+    /**
+     * @param oggetto the oggetto to set
+     */
+    public void setOggetto(String oggetto) {
+        this.oggetto = oggetto;
+    }
+
+    /**
+     * @return the testo
+     */
+    public String getTesto() {
+        return testo;
+    }
+
+    /**
+     * @param testo the testo to set
+     */
+    public void setTesto(String testo) {
+        this.testo = testo;
+    }
+
+    /**
+     * @return the allegati
+     */
+    public String getAllegati() {
+        return allegati;
+    }
+
+    /**
+     * @param allegati the allegati to set
+     */
+    public void setAllegati(String allegati) {
+        this.allegati = allegati;
+    }
+
+    /**
+     * @return the spedizioni
+     */
+    public Set<Spedizione> getSpedizioni() {
+        return spedizioni;
+    }
 
 	/**
 	 * Recupera una istanza di Lettera usando la query specifica
