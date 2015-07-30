@@ -139,6 +139,7 @@ public class EventoBootStrap extends BootStrap {
      */
     private void versioneBootStrap(ServletContext svltCtx) {
         //--prima installazione del programma
+        //--non fa nulla, solo informativo
         if (LibVers.installaVersione(1)) {
             LibVers.newVersione("Setup", "Installazione iniziale");
         }// fine del blocco if
