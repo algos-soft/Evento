@@ -19,6 +19,7 @@ import it.algos.web.query.AQuery;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -106,8 +107,8 @@ public class EventoBootStrap extends BootStrap {
             String siglaDemo = ModelliLettere.demo.getDbCode();
             lettera = new Lettera(siglaDemo, ModelliLettere.demo.getOggettoDefault(), LetteraKeys.getTestoDemo());
             lettera.setCompany(company);
-        }else{
-            lettera=(Lettera)entity;
+        } else {
+            lettera = (Lettera) entity;
             lettera.setTesto(LetteraKeys.getTestoDemo());
         }// fine del blocco if
 
@@ -133,7 +134,7 @@ public class EventoBootStrap extends BootStrap {
     /**
      * tutte le aggiunte, modifiche e patch vengono inserite con una versione<br>
      * l'ordine di inserimento è FONDAMENTALE
-     *
+     * <p>
      * Se le versioni aumentano, conviene spostare in una classe esterna
      */
     private void versioneBootStrap(ServletContext svltCtx) {
@@ -141,6 +142,34 @@ public class EventoBootStrap extends BootStrap {
         if (LibVers.installaVersione(1)) {
             LibVers.newVersione("Setup", "Installazione iniziale");
         }// fine del blocco if
+
+        //--eliminazione del trattino basso nelle lettere
+        if (LibVers.installaVersione(2)) {
+            eliminaTrattinoLettera();
+            LibVers.newVersione("Lettera", "Modifica contemporanea del campo Lettera.sigla e del campo ModelliLettere.dbCode per eliminare il trattino basso");
+        }// fine del blocco if
     }// end of method
 
-    }// end of boot class
+    /**
+     * eliminazione del trattino basso nelle lettere
+     * modifica UNA TANTUM del campo sigla di Lettera (eseguito dal programma in questo metodo)<br>
+     * modifica UNA TANTUM del campo dbcode della enumeration ModelliLettere (hardcoded a mano quando ho scritto questo metodo)<br>
+     * eliminazione CONTEMPORANEA del trattino basso, sostituito da spazio semplice
+     */
+    private void eliminaTrattinoLettera() {
+        List<Lettera> lista = (List<Lettera>)AQuery.getList(Lettera.class);
+        String sigla;
+        String tagOld = "_";
+        String tagNew = " ";
+
+        for (Lettera lettera : lista) {
+            sigla = lettera.getSigla();
+            if (sigla.contains(tagOld)) {
+                lettera.setSigla(sigla.replace(tagOld,tagNew));
+                lettera.save();
+            }// fine del blocco if
+        } // fine del ciclo for-each
+
+    }// end of method
+
+}// end of boot class

@@ -11,23 +11,23 @@ import java.util.ArrayList;
 
 public enum ModelliLettere {
 
-    istruzioniPrenotazione("info_prenotazione", "Riepilogo opzione telefonica", CompanyPrefs.sendMailInfoPren, CompanyPrefs.sendMailInfoPrenRef, CompanyPrefs.sendMailInfoPrenScuola, CompanyPrefs.sendMailInfoPrenNP),
+    istruzioniPrenotazione("info prenotazione", "Riepilogo opzione telefonica", CompanyPrefs.sendMailInfoPren, CompanyPrefs.sendMailInfoPrenRef, CompanyPrefs.sendMailInfoPrenScuola, CompanyPrefs.sendMailInfoPrenNP),
 
-    confermaPrenotazione("conferma_prenotazione", "Conferma prenotazione", CompanyPrefs.sendMailConfPren, CompanyPrefs.sendMailConfPrenRef, CompanyPrefs.sendMailConfPrenScuola, CompanyPrefs.sendMailConfPrenNP),
+    confermaPrenotazione("conferma prenotazione", "Conferma prenotazione", CompanyPrefs.sendMailConfPren, CompanyPrefs.sendMailConfPrenRef, CompanyPrefs.sendMailConfPrenScuola, CompanyPrefs.sendMailConfPrenNP),
 
-    memoScadPagamento("memo_scadenza_pagamento", "Promemoria scadenza di pagamento", CompanyPrefs.sendMailScadPaga, CompanyPrefs.sendMailScadPagaRef, CompanyPrefs.sendMailScadPagaScuola, CompanyPrefs.sendMailScadPagaNP),
+    memoScadPagamento("memo scadenza pagamento", "Promemoria scadenza di pagamento", CompanyPrefs.sendMailScadPaga, CompanyPrefs.sendMailScadPagaRef, CompanyPrefs.sendMailScadPagaScuola, CompanyPrefs.sendMailScadPagaNP),
 
-    confermaPagamento("conferma_pagamento", "Conferma del pagamento", CompanyPrefs.sendMailConfPaga, CompanyPrefs.sendMailConfPagaRef, CompanyPrefs.sendMailConfPagaScuola, CompanyPrefs.sendMailConfPagaNP),
+    confermaPagamento("conferma pagamento", "Conferma del pagamento", CompanyPrefs.sendMailConfPaga, CompanyPrefs.sendMailConfPagaRef, CompanyPrefs.sendMailConfPagaScuola, CompanyPrefs.sendMailConfPagaNP),
 
-    registrazionePagamento("registrazione_pagamento", "Registrazione del pagamento", CompanyPrefs.sendMailRegisPaga, CompanyPrefs.sendMailRegisPagaRef, CompanyPrefs.sendMailRegisPagaScuola, CompanyPrefs.sendMailRegisPagaNP),
+    registrazionePagamento("registrazione pagamento", "Registrazione del pagamento", CompanyPrefs.sendMailRegisPaga, CompanyPrefs.sendMailRegisPagaRef, CompanyPrefs.sendMailRegisPagaScuola, CompanyPrefs.sendMailRegisPagaNP),
 
-    memoScadPrenotazione("memo_scadenza_prenotazione", "Promemoria invio scheda di prenotazione", CompanyPrefs.sendMailScadPren, CompanyPrefs.sendMailScadPrenRef, CompanyPrefs.sendMailScadPrenScuola, CompanyPrefs.sendMailScadPrenNP),
+    memoScadPrenotazione("memo scadenza prenotazione", "Promemoria invio scheda di prenotazione", CompanyPrefs.sendMailScadPren, CompanyPrefs.sendMailScadPrenRef, CompanyPrefs.sendMailScadPrenScuola, CompanyPrefs.sendMailScadPrenNP),
 
-    congelamentoOpzione("congelamento_opzione", "Avviso di congelamento dell’opzione telefonica", CompanyPrefs.sendMailCongOpzione, CompanyPrefs.sendMailCongOpzioneRef, CompanyPrefs.sendMailCongOpzioneScuola, CompanyPrefs.sendMailCongOpzioneNP),
+    congelamentoOpzione("congelamento opzione", "Avviso di congelamento dell’opzione telefonica", CompanyPrefs.sendMailCongOpzione, CompanyPrefs.sendMailCongOpzioneRef, CompanyPrefs.sendMailCongOpzioneScuola, CompanyPrefs.sendMailCongOpzioneNP),
 
-    attestatoPartecipazione("attestato_partecipazione", "Attestato di partecipazione", null, null, null, null),
+    attestatoPartecipazione("attestato partecipazione", "Attestato di partecipazione", null, null, null, null),
 
-    demo("demo_sostituzioni", "Demo sostituzioni supportate", null, null, null, null);
+    demo("demo sostituzioni", "Demo sostituzioni supportate", null, null, null, null);
 
     private String dbCode;
     private String oggettoDefault; // usato per creare demo data
