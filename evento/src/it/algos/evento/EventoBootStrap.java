@@ -140,14 +140,14 @@ public class EventoBootStrap extends BootStrap {
     private void versioneBootStrap(ServletContext svltCtx) {
         //--prima installazione del programma
         //--non fa nulla, solo informativo
-        if (LibVers.installaVersione(1)) {
-            LibVers.newVersione("Setup", "Installazione iniziale");
+        if (LibVers.installa(1)) {
+            LibVers.nuova("Setup", "Installazione iniziale");
         }// fine del blocco if
 
         //--eliminazione del trattino basso nelle lettere
-        if (LibVers.installaVersione(2)) {
+        if (LibVers.installa(2)) {
             eliminaTrattinoLettera();
-            LibVers.newVersione("Lettera", "Modifica contemporanea del campo Lettera.sigla e del campo ModelliLettere.dbCode per eliminare il trattino basso");
+            LibVers.nuova("Lettera", "Modifica contemporanea del campo Lettera.sigla e del campo ModelliLettere.dbCode per eliminare il trattino basso");
         }// fine del blocco if
     }// end of method
 
