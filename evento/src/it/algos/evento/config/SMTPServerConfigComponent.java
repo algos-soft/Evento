@@ -1,10 +1,10 @@
 package it.algos.evento.config;
 
 import it.algos.evento.pref.EventoPrefs;
-import it.algos.web.field.CheckBoxField;
-import it.algos.web.field.IntegerField;
-import it.algos.web.field.PasswordField;
-import it.algos.web.field.TextField;
+import it.algos.webbase.web.field.CheckBoxField;
+import it.algos.webbase.web.field.IntegerField;
+import it.algos.webbase.web.field.PasswordField;
+import it.algos.webbase.web.field.TextField;
 
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;

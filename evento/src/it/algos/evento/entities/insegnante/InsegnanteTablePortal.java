@@ -1,12 +1,12 @@
 package it.algos.evento.entities.insegnante;
 
-import it.algos.web.dialog.BaseDialog;
-import it.algos.web.importexport.ExportConfiguration;
-import it.algos.web.importexport.ExportManager;
-import it.algos.web.module.ModulePop;
-import it.algos.web.table.TablePortal;
-import it.algos.web.toolbar.TableToolbar;
-import it.algos.web.updown.ReportDownloadDialog;
+import it.algos.webbase.web.dialog.BaseDialog;
+import it.algos.webbase.web.importexport.ExportConfiguration;
+import it.algos.webbase.web.importexport.ExportManager;
+import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.table.TablePortal;
+import it.algos.webbase.web.toolbar.TableToolbar;
+import it.algos.webbase.web.updown.ReportDownloadDialog;
 import it.algos.evento.entities.insegnante.InsegnanteImport.DoneListener;
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 

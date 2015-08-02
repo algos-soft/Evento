@@ -1,12 +1,12 @@
 package it.algos.evento.entities.company;
 
-import it.algos.web.dialog.ConfirmDialog;
-import it.algos.web.entity.BaseEntity;
-import it.algos.web.field.EmailField;
-import it.algos.web.field.TextField;
-import it.algos.web.form.AForm;
-import it.algos.web.form.AFormLayout;
-import it.algos.web.module.ModulePop;
+import it.algos.webbase.web.dialog.ConfirmDialog;
+import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.field.EmailField;
+import it.algos.webbase.web.field.TextField;
+import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.form.AFormLayout;
+import it.algos.webbase.web.module.ModulePop;
 
 import com.vaadin.data.Item;
 import com.vaadin.ui.Button;

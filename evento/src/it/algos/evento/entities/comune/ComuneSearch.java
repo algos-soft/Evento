@@ -1,7 +1,7 @@
 package it.algos.evento.entities.comune;
 
 import it.algos.evento.multiazienda.ESearchManager;
-import it.algos.web.module.ModulePop;
+import it.algos.webbase.web.module.ModulePop;
 
 import java.util.ArrayList;
 

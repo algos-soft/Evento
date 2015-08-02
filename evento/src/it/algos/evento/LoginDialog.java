@@ -7,10 +7,10 @@ import com.vaadin.ui.Label;
 
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.web.component.Spacer;
-import it.algos.web.dialog.ConfirmDialog;
-import it.algos.web.field.PasswordField;
-import it.algos.web.field.TextField;
+import it.algos.webbase.web.component.Spacer;
+import it.algos.webbase.web.dialog.ConfirmDialog;
+import it.algos.webbase.web.field.PasswordField;
+import it.algos.webbase.web.field.TextField;
 
 public class LoginDialog extends ConfirmDialog {
 

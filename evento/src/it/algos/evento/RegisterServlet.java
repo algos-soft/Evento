@@ -5,7 +5,7 @@ import com.vaadin.server.ServiceException;
 import com.vaadin.server.SessionInitEvent;
 import it.algos.evento.EventoSession;
 import it.algos.evento.EventoUI;
-import it.algos.web.servlet.AlgosServlet;
+import it.algos.webbase.web.servlet.AlgosServlet;
 
 import javax.servlet.annotation.WebServlet;
 

@@ -2,7 +2,7 @@ package it.asteria.cultura.mailing;
 
 import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.multiazienda.EventoEntity;
-import it.algos.web.lib.LibDate;
+import it.algos.webbase.web.lib.LibDate;
 
 import javax.persistence.Entity;
 import javax.persistence.Temporal;

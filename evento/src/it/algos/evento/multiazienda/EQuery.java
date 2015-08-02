@@ -3,8 +3,8 @@ package it.algos.evento.multiazienda;
 import it.algos.evento.EventoApp;
 import it.algos.evento.EventoSession;
 import it.algos.evento.EventoUI;
-import it.algos.web.entity.BaseEntity;
-import it.algos.web.entity.EM;
+import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.EM;
 
 import java.util.ArrayList;
 import java.util.List;

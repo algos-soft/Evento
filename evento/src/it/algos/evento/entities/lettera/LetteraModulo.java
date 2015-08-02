@@ -2,10 +2,10 @@ package it.algos.evento.entities.lettera;
 
 import it.algos.evento.EventoApp;
 import it.algos.evento.multiazienda.EModulePop;
-import it.algos.web.AlgosApp;
-import it.algos.web.form.AForm;
-import it.algos.web.table.ATable;
-import it.algos.web.table.TablePortal;
+import it.algos.webbase.web.AlgosApp;
+import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.table.ATable;
+import it.algos.webbase.web.table.TablePortal;
 
 import java.io.File;
 import java.io.IOException;

@@ -5,8 +5,8 @@ import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.sala.Sala;
 import it.algos.evento.multiazienda.EventoEntity;
-import it.algos.web.entity.BaseEntity;
-import it.algos.web.query.AQuery;
+import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.query.AQuery;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 
 import javax.persistence.*;

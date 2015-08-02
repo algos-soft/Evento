@@ -1,8 +1,8 @@
 package it.algos.evento.entities.progetto;
 
 import it.algos.evento.multiazienda.ESearchManager;
-import it.algos.web.module.ModulePop;
-import it.algos.web.search.SearchManager;
+import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.search.SearchManager;
 
 import java.util.ArrayList;
 

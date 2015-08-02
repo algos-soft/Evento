@@ -1,8 +1,8 @@
 package it.algos.evento.multiazienda;
 
-import it.algos.web.module.ModulePop;
-import it.algos.web.search.SearchManager;
-import it.algos.web.table.ATable;
+import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.search.SearchManager;
+import it.algos.webbase.web.table.ATable;
 
 @SuppressWarnings("serial")
 public class EModulePop extends ModulePop {

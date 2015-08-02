@@ -6,9 +6,9 @@ import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.ETable;
-import it.algos.web.entity.BaseEntity;
-import it.algos.web.lib.Lib;
-import it.algos.web.module.ModulePop;
+import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.lib.Lib;
+import it.algos.webbase.web.module.ModulePop;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 
 import java.util.Date;

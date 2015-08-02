@@ -4,7 +4,7 @@ import it.algos.evento.DemoDataGenerator;
 import it.algos.evento.EventoSession;
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.multiazienda.EQuery;
-import it.algos.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package it.algos.evento;
 
-import it.algos.web.lib.LibUUID;
-import it.algos.web.query.AQuery;
+import it.algos.webbase.web.lib.LibUUID;
+import it.algos.webbase.web.query.AQuery;
 import it.algos.evento.entities.prenotazione.ConfermaPrenClienteModulo;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.Prenotazione_;

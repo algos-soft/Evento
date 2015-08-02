@@ -1,8 +1,8 @@
 package it.algos.evento.entities.spedizione;
 
 import it.algos.evento.multiazienda.EModulePop;
-import it.algos.web.search.SearchManager;
-import it.algos.web.table.ATable;
+import it.algos.webbase.web.search.SearchManager;
+import it.algos.webbase.web.table.ATable;
 
 
 @SuppressWarnings("serial")

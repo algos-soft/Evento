@@ -1,11 +1,11 @@
 package it.algos.evento.entities.scuola;
 
-import it.algos.web.dialog.BaseDialog;
-import it.algos.web.importexport.ExportConfiguration;
-import it.algos.web.importexport.ExportManager;
-import it.algos.web.module.ModulePop;
-import it.algos.web.table.TablePortal;
-import it.algos.web.toolbar.TableToolbar;
+import it.algos.webbase.web.dialog.BaseDialog;
+import it.algos.webbase.web.importexport.ExportConfiguration;
+import it.algos.webbase.web.importexport.ExportManager;
+import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.table.TablePortal;
+import it.algos.webbase.web.toolbar.TableToolbar;
 import it.algos.evento.entities.scuola.ScuolaImport.DoneListener;
 
 import com.vaadin.ui.MenuBar;

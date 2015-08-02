@@ -4,7 +4,7 @@ import javax.servlet.ServletContext;
 
 import it.algos.evento.EventoApp;
 import it.algos.evento.pref.EventoPrefs;
-import it.algos.web.field.CheckBoxField;
+import it.algos.webbase.web.field.CheckBoxField;
 import it.algos.evento.daemons.DaemonPrenScadute;
 
 import com.vaadin.data.util.ObjectProperty;

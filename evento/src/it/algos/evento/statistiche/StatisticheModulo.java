@@ -1,6 +1,6 @@
 package it.algos.evento.statistiche;
 
-import it.algos.web.module.Module;
+import it.algos.webbase.web.module.Module;
 import it.algos.evento.statistiche.ControlPanel.SelezioneStatisticaListener;
 import it.algos.evento.statistiche.StatToolbar.TableToolbarListener;
 import it.algos.evento.statistiche.StatisticaBase.ElaboraListener;

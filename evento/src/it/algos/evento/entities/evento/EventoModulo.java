@@ -8,9 +8,9 @@ import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.web.form.AForm;
-import it.algos.web.search.SearchManager;
-import it.algos.web.table.ATable;
+import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.search.SearchManager;
+import it.algos.webbase.web.table.ATable;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 

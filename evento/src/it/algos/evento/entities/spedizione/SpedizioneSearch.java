@@ -2,10 +2,10 @@ package it.algos.evento.entities.spedizione;
 
 import it.algos.evento.multiazienda.ERelatedComboField;
 import it.algos.evento.multiazienda.ESearchManager;
-import it.algos.web.component.DateRangeComponent;
-import it.algos.web.field.RelatedComboField;
-import it.algos.web.field.TextField;
-import it.algos.web.component.YesNoCheckboxComponent;
+import it.algos.webbase.web.component.DateRangeComponent;
+import it.algos.webbase.web.field.RelatedComboField;
+import it.algos.webbase.web.field.TextField;
+import it.algos.webbase.web.component.YesNoCheckboxComponent;
 import it.algos.evento.entities.lettera.Lettera;
 
 import java.util.ArrayList;

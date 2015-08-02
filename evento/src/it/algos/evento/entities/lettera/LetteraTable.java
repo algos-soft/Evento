@@ -4,8 +4,8 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Table;
 import it.algos.evento.EventoApp;
 import it.algos.evento.multiazienda.ETable;
-import it.algos.web.lib.LibResource;
-import it.algos.web.module.ModulePop;
+import it.algos.webbase.web.lib.LibResource;
+import it.algos.webbase.web.module.ModulePop;
 
 @SuppressWarnings("serial")
 public class LetteraTable extends ETable {

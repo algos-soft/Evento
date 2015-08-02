@@ -9,7 +9,7 @@ import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.multiazienda.EventoEntityQuery;
-import it.algos.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.evento.entities.spedizione.Spedizione;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
-import it.algos.web.query.AQuery;
+import it.algos.webbase.web.query.AQuery;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 import org.hibernate.validator.constraints.NotEmpty;
 

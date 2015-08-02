@@ -2,10 +2,10 @@ package it.algos.evento.multiazienda;
 
 import com.vaadin.ui.*;
 import it.algos.evento.entities.company.Company;
-import it.algos.web.field.*;
-import it.algos.web.field.TextField;
-import it.algos.web.module.ModulePop;
-import it.algos.web.search.SearchManager;
+import it.algos.webbase.web.field.*;
+import it.algos.webbase.web.field.TextField;
+import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.search.SearchManager;
 
 import javax.persistence.metamodel.Attribute;
 import java.math.BigDecimal;

@@ -2,8 +2,8 @@ package it.algos.evento.entities.scuola;
 
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
 import it.algos.evento.multiazienda.EventoEntity;
-import it.algos.web.entity.BaseEntity;
-import it.algos.web.query.AQuery;
+import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.query.AQuery;
 import it.algos.evento.entities.comune.Comune;
 
 import javax.persistence.Entity;

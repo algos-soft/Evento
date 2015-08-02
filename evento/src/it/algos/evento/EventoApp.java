@@ -1,6 +1,6 @@
 package it.algos.evento;
 
-import it.algos.web.AlgosApp;
+import it.algos.webbase.web.AlgosApp;
 
 
 /**

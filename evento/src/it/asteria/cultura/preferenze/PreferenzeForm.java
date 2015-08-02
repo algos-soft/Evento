@@ -1,7 +1,7 @@
 package it.asteria.cultura.preferenze;
 
-import it.algos.web.form.AForm;
-import it.algos.web.module.ModulePop;
+import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.module.ModulePop;
 
 import com.vaadin.data.Item;
 import com.vaadin.ui.Component;

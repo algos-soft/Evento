@@ -6,11 +6,11 @@ import com.vaadin.event.Action;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import it.algos.evento.multiazienda.ETable;
-import it.algos.web.dialog.ConfirmDialog;
-import it.algos.web.lib.Lib;
-import it.algos.web.module.ModulePop;
-import it.algos.web.query.AQuery;
-import it.algos.web.table.ATable;
+import it.algos.webbase.web.dialog.ConfirmDialog;
+import it.algos.webbase.web.lib.Lib;
+import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.query.AQuery;
+import it.algos.webbase.web.table.ATable;
 
 @SuppressWarnings("serial")
 public class StagioneTable extends ETable {

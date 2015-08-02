@@ -4,9 +4,9 @@ import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
-import it.algos.web.module.ModulePop;
-import it.algos.web.table.TablePortal;
-import it.algos.web.toolbar.Toolbar;
+import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.table.TablePortal;
+import it.algos.webbase.web.toolbar.Toolbar;
 
 @SuppressWarnings("serial")
 public class StagioneTablePortal extends TablePortal {

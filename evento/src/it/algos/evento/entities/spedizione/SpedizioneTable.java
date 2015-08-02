@@ -1,7 +1,7 @@
 package it.algos.evento.entities.spedizione;
 
 import it.algos.evento.multiazienda.ETable;
-import it.algos.web.lib.LibDate;
+import it.algos.webbase.web.lib.LibDate;
 
 import java.util.Date;
 

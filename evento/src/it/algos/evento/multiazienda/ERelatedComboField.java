@@ -3,8 +3,8 @@ package it.algos.evento.multiazienda;
 import javax.persistence.EntityManager;
 
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
-import it.algos.web.entity.EM;
-import it.algos.web.field.RelatedComboField;
+import it.algos.webbase.web.entity.EM;
+import it.algos.webbase.web.field.RelatedComboField;
 
 import com.vaadin.data.Container;
 

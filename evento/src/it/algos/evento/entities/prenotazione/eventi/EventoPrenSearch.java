@@ -7,10 +7,10 @@ import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.ERelatedComboField;
 import it.algos.evento.multiazienda.ESearchManager;
 import it.algos.evento.search.StagioneSearchManager;
-import it.algos.web.component.DateRangeComponent;
-import it.algos.web.field.ArrayComboField;
-import it.algos.web.field.RelatedComboField;
-import it.algos.web.field.TextField;
+import it.algos.webbase.web.component.DateRangeComponent;
+import it.algos.webbase.web.field.ArrayComboField;
+import it.algos.webbase.web.field.RelatedComboField;
+import it.algos.webbase.web.field.TextField;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 
 import java.util.ArrayList;

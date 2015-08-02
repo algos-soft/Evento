@@ -1,6 +1,6 @@
 package it.algos.evento.entities.prenotazione.eventi;
 
-import it.algos.web.toolbar.TableToolbar;
+import it.algos.webbase.web.toolbar.TableToolbar;
 
 public class EventoPrenTableToolbar extends TableToolbar {
 

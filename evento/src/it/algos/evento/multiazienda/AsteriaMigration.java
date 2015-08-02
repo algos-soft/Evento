@@ -2,7 +2,7 @@ package it.algos.evento.multiazienda;
 
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.company.Company_;
-import it.algos.web.entity.EM;
+import it.algos.webbase.web.entity.EM;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;

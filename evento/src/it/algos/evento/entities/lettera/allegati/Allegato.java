@@ -1,7 +1,7 @@
 package it.algos.evento.entities.lettera.allegati;
 
 import it.algos.evento.multiazienda.EventoEntity;
-import it.algos.web.lib.LibFile;
+import it.algos.webbase.web.lib.LibFile;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

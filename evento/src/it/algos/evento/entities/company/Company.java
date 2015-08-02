@@ -1,17 +1,17 @@
 package it.algos.evento.entities.company;
 
-import it.algos.domain.ruolo.Ruolo;
-import it.algos.domain.utente.Utente;
-import it.algos.domain.utenteruolo.UtenteRuolo;
+import it.algos.webbase.domain.ruolo.Ruolo;
+import it.algos.webbase.domain.utente.Utente;
+import it.algos.webbase.domain.utenteruolo.UtenteRuolo;
 import it.algos.evento.DemoDataGenerator;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
 import it.algos.evento.multiazienda.EventoEntity_;
 import it.algos.evento.pref.PrefEventoEntity;
-import it.algos.web.entity.BaseEntity;
-import it.algos.web.query.AQuery;
-import it.algos.web.query.EntityQuery;
+import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.query.AQuery;
+import it.algos.webbase.web.query.EntityQuery;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;

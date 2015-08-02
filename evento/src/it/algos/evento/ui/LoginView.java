@@ -4,9 +4,9 @@ import it.algos.evento.EventoSession;
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.ui.manager.CompanyView;
 import it.algos.evento.ui.manager.ManagerView;
-import it.algos.web.component.Spacer;
-import it.algos.web.field.PasswordField;
-import it.algos.web.field.TextField;
+import it.algos.webbase.web.component.Spacer;
+import it.algos.webbase.web.field.PasswordField;
+import it.algos.webbase.web.field.TextField;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;

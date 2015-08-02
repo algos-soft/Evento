@@ -3,8 +3,8 @@ package it.algos.evento;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.ServiceException;
 import com.vaadin.server.SessionInitEvent;
-import it.algos.web.entity.EM;
-import it.algos.web.servlet.AlgosServlet;
+import it.algos.webbase.web.entity.EM;
+import it.algos.webbase.web.servlet.AlgosServlet;
 
 import javax.servlet.annotation.WebServlet;
 

@@ -1,8 +1,8 @@
 package it.asteria.cultura.test;
 
 import static org.junit.Assert.assertEquals;
-import it.algos.web.lib.LibDate;
-import it.algos.web.lib.Mese;
+import it.algos.webbase.web.lib.LibDate;
+import it.algos.webbase.web.lib.Mese;
 
 import java.util.ArrayList;
 import java.util.Arrays;

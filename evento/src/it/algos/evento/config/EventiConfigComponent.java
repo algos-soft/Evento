@@ -2,7 +2,7 @@ package it.algos.evento.config;
 
 import it.algos.evento.multiazienda.ERelatedComboField;
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.web.field.DecimalField;
+import it.algos.webbase.web.field.DecimalField;
 import it.algos.evento.entities.sala.Sala;
 
 import java.math.BigDecimal;

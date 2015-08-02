@@ -1,6 +1,6 @@
 package it.algos.evento.statistiche;
 
-import it.algos.web.toolbar.Toolbar;
+import it.algos.webbase.web.toolbar.Toolbar;
 
 import java.util.ArrayList;
 

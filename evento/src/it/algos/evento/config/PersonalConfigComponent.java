@@ -1,7 +1,7 @@
 package it.algos.evento.config;
 
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.web.field.ImageField;
+import it.algos.webbase.web.field.ImageField;
 
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;

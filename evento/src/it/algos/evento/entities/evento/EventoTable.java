@@ -4,8 +4,8 @@ import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.Compare;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.ETable;
-import it.algos.web.converter.StringToBigDecimalConverter;
-import it.algos.web.module.ModulePop;
+import it.algos.webbase.web.converter.StringToBigDecimalConverter;
+import it.algos.webbase.web.module.ModulePop;
 
 import java.math.BigDecimal;
 import java.util.Locale;

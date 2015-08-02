@@ -3,7 +3,7 @@ package it.algos.evento.entities.comune;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 
 import it.algos.evento.multiazienda.ETable;
-import it.algos.web.module.ModulePop;
+import it.algos.webbase.web.module.ModulePop;
 
 public class ComuneTable extends ETable{
 	

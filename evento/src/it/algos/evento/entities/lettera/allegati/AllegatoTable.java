@@ -1,8 +1,8 @@
 package it.algos.evento.entities.lettera.allegati;
 
 import it.algos.evento.multiazienda.ETable;
-import it.algos.web.lib.LibFile;
-import it.algos.web.module.ModulePop;
+import it.algos.webbase.web.lib.LibFile;
+import it.algos.webbase.web.module.ModulePop;
 
 import com.vaadin.data.Property;
 

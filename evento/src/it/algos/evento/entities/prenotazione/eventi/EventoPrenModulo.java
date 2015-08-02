@@ -1,10 +1,10 @@
 package it.algos.evento.entities.prenotazione.eventi;
 
 import it.algos.evento.multiazienda.EModulePop;
-import it.algos.web.form.AForm;
-import it.algos.web.search.SearchManager;
-import it.algos.web.table.ATable;
-import it.algos.web.table.TablePortal;
+import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.search.SearchManager;
+import it.algos.webbase.web.table.ATable;
+import it.algos.webbase.web.table.TablePortal;
 
 import javax.persistence.metamodel.Attribute;
 

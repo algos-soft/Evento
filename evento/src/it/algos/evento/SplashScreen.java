@@ -1,6 +1,6 @@
 package it.algos.evento;
 
-import it.algos.web.lib.LibImage;
+import it.algos.webbase.web.lib.LibImage;
 
 import com.vaadin.server.Resource;
 import com.vaadin.ui.HorizontalLayout;

@@ -1,6 +1,6 @@
 package it.asteria.cultura.preferenze;
 
-import it.algos.web.entity.BaseEntity_;
+import it.algos.webbase.web.entity.BaseEntity_;
 import it.asteria.cultura.preferenze.Preferenze.Type;
 
 import java.math.BigDecimal;

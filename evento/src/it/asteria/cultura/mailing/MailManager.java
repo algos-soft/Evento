@@ -4,8 +4,8 @@ import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
 import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.entities.lettera.LetteraService;
-import it.algos.web.lib.LibDate;
-import it.algos.web.lib.LibSession;
+import it.algos.webbase.web.lib.LibDate;
+import it.algos.webbase.web.lib.LibSession;
 import it.asteria.cultura.destinatario.Destinatario;
 
 import java.util.ArrayList;

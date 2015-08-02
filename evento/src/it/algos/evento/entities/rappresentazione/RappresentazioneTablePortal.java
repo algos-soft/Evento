@@ -1,8 +1,8 @@
 package it.algos.evento.entities.rappresentazione;
 
-import it.algos.web.module.ModulePop;
-import it.algos.web.table.TablePortal;
-import it.algos.web.toolbar.TableToolbar;
+import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.table.TablePortal;
+import it.algos.webbase.web.toolbar.TableToolbar;
 
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;

@@ -2,12 +2,12 @@ package it.algos.evento.entities.lettera.allegati;
 
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
-import it.algos.web.AlgosApp;
-import it.algos.web.form.AForm;
-import it.algos.web.lib.LibFile;
-import it.algos.web.table.ATable;
-import it.algos.web.updown.FileUploader;
-import it.algos.web.updown.FileUploader.UploadFinishedListener;
+import it.algos.webbase.web.AlgosApp;
+import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.lib.LibFile;
+import it.algos.webbase.web.table.ATable;
+import it.algos.webbase.web.updown.FileUploader;
+import it.algos.webbase.web.updown.FileUploader.UploadFinishedListener;
 
 import java.io.File;
 import java.io.IOException;

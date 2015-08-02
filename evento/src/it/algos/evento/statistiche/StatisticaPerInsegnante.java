@@ -1,9 +1,9 @@
 package it.algos.evento.statistiche;
 
 import it.algos.evento.multiazienda.EROContainer;
-import it.algos.web.component.DateRangeComponent;
-import it.algos.web.entity.EM;
-import it.algos.web.lib.LibDate;
+import it.algos.webbase.web.component.DateRangeComponent;
+import it.algos.webbase.web.entity.EM;
+import it.algos.webbase.web.lib.LibDate;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.insegnante.Insegnante_;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;

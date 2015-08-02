@@ -4,7 +4,7 @@ import it.algos.evento.entities.lettera.allegati.AllegatoModulo;
 import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.pref.EventoPrefs;
-import it.algos.web.lib.Lib;
+import it.algos.webbase.web.lib.Lib;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;

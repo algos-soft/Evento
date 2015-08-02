@@ -2,8 +2,8 @@ package it.algos.evento.entities.sala;
 
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.web.entity.BaseEntity;
-import it.algos.web.query.AQuery;
+import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.query.AQuery;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.Min;

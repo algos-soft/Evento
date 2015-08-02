@@ -1,8 +1,8 @@
 package it.asteria.cultura.preferenze;
 
-import it.algos.web.entity.BaseEntity;
-import it.algos.web.entity.EM;
-import it.algos.web.query.AQuery;
+import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.EM;
+import it.algos.webbase.web.query.AQuery;
 
 import java.math.BigDecimal;
 import java.util.Date;

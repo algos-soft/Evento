@@ -4,8 +4,8 @@ import java.util.List;
 
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
-import it.algos.web.form.AForm;
-import it.algos.web.search.SearchManager;
+import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.search.SearchManager;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.evento.Evento_;
 

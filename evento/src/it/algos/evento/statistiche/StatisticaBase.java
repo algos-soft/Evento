@@ -1,8 +1,8 @@
 package it.algos.evento.statistiche;
 
 import it.algos.evento.multiazienda.EROContainer;
-import it.algos.web.component.DateRangeComponent;
-import it.algos.web.entity.EM;
+import it.algos.webbase.web.component.DateRangeComponent;
+import it.algos.webbase.web.entity.EM;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;

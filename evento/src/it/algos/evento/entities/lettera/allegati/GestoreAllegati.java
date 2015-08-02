@@ -1,8 +1,8 @@
 package it.algos.evento.entities.lettera.allegati;
 
-import it.algos.web.dialog.AlertDialog;
-import it.algos.web.dialog.ConfirmDialog;
-import it.algos.web.field.TextField;
+import it.algos.webbase.web.dialog.AlertDialog;
+import it.algos.webbase.web.dialog.ConfirmDialog;
+import it.algos.webbase.web.field.TextField;
 import it.algos.evento.entities.lettera.allegati.AllegatoModulo.AllegatoListener;
 
 import com.vaadin.ui.Button;

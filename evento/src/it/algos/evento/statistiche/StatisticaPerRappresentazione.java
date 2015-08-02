@@ -1,6 +1,6 @@
 package it.algos.evento.statistiche;
 
-import it.algos.web.lib.LibDate;
+import it.algos.webbase.web.lib.LibDate;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 
 import java.util.ArrayList;

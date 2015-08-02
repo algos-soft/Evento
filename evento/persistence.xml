@@ -8,8 +8,8 @@
 	
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		
-	    <class>it.algos.web.entity.BaseEntity</class>
-	    <class>it.algos.web.pref.PrefEntity</class>
+	    <class>it.algos.webbase.web.entity.BaseEntity</class>
+	    <class>it.algos.webbase.web.pref.PrefEntity</class>
 	    <class>it.algos.evento.multiazienda.EventoEntity</class>
 	    <class>it.algos.evento.pref.PrefEventoEntity</class>
 	    <class>it.algos.evento.entities.company.Company</class>
@@ -33,10 +33,10 @@
 		<class>it.algos.evento.entities.stagione.Stagione</class>
 
 
-		<class>it.algos.domain.ruolo.Ruolo</class>
-		<class>it.algos.domain.utente.Utente</class>
-		<class>it.algos.domain.utenteruolo.UtenteRuolo</class>
-		<class>it.algos.domain.versione.Versione</class>
+		<class>it.algos.webbase.domain.ruolo.Ruolo</class>
+		<class>it.algos.webbase.domain.utente.Utente</class>
+		<class>it.algos.webbase.domain.utenteruolo.UtenteRuolo</class>
+		<class>it.algos.webbase.domain.versione.Versione</class>
 
 	    <!--<class>it.asteria.cultura.preferenze.Preferenze</class>-->
 

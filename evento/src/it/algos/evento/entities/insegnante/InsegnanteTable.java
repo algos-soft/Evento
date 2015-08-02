@@ -9,9 +9,9 @@ import it.algos.evento.EventoApp;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.multiazienda.ETable;
-import it.algos.web.lib.Lib;
-import it.algos.web.lib.LibResource;
-import it.algos.web.module.ModulePop;
+import it.algos.webbase.web.lib.Lib;
+import it.algos.webbase.web.lib.LibResource;
+import it.algos.webbase.web.module.ModulePop;
 
 @SuppressWarnings("serial")
 public class InsegnanteTable extends ETable {

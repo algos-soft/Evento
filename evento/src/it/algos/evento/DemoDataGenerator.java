@@ -31,10 +31,10 @@ import it.algos.evento.entities.stagione.Stagione_;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.web.AlgosApp;
-import it.algos.web.entity.BaseEntity;
-import it.algos.web.entity.EM;
-import it.algos.web.query.AQuery;
+import it.algos.webbase.web.AlgosApp;
+import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.EM;
+import it.algos.webbase.web.query.AQuery;
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 

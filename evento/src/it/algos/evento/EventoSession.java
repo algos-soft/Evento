@@ -1,7 +1,7 @@
 package it.algos.evento;
 
 import it.algos.evento.entities.company.Company;
-import it.algos.web.lib.LibSession;
+import it.algos.webbase.web.lib.LibSession;
 
 /**
  * Created by alex on 28-05-2015.

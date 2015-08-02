@@ -1,7 +1,7 @@
 package it.algos.evento.multiazienda;
 
 import it.algos.evento.entities.company.Company;
-import it.algos.web.entity.BaseEntity_;
+import it.algos.webbase.web.entity.BaseEntity_;
 
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;

@@ -11,11 +11,11 @@ import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.stagione.Stagione_;
 import it.algos.evento.multiazienda.ERelatedComboField;
 import it.algos.evento.search.StagioneSearchManager;
-import it.algos.web.component.DateRangeComponent;
-import it.algos.web.field.RelatedComboField;
-import it.algos.web.field.TextField;
-import it.algos.web.module.ModulePop;
-import it.algos.web.search.SearchManager;
+import it.algos.webbase.web.component.DateRangeComponent;
+import it.algos.webbase.web.field.RelatedComboField;
+import it.algos.webbase.web.field.TextField;
+import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.search.SearchManager;
 
 import java.util.ArrayList;
 

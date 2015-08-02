@@ -2,9 +2,9 @@ package it.algos.evento.entities.prenotazione.eventi;
 
 import it.algos.evento.EventoBootStrap;
 import it.algos.evento.multiazienda.ETable;
-import it.algos.web.dialog.ConfirmDialog;
-import it.algos.web.lib.LibDate;
-import it.algos.web.module.ModulePop;
+import it.algos.webbase.web.dialog.ConfirmDialog;
+import it.algos.webbase.web.lib.LibDate;
+import it.algos.webbase.web.module.ModulePop;
 import it.algos.evento.entities.prenotazione.EmailFailedException;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.PrenotazioneModulo;

@@ -4,7 +4,7 @@ import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.Compare;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.ESearchManager;
-import it.algos.web.dialog.DialogToolbar;
+import it.algos.webbase.web.dialog.DialogToolbar;
 
 import java.util.ArrayList;
 

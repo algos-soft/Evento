@@ -1,9 +1,9 @@
 package it.algos.evento.multiazienda;
 
-import it.algos.web.entity.BaseEntity_;
-import it.algos.web.entity.EM;
-import it.algos.web.module.ModulePop;
-import it.algos.web.table.ATable;
+import it.algos.webbase.web.entity.BaseEntity_;
+import it.algos.webbase.web.entity.EM;
+import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.table.ATable;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container;

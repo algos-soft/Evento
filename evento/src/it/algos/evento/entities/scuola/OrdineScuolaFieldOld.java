@@ -1,6 +1,6 @@
 package it.algos.evento.entities.scuola;
 
-import it.algos.web.field.ArrayComboField;
+import it.algos.webbase.web.field.ArrayComboField;
 
 import java.util.Locale;
 

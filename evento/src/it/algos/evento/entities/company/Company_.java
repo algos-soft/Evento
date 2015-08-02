@@ -1,6 +1,6 @@
 package it.algos.evento.entities.company;
 
-import it.algos.web.entity.BaseEntity_;
+import it.algos.webbase.web.entity.BaseEntity_;
 
 import java.util.Date;
 

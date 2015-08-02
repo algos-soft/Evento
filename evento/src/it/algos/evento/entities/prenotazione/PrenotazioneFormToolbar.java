@@ -1,6 +1,6 @@
 package it.algos.evento.entities.prenotazione;
 
-import it.algos.web.toolbar.FormToolbar;
+import it.algos.webbase.web.toolbar.FormToolbar;
 
 import java.util.ArrayList;
 

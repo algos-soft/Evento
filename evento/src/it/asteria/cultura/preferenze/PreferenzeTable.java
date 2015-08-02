@@ -1,7 +1,7 @@
 package it.asteria.cultura.preferenze;
 
-import it.algos.web.module.ModulePop;
-import it.algos.web.table.ATable;
+import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.table.ATable;
 
 public class PreferenzeTable extends ATable {
 

@@ -1,6 +1,6 @@
 package it.algos.evento.info;
 
-import it.algos.web.module.Module;
+import it.algos.webbase.web.module.Module;
 
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;

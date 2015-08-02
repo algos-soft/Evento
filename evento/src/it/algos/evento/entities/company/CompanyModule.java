@@ -1,8 +1,8 @@
 package it.algos.evento.entities.company;
 
-import it.algos.web.form.AForm;
-import it.algos.web.module.ModulePop;
-import it.algos.web.query.AQuery;
+import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.query.AQuery;
 
 import javax.persistence.metamodel.Attribute;
 

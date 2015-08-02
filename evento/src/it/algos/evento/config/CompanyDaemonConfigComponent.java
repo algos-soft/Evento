@@ -1,8 +1,8 @@
 package it.algos.evento.config;
 
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.web.field.ArrayComboField;
-import it.algos.web.field.CheckBoxField;
+import it.algos.webbase.web.field.ArrayComboField;
+import it.algos.webbase.web.field.CheckBoxField;
 
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;

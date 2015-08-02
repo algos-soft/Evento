@@ -1,9 +1,9 @@
 package it.algos.evento.pref;
 
-import it.algos.web.pref.AbsPref;
-import it.algos.web.pref.AbsPref.PrefType;
-import it.algos.web.pref.PrefEntity;
-import it.algos.web.pref.PrefIF;
+import it.algos.webbase.web.pref.AbsPref;
+import it.algos.webbase.web.pref.AbsPref.PrefType;
+import it.algos.webbase.web.pref.PrefEntity;
+import it.algos.webbase.web.pref.PrefIF;
 
 import java.math.BigDecimal;
 import java.util.Date;

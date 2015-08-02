@@ -2,12 +2,12 @@ package it.algos.evento.entities.scuola;
 
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
 import it.algos.evento.multiazienda.ERelatedComboField;
-import it.algos.web.field.ArrayComboField;
-import it.algos.web.field.EmailField;
-import it.algos.web.field.TextField;
-import it.algos.web.form.AForm;
-import it.algos.web.form.AFormLayout;
-import it.algos.web.module.ModulePop;
+import it.algos.webbase.web.field.ArrayComboField;
+import it.algos.webbase.web.field.EmailField;
+import it.algos.webbase.web.field.TextField;
+import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.form.AFormLayout;
+import it.algos.webbase.web.module.ModulePop;
 import it.algos.evento.entities.comune.Comune;
 
 import com.vaadin.data.Item;

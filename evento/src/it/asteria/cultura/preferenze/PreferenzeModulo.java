@@ -1,6 +1,6 @@
 package it.asteria.cultura.preferenze;
 
-import it.algos.web.module.ModulePop;
+import it.algos.webbase.web.module.ModulePop;
 
 import javax.persistence.metamodel.Attribute;
 

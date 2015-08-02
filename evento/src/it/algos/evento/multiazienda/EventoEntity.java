@@ -2,8 +2,8 @@ package it.algos.evento.multiazienda;
 
 import it.algos.evento.EventoSession;
 import it.algos.evento.entities.company.Company;
-import it.algos.web.AlgosApp;
-import it.algos.web.entity.BaseEntity;
+import it.algos.webbase.web.AlgosApp;
+import it.algos.webbase.web.entity.BaseEntity;
 
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;

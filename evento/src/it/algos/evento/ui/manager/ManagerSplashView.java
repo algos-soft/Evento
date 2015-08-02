@@ -4,7 +4,7 @@ import com.vaadin.ui.Component;
 
 import it.algos.evento.EventoApp;
 import it.algos.evento.SplashScreen;
-import it.algos.web.lib.LibResource;
+import it.algos.webbase.web.lib.LibResource;
 
 public class ManagerSplashView extends AbsMenuBarView {
 

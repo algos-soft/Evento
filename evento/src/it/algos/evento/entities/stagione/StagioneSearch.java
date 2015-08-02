@@ -4,9 +4,9 @@ import com.vaadin.data.Container.Filter;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import it.algos.evento.multiazienda.ESearchManager;
-import it.algos.web.component.YesNoCheckboxComponent;
-import it.algos.web.field.TextField;
-import it.algos.web.module.ModulePop;
+import it.algos.webbase.web.component.YesNoCheckboxComponent;
+import it.algos.webbase.web.field.TextField;
+import it.algos.webbase.web.module.ModulePop;
 
 import java.util.ArrayList;
 

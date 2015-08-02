@@ -2,7 +2,7 @@ package it.algos.evento.entities.lettera;
 
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.scuola.Scuola;

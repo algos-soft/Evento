@@ -4,7 +4,7 @@ import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.Compare;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.multiazienda.EventoEntity;
-import it.algos.web.query.FilterFactory;
+import it.algos.webbase.web.query.FilterFactory;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;

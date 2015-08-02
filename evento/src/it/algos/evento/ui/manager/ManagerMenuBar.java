@@ -2,8 +2,8 @@ package it.algos.evento.ui.manager;
 
 import com.vaadin.ui.MenuBar;
 import it.algos.evento.EventoApp;
-import it.algos.web.lib.LibResource;
-import it.algos.web.lib.LibSession;
+import it.algos.webbase.web.lib.LibResource;
+import it.algos.webbase.web.lib.LibSession;
 
 public class ManagerMenuBar extends MenuBar {
 

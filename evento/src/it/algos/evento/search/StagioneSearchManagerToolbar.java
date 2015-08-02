@@ -3,8 +3,8 @@ package it.algos.evento.search;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
-import it.algos.web.field.CheckBoxField;
-import it.algos.web.search.SearchManagerToolbar;
+import it.algos.webbase.web.field.CheckBoxField;
+import it.algos.webbase.web.search.SearchManagerToolbar;
 
 /**
  * Created by Alex on 02/06/15.
