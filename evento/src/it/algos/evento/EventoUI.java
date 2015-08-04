@@ -371,8 +371,7 @@ public class EventoUI extends AlgosUI {
         MenuBar menubar = new MenuBar();
 
         // Menu Home
-        menubar.addItem("", LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME,"manager_menubar_icon.png"), new MenuCommand(menubar, "splash",
-                splashScreen));
+        menubar.addItem("", LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME,"manager_menubar_icon.png"), new MenuCommand(menubar, "splash", splashScreen));
 
         // Menu principali
         menubar.addItem("Aziende", null, new MenuCommand(menubar, "aziende", new CompanyModule()));
