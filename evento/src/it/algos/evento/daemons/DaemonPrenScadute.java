@@ -1,6 +1,6 @@
 package it.algos.evento.daemons;
 
-import it.algos.webbase.web.BootStrap;
+import it.algos.webbase.web.ABootStrap;
 import it.algos.webbase.web.lib.LibDate;
 import it.sauronsoftware.cron4j.Scheduler;
 import it.sauronsoftware.cron4j.Task;
@@ -43,7 +43,7 @@ public class DaemonPrenScadute extends Scheduler {
 			super.start();
 
 			// save daemon status flag into servlet context
-			ServletContext svc = BootStrap.getServletContext();
+			ServletContext svc = ABootStrap.getServletContext();
 			svc.setAttribute(DAEMON_NAME, true);
 
 			// Schedule task.
@@ -60,7 +60,7 @@ public class DaemonPrenScadute extends Scheduler {
 			super.stop();
 
 			// save daemon status flag into servlet context
-			ServletContext svc = BootStrap.getServletContext();
+			ServletContext svc = ABootStrap.getServletContext();
 			svc.setAttribute(DAEMON_NAME, false);
 
 			logger.log(Level.INFO, "Daemon controllo prenotazioni disattivato.");

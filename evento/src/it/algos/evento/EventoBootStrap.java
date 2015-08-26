@@ -12,7 +12,7 @@ import it.algos.evento.entities.lettera.Lettera_;
 import it.algos.evento.entities.lettera.ModelliLettere;
 import it.algos.evento.multiazienda.AsteriaMigration;
 import it.algos.evento.pref.EventoPrefs;
-import it.algos.webbase.web.BootStrap;
+import it.algos.webbase.web.ABootStrap;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.query.AQuery;
@@ -30,7 +30,7 @@ import java.util.List;
  * Eseguita quindi ad ogni avvio/riavvio del server e NON ad ogni sessione <br>
  * È OBBLIGATORIO creare la sottoclasse per regolare il valore della persistence unit che crea l'EntityManager <br>
  */
-public class EventoBootStrap extends BootStrap {
+public class EventoBootStrap extends ABootStrap {
 
     /**
      * Valore standard suggerito per ogni progetto
@@ -62,7 +62,7 @@ public class EventoBootStrap extends BootStrap {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         super.contextInitialized(sce);
-        ServletContext svltCtx = BootStrap.getServletContext();
+        ServletContext svltCtx = ABootStrap.getServletContext();
 
         // registra il servlet context non appena è disponibile
         EventoApp.setServletContext(svltCtx);
