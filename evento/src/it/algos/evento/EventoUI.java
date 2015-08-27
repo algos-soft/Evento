@@ -203,7 +203,7 @@ public class EventoUI extends AlgosUI {
         menuLayout.setHeight("32px");
         menuLayout.setWidth("100%");
         menuLayout.addComponent(mainBar);
-        mainBar.setWidth("95%");
+//        mainBar.setWidth("95%");
         mainBar.setHeight("100%");
         menuLayout.setExpandRatio(mainBar, 1.0f);
         menuLayout.addComponent(loginBar);
