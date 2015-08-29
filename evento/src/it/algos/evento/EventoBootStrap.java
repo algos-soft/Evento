@@ -3,7 +3,6 @@ package it.algos.evento;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
-import it.algos.webbase.domain.versione.LibVers;
 import it.algos.evento.daemons.DaemonPrenScadute;
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.lettera.Lettera;
@@ -12,14 +11,15 @@ import it.algos.evento.entities.lettera.Lettera_;
 import it.algos.evento.entities.lettera.ModelliLettere;
 import it.algos.evento.multiazienda.AsteriaMigration;
 import it.algos.evento.pref.EventoPrefs;
+import it.algos.webbase.domain.versione.LibVers;
 import it.algos.webbase.web.ABootStrap;
+import it.algos.webbase.web.AlgosApp;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.query.AQuery;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -158,7 +158,7 @@ public class EventoBootStrap extends ABootStrap {
      * eliminazione CONTEMPORANEA del trattino basso, sostituito da spazio semplice
      */
     private void eliminaTrattinoLettera() {
-        List<Lettera> lista = (List<Lettera>)AQuery.getList(Lettera.class);
+        List<Lettera> lista = (List<Lettera>) AQuery.getList(Lettera.class);
         String sigla;
         String tagOld = "_";
         String tagNew = " ";
@@ -166,7 +166,7 @@ public class EventoBootStrap extends ABootStrap {
         for (Lettera lettera : lista) {
             sigla = lettera.getSigla();
             if (sigla.contains(tagOld)) {
-                lettera.setSigla(sigla.replace(tagOld,tagNew));
+                lettera.setSigla(sigla.replace(tagOld, tagNew));
                 lettera.save();
             }// fine del blocco if
         } // fine del ciclo for-each

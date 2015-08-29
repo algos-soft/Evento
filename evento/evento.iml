@@ -33,6 +33,9 @@
         <webroots>
           <root url="file://$MODULE_DIR$" relative="/WEB-INF" />
         </webroots>
+        <sourceRoots>
+          <root url="file://$MODULE_DIR$/../out" />
+        </sourceRoots>
       </configuration>
     </facet>
   </component>
