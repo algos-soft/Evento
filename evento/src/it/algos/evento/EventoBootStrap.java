@@ -67,14 +67,14 @@ public class EventoBootStrap extends ABootStrap {
         // registra il servlet context non appena è disponibile
         EventoApp.setServletContext(svltCtx);
 
-        // Controllo, aggiunta, esecuzione di pacth e versioni (principalmente dei dati)
-        this.versioneBootStrap(svltCtx);
-
         // Creo l'azienda Asteria se non esiste.
         AsteriaMigration.ensureCompanyAsteria();
 
         // Creo l'azienda Demo se non esiste
         DemoDataGenerator.ensureCompanyDemo();
+
+        // Controllo, aggiunta, esecuzione di pacth e versioni (principalmente dei dati)
+        this.versioneBootStrap(svltCtx);
 
         // avvia lo scheduler controllo solleciti che esegue ogni ora
         if (EventoPrefs.startDaemonAtStartup.getBool()) {
