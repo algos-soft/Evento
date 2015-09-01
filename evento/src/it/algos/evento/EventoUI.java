@@ -5,7 +5,6 @@ import com.vaadin.annotations.Title;
 import com.vaadin.server.*;
 import com.vaadin.ui.*;
 import com.vaadin.ui.MenuBar.MenuItem;
-import it.algos.webbase.domain.versione.VersioneModulo;
 import it.algos.evento.config.ConfigScreen;
 import it.algos.evento.config.GeneralDaemonConfigComponent;
 import it.algos.evento.config.SMTPServerConfigComponent;
@@ -33,6 +32,7 @@ import it.algos.evento.info.InfoModulo;
 import it.algos.evento.multiazienda.AsteriaMigration;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.statistiche.StatisticheModulo;
+import it.algos.webbase.domain.versione.VersioneModulo;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibResource;
@@ -176,9 +176,16 @@ public class EventoUI extends AlgosUI {
     }// end of method
 
     /**
-     * Mostra la UI per una Company, o per il Manager se la company è null.
+     * Crea l'interfaccia utente (User Interface) iniziale dell'applicazione
+     * Layout standard composto da:
+     * Top      - una barra composita di menu e login
+     * Body     - un placeholder per il portale della tavola/modulo
+     * Footer   - un striscia per eventuali informazioni (Algo, copyright, ecc)
+     * <p>
+     * Se le applicazioni specifiche vogliono una UI completamente differente,
+     * possono sovrascrivere questo metodo nella sottoclasse
      */
-    private void startUI() {
+    protected void startUI() {
 
         // crea la UI di base, un VerticalLayout
         VerticalLayout vLayout = new VerticalLayout();
@@ -237,7 +244,6 @@ public class EventoUI extends AlgosUI {
 
         // set browser window title
         Page.getCurrent().setTitle(EventoApp.APP_NAME);
-
     }
 
     /**
@@ -371,7 +377,7 @@ public class EventoUI extends AlgosUI {
         MenuBar menubar = new MenuBar();
 
         // Menu Home
-        menubar.addItem("", LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME,"manager_menubar_icon.png"), new MenuCommand(menubar, "splash", splashScreen));
+        menubar.addItem("", LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME, "manager_menubar_icon.png"), new MenuCommand(menubar, "splash", splashScreen));
 
         // Menu principali
         menubar.addItem("Aziende", null, new MenuCommand(menubar, "aziende", new CompanyModule()));
