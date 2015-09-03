@@ -32,7 +32,8 @@ import it.algos.evento.info.InfoModulo;
 import it.algos.evento.multiazienda.AsteriaMigration;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.statistiche.StatisticheModulo;
-import it.algos.webbase.domain.versione.VersioneModulo;
+import it.algos.webbase.domain.vers.VersMod;
+import it.algos.webbase.domain.vers.VersMod;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibResource;
@@ -436,7 +437,7 @@ public class EventoUI extends AlgosUI {
                 st.run();
             }
         });
-        item.addItem("Versioni", null, new MenuCommand(menubar, "versioni", new VersioneModulo()));
+        item.addItem("Versioni", null, new MenuCommand(menubar, "versioni", new VersMod()));
 
     }// end of method
 
