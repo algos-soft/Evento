@@ -86,6 +86,10 @@ public class EventoBootStrap extends ABootStrap {
         for (Company company : comps) {
             doForCompany(company);
         } // fine del ciclo for
+
+        // eventuali modifche ai flag generali di regolazione
+//        AlgosApp.USE_FONT_AWESOME = false;
+
     }// end of method
 
 

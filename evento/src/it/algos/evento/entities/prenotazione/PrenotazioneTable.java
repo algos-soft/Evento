@@ -285,6 +285,7 @@ public class PrenotazioneTable extends ETable {
     }
 
 
+
     protected Object[] getDisplayColumns() {
         return new Object[]{Prenotazione_.numPrenotazione,
                 Prenotazione_.dataPrenotazione,
