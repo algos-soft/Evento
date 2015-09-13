@@ -160,9 +160,8 @@ public class ScuolaImport {
 		// show dialog
 		BaseDialog dialog;
 		if (report.getFailed() == 0) {
-			dialog = new AlertDialog("Importazione terminata");
 			String message = "<p>Record importati: " + report.getSuccess();
-			dialog.setMessage(message);
+			dialog = new AlertDialog("Importazione terminata",message);
 
 		} else {
 
