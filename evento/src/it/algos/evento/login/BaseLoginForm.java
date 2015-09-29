@@ -35,7 +35,9 @@ public class BaseLoginForm extends ConfirmDialog implements LoginForm {
 
         // crea i campi
         nameField = new TextField("Username");
+        nameField.setWidthUndefined();
         passField = new PasswordField("Password");
+        passField.setWidthUndefined();
 
         // aggiunge i campi al layout
         layout.addComponent(nameField);
