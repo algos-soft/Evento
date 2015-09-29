@@ -21,6 +21,8 @@ public class Login {
 
     public Login() {
         setLoginForm(new BaseLoginForm());
+
+
     }
 
     // displays the Login form

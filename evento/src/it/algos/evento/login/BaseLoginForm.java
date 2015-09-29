@@ -4,7 +4,6 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Window;
 import it.algos.webbase.domain.utente.Utente;
-import it.algos.webbase.web.AlgosApp;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.field.PasswordField;
 import it.algos.webbase.web.field.TextField;
@@ -45,50 +44,18 @@ public class BaseLoginForm extends ConfirmDialog implements LoginForm {
         addComponent(layout);
     }// end of method
 
-    private Utente controlloPassword(String nome, String password) {
-        Utente utente = null;
-        boolean valida = false;
-        String pass = "";
-        String company = "";
 
-        if (AlgosApp.USE_COMPANY) {
-            utente = Utente.read(company, nome);
-        } else {
-            utente = Utente.read(nome);
-        }// end of if/else cycle
-
-        if (utente != null) {
-            if (utente.isEnabled()) {
-                pass = utente.getPassword();
-                if (pass.equals(password)) {
-                    valida = true;
-                }// end of if cycle
-            }// end of if cycle
-        }// end of if cycle
-
-        if (!valida) {
-            utente = null;
-        }// end of if cycle
-
-        return utente;
-    }// end of method
 
     @Override
     protected void onConfirm() {
         String nome = nameField.getValue();
         String password = passField.getValue();
-        Utente utente = controlloPassword(nome, password);
-
+        Utente utente = Utente.validate(nome, password);
         if (utente != null) {
             super.onConfirm();
             utenteLoggato(utente);
         } else {
-            utente = Utente.read(nome);
-            if (utente == null) {
-                Notification.show("Nickname errato", Notification.Type.WARNING_MESSAGE);
-            } else {
-                Notification.show("Password errata", Notification.Type.WARNING_MESSAGE);
-            }// fine del blocco if-else
+            Notification.show("Login fallito", Notification.Type.WARNING_MESSAGE);
         }// end of if/else cycle
     }// end of method
 
@@ -103,7 +70,6 @@ public class BaseLoginForm extends ConfirmDialog implements LoginForm {
             loginListener.onUserLogin(utente);
         }
     }
-
 
     @Override
     public void setLoginListener(LoginListener listener) {
