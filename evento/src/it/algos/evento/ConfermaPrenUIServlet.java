@@ -11,3 +11,4 @@ import static it.algos.evento.EventoApp.CONF_PAGE;
 @WebServlet(value = "/"+CONF_PAGE+"/*", asyncSupported = true, displayName = "eVento - conferma")
 @VaadinServletConfiguration(productionMode = false, ui = ConfermaPrenUI.class)
 public class ConfermaPrenUIServlet extends VaadinServlet {}
+

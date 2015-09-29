@@ -32,6 +32,9 @@ import it.algos.evento.info.InfoModulo;
 import it.algos.evento.multiazienda.AsteriaMigration;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.statistiche.StatisticheModulo;
+import it.algos.webbase.domain.ruolo.RuoloModulo;
+import it.algos.webbase.domain.utente.UtenteModulo;
+import it.algos.webbase.domain.utenteruolo.UtenteRuoloModulo;
 import it.algos.webbase.domain.vers.VersMod;
 import it.algos.webbase.domain.vers.VersMod;
 import it.algos.webbase.web.dialog.ConfirmDialog;
@@ -382,6 +385,12 @@ public class EventoUI extends AlgosUI {
 
         // Menu principali
         menubar.addItem("Aziende", null, new MenuCommand(menubar, "aziende", new CompanyModule()));
+
+        // Menu Utenti e ruoli
+        item = menubar.addItem("Utenti e ruoli", null, null);
+        item.addItem("Utenti", null, new MenuCommand(menubar, "utenti", new UtenteModulo()));
+        item.addItem("Ruoli", null, new MenuCommand(menubar, "ruoli", new RuoloModulo()));
+        item.addItem("Utenti-Ruoli", null, new MenuCommand(menubar, "utenteruolo", new UtenteRuoloModulo()));
 
         // Menu Configurazione
         item = menubar.addItem("Configurazione", null, null);

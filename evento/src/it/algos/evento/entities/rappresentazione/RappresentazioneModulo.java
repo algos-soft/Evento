@@ -112,7 +112,7 @@ public class RappresentazioneModulo extends EModulePop {
 
         excelExport = new ExcelExport(table);
         excelExport.setReportTitle(titoloReport);
-        excelExport.setExportFileName(titoloReport);
+        excelExport.setExportFileName(titoloReport+".xls");
         excelExport.setDisplayTotals(false);
 
         Component oldContent = ui.getContent();
