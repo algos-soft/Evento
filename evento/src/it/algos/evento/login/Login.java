@@ -1,9 +1,19 @@
 package it.algos.evento.login;
 
+import com.google.gwt.user.client.Cookies;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import it.algos.webbase.domain.utente.Utente;
+import it.algos.webbase.web.lib.ObjectCrypter;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.ShortBufferException;
+import javax.xml.bind.DatatypeConverter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.util.ArrayList;
 
 /**
@@ -36,6 +46,7 @@ public class Login {
 
     private void userLogin(Utente user){
         this.user=user;
+//        writeAuthenticationCookie();
         for(LoginListener l : loginListeners){
             l.onUserLogin(user);
         }
@@ -59,4 +70,39 @@ public class Login {
             }
         });
     }
+
+    /**
+     * Read the authentication cookie on the browser
+     */
+    private void readAuthenticationCookie(){
+
+        // Read name from cookie
+        //  String name = Cookies.getCookie("name");
+
+    }
+
+    /**
+     * Read the authentication cookie on the browser
+     */
+    private void writeAuthenticationCookie(){
+
+        byte[] pass = "www.javacodegeeks.com".getBytes();
+
+        byte[] pKey = new byte[]{0x01, 0x23, 0x45, 0x67, (byte) 0x89, (byte) 0xab, (byte) 0xcd,(byte) 0xef};
+
+        ObjectCrypter crypter = new ObjectCrypter(pass, pKey);
+
+        String userpass = user.getPassword();
+        String encpass="";
+        try {
+            byte[] bytes = crypter.encrypt(userpass);
+            encpass = new String(bytes, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Cookies.setCookie("login", user.getNickname());
+        Cookies.setCookie("password", encpass);
+    }
+
 }
