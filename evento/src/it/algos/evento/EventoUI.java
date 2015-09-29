@@ -29,14 +29,18 @@ import it.algos.evento.entities.stagione.StagioneModulo;
 import it.algos.evento.entities.tiporicevuta.TipoRicevutaModulo;
 import it.algos.evento.help.HelpModulo;
 import it.algos.evento.info.InfoModulo;
+import it.algos.evento.login.EventoLogin;
+import it.algos.evento.login.Login;
+import it.algos.evento.login.LoginListener;
 import it.algos.evento.multiazienda.AsteriaMigration;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.statistiche.StatisticheModulo;
 import it.algos.webbase.domain.ruolo.RuoloModulo;
+import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.domain.utente.UtenteModulo;
 import it.algos.webbase.domain.utenteruolo.UtenteRuoloModulo;
 import it.algos.webbase.domain.vers.VersMod;
-import it.algos.webbase.domain.vers.VersMod;
+import it.algos.webbase.web.AlgosApp;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibResource;
@@ -613,31 +617,55 @@ public class EventoUI extends AlgosUI {
 
     }// end of method
 
+
     /**
-     * Il bottone login è stato premuto
+     * Il bottone login è stato premuto (quindi non ci sono utenti loggati)
      */
     private void loginCommandSelected() {
-        login();
-        updateLoginUI();
+
+        Object obj = LibSession.getAttribute(Login.KEY_LOGIN);
+
+        // recupera il Login dalla sessione, se manca lo crea ora
+        Login login;
+        if(obj==null) {
+            login = new EventoLogin();
+            login.addLoginListener(new LoginListener() {
+                @Override
+                public void onUserLogin(Utente user) {
+                    updateLoginUI();
+                }
+            });
+            LibSession.setAttribute(Login.KEY_LOGIN, login);
+        }else{
+            login=(Login)obj;
+        }
+
+        login.showLoginForm(UI.getCurrent());
+
+
     }// end of method
+
+
 
     private void logoutCommandSelected() {
         logout();
         updateLoginUI();
     }// end of method
 
-    /**
-     * Operazioni effettive di login (senza UI)
-     */
-    private void login() {
-        getSession().setAttribute(EventoApp.KEY_USERID, 1);
-    }// end of method
+//    /**
+//     * Operazioni effettive di login (senza UI)
+//     */
+//    private void login() {
+//        getSession().setAttribute(EventoApp.KEY_USERID, 1);
+//    }// end of method
 
     /**
      * Operazioni effettive di logout (senza UI)
      */
     private void logout() {
 
+        // annulla l'oggetto Login nella sessione
+        LibSession.setAttribute(Login.KEY_LOGIN, null);
 
         // "Logout" the user
         // inutile perché gli attributi vengono persi quando
@@ -670,8 +698,15 @@ public class EventoUI extends AlgosUI {
      * Aggiorna la UI di login in base ai contenuti della session
      */
     private void updateLoginUI() {
-        Object attr = VaadinSession.getCurrent().getAttribute(EventoApp.KEY_USERID);
-        if (attr == null) {
+        Object attr = LibSession.getAttribute(Login.KEY_LOGIN);
+        Utente user=null;
+        if(attr!=null && attr instanceof Login){
+            Login login = (Login)attr;
+            user=login.getUser();
+        }
+
+        if(user==null) {
+
             loginItem.setText("Login");
             loginItem.setCommand(new MenuBar.Command() {
                 @Override
@@ -680,8 +715,9 @@ public class EventoUI extends AlgosUI {
                 }
             });
 
-        } else {
-            String username = "Alessandro Valbonesi";
+        }else{
+
+            String username = user.getNickname();
             loginItem.setCommand(null);
             loginItem.setText(username);
             loginItem.removeChildren();
@@ -691,7 +727,9 @@ public class EventoUI extends AlgosUI {
                     logoutCommandSelected();
                 }
             });
+
         }
+
     }// end of method
 
     private Cookie getCookieByName(String name) {

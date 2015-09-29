@@ -43,10 +43,10 @@ public abstract class EventoApp extends AlgosApp {
      */
     public static final String MANAGER_PAGE = "manager";
 
-    /**
-     * chiave per la property user id nella session
-     */
-    public static final String KEY_USERID = "userid";
+//    /**
+//     * chiave per la property user id nella session
+//     */
+//    public static final String KEY_USERID = "userid";
 
     /**
      * chiave per il flag di utilizzo funzionalità Gestione Mailing Integrata
