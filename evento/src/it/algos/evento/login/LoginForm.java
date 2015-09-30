@@ -12,4 +12,6 @@ public interface LoginForm  {
     public Window getWindow();
     public void setUsername(String name);
     public void setPassword(String password);
+    public void setRemember(boolean remember);
+    public boolean isRemember();
 }

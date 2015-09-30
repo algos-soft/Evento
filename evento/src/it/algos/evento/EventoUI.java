@@ -636,7 +636,7 @@ public class EventoUI extends AlgosUI {
             login = new EventoLogin();
             login.addLoginListener(new LoginListener() {
                 @Override
-                public void onUserLogin(Utente user) {
+                public void onUserLogin(Utente user, boolean remember) {
                     updateLoginUI();
                 }
             });

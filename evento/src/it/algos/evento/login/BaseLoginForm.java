@@ -5,6 +5,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Window;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.web.dialog.ConfirmDialog;
+import it.algos.webbase.web.field.CheckBoxField;
 import it.algos.webbase.web.field.PasswordField;
 import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AFormLayout;
@@ -16,6 +17,7 @@ public class BaseLoginForm extends ConfirmDialog implements LoginForm {
 
     private TextField nameField;
     private PasswordField passField;
+    private CheckBoxField rememberField;
     private LoginListener loginListener;
 
     /**
@@ -38,10 +40,12 @@ public class BaseLoginForm extends ConfirmDialog implements LoginForm {
         nameField.setWidthUndefined();
         passField = new PasswordField("Password");
         passField.setWidthUndefined();
+        rememberField=new CheckBoxField("Ricordami su questo computer");
 
         // aggiunge i campi al layout
         layout.addComponent(nameField);
         layout.addComponent(passField);
+        layout.addComponent(rememberField);
 
         addComponent(layout);
     }// end of method
@@ -69,7 +73,7 @@ public class BaseLoginForm extends ConfirmDialog implements LoginForm {
      */
     private void utenteLoggato(Utente utente) {
         if(loginListener!=null){
-            loginListener.onUserLogin(utente);
+            loginListener.onUserLogin(utente, rememberField.getValue());
         }
     }
 
@@ -91,6 +95,16 @@ public class BaseLoginForm extends ConfirmDialog implements LoginForm {
     @Override
     public void setPassword(String password) {
         passField.setValue(password);
+    }
+
+    @Override
+    public void setRemember(boolean remember) {
+        rememberField.setValue(remember);
+    }
+
+    @Override
+    public boolean isRemember() {
+        return rememberField.getValue();
     }
 
 

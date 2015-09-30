@@ -18,6 +18,7 @@ public class Login {
     // key to store the Login object in the session
     public static String KEY_LOGIN="login";
     public static String KEY_PASSWORD="password";
+    public static String KEY_REMEMBER="rememberlogin";
 
     private ArrayList<LoginListener> loginListeners = new ArrayList<>();
     private Utente user;
@@ -32,22 +33,39 @@ public class Login {
     public void showLoginForm(UI ui){
         if(loginForm!=null){
 
-            // retrieve login data from the cookies
+
             String username="";
             String password="";
-            Cookie userCookie= LibCookie.getCookie(KEY_LOGIN);
-            if(userCookie!=null){
-                username=userCookie.getValue();
-                if(!username.equals("")){
-                    Cookie passCookie=LibCookie.getCookie(KEY_PASSWORD);
-                    if(passCookie!=null){
-                        password=passCookie.getValue();
+            boolean remember=false;
+
+            // retrieve login data from the cookies
+            Cookie remCookie=LibCookie.getCookie(KEY_REMEMBER);
+            if(remCookie!=null){
+                String str=remCookie.getValue();
+                if(str.equalsIgnoreCase("true")){
+
+                    Cookie userCookie= LibCookie.getCookie(KEY_LOGIN);
+                    if(userCookie!=null){
+                        username=userCookie.getValue();
+                        if(!username.equals("")){
+
+                            Cookie passCookie=LibCookie.getCookie(KEY_PASSWORD);
+                            if(passCookie!=null){
+                                password=passCookie.getValue();
+                            }
+
+                            remember=true;
+
+                        }
                     }
+
                 }
             }
 
+
             loginForm.setUsername(username);
             loginForm.setPassword(password);
+            loginForm.setRemember(remember);
 
             Window window = loginForm.getWindow();
             window.center();
@@ -58,7 +76,7 @@ public class Login {
     /**
      * Invoked after a successful login happened using the Login form
      */
-    protected void userLogin(Utente user){
+    protected void userLogin(Utente user, boolean remember){
 
         // register user
         this.user=user;
@@ -66,10 +84,12 @@ public class Login {
         // create/update the cookies
         LibCookie.setCookie(KEY_LOGIN, user.getNickname(), EXPIRY_TIME_SEC);
         LibCookie.setCookie(KEY_PASSWORD, user.getPassword(), EXPIRY_TIME_SEC);
+        LibCookie.setCookie(KEY_REMEMBER, new Boolean(remember).toString(), EXPIRY_TIME_SEC);
+
 
         // notify the listeners
         for(LoginListener l : loginListeners){
-            l.onUserLogin(user);
+            l.onUserLogin(user, remember);
         }
     }
 
@@ -86,42 +106,43 @@ public class Login {
         this.loginForm = loginForm;
         this.loginForm.setLoginListener(new LoginListener() {
             @Override
-            public void onUserLogin(Utente user) {
-                userLogin(user);
+            public void onUserLogin(Utente user, boolean remember) {
+                userLogin(user, remember);
             }
         });
     }
 
 
-    /**
-     * Attempts a login from the cookies.
-     * @return true if success
-     */
-    public boolean loginFromCookies(){
-        boolean success=false;
-        Cookie userCookie = LibCookie.getCookie(KEY_LOGIN);
-        if(userCookie!=null){
-            Cookie passCookie = LibCookie.getCookie(KEY_PASSWORD);
-            if (passCookie!=null){
-                String username=userCookie.getValue();
-                String password=passCookie.getValue();
-                if((!username.equals("")) && (!password.equals(""))){
-                    user = Utente.validate(username,password);
-                    if(user!=null){
-                        success=true;
-                    }
-                }
-            }
-        }
-
-        // if not success, delete the cookies if existing
-        if(!success){
-            LibCookie.deleteCookie(KEY_LOGIN);
-            LibCookie.deleteCookie(KEY_PASSWORD);
-        }
-
-        return success;
-    }
+//    /**
+//     * Attempts a login from the cookies.
+//     * @return true if success
+//     */
+//    public boolean loginFromCookies(){
+//        boolean success=false;
+//        Cookie userCookie = LibCookie.getCookie(KEY_LOGIN);
+//        if(userCookie!=null){
+//            Cookie passCookie = LibCookie.getCookie(KEY_PASSWORD);
+//            if (passCookie!=null){
+//                String username=userCookie.getValue();
+//                String password=passCookie.getValue();
+//                if((!username.equals("")) && (!password.equals(""))){
+//                    user = Utente.validate(username,password);
+//                    if(user!=null){
+//                        success=true;
+//                    }
+//                }
+//            }
+//        }
+//
+//        // if not success, delete the cookies if existing
+//        if(!success){
+//            LibCookie.deleteCookie(KEY_LOGIN);
+//            LibCookie.deleteCookie(KEY_PASSWORD);
+//            LibCookie.deleteCookie(KEY_REMEMBER);
+//        }
+//
+//        return success;
+//    }
 
 
 
