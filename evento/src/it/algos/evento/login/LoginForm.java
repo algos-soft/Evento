@@ -10,4 +10,6 @@ import it.algos.webbase.domain.utente.Utente;
 public interface LoginForm  {
     public void setLoginListener(LoginListener listener);
     public Window getWindow();
+    public void setUsername(String name);
+    public void setPassword(String password);
 }

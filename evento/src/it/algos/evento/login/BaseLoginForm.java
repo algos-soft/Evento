@@ -83,6 +83,16 @@ public class BaseLoginForm extends ConfirmDialog implements LoginForm {
         return this;
     }
 
+    @Override
+    public void setUsername(String name) {
+        nameField.setValue(name);
+    }
+
+    @Override
+    public void setPassword(String password) {
+        passField.setValue(password);
+    }
+
 
 }
 

@@ -3,10 +3,12 @@ package it.algos.evento;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.ServiceException;
 import com.vaadin.server.SessionInitEvent;
+import com.vaadin.server.VaadinService;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.servlet.AlgosServlet;
 
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 
 /**
  * Servlet 3.0 introduces a @WebServlet annotation which can be used to replace the traditional web.xml.
@@ -32,6 +34,7 @@ public class EventoServlet extends AlgosServlet {
         // Do session start stuff here
         EventoSession.setManager(false);
         EventoSession.setCompany(null);
+
     }// end of method
 
 }// end of class

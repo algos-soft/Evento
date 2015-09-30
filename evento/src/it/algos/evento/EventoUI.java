@@ -1,5 +1,6 @@
 package it.algos.evento;
 
+import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.server.*;
@@ -40,7 +41,6 @@ import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.domain.utente.UtenteModulo;
 import it.algos.webbase.domain.utenteruolo.UtenteRuoloModulo;
 import it.algos.webbase.domain.vers.VersMod;
-import it.algos.webbase.web.AlgosApp;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibResource;
@@ -73,12 +73,13 @@ public class EventoUI extends AlgosUI {
     @Override
     protected void init(VaadinRequest request) {
 
-        super.init(request);
-
         // intervallo di polling della UI
         // consente di vedere i risultati anche quando si aggiorna
         // la UI da un thread separato sul server
         setPollInterval(1000);
+
+        // parse request parameters
+        checkParams(request);
 
         // declare the menu bar and splash screen
 
@@ -160,14 +161,15 @@ public class EventoUI extends AlgosUI {
 
         }
 
-
     }// end of method
+
+
 
     /**
      * Legge eventuali parametri passati nella request
      * <p>
      */
-    protected void checkParams(VaadinRequest request) {
+    public void checkParams(VaadinRequest request) {
         Object progObj;
         boolean prog;
 
@@ -194,6 +196,7 @@ public class EventoUI extends AlgosUI {
      * possono sovrascrivere questo metodo nella sottoclasse
      */
     protected void startUI() {
+
 
         // crea la UI di base, un VerticalLayout
         VerticalLayout vLayout = new VerticalLayout();
@@ -252,6 +255,11 @@ public class EventoUI extends AlgosUI {
 
         // set browser window title
         Page.getCurrent().setTitle(EventoApp.APP_NAME);
+
+//        // try to login from cookies
+//        getLogin().loginFromCookies();
+//        updateLoginUI();
+
     }
 
     /**
@@ -259,27 +267,9 @@ public class EventoUI extends AlgosUI {
      */
     private MenuBar createLoginMenuBar() {
         MenuBar menubar = new MenuBar();
-
-
         ThemeResource icon = new ThemeResource("img/action_user.png");
-//        MenuBar.Command command = new MenuBar.Command() {
-//
-//            @Override
-//            public void menuSelected(MenuItem selectedItem) {
-//                loginCommandSelected();
-//            }
-//        };
-
         loginItem = menubar.addItem("Login", icon, null);
         updateLoginUI();
-
-//        loginItem.addItem("Logout", new MenuBar.Command() {
-//            @Override
-//            public void menuSelected(MenuItem selectedItem) {
-//                logout();
-//            }
-//        });
-
         return menubar;
     }
 
@@ -619,15 +609,30 @@ public class EventoUI extends AlgosUI {
 
 
     /**
-     * Il bottone login è stato premuto (quindi non ci sono utenti loggati)
+     * Il bottone login è stato premuto, presenta il login form
      */
     private void loginCommandSelected() {
+        getLogin().showLoginForm(UI.getCurrent());
+    }// end of method
 
-        Object obj = LibSession.getAttribute(Login.KEY_LOGIN);
 
-        // recupera il Login dalla sessione, se manca lo crea ora
+    /**
+     * Il bottone logout è stato premuto
+     */
+    private void logoutCommandSelected() {
+        logout();
+        updateLoginUI();
+    }// end of method
+
+
+    /**
+     * Recupera l'oggetto Login dalla sessione.
+     * Se manca lo crea ora e lo registra nella sessione.
+     */
+    private Login getLogin() {
         Login login;
-        if(obj==null) {
+        Object obj = LibSession.getAttribute(Login.KEY_LOGIN);
+        if (obj == null) {
             login = new EventoLogin();
             login.addLoginListener(new LoginListener() {
                 @Override
@@ -636,21 +641,13 @@ public class EventoUI extends AlgosUI {
                 }
             });
             LibSession.setAttribute(Login.KEY_LOGIN, login);
-        }else{
-            login=(Login)obj;
+        } else {
+            login = (Login) obj;
         }
 
-        login.showLoginForm(UI.getCurrent());
+        return login;
 
-
-    }// end of method
-
-
-
-    private void logoutCommandSelected() {
-        logout();
-        updateLoginUI();
-    }// end of method
+    }
 
 //    /**
 //     * Operazioni effettive di login (senza UI)
@@ -699,13 +696,13 @@ public class EventoUI extends AlgosUI {
      */
     private void updateLoginUI() {
         Object attr = LibSession.getAttribute(Login.KEY_LOGIN);
-        Utente user=null;
-        if(attr!=null && attr instanceof Login){
-            Login login = (Login)attr;
-            user=login.getUser();
+        Utente user = null;
+        if (attr != null && attr instanceof Login) {
+            Login login = (Login) attr;
+            user = login.getUser();
         }
 
-        if(user==null) {
+        if (user == null) {
 
             loginItem.setText("Login");
             loginItem.setCommand(new MenuBar.Command() {
@@ -715,7 +712,7 @@ public class EventoUI extends AlgosUI {
                 }
             });
 
-        }else{
+        } else {
 
             String username = user.getNickname();
             loginItem.setCommand(null);
