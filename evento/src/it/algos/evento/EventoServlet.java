@@ -3,17 +3,11 @@ package it.algos.evento;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.ServiceException;
 import com.vaadin.server.SessionInitEvent;
-import com.vaadin.server.VaadinService;
 import it.algos.evento.login.EventoLogin;
-import it.algos.evento.login.Login;
-import it.algos.evento.login.LoginListener;
-import it.algos.webbase.domain.utente.Utente;
-import it.algos.webbase.web.entity.EM;
-import it.algos.webbase.web.lib.LibSession;
+import it.algos.webbase.web.login.Login;
 import it.algos.webbase.web.servlet.AlgosServlet;
 
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 
 /**
  * Servlet 3.0 introduces a @WebServlet annotation which can be used to replace the traditional web.xml.
