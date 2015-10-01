@@ -1,21 +1,16 @@
 package it.algos.evento.statistiche;
 
-import it.algos.evento.multiazienda.EQuery;
+import com.vaadin.data.Item;
+import com.vaadin.data.util.IndexedContainer;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.scuola.Scuola;
+import it.algos.evento.multiazienda.EQuery;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
-import com.vaadin.data.Item;
-import com.vaadin.data.util.IndexedContainer;
+import java.util.*;
 
 @SuppressWarnings("serial")
 public class StatisticaPerEvento extends StatisticaBase {

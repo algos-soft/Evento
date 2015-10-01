@@ -1,12 +1,11 @@
 package it.algos.evento.entities.progetto;
 
+import com.vaadin.data.Container.Filter;
 import it.algos.evento.multiazienda.ESearchManager;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.search.SearchManager;
 
 import java.util.ArrayList;
-
-import com.vaadin.data.Container.Filter;
 
 @SuppressWarnings("serial")
 public class ProgettoSearch extends ESearchManager {

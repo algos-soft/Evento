@@ -1,8 +1,8 @@
 package it.algos.evento.entities.scuola;
 
-import java.util.Locale;
-
 import com.vaadin.data.util.converter.Converter;
+
+import java.util.Locale;
 
 @SuppressWarnings("serial")
 public class OrdineScuolaConverterOld implements Converter<OrdineScuolaEnumOld, Integer> {

@@ -1,5 +1,13 @@
 package it.algos.evento.entities.evento;
 
+import com.vaadin.data.Item;
+import com.vaadin.ui.AbstractField;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Field;
+import com.vaadin.ui.Layout;
+import it.algos.evento.entities.progetto.Progetto;
+import it.algos.evento.entities.progetto.ProgettoForm;
+import it.algos.evento.entities.progetto.Progetto_;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.ERelatedComboField;
 import it.algos.evento.pref.CompanyPrefs;
@@ -9,15 +17,6 @@ import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.AFormLayout;
 import it.algos.webbase.web.module.ModulePop;
-import it.algos.evento.entities.progetto.Progetto;
-import it.algos.evento.entities.progetto.ProgettoForm;
-import it.algos.evento.entities.progetto.Progetto_;
-
-import com.vaadin.data.Item;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Layout;
 
 @SuppressWarnings("serial")
 public class EventoForm extends AForm {

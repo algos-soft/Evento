@@ -1,15 +1,14 @@
 package it.algos.evento.entities.scuola;
 
+import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.MenuBar.MenuItem;
+import it.algos.evento.entities.scuola.ScuolaImport.DoneListener;
 import it.algos.webbase.web.dialog.BaseDialog;
 import it.algos.webbase.web.importexport.ExportConfiguration;
 import it.algos.webbase.web.importexport.ExportManager;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.TablePortal;
 import it.algos.webbase.web.toolbar.TableToolbar;
-import it.algos.evento.entities.scuola.ScuolaImport.DoneListener;
-
-import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.MenuBar.MenuItem;
 
 @SuppressWarnings("serial")
 public class ScuolaTablePortal extends TablePortal {

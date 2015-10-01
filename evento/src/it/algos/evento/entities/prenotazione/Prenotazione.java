@@ -1,30 +1,28 @@
 package it.algos.evento.entities.prenotazione;
 
-import it.algos.evento.multiazienda.EventoEntity;
-import it.algos.evento.pref.CompanyPrefs;
-import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
-import it.algos.webbase.web.entity.BaseEntity;
-import it.algos.webbase.web.lib.Lib;
-import it.algos.webbase.web.lib.LibDate;
-import it.algos.webbase.web.query.AQuery;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.modopagamento.ModoPagamento;
 import it.algos.evento.entities.prenotazione.eventi.EventoPren;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.scuola.Scuola;
-
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Set;
-import java.util.UUID;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
+import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
+import it.algos.evento.multiazienda.EventoEntity;
+import it.algos.evento.pref.CompanyPrefs;
+import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.lib.Lib;
+import it.algos.webbase.web.lib.LibDate;
+import it.algos.webbase.web.query.AQuery;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Set;
+import java.util.UUID;
 
 @Entity
 //@CascadeOnDelete

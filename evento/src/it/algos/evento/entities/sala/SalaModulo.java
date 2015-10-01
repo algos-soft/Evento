@@ -1,16 +1,14 @@
 package it.algos.evento.entities.sala;
 
-import java.util.List;
-
-import it.algos.evento.multiazienda.EModulePop;
-import it.algos.evento.multiazienda.EQuery;
-import it.algos.evento.entities.rappresentazione.Rappresentazione;
-import it.algos.evento.entities.rappresentazione.Rappresentazione_;
-
-import javax.persistence.metamodel.Attribute;
-
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Notification;
+import it.algos.evento.entities.rappresentazione.Rappresentazione;
+import it.algos.evento.entities.rappresentazione.Rappresentazione_;
+import it.algos.evento.multiazienda.EModulePop;
+import it.algos.evento.multiazienda.EQuery;
+
+import javax.persistence.metamodel.Attribute;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class SalaModulo extends EModulePop {

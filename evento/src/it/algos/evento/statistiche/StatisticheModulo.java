@@ -1,15 +1,14 @@
 package it.algos.evento.statistiche;
 
-import it.algos.webbase.web.module.Module;
-import it.algos.evento.statistiche.ControlPanel.SelezioneStatisticaListener;
-import it.algos.evento.statistiche.StatToolbar.TableToolbarListener;
-import it.algos.evento.statistiche.StatisticaBase.ElaboraListener;
-
 import com.vaadin.addon.tableexport.ExcelExport;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
+import it.algos.evento.statistiche.ControlPanel.SelezioneStatisticaListener;
+import it.algos.evento.statistiche.StatToolbar.TableToolbarListener;
+import it.algos.evento.statistiche.StatisticaBase.ElaboraListener;
+import it.algos.webbase.web.module.Module;
 
 @SuppressWarnings("serial")
 public class StatisticheModulo extends Module implements SelezioneStatisticaListener, ElaboraListener {

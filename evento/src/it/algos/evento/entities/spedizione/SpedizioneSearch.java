@@ -1,17 +1,16 @@
 package it.algos.evento.entities.spedizione;
 
+import com.vaadin.data.Container.Filter;
+import com.vaadin.ui.FormLayout;
+import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.multiazienda.ERelatedComboField;
 import it.algos.evento.multiazienda.ESearchManager;
 import it.algos.webbase.web.component.DateRangeComponent;
+import it.algos.webbase.web.component.YesNoCheckboxComponent;
 import it.algos.webbase.web.field.RelatedComboField;
 import it.algos.webbase.web.field.TextField;
-import it.algos.webbase.web.component.YesNoCheckboxComponent;
-import it.algos.evento.entities.lettera.Lettera;
 
 import java.util.ArrayList;
-
-import com.vaadin.data.Container.Filter;
-import com.vaadin.ui.FormLayout;
 
 @SuppressWarnings("serial")
 public class SpedizioneSearch extends ESearchManager {

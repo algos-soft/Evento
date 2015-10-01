@@ -1,12 +1,11 @@
 package it.algos.evento;
 
-import it.algos.webbase.web.lib.LibImage;
-
 import com.vaadin.server.Resource;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import it.algos.webbase.web.lib.LibImage;
 
 @SuppressWarnings("serial")
 public class SplashScreen extends VerticalLayout {

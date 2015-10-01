@@ -1,10 +1,10 @@
 package it.asteria.cultura.test;
 
-import static org.junit.Assert.fail;
 import it.algos.evento.entities.lettera.LetteraService;
-
 import org.apache.commons.mail.EmailException;
 import org.junit.Test;
+
+import static org.junit.Assert.fail;
 
 public class LetteraServiceTest {
 

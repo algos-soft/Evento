@@ -6,11 +6,10 @@ import it.sauronsoftware.cron4j.Scheduler;
 import it.sauronsoftware.cron4j.Task;
 import it.sauronsoftware.cron4j.TaskExecutionContext;
 
+import javax.servlet.ServletContext;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.servlet.ServletContext;
 
 //import org.mortbay.log.Log;
 

@@ -1,22 +1,18 @@
 package it.algos.evento.entities.rappresentazione;
 
+import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.filter.Compare;
+import com.vaadin.ui.FormLayout;
+import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.evento.Evento_;
-import it.algos.evento.entities.prenotazione.PrenotazioneTable;
+import it.algos.evento.entities.sala.Sala;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.ERelatedComboField;
-import it.algos.evento.multiazienda.ESearchManager;
 import it.algos.evento.search.StagioneSearchManager;
 import it.algos.webbase.web.component.DateRangeComponent;
 import it.algos.webbase.web.field.RelatedComboField;
-import it.algos.webbase.web.module.ModulePop;
-import it.algos.evento.entities.evento.Evento;
-import it.algos.evento.entities.sala.Sala;
 
 import java.util.ArrayList;
-
-import com.vaadin.data.Container.Filter;
-import com.vaadin.ui.FormLayout;
 
 @SuppressWarnings("serial")
 public class RappresentazioneSearch extends StagioneSearchManager {

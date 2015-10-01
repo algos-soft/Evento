@@ -1,13 +1,12 @@
 package it.algos.evento.statistiche;
 
-import it.algos.webbase.web.lib.LibDate;
+import com.vaadin.data.Item;
+import com.vaadin.data.util.IndexedContainer;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
+import it.algos.webbase.web.lib.LibDate;
 
 import java.util.ArrayList;
 import java.util.Date;
-
-import com.vaadin.data.Item;
-import com.vaadin.data.util.IndexedContainer;
 
 @SuppressWarnings("serial")
 public class StatisticaPerRappresentazione extends StatisticaBase {

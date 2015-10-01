@@ -1,5 +1,11 @@
 package it.algos.evento.entities.scuola;
 
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.data.Container.Filter;
+import com.vaadin.data.util.filter.Like;
+import com.vaadin.ui.UI;
+import it.algos.evento.entities.comune.Comune;
+import it.algos.evento.entities.comune.Comune_;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
 import it.algos.evento.entities.ordinescuola.OrdineScuola_;
 import it.algos.evento.multiazienda.EQuery;
@@ -19,22 +25,13 @@ import it.algos.webbase.web.updown.FileUploader;
 import it.algos.webbase.web.updown.FileUploader.UploadFinishedListener;
 import it.algos.webbase.web.updown.OnDemandFileDownloader;
 import it.algos.webbase.web.updown.StringStreamResource;
-import it.algos.evento.entities.comune.Comune;
-import it.algos.evento.entities.comune.Comune_;
+import org.apache.commons.lang.WordUtils;
 
+import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
-
-import javax.validation.ConstraintViolationException;
-
-import org.apache.commons.lang.WordUtils;
-
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.data.Container.Filter;
-import com.vaadin.data.util.filter.Like;
-import com.vaadin.ui.UI;
 
 public class ScuolaImport {
 

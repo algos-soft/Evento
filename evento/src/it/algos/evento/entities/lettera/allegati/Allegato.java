@@ -2,12 +2,11 @@ package it.algos.evento.entities.lettera.allegati;
 
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.webbase.web.lib.LibFile;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(uniqueConstraints = {

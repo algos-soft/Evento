@@ -1,34 +1,23 @@
 package it.algos.evento.statistiche;
 
-import it.algos.evento.multiazienda.EROContainer;
-import it.algos.webbase.web.component.DateRangeComponent;
-import it.algos.webbase.web.entity.EM;
-import it.algos.webbase.web.lib.LibDate;
-import it.algos.evento.entities.insegnante.Insegnante;
-import it.algos.evento.entities.insegnante.Insegnante_;
-import it.algos.evento.entities.rappresentazione.Rappresentazione;
-import it.algos.evento.entities.rappresentazione.Rappresentazione_;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.event.FieldEvents.FocusEvent;
 import com.vaadin.event.FieldEvents.FocusListener;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.Table;
+import com.vaadin.ui.*;
+import it.algos.evento.entities.insegnante.Insegnante;
+import it.algos.evento.entities.insegnante.Insegnante_;
+import it.algos.evento.entities.rappresentazione.Rappresentazione;
+import it.algos.evento.entities.rappresentazione.Rappresentazione_;
+import it.algos.evento.multiazienda.EROContainer;
+import it.algos.webbase.web.component.DateRangeComponent;
+import it.algos.webbase.web.entity.EM;
+import it.algos.webbase.web.lib.LibDate;
+
+import javax.persistence.EntityManager;
+import java.util.*;
 
 @SuppressWarnings("serial")
 public class StatisticaPerInsegnante extends StatisticaBase {

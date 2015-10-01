@@ -1,23 +1,5 @@
 package it.algos.evento.statistiche;
 
-import it.algos.evento.multiazienda.EROContainer;
-import it.algos.webbase.web.component.DateRangeComponent;
-import it.algos.webbase.web.entity.EM;
-import it.algos.evento.entities.prenotazione.Prenotazione;
-import it.algos.evento.entities.prenotazione.Prenotazione_;
-import it.algos.evento.entities.rappresentazione.Rappresentazione;
-import it.algos.evento.entities.rappresentazione.Rappresentazione_;
-import it.algos.evento.entities.scuola.Scuola;
-
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-
-import javax.persistence.EntityManager;
-
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container;
@@ -26,13 +8,24 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Table;
+import it.algos.evento.entities.prenotazione.Prenotazione;
+import it.algos.evento.entities.prenotazione.Prenotazione_;
+import it.algos.evento.entities.rappresentazione.Rappresentazione;
+import it.algos.evento.entities.rappresentazione.Rappresentazione_;
+import it.algos.evento.entities.scuola.Scuola;
+import it.algos.evento.multiazienda.EROContainer;
+import it.algos.webbase.web.component.DateRangeComponent;
+import it.algos.webbase.web.entity.EM;
+
+import javax.persistence.EntityManager;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 @SuppressWarnings("serial")
 public abstract class StatisticaBase extends StatisticaGenerale {

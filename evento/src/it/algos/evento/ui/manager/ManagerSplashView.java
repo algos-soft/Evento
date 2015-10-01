@@ -1,7 +1,6 @@
 package it.algos.evento.ui.manager;
 
 import com.vaadin.ui.Component;
-
 import it.algos.evento.EventoApp;
 import it.algos.evento.SplashScreen;
 import it.algos.webbase.web.lib.LibResource;

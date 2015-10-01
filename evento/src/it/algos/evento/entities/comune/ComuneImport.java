@@ -11,21 +11,16 @@ import it.algos.webbase.web.importexport.ExcelImportProcessor.ImportReport;
 import it.algos.webbase.web.lib.BeanValidator;
 import it.algos.webbase.web.lib.LibText;
 import it.algos.webbase.web.table.ATable;
-import it.algos.webbase.web.updown.FileUploader;
-import it.algos.webbase.web.updown.FileUploader.UploadFinishedListener;
 import it.algos.webbase.web.updown.OnDemandFileDownloader;
 import it.algos.webbase.web.updown.StringStreamResource;
 
+import javax.persistence.EntityManager;
+import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-
-import javax.persistence.EntityManager;
-import javax.validation.ConstraintViolationException;
-
-import com.vaadin.ui.UI;
 
 public class ComuneImport {
 

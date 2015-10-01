@@ -1,17 +1,16 @@
 package it.algos.evento.statistiche;
 
-import it.algos.webbase.web.lib.LibDate;
-import it.algos.webbase.web.lib.Mese;
-import it.algos.evento.entities.rappresentazione.Rappresentazione;
-
-import java.util.ArrayList;
-import java.util.Date;
-
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
+import it.algos.evento.entities.rappresentazione.Rappresentazione;
+import it.algos.webbase.web.lib.LibDate;
+import it.algos.webbase.web.lib.Mese;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 @SuppressWarnings("serial")
 public class StatisticaPerMese extends StatisticaBase {

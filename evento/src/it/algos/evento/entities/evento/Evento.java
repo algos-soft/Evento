@@ -1,12 +1,11 @@
 package it.algos.evento.entities.evento;
 
-import it.algos.evento.entities.stagione.Stagione;
-import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.entities.progetto.Progetto;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
-
-import java.math.BigDecimal;
-import java.util.List;
+import it.algos.evento.entities.stagione.Stagione;
+import it.algos.evento.multiazienda.EventoEntity;
+import org.eclipse.persistence.annotations.CascadeOnDelete;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,9 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.eclipse.persistence.annotations.CascadeOnDelete;
-import org.hibernate.validator.constraints.NotEmpty;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 public class Evento extends EventoEntity {

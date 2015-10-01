@@ -1,8 +1,8 @@
 package it.asteria.cultura.mailing;
 
+import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.multiazienda.EventoEntity_;
 import it.asteria.cultura.destinatario.Destinatario;
-import it.algos.evento.entities.lettera.Lettera;
 
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;

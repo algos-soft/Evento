@@ -1,9 +1,11 @@
 package it.algos.evento;
 
-import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
-import com.vaadin.server.*;
+import com.vaadin.server.Page;
+import com.vaadin.server.ThemeResource;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinService;
 import com.vaadin.ui.*;
 import com.vaadin.ui.MenuBar.MenuItem;
 import it.algos.evento.config.ConfigScreen;

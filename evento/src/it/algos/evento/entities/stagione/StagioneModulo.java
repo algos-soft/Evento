@@ -6,6 +6,8 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Notification;
+import it.algos.evento.entities.evento.Evento;
+import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.multiazienda.ERWContainer;
@@ -14,8 +16,6 @@ import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
-import it.algos.evento.entities.evento.Evento;
-import it.algos.evento.entities.evento.Evento_;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

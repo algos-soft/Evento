@@ -1,17 +1,16 @@
 package it.algos.evento.entities.prenotazione;
 
-import it.algos.evento.multiazienda.EventoEntity_;
-import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.modopagamento.ModoPagamento;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.scuola.Scuola;
-
-import java.math.BigDecimal;
-import java.util.Date;
+import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
+import it.algos.evento.multiazienda.EventoEntity_;
 
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
+import java.math.BigDecimal;
+import java.util.Date;
 
 @StaticMetamodel(Prenotazione.class)
 public class Prenotazione_ extends EventoEntity_ {

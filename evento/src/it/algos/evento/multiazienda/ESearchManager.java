@@ -1,15 +1,12 @@
 package it.algos.evento.multiazienda;
 
-import com.vaadin.ui.*;
+import com.vaadin.ui.Field;
 import it.algos.evento.entities.company.Company;
-import it.algos.webbase.web.field.*;
-import it.algos.webbase.web.field.TextField;
+import it.algos.webbase.web.field.RelatedComboField;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.search.SearchManager;
 
 import javax.persistence.metamodel.Attribute;
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * Created by alex on 30-05-2015.

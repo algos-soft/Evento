@@ -4,11 +4,10 @@ import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.query.AQuery;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.Min;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 
 @Entity

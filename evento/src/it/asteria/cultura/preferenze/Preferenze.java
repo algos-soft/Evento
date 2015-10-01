@@ -4,20 +4,15 @@ import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.query.AQuery;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.SingularAttribute;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Preferenze extends BaseEntity {

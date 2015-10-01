@@ -4,7 +4,6 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.component.Spacer;

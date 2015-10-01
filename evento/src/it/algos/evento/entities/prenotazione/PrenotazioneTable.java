@@ -1,35 +1,37 @@
 package it.algos.evento.entities.prenotazione;
 
+import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container;
+import com.vaadin.data.Item;
+import com.vaadin.data.Property;
+import com.vaadin.data.util.converter.StringToIntegerConverter;
 import com.vaadin.data.util.filter.Compare;
-import com.vaadin.ui.*;
+import com.vaadin.event.Action;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Table;
 import it.algos.evento.EventoApp;
-import it.algos.evento.entities.modopagamento.ModoPagamento;
-import it.algos.evento.entities.stagione.Stagione;
-import it.algos.evento.multiazienda.ETable;
-import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
-import it.algos.webbase.web.converter.StringToBigDecimalConverter;
-import it.algos.webbase.web.lib.Lib;
-import it.algos.webbase.web.lib.LibResource;
-import it.algos.webbase.web.module.ModulePop;
-import it.algos.webbase.web.table.ATable;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.entities.insegnante.Insegnante;
+import it.algos.evento.entities.modopagamento.ModoPagamento;
 import it.algos.evento.entities.prenotazione.PrenotazioneModulo.StatusChangeListener;
 import it.algos.evento.entities.prenotazione.eventi.TipoEventoPren;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 import it.algos.evento.entities.scuola.Scuola;
+import it.algos.evento.entities.stagione.Stagione;
+import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
+import it.algos.evento.multiazienda.ETable;
+import it.algos.webbase.web.converter.StringToBigDecimalConverter;
+import it.algos.webbase.web.lib.Lib;
+import it.algos.webbase.web.lib.LibResource;
+import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.table.ATable;
 
 import java.math.BigDecimal;
 import java.util.Locale;
-
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.converter.StringToIntegerConverter;
-import com.vaadin.event.Action;
 
 @SuppressWarnings("serial")
 public class PrenotazioneTable extends ETable {

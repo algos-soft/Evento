@@ -1,11 +1,10 @@
 package it.algos.evento.multiazienda;
 
-import javax.persistence.EntityManager;
-
+import com.vaadin.addon.jpacontainer.provider.LocalEntityProvider;
 import it.algos.evento.EventoSession;
 import it.algos.evento.entities.company.Company;
 
-import com.vaadin.addon.jpacontainer.provider.LocalEntityProvider;
+import javax.persistence.EntityManager;
 
 /**
  * Read-Only JPAContainer automatically filtered on a Company.

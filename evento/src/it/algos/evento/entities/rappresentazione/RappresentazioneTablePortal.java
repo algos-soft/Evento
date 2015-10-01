@@ -1,13 +1,12 @@
 package it.algos.evento.entities.rappresentazione;
 
-import it.algos.webbase.web.module.ModulePop;
-import it.algos.webbase.web.table.TablePortal;
-import it.algos.webbase.web.toolbar.TableToolbar;
-
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
+import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.table.TablePortal;
+import it.algos.webbase.web.toolbar.TableToolbar;
 
 @SuppressWarnings("serial")
 public class RappresentazioneTablePortal extends TablePortal {

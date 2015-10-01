@@ -1,8 +1,8 @@
 package it.algos.evento.entities.prenotazione.eventi;
 
-import java.util.Locale;
-
 import com.vaadin.data.util.converter.Converter;
+
+import java.util.Locale;
 
 @SuppressWarnings("serial")
 public class TipoEventoPrenConverter implements Converter<TipoEventoPren, Integer> {

@@ -1,12 +1,11 @@
 package it.algos.evento.config;
 
-import it.algos.evento.pref.CompanyPrefs;
-import it.algos.webbase.web.field.IntegerField;
-
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.VerticalLayout;
+import it.algos.evento.pref.CompanyPrefs;
+import it.algos.webbase.web.field.IntegerField;
 
 @SuppressWarnings("serial")
 public class PrenConfigComponent extends BaseConfigPanel {

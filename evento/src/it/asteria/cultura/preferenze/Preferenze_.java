@@ -3,10 +3,9 @@ package it.asteria.cultura.preferenze;
 import it.algos.webbase.web.entity.BaseEntity_;
 import it.asteria.cultura.preferenze.Preferenze.Type;
 
+import javax.persistence.metamodel.SingularAttribute;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import javax.persistence.metamodel.SingularAttribute;
 
 public class Preferenze_ extends BaseEntity_ {
 	public static volatile SingularAttribute<Preferenze, Type> type;

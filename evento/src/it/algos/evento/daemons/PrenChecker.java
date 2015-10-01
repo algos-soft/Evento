@@ -1,32 +1,29 @@
 package it.algos.evento.daemons;
 
-import it.algos.evento.EventoApp;
-import it.algos.evento.entities.company.Company;
-import it.algos.evento.entities.lettera.ModelliLettere;
-import it.algos.evento.multiazienda.EROContainer;
-import it.algos.evento.pref.CompanyPrefs;
-import it.algos.webbase.web.entity.EM;
-import it.algos.webbase.web.lib.Lib;
-import it.algos.evento.entities.prenotazione.EmailFailedException;
-import it.algos.evento.entities.prenotazione.Prenotazione;
-import it.algos.evento.entities.prenotazione.PrenotazioneModulo;
-import it.algos.evento.entities.prenotazione.Prenotazione_;
-
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.persistence.EntityManager;
-
-import org.joda.time.DateTime;
-
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.filter.Compare;
+import it.algos.evento.EventoApp;
+import it.algos.evento.entities.company.Company;
+import it.algos.evento.entities.lettera.ModelliLettere;
+import it.algos.evento.entities.prenotazione.EmailFailedException;
+import it.algos.evento.entities.prenotazione.Prenotazione;
+import it.algos.evento.entities.prenotazione.PrenotazioneModulo;
+import it.algos.evento.entities.prenotazione.Prenotazione_;
+import it.algos.evento.multiazienda.EROContainer;
+import it.algos.evento.pref.CompanyPrefs;
+import it.algos.webbase.web.entity.EM;
+import it.algos.webbase.web.lib.Lib;
+import org.joda.time.DateTime;
+
+import javax.persistence.EntityManager;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Controlli prenotazioni scadute e invio email di sollecito

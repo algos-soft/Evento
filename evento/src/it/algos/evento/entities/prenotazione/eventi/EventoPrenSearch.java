@@ -1,22 +1,16 @@
 package it.algos.evento.entities.prenotazione.eventi;
 
-import com.vaadin.data.util.filter.Compare;
-import it.algos.evento.entities.evento.Evento_;
-import it.algos.evento.entities.progetto.Progetto;
-import it.algos.evento.entities.stagione.Stagione;
+import com.vaadin.data.Container.Filter;
+import com.vaadin.ui.FormLayout;
+import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.multiazienda.ERelatedComboField;
 import it.algos.evento.multiazienda.ESearchManager;
-import it.algos.evento.search.StagioneSearchManager;
 import it.algos.webbase.web.component.DateRangeComponent;
 import it.algos.webbase.web.field.ArrayComboField;
 import it.algos.webbase.web.field.RelatedComboField;
 import it.algos.webbase.web.field.TextField;
-import it.algos.evento.entities.prenotazione.Prenotazione;
 
 import java.util.ArrayList;
-
-import com.vaadin.data.Container.Filter;
-import com.vaadin.ui.FormLayout;
 
 @SuppressWarnings("serial")
 public class EventoPrenSearch extends ESearchManager {

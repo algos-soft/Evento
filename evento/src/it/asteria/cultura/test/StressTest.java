@@ -1,17 +1,16 @@
 package it.asteria.cultura.test;
 
+import com.vaadin.ui.Notification;
 import it.algos.evento.DemoDataGenerator;
 import it.algos.evento.EventoSession;
 import it.algos.evento.entities.company.Company;
+import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.webbase.web.entity.BaseEntity;
-import it.algos.evento.entities.prenotazione.Prenotazione;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import com.vaadin.ui.Notification;
 
 public class StressTest implements Runnable {
 

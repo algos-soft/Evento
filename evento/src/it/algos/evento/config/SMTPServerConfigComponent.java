@@ -1,18 +1,13 @@
 package it.algos.evento.config;
 
+import com.vaadin.data.util.ObjectProperty;
+import com.vaadin.data.util.PropertysetItem;
+import com.vaadin.ui.*;
 import it.algos.evento.pref.EventoPrefs;
 import it.algos.webbase.web.field.CheckBoxField;
 import it.algos.webbase.web.field.IntegerField;
 import it.algos.webbase.web.field.PasswordField;
 import it.algos.webbase.web.field.TextField;
-
-import com.vaadin.data.util.ObjectProperty;
-import com.vaadin.data.util.PropertysetItem;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
 public class SMTPServerConfigComponent extends BaseConfigPanel {

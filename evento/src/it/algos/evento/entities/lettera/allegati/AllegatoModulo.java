@@ -1,5 +1,9 @@
 package it.algos.evento.entities.lettera.allegati;
 
+import com.vaadin.data.Item;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
+import eu.medsea.mimeutil.MimeType;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.webbase.web.AlgosApp;
@@ -8,7 +12,13 @@ import it.algos.webbase.web.lib.LibFile;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.updown.FileUploader;
 import it.algos.webbase.web.updown.FileUploader.UploadFinishedListener;
+import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.comparators.TransformingComparator;
 
+import javax.activation.DataSource;
+import javax.mail.util.ByteArrayDataSource;
+import javax.persistence.metamodel.Attribute;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,20 +28,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import javax.activation.DataSource;
-import javax.mail.util.ByteArrayDataSource;
-import javax.persistence.metamodel.Attribute;
-
-import org.apache.commons.beanutils.BeanComparator;
-import org.apache.commons.collections.Transformer;
-import org.apache.commons.collections.comparators.TransformingComparator;
-
-import com.vaadin.data.Item;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.UI;
-
-import eu.medsea.mimeutil.MimeType;
 
 @SuppressWarnings("serial")
 public class AllegatoModulo extends EModulePop {

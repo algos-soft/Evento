@@ -1,10 +1,9 @@
 package it.algos.evento.multiazienda;
 
-import java.util.List;
+import com.vaadin.data.Container.Filter;
 
 import javax.persistence.metamodel.SingularAttribute;
-
-import com.vaadin.data.Container.Filter;
+import java.util.List;
 
 /**
  * Query helper class typed on a specific EventoEntity type.

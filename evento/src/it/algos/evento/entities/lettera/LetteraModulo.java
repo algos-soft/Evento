@@ -1,5 +1,6 @@
 package it.algos.evento.entities.lettera;
 
+import com.vaadin.data.Item;
 import it.algos.evento.EventoApp;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.webbase.web.AlgosApp;
@@ -7,6 +8,8 @@ import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
 
+import javax.persistence.metamodel.Attribute;
+import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -14,11 +17,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-
-import javax.persistence.metamodel.Attribute;
-import javax.servlet.ServletContext;
-
-import com.vaadin.data.Item;
 
 @SuppressWarnings("serial")
 public class LetteraModulo extends EModulePop {

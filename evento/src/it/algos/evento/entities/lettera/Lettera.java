@@ -1,29 +1,21 @@
 package it.algos.evento.entities.lettera;
 
 import it.algos.evento.entities.spedizione.Spedizione;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.And;
-import com.vaadin.data.util.filter.Compare;
-import it.algos.evento.entities.company.Company;
-import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.multiazienda.EventoEntityQuery;
 import it.algos.webbase.web.entity.BaseEntity;
-import it.algos.evento.entities.spedizione.Spedizione;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
+import it.algos.webbase.web.query.AQuery;
+import org.eclipse.persistence.annotations.CascadeOnDelete;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
-
-import it.algos.webbase.web.query.AQuery;
-import org.eclipse.persistence.annotations.CascadeOnDelete;
-import org.hibernate.validator.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 @Entity
 public class Lettera extends EventoEntity {

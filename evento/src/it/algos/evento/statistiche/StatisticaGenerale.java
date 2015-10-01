@@ -1,9 +1,8 @@
 package it.algos.evento.statistiche;
 
-import it.algos.evento.statistiche.StatisticaBase.ElaboraListener;
-
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Table;
+import it.algos.evento.statistiche.StatisticaBase.ElaboraListener;
 
 @SuppressWarnings("serial")
 public abstract class StatisticaGenerale extends CustomComponent implements Statistica {

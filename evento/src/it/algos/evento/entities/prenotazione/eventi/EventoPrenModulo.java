@@ -1,5 +1,6 @@
 package it.algos.evento.entities.prenotazione.eventi;
 
+import com.vaadin.data.Item;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.search.SearchManager;
@@ -7,8 +8,6 @@ import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
 
 import javax.persistence.metamodel.Attribute;
-
-import com.vaadin.data.Item;
 
 @SuppressWarnings("serial")
 public class EventoPrenModulo extends EModulePop {

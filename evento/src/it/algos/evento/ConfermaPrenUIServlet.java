@@ -1,9 +1,10 @@
 package it.algos.evento;
 
-import javax.servlet.annotation.WebServlet;
-
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinServlet;
+
+import javax.servlet.annotation.WebServlet;
+
 import static it.algos.evento.EventoApp.CONF_PAGE;
 
 

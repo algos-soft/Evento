@@ -1,12 +1,10 @@
 package it.algos.evento.entities.lettera;
 
 import it.algos.evento.entities.lettera.allegati.AllegatoModulo;
-
-import java.io.IOException;
+import org.apache.commons.mail.DataSourceResolver;
 
 import javax.activation.DataSource;
-
-import org.apache.commons.mail.DataSourceResolver;
+import java.io.IOException;
 
 public class ImageResolver implements DataSourceResolver {
 

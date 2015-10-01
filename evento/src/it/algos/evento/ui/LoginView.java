@@ -1,5 +1,9 @@
 package it.algos.evento.ui;
 
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.*;
+import com.vaadin.ui.Button.ClickEvent;
 import it.algos.evento.EventoSession;
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.ui.manager.CompanyView;
@@ -7,15 +11,6 @@ import it.algos.evento.ui.manager.ManagerView;
 import it.algos.webbase.web.component.Spacer;
 import it.algos.webbase.web.field.PasswordField;
 import it.algos.webbase.web.field.TextField;
-
-import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Label;
 
 public class LoginView extends CustomComponent implements View {
     public static final String NAME = "login";

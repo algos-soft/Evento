@@ -1,9 +1,11 @@
 package it.algos.evento.entities.insegnante;
 
+import com.vaadin.data.Item;
 import com.vaadin.data.validator.NullValidator;
-import com.vaadin.data.validator.StringLengthValidator;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Field;
+import com.vaadin.ui.Layout;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
-import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.multiazienda.ERelatedComboField;
 import it.algos.webbase.web.field.CheckBoxField;
 import it.algos.webbase.web.field.EmailField;
@@ -11,11 +13,6 @@ import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.AFormLayout;
 import it.algos.webbase.web.module.ModulePop;
-
-import com.vaadin.data.Item;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Layout;
 
 @SuppressWarnings("serial")
 public class InsegnanteForm extends AForm {

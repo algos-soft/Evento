@@ -1,8 +1,6 @@
 package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.addon.jpacontainer.EntityItem;
-import it.algos.evento.entities.evento.Evento;
-import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.webbase.web.importexport.ExportProvider;
 
 import java.util.ArrayList;

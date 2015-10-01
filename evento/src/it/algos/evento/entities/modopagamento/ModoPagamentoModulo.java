@@ -1,19 +1,17 @@
 package it.algos.evento.entities.modopagamento;
 
-import java.util.List;
-
+import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItem;
+import com.vaadin.ui.Notification;
+import it.algos.evento.entities.prenotazione.Prenotazione;
+import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.table.ATable;
-import it.algos.evento.entities.prenotazione.Prenotazione;
-import it.algos.evento.entities.prenotazione.Prenotazione_;
 
 import javax.persistence.metamodel.Attribute;
-
-import com.vaadin.data.Item;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.ui.Notification;
+import java.util.List;
 
 @SuppressWarnings("serial")
 

@@ -1,14 +1,13 @@
 package it.algos.evento.config;
 
 import com.vaadin.data.Property;
+import com.vaadin.data.util.ObjectProperty;
+import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.ui.*;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.field.CheckBoxField;
 import it.algos.webbase.web.field.EmailField;
 import it.algos.webbase.web.field.TextField;
-
-import com.vaadin.data.util.ObjectProperty;
-import com.vaadin.data.util.PropertysetItem;
 
 @SuppressWarnings("serial")
 public class EmailConfigComponent extends BaseConfigPanel {

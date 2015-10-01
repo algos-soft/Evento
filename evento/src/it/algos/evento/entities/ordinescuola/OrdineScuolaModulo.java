@@ -1,7 +1,5 @@
 package it.algos.evento.entities.ordinescuola;
 
-import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
-import it.algos.evento.entities.tiporicevuta.TipoRicevuta_;
 import it.algos.evento.multiazienda.EModulePop;
 
 import javax.persistence.metamodel.Attribute;

@@ -1,13 +1,10 @@
 package it.algos.evento.entities.insegnante;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
-
 import com.vaadin.data.Property;
 import com.vaadin.ui.Image;
-import com.vaadin.ui.Table;
 import it.algos.evento.EventoApp;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
-import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibResource;

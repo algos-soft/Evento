@@ -2,10 +2,9 @@ package it.algos.evento.entities.company;
 
 import it.algos.webbase.web.entity.BaseEntity_;
 
-import java.util.Date;
-
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
+import java.util.Date;
 
 @StaticMetamodel(Company.class)
 public class Company_ extends BaseEntity_ {

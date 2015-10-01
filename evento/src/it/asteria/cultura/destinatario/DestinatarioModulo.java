@@ -1,7 +1,6 @@
 package it.asteria.cultura.destinatario;
 
 import it.algos.evento.multiazienda.EModulePop;
-import it.algos.webbase.web.module.ModulePop;
 
 import javax.persistence.metamodel.Attribute;
 

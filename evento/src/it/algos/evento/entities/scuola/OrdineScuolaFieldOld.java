@@ -1,10 +1,9 @@
 package it.algos.evento.entities.scuola;
 
+import com.vaadin.data.util.converter.Converter;
 import it.algos.webbase.web.field.ArrayComboField;
 
 import java.util.Locale;
-
-import com.vaadin.data.util.converter.Converter;
 
 @SuppressWarnings("serial")
 public class OrdineScuolaFieldOld extends ArrayComboField {

@@ -1,15 +1,14 @@
 package it.algos.evento.entities.rappresentazione;
 
-import it.algos.evento.multiazienda.EventoEntity_;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.sala.Sala;
-
-import java.util.Date;
+import it.algos.evento.multiazienda.EventoEntity_;
 
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
+import java.util.Date;
 
 @StaticMetamodel(Rappresentazione.class)
 public class Rappresentazione_ extends EventoEntity_ {

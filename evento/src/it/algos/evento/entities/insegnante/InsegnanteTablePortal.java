@@ -1,5 +1,9 @@
 package it.algos.evento.entities.insegnante;
 
+import com.vaadin.server.ThemeResource;
+import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.MenuBar.MenuItem;
+import it.algos.evento.entities.insegnante.InsegnanteImport.DoneListener;
 import it.algos.webbase.web.dialog.BaseDialog;
 import it.algos.webbase.web.importexport.ExportConfiguration;
 import it.algos.webbase.web.importexport.ExportManager;
@@ -7,12 +11,7 @@ import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.TablePortal;
 import it.algos.webbase.web.toolbar.TableToolbar;
 import it.algos.webbase.web.updown.ReportDownloadDialog;
-import it.algos.evento.entities.insegnante.InsegnanteImport.DoneListener;
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
-
-import com.vaadin.server.ThemeResource;
-import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.MenuBar.MenuItem;
 
 @SuppressWarnings("serial")
 public class InsegnanteTablePortal extends TablePortal {

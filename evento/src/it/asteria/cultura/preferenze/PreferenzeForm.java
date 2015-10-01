@@ -1,10 +1,9 @@
 package it.asteria.cultura.preferenze;
 
-import it.algos.webbase.web.form.AForm;
-import it.algos.webbase.web.module.ModulePop;
-
 import com.vaadin.data.Item;
 import com.vaadin.ui.Component;
+import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.module.ModulePop;
 
 @SuppressWarnings("serial")
 public class PreferenzeForm extends AForm {

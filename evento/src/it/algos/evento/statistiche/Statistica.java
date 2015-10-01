@@ -1,9 +1,8 @@
 package it.algos.evento.statistiche;
 
-import it.algos.evento.statistiche.StatisticaBase.ElaboraListener;
-
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
+import it.algos.evento.statistiche.StatisticaBase.ElaboraListener;
 
 /**
  * Interfaccia che definisce una Statistica per il modulo Statistiche

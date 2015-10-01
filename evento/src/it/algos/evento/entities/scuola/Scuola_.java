@@ -1,7 +1,7 @@
 package it.algos.evento.entities.scuola;
 
-import it.algos.evento.multiazienda.EventoEntity_;
 import it.algos.evento.entities.comune.Comune;
+import it.algos.evento.multiazienda.EventoEntity_;
 
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;

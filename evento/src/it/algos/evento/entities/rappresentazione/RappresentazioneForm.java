@@ -1,6 +1,24 @@
 package it.algos.evento.entities.rappresentazione;
 
+import com.vaadin.data.Container;
+import com.vaadin.data.Item;
+import com.vaadin.data.Property;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.filter.Compare;
+import com.vaadin.shared.ui.datefield.Resolution;
+import com.vaadin.ui.*;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import it.algos.evento.entities.evento.Evento;
+import it.algos.evento.entities.evento.Evento_;
+import it.algos.evento.entities.insegnante.Insegnante;
+import it.algos.evento.entities.insegnante.InsegnanteForm;
+import it.algos.evento.entities.insegnante.Insegnante_;
+import it.algos.evento.entities.sala.Sala;
+import it.algos.evento.entities.sala.Sala_;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.ERelatedComboField;
 import it.algos.webbase.web.entity.BaseEntity;
@@ -12,39 +30,11 @@ import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.AFormLayout;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
-import it.algos.evento.entities.evento.Evento;
-import it.algos.evento.entities.evento.Evento_;
-import it.algos.evento.entities.insegnante.Insegnante;
-import it.algos.evento.entities.insegnante.InsegnanteForm;
-import it.algos.evento.entities.insegnante.Insegnante_;
-import it.algos.evento.entities.sala.Sala;
-import it.algos.evento.entities.sala.Sala_;
 
+import javax.persistence.metamodel.Attribute;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import javax.persistence.metamodel.Attribute;
-
-import com.vaadin.data.Container;
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.shared.ui.datefield.Resolution;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
 public class RappresentazioneForm extends AForm {

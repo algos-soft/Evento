@@ -1,24 +1,20 @@
 package it.algos.evento.entities.evento;
 
-import java.util.List;
-
+import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import it.algos.evento.entities.prenotazione.Prenotazione_;
+import com.vaadin.data.util.BeanItem;
+import com.vaadin.ui.Notification;
+import it.algos.evento.entities.rappresentazione.Rappresentazione;
+import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
-import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
-import it.algos.evento.entities.rappresentazione.Rappresentazione;
-import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 
 import javax.persistence.metamodel.Attribute;
-
-import com.vaadin.data.Item;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.ui.Notification;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class EventoModulo extends EModulePop {

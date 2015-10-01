@@ -1,12 +1,5 @@
 package it.algos.evento.config;
 
-import javax.servlet.ServletContext;
-
-import it.algos.evento.EventoApp;
-import it.algos.evento.pref.EventoPrefs;
-import it.algos.webbase.web.field.CheckBoxField;
-import it.algos.evento.daemons.DaemonPrenScadute;
-
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -16,6 +9,12 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import it.algos.evento.EventoApp;
+import it.algos.evento.daemons.DaemonPrenScadute;
+import it.algos.evento.pref.EventoPrefs;
+import it.algos.webbase.web.field.CheckBoxField;
+
+import javax.servlet.ServletContext;
 
 @SuppressWarnings("serial")
 public class GeneralDaemonConfigComponent extends BaseConfigPanel {

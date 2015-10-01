@@ -1,6 +1,5 @@
 package it.algos.evento.pref;
 
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
@@ -22,7 +21,6 @@ import it.algos.webbase.web.query.AQuery;
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
 /**

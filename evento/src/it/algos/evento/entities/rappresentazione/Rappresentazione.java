@@ -6,7 +6,6 @@ import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.sala.Sala;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.webbase.web.entity.BaseEntity;
-import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.query.AQuery;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 

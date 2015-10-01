@@ -1,14 +1,13 @@
 package it.algos.evento.entities.company;
 
+import com.vaadin.data.Item;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.query.AQuery;
 
 import javax.persistence.metamodel.Attribute;
-
-import com.vaadin.data.Item;
-import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 
 @SuppressWarnings("serial")
 public class CompanyModule extends ModulePop implements View {

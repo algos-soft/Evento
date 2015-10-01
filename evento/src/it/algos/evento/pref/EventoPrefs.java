@@ -1,15 +1,13 @@
 package it.algos.evento.pref;
 
+import com.vaadin.server.Resource;
+import com.vaadin.ui.Image;
 import it.algos.webbase.web.pref.AbsPref;
 import it.algos.webbase.web.pref.AbsPref.PrefType;
-import it.algos.webbase.web.pref.PrefEntity;
 import it.algos.webbase.web.pref.PrefIF;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
-import com.vaadin.server.Resource;
-import com.vaadin.ui.Image;
 
 /**
  * General application preferences.

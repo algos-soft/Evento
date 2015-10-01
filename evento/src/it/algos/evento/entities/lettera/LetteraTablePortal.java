@@ -1,13 +1,12 @@
 package it.algos.evento.entities.lettera;
 
-import it.algos.webbase.web.module.ModulePop;
-import it.algos.webbase.web.table.TablePortal;
-import it.algos.webbase.web.toolbar.TableToolbar;
-import it.algos.evento.entities.lettera.allegati.GestoreAllegati;
-
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
+import it.algos.evento.entities.lettera.allegati.GestoreAllegati;
+import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.table.TablePortal;
+import it.algos.webbase.web.toolbar.TableToolbar;
 
 @SuppressWarnings("serial")
 public class LetteraTablePortal extends TablePortal {

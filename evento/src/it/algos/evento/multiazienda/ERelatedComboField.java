@@ -1,12 +1,8 @@
 package it.algos.evento.multiazienda;
 
-import javax.persistence.EntityManager;
-
-import com.vaadin.addon.jpacontainer.JPAContainerFactory;
+import com.vaadin.data.Container;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.field.RelatedComboField;
-
-import com.vaadin.data.Container;
 
 @SuppressWarnings("serial")
 public class ERelatedComboField extends RelatedComboField{

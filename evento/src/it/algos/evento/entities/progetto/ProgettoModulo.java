@@ -1,19 +1,17 @@
 package it.algos.evento.entities.progetto;
 
-import java.util.List;
-
+import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItem;
+import com.vaadin.ui.Notification;
+import it.algos.evento.entities.evento.Evento;
+import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.search.SearchManager;
-import it.algos.evento.entities.evento.Evento;
-import it.algos.evento.entities.evento.Evento_;
 
 import javax.persistence.metamodel.Attribute;
-
-import com.vaadin.data.Item;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.ui.Notification;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class ProgettoModulo extends EModulePop {

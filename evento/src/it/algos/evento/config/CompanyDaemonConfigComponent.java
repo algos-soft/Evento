@@ -1,17 +1,12 @@
 package it.algos.evento.config;
 
-import it.algos.evento.pref.CompanyPrefs;
-import it.algos.webbase.web.field.ArrayComboField;
-import it.algos.webbase.web.field.CheckBoxField;
-
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+import it.algos.evento.pref.CompanyPrefs;
+import it.algos.webbase.web.field.ArrayComboField;
+import it.algos.webbase.web.field.CheckBoxField;
 
 @SuppressWarnings("serial")
 public class CompanyDaemonConfigComponent extends BaseConfigPanel {

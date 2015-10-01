@@ -15,7 +15,6 @@ import it.algos.webbase.web.field.TextField;
 import it.asteria.cultura.mailing.DestWrap;
 import it.asteria.cultura.mailing.MailManager;
 import it.asteria.cultura.mailing.MailWrap;
-import org.apache.poi.ss.formula.functions.T;
 
 import java.util.ArrayList;
 import java.util.HashMap;

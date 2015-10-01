@@ -1,12 +1,9 @@
 package it.algos.evento.multiazienda;
 
-import it.algos.webbase.web.entity.BaseEntity_;
+import com.vaadin.data.Container;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
-
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.data.Container;
 
 /**
  * Una table con JPAContainer già filtrato sulla Company corrente

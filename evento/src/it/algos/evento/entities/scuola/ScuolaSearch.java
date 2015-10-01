@@ -1,17 +1,16 @@
 package it.algos.evento.entities.scuola;
 
+import com.vaadin.data.Container.Filter;
+import com.vaadin.ui.FormLayout;
+import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
 import it.algos.evento.multiazienda.ERelatedComboField;
 import it.algos.evento.multiazienda.ESearchManager;
 import it.algos.webbase.web.field.RelatedComboField;
 import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.module.ModulePop;
-import it.algos.evento.entities.comune.Comune;
 
 import java.util.ArrayList;
-
-import com.vaadin.data.Container.Filter;
-import com.vaadin.ui.FormLayout;
 
 @SuppressWarnings("serial")
 public class ScuolaSearch extends ESearchManager {

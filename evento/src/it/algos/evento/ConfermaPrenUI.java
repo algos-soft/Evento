@@ -1,17 +1,16 @@
 package it.algos.evento;
 
-import it.algos.webbase.web.lib.LibUUID;
-import it.algos.webbase.web.query.AQuery;
-import it.algos.evento.entities.prenotazione.ConfermaPrenClienteModulo;
-import it.algos.evento.entities.prenotazione.Prenotazione;
-import it.algos.evento.entities.prenotazione.Prenotazione_;
-
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
+import it.algos.evento.entities.prenotazione.ConfermaPrenClienteModulo;
+import it.algos.evento.entities.prenotazione.Prenotazione;
+import it.algos.evento.entities.prenotazione.Prenotazione_;
+import it.algos.webbase.web.lib.LibUUID;
+import it.algos.webbase.web.query.AQuery;
 
 @SuppressWarnings("serial")
 @Theme("asteriacultura")

@@ -1,26 +1,21 @@
 package it.algos.evento.entities.prenotazione.eventi;
 
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.JPAContainerItem;
+import com.vaadin.data.Property;
+import com.vaadin.ui.*;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import it.algos.evento.EventoBootStrap;
+import it.algos.evento.entities.prenotazione.EmailFailedException;
+import it.algos.evento.entities.prenotazione.Prenotazione;
+import it.algos.evento.entities.prenotazione.PrenotazioneModulo;
 import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.module.ModulePop;
-import it.algos.evento.entities.prenotazione.EmailFailedException;
-import it.algos.evento.entities.prenotazione.Prenotazione;
-import it.algos.evento.entities.prenotazione.PrenotazioneModulo;
 
 import java.util.Date;
-
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.JPAContainerItem;
-import com.vaadin.data.Property;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Table;
 
 @SuppressWarnings("serial")
 public class EventoPrenTable extends ETable {

@@ -1,10 +1,9 @@
 package it.algos.evento.entities.lettera.allegati;
 
+import com.vaadin.data.Property;
 import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.lib.LibFile;
 import it.algos.webbase.web.module.ModulePop;
-
-import com.vaadin.data.Property;
 
 @SuppressWarnings("serial")
 public class AllegatoTable extends ETable {

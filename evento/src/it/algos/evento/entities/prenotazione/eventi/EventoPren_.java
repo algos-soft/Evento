@@ -1,12 +1,11 @@
 package it.algos.evento.entities.prenotazione.eventi;
 
-import it.algos.evento.multiazienda.EventoEntity_;
 import it.algos.evento.entities.prenotazione.Prenotazione;
-
-import java.util.Date;
+import it.algos.evento.multiazienda.EventoEntity_;
 
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
+import java.util.Date;
 
 @StaticMetamodel(EventoPren.class)
 public class EventoPren_ extends EventoEntity_ {

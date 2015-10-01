@@ -1,11 +1,10 @@
 package it.algos.evento.config;
 
-import it.algos.evento.pref.CompanyPrefs;
-import it.algos.webbase.web.field.ImageField;
-
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.ui.VerticalLayout;
+import it.algos.evento.pref.CompanyPrefs;
+import it.algos.webbase.web.field.ImageField;
 
 @SuppressWarnings("serial")
 public class PersonalConfigComponent extends BaseConfigPanel {

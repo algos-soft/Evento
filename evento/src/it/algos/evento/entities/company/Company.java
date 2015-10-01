@@ -1,25 +1,13 @@
 package it.algos.evento.entities.company;
 
-import it.algos.webbase.domain.ruolo.Ruolo;
-import it.algos.webbase.domain.utente.Utente;
-import it.algos.webbase.domain.utenteruolo.UtenteRuolo;
 import it.algos.evento.DemoDataGenerator;
-import it.algos.evento.entities.ordinescuola.OrdineScuola;
-import it.algos.evento.entities.stagione.Stagione;
-import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
-import it.algos.evento.multiazienda.EventoEntity_;
-import it.algos.evento.pref.PrefEventoEntity;
-import it.algos.webbase.web.entity.BaseEntity;
-import it.algos.webbase.web.query.AQuery;
-import it.algos.webbase.web.query.EntityQuery;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;
-import it.asteria.cultura.destinatario.Destinatario;
 import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.entities.lettera.allegati.Allegato;
 import it.algos.evento.entities.modopagamento.ModoPagamento;
-import it.asteria.cultura.mailing.Mailing;
+import it.algos.evento.entities.ordinescuola.OrdineScuola;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.eventi.EventoPren;
 import it.algos.evento.entities.progetto.Progetto;
@@ -27,19 +15,25 @@ import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.sala.Sala;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.spedizione.Spedizione;
-
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
+import it.algos.evento.entities.stagione.Stagione;
+import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
+import it.algos.evento.multiazienda.EventoEntity_;
+import it.algos.evento.pref.PrefEventoEntity;
+import it.algos.webbase.domain.ruolo.Ruolo;
+import it.algos.webbase.domain.utente.Utente;
+import it.algos.webbase.domain.utenteruolo.UtenteRuolo;
+import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.query.AQuery;
+import it.algos.webbase.web.query.EntityQuery;
+import it.asteria.cultura.destinatario.Destinatario;
+import it.asteria.cultura.mailing.Mailing;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 
 
 @Entity

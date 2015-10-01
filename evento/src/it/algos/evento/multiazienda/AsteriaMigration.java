@@ -1,8 +1,13 @@
 package it.algos.evento.multiazienda;
 
+import com.vaadin.addon.jpacontainer.EntityItem;
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.JPAContainerFactory;
+import com.vaadin.data.Container.Filter;
+import com.vaadin.data.Property;
+import com.vaadin.data.util.filter.IsNull;
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.company.Company_;
-import it.algos.webbase.web.entity.EM;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;
@@ -17,22 +22,15 @@ import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.sala.Sala;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.spedizione.Spedizione;
-
-import java.util.Iterator;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import it.algos.webbase.web.entity.EM;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
-import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.JPAContainerFactory;
-import com.vaadin.data.Container.Filter;
-import com.vaadin.data.util.filter.IsNull;
-import com.vaadin.data.Property;
+import java.util.Iterator;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Classe per la migrazione dei dati Asteria a multi azienda

@@ -1,8 +1,6 @@
 package it.algos.evento.search;
 
 import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.Compare;
-import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.ESearchManager;
 import it.algos.webbase.web.dialog.DialogToolbar;
 

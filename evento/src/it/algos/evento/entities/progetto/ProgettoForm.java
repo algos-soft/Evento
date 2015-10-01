@@ -1,10 +1,9 @@
 package it.algos.evento.entities.progetto;
 
+import com.vaadin.data.Item;
 import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.module.ModulePop;
-
-import com.vaadin.data.Item;
 
 @SuppressWarnings("serial")
 public class ProgettoForm extends AForm {

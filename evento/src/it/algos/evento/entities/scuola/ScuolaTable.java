@@ -1,11 +1,10 @@
 package it.algos.evento.entities.scuola;
 
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.data.Property;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
 import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.module.ModulePop;
-
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.data.Property;
 
 @SuppressWarnings("serial")
 public class ScuolaTable extends ETable {

@@ -12,7 +12,6 @@ import it.algos.evento.entities.lettera.ModelliLettere;
 import it.algos.evento.multiazienda.AsteriaMigration;
 import it.algos.evento.pref.EventoPrefs;
 import it.algos.webbase.web.ABootStrap;
-import it.algos.webbase.web.AlgosApp;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.lib.LibVers;

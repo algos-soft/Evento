@@ -1,12 +1,11 @@
 package it.algos.evento.statistiche;
 
-import it.algos.webbase.web.toolbar.Toolbar;
-
-import java.util.ArrayList;
-
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
+import it.algos.webbase.web.toolbar.Toolbar;
+
+import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class StatToolbar extends Toolbar {

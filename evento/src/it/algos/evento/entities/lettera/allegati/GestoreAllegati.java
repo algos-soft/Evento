@@ -1,19 +1,12 @@
 package it.algos.evento.entities.lettera.allegati;
 
+import com.vaadin.ui.*;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import it.algos.evento.entities.lettera.allegati.AllegatoModulo.AllegatoListener;
 import it.algos.webbase.web.dialog.AlertDialog;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.field.TextField;
-import it.algos.evento.entities.lettera.allegati.AllegatoModulo.AllegatoListener;
-
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
 public class GestoreAllegati extends AlertDialog {

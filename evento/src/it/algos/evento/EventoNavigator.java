@@ -1,20 +1,15 @@
 package it.algos.evento;
 
-import it.algos.evento.EventoUI.MenuCommand;
-
-import java.util.List;
-
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.*;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
-import com.vaadin.ui.SingleComponentContainer;
-import com.vaadin.ui.UI;
+import it.algos.evento.EventoUI.MenuCommand;
 import it.algos.webbase.web.screen.ErrorScreen;
+
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class EventoNavigator extends Navigator{

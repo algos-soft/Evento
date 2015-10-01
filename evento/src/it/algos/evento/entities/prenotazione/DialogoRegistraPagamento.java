@@ -1,34 +1,24 @@
 package it.algos.evento.entities.prenotazione;
 
-import it.algos.evento.entities.insegnante.Insegnante;
-import it.algos.evento.multiazienda.ERelatedComboField;
-import it.algos.webbase.web.dialog.ConfirmDialog;
-import it.algos.webbase.web.field.CheckBoxField;
-import it.algos.webbase.web.field.DecimalField;
-import it.algos.webbase.web.field.FieldAlignment;
-import it.algos.webbase.web.field.IntegerField;
-import it.algos.webbase.web.field.RelatedComboField;
-import it.algos.webbase.web.lib.Lib;
-import it.algos.evento.entities.comune.Comune;
-import it.algos.evento.entities.modopagamento.ModoPagamento;
-import it.algos.evento.entities.rappresentazione.Rappresentazione;
-import it.algos.evento.entities.scuola.Scuola;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.Validator;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+import it.algos.evento.entities.comune.Comune;
+import it.algos.evento.entities.insegnante.Insegnante;
+import it.algos.evento.entities.modopagamento.ModoPagamento;
+import it.algos.evento.entities.rappresentazione.Rappresentazione;
+import it.algos.evento.entities.scuola.Scuola;
+import it.algos.evento.multiazienda.ERelatedComboField;
+import it.algos.webbase.web.dialog.ConfirmDialog;
+import it.algos.webbase.web.field.*;
+import it.algos.webbase.web.lib.Lib;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @SuppressWarnings("serial")
 public class DialogoRegistraPagamento extends ConfirmDialog {

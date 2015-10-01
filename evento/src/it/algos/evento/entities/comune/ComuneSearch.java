@@ -1,11 +1,10 @@
 package it.algos.evento.entities.comune;
 
+import com.vaadin.data.Container.Filter;
 import it.algos.evento.multiazienda.ESearchManager;
 import it.algos.webbase.web.module.ModulePop;
 
 import java.util.ArrayList;
-
-import com.vaadin.data.Container.Filter;
 
 @SuppressWarnings("serial")
 public class ComuneSearch extends ESearchManager {

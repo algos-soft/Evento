@@ -1,27 +1,24 @@
 package it.algos.evento.entities.insegnante;
 
+import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItem;
+import com.vaadin.ui.Notification;
+import it.algos.evento.entities.prenotazione.Prenotazione;
+import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
-import it.algos.evento.entities.prenotazione.Prenotazione;
-import it.algos.evento.entities.prenotazione.Prenotazione_;
-
-import java.io.ByteArrayOutputStream;
-import java.util.List;
-
-import javax.persistence.metamodel.Attribute;
-
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.builder.DynamicReports;
 import net.sf.dynamicreports.report.builder.component.Components;
 import net.sf.dynamicreports.report.datasource.DRDataSource;
 
-import com.vaadin.data.Item;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.ui.Notification;
+import javax.persistence.metamodel.Attribute;
+import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class InsegnanteModulo extends EModulePop {

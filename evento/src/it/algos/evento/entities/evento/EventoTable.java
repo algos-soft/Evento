@@ -1,7 +1,13 @@
 package it.algos.evento.entities.evento;
 
+import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container;
+import com.vaadin.data.Item;
+import com.vaadin.data.Property;
 import com.vaadin.data.util.filter.Compare;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Table;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
@@ -9,13 +15,6 @@ import it.algos.webbase.web.module.ModulePop;
 
 import java.math.BigDecimal;
 import java.util.Locale;
-
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
 
 @SuppressWarnings("serial")
 public class EventoTable extends ETable {

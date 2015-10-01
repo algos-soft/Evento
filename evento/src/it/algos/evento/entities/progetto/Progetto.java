@@ -1,11 +1,10 @@
 package it.algos.evento.entities.progetto;
 
 import it.algos.evento.multiazienda.EventoEntity;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class Progetto extends EventoEntity {

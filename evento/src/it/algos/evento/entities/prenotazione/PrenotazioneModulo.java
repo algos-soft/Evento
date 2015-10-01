@@ -1,6 +1,24 @@
 package it.algos.evento.entities.prenotazione;
 
+import com.vaadin.data.Container.Filter;
+import com.vaadin.data.Item;
+import com.vaadin.data.Property;
+import com.vaadin.data.util.filter.And;
+import com.vaadin.data.util.filter.Compare;
+import com.vaadin.server.Page;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 import it.algos.evento.EventoBootStrap;
+import it.algos.evento.entities.comune.Comune;
+import it.algos.evento.entities.evento.Evento;
+import it.algos.evento.entities.insegnante.Insegnante;
+import it.algos.evento.entities.lettera.*;
+import it.algos.evento.entities.modopagamento.ModoPagamento;
+import it.algos.evento.entities.prenotazione.eventi.EventoPren;
+import it.algos.evento.entities.prenotazione.eventi.TipoEventoPren;
+import it.algos.evento.entities.rappresentazione.Rappresentazione;
+import it.algos.evento.entities.scuola.Scuola;
+import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
@@ -12,20 +30,7 @@ import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
-import it.algos.evento.entities.comune.Comune;
-import it.algos.evento.entities.evento.Evento;
-import it.algos.evento.entities.insegnante.Insegnante;
-import it.algos.evento.entities.lettera.LetteraKeys;
-import it.algos.evento.entities.lettera.LetteraMap;
-import it.algos.evento.entities.lettera.LetteraService;
-import it.algos.evento.entities.lettera.MailKeys;
-import it.algos.evento.entities.lettera.ModelliLettere;
-import it.algos.evento.entities.modopagamento.ModoPagamento;
-import it.algos.evento.entities.prenotazione.eventi.EventoPren;
-import it.algos.evento.entities.prenotazione.eventi.TipoEventoPren;
-import it.algos.evento.entities.rappresentazione.Rappresentazione;
-import it.algos.evento.entities.scuola.Scuola;
-import it.algos.evento.entities.spedizione.Spedizione;
+import org.joda.time.DateTime;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -33,17 +38,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.joda.time.DateTime;
-
-import com.vaadin.data.Container.Filter;
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.filter.And;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.server.Page;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.UI;
 
 @SuppressWarnings("serial")
 public class PrenotazioneModulo extends EModulePop {

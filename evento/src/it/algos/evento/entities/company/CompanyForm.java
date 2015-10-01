@@ -1,5 +1,9 @@
 package it.algos.evento.entities.company;
 
+import com.vaadin.data.Item;
+import com.vaadin.ui.*;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.field.EmailField;
@@ -7,15 +11,6 @@ import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.AFormLayout;
 import it.algos.webbase.web.module.ModulePop;
-
-import com.vaadin.data.Item;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.PasswordField;
 
 @SuppressWarnings("serial")
 public class CompanyForm extends AForm {

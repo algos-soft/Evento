@@ -1,11 +1,10 @@
 package it.algos.evento.info;
 
-import it.algos.webbase.web.module.Module;
-
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.BrowserFrame;
 import com.vaadin.ui.Component;
+import it.algos.webbase.web.module.Module;
 
 @SuppressWarnings("serial")
 public class InfoModulo extends Module {

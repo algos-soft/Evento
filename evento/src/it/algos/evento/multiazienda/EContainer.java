@@ -1,10 +1,9 @@
 package it.algos.evento.multiazienda;
 
-import it.algos.evento.entities.company.Company;
-
 import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.util.filter.Compare;
+import it.algos.evento.entities.company.Company;
 
 /**
  * JPAContainer automatically filtered on a company.

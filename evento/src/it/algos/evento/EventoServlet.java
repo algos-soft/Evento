@@ -3,7 +3,6 @@ package it.algos.evento;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.ServiceException;
 import com.vaadin.server.SessionInitEvent;
-import it.algos.evento.login.EventoLogin;
 import it.algos.webbase.web.login.Login;
 import it.algos.webbase.web.servlet.AlgosServlet;
 

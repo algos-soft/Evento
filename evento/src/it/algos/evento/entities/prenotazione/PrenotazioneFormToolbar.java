@@ -1,12 +1,11 @@
 package it.algos.evento.entities.prenotazione;
 
-import it.algos.webbase.web.toolbar.FormToolbar;
-
-import java.util.ArrayList;
-
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
+import it.algos.webbase.web.toolbar.FormToolbar;
+
+import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class PrenotazioneFormToolbar extends FormToolbar {

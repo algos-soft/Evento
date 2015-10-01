@@ -1,12 +1,12 @@
 package it.algos.evento.statistiche;
 
-import java.util.ArrayList;
-
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
+
+import java.util.ArrayList;
 
 /**
  * Pannello dei comandi per il modulo Statistiche

@@ -2,13 +2,11 @@ package it.algos.evento.entities.insegnante;
 
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
 import it.algos.evento.multiazienda.EventoEntity;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class Insegnante extends EventoEntity {

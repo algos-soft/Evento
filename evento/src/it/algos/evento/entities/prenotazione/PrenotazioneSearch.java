@@ -1,8 +1,15 @@
 package it.algos.evento.entities.prenotazione;
 
+import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.filter.Compare;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.GridLayout;
+import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.evento.Evento_;
+import it.algos.evento.entities.insegnante.Insegnante;
+import it.algos.evento.entities.progetto.Progetto;
+import it.algos.evento.entities.rappresentazione.Rappresentazione;
+import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.ERelatedComboField;
 import it.algos.evento.search.StagioneSearchManager;
@@ -10,16 +17,8 @@ import it.algos.webbase.web.component.DateRangeComponent;
 import it.algos.webbase.web.field.IntegerField;
 import it.algos.webbase.web.field.RelatedComboField;
 import it.algos.webbase.web.field.YesNoField;
-import it.algos.evento.entities.evento.Evento;
-import it.algos.evento.entities.insegnante.Insegnante;
-import it.algos.evento.entities.progetto.Progetto;
-import it.algos.evento.entities.rappresentazione.Rappresentazione;
-import it.algos.evento.entities.scuola.Scuola;
 
 import java.util.ArrayList;
-
-import com.vaadin.data.Container.Filter;
-import com.vaadin.ui.FormLayout;
 
 @SuppressWarnings("serial")
 public class PrenotazioneSearch extends StagioneSearchManager {

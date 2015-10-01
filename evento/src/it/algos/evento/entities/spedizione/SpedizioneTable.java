@@ -1,12 +1,11 @@
 package it.algos.evento.entities.spedizione;
 
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.data.Property;
 import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.lib.LibDate;
 
 import java.util.Date;
-
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.data.Property;
 
 @SuppressWarnings("serial")
 public class SpedizioneTable extends ETable {

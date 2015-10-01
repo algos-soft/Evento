@@ -1,16 +1,15 @@
 package it.algos.evento.config;
 
-import it.algos.evento.multiazienda.ERelatedComboField;
-import it.algos.evento.pref.CompanyPrefs;
-import it.algos.webbase.web.field.DecimalField;
-import it.algos.evento.entities.sala.Sala;
-
-import java.math.BigDecimal;
-
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.VerticalLayout;
+import it.algos.evento.entities.sala.Sala;
+import it.algos.evento.multiazienda.ERelatedComboField;
+import it.algos.evento.pref.CompanyPrefs;
+import it.algos.webbase.web.field.DecimalField;
+
+import java.math.BigDecimal;
 
 @SuppressWarnings("serial")
 public class EventiConfigComponent extends BaseConfigPanel {
