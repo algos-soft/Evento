@@ -75,7 +75,6 @@ public class EventoUI extends AlgosUI {
     protected void init(VaadinRequest request) {
 
 
-
         // intervallo di polling della UI
         // consente di vedere i risultati anche quando si aggiorna
         // la UI da un thread separato sul server
@@ -165,7 +164,6 @@ public class EventoUI extends AlgosUI {
         }
 
     }// end of method
-
 
 
     /**
@@ -449,6 +447,9 @@ public class EventoUI extends AlgosUI {
             }
         });
         item.addItem("Versioni", null, new MenuCommand(menubar, "versioni", new VersMod()));
+        item.addItem("Ruoli", null, new MenuCommand(menubar, "ruoli", new RuoloModulo()));
+        item.addItem("Utenti", null, new MenuCommand(menubar, "utenti", new UtenteModulo()));
+        item.addItem("Utenti-ruoli", null, new MenuCommand(menubar, "utenti-ruoli", new UtenteRuoloModulo()));
 
     }// end of method
 
