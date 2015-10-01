@@ -4,7 +4,12 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.ServiceException;
 import com.vaadin.server.SessionInitEvent;
 import com.vaadin.server.VaadinService;
+import it.algos.evento.login.EventoLogin;
+import it.algos.evento.login.Login;
+import it.algos.evento.login.LoginListener;
+import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.web.entity.EM;
+import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.servlet.AlgosServlet;
 
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +35,9 @@ public class EventoServlet extends AlgosServlet {
     @Override
     public void sessionInit(SessionInitEvent event) throws ServiceException {
         super.sessionInit(event);
+
+        // attempt to login from the cookies
+        Login.getLogin().loginFromCookies();
 
         // Do session start stuff here
         EventoSession.setManager(false);

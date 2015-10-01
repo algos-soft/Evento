@@ -4,6 +4,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.web.lib.LibCookie;
+import it.algos.webbase.web.lib.LibSession;
 
 import javax.servlet.http.Cookie;
 import java.util.ArrayList;
@@ -81,10 +82,17 @@ public class Login {
         // register user
         this.user=user;
 
-        // create/update the cookies
-        LibCookie.setCookie(KEY_LOGIN, user.getNickname(), EXPIRY_TIME_SEC);
-        LibCookie.setCookie(KEY_PASSWORD, user.getPassword(), EXPIRY_TIME_SEC);
-        LibCookie.setCookie(KEY_REMEMBER, new Boolean(remember).toString(), EXPIRY_TIME_SEC);
+        if(remember){
+            // create/update the cookies
+            LibCookie.setCookie(KEY_LOGIN, user.getNickname(), EXPIRY_TIME_SEC);
+            LibCookie.setCookie(KEY_PASSWORD, user.getPassword(), EXPIRY_TIME_SEC);
+            LibCookie.setCookie(KEY_REMEMBER, "true", EXPIRY_TIME_SEC);
+        }else{
+            // delete the cookies
+            LibCookie.deleteCookie(KEY_LOGIN);
+            LibCookie.deleteCookie(KEY_PASSWORD);
+            LibCookie.deleteCookie(KEY_REMEMBER);
+        }
 
 
         // notify the listeners
@@ -98,9 +106,6 @@ public class Login {
     }
 
 
-    public void addLoginListener(LoginListener l){
-        loginListeners.add(l);
-    }
 
     public void setLoginForm(LoginForm loginForm) {
         this.loginForm = loginForm;
@@ -113,36 +118,60 @@ public class Login {
     }
 
 
-//    /**
-//     * Attempts a login from the cookies.
-//     * @return true if success
-//     */
-//    public boolean loginFromCookies(){
-//        boolean success=false;
-//        Cookie userCookie = LibCookie.getCookie(KEY_LOGIN);
-//        if(userCookie!=null){
-//            Cookie passCookie = LibCookie.getCookie(KEY_PASSWORD);
-//            if (passCookie!=null){
-//                String username=userCookie.getValue();
-//                String password=passCookie.getValue();
-//                if((!username.equals("")) && (!password.equals(""))){
-//                    user = Utente.validate(username,password);
-//                    if(user!=null){
-//                        success=true;
-//                    }
-//                }
-//            }
-//        }
-//
-//        // if not success, delete the cookies if existing
-//        if(!success){
-//            LibCookie.deleteCookie(KEY_LOGIN);
-//            LibCookie.deleteCookie(KEY_PASSWORD);
-//            LibCookie.deleteCookie(KEY_REMEMBER);
-//        }
-//
-//        return success;
-//    }
+    /**
+     * Attempts a login from the cookies.
+     * @return true if success
+     */
+    public boolean loginFromCookies(){
+        boolean success=false;
+        Cookie userCookie = LibCookie.getCookie(KEY_LOGIN);
+        if(userCookie!=null){
+            Cookie passCookie = LibCookie.getCookie(KEY_PASSWORD);
+            if (passCookie!=null){
+                String username=userCookie.getValue();
+                String password=passCookie.getValue();
+                if((!username.equals("")) && (!password.equals(""))){
+                    user = Utente.validate(username,password);
+                    if(user!=null){
+                        success=true;
+                    }
+                }
+            }
+        }
+
+        // if not success, delete the cookies if existing
+        if(!success){
+            LibCookie.deleteCookie(KEY_LOGIN);
+            LibCookie.deleteCookie(KEY_PASSWORD);
+            LibCookie.deleteCookie(KEY_REMEMBER);
+        }
+
+        return success;
+    }
+
+
+    /**
+     * Adds a LoginListener.
+     */
+    public void addLoginListener(LoginListener l){
+        loginListeners.add(l);
+    }
+
+    /**
+     * Removes all the login listeners
+     */
+    public void removeAllListeners(){
+        loginListeners.clear();
+    }
+
+    /**
+     * Registers a unique LoginListener.
+     * All the previous LoginListeners are deleted
+     */
+    public void setLoginListener(LoginListener l){
+        removeAllListeners();
+        addLoginListener(l);
+    }
 
 
 
@@ -201,6 +230,21 @@ public class Login {
 //////        Cookies.setCookie("password", encpass);
 //    }
 
+    /**
+     * Recupera l'oggetto Login dalla sessione.
+     * Se manca lo crea ora e lo registra nella sessione.
+     */
+    public static Login getLogin() {
+        Login login;
+        Object obj = LibSession.getAttribute(Login.KEY_LOGIN);
+        if (obj == null) {
+            login = new EventoLogin();
+            LibSession.setAttribute(Login.KEY_LOGIN, login);
+        } else {
+            login = (Login) obj;
+        }
+        return login;
+    }
 
 
 }

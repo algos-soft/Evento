@@ -73,6 +73,8 @@ public class EventoUI extends AlgosUI {
     @Override
     protected void init(VaadinRequest request) {
 
+
+
         // intervallo di polling della UI
         // consente di vedere i risultati anche quando si aggiorna
         // la UI da un thread separato sul server
@@ -256,9 +258,14 @@ public class EventoUI extends AlgosUI {
         // set browser window title
         Page.getCurrent().setTitle(EventoApp.APP_NAME);
 
-//        // try to login from cookies
-//        getLogin().loginFromCookies();
-//        updateLoginUI();
+        // sets the Login listener
+        Login.getLogin().setLoginListener(new LoginListener() {
+            @Override
+            public void onUserLogin(Utente user, boolean remember) {
+                updateLoginUI();
+            }
+        });
+
 
     }
 
@@ -612,7 +619,7 @@ public class EventoUI extends AlgosUI {
      * Il bottone login è stato premuto, presenta il login form
      */
     private void loginCommandSelected() {
-        getLogin().showLoginForm(UI.getCurrent());
+        Login.getLogin().showLoginForm(UI.getCurrent());
     }// end of method
 
 
@@ -624,30 +631,6 @@ public class EventoUI extends AlgosUI {
         updateLoginUI();
     }// end of method
 
-
-    /**
-     * Recupera l'oggetto Login dalla sessione.
-     * Se manca lo crea ora e lo registra nella sessione.
-     */
-    private Login getLogin() {
-        Login login;
-        Object obj = LibSession.getAttribute(Login.KEY_LOGIN);
-        if (obj == null) {
-            login = new EventoLogin();
-            login.addLoginListener(new LoginListener() {
-                @Override
-                public void onUserLogin(Utente user, boolean remember) {
-                    updateLoginUI();
-                }
-            });
-            LibSession.setAttribute(Login.KEY_LOGIN, login);
-        } else {
-            login = (Login) obj;
-        }
-
-        return login;
-
-    }
 
 //    /**
 //     * Operazioni effettive di login (senza UI)
@@ -680,7 +663,7 @@ public class EventoUI extends AlgosUI {
 
 
         // Close the VaadinServiceSession
-        getSession().close();
+        // getSession().close();
 
         // Reload the current page and get a new session
         getPage().reload();
