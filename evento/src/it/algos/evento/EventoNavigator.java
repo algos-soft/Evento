@@ -6,7 +6,7 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.*;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
-import it.algos.evento.EventoUI.MenuCommand;
+import it.algos.evento.ui.MenuCommand;
 import it.algos.webbase.web.screen.ErrorScreen;
 
 import java.util.List;

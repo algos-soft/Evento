@@ -35,6 +35,8 @@ import it.algos.evento.info.InfoModulo;
 import it.algos.evento.multiazienda.AsteriaMigration;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.statistiche.StatisticheModulo;
+import it.algos.evento.ui.EventoHome;
+import it.algos.evento.ui.MenuCommand;
 import it.algos.webbase.domain.ruolo.RuoloModulo;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.domain.utente.UtenteModulo;
@@ -53,7 +55,6 @@ import it.asteria.cultura.mailing.MailingModulo;
 import it.asteria.cultura.test.StressTest;
 
 import javax.servlet.http.Cookie;
-import java.util.List;
 
 @SuppressWarnings("serial")
 @Theme("asteriacultura")
@@ -71,8 +72,40 @@ public class EventoUI extends AlgosUI {
         return (EventoUI) UI.getCurrent();
     }
 
+
     @Override
     protected void init(VaadinRequest request) {
+
+
+        // intervallo di polling della UI
+        // consente di vedere i risultati anche quando si aggiorna
+        // la UI da un thread separato sul server
+        setPollInterval(1000);
+
+        // parse request parameters
+        checkParams(request);
+
+        // declare the menu bar and splash screen
+
+        if (!EventoSession.isManager()) {
+
+            // se non è il manager è una azienda
+            showHomeScreen();
+
+
+        } else {
+
+            // è il manager
+            EventoSession.setCompany(null);
+            startUI();
+
+        }
+
+    }// end of method
+
+
+
+    protected void initOld(VaadinRequest request) {
 
 
         // intervallo di polling della UI
@@ -164,6 +197,15 @@ public class EventoUI extends AlgosUI {
         }
 
     }// end of method
+
+
+    /**
+     * Mostra l'home page di eVento dove si può fare il login comne utente
+     */
+    private void showHomeScreen(){
+        Component comp = new EventoHome();
+        setContent(comp);
+    }
 
 
     /**
@@ -729,79 +771,5 @@ public class EventoUI extends AlgosUI {
 
         return cookieOut;
     }// end of method
-
-    /**
-     * Custom menu command to show a component in the placeholder
-     */
-    public class MenuCommand implements MenuBar.Command {
-        private MenuBar mb;
-        private String address;
-        private Component comp;
-
-        public MenuCommand(MenuBar mb, String address, Component comp) {
-            super();
-            this.mb = mb;
-            this.address = address;
-            this.comp = comp;
-        }
-
-//		public MenuCommand(String address, Component comp) {
-//			this(null, address, comp);
-//		}
-
-
-        public void menuSelected(MenuItem selectedItem) {
-            // Navigate to a specific state
-            getUI().getNavigator().navigateTo(address);
-
-            // de-selects all the items in the menubar
-            if (mb != null) {
-                List<MenuItem> items = mb.getItems();
-                for (MenuItem item : items) {
-                    deselectItem(item);
-                }
-            }
-
-			/* highlights the selected item
-             * the style name will be prepended automatically with "v-menubar-menuitem-" */
-            selectedItem.setStyleName("highlight");
-
-            // it this item is inside another item, highlight also the parents in the chain
-            MenuItem item = selectedItem;
-            while (item.getParent() != null) {
-                item = item.getParent();
-                item.setStyleName("highlight");
-            }
-
-        }
-
-        /**
-         * Recursively de-selects one item and all its children
-         */
-        private void deselectItem(MenuItem item) {
-            item.setStyleName(null);
-            List<MenuItem> items = item.getChildren();
-            if (items != null) {
-                for (MenuItem child : items) {
-                    deselectItem(child);
-                }
-            }
-        }
-
-        /**
-         * @return the address
-         */
-        public String getAddress() {
-            return address;
-        }
-
-        /**
-         * @return the comp
-         */
-        public Component getComponent() {
-            return comp;
-        }
-
-    }
 
 }// end of class
