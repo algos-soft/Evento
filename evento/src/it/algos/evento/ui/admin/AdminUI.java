@@ -1,13 +1,9 @@
-package it.algos.evento.ui.manager;
+package it.algos.evento.ui.admin;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinService;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
-import it.algos.evento.ui.company.CompanyHome;
-import it.algos.evento.ui.company.CompanyLogin;
 import it.algos.webbase.web.lib.LibSession;
 
 /**
@@ -15,7 +11,7 @@ import it.algos.webbase.web.lib.LibSession;
  */
 @Theme("asteriacultura")
 @Title("eVento")
-public class ManagerUI extends UI {
+public class AdminUI extends UI {
 
 
     @Override
@@ -29,9 +25,9 @@ public class ManagerUI extends UI {
 
         // display the login page or the main page if already logged
         if(LibSession.isLogged()){
-            setContent(new ManagerHome());
+            setContent(new AdminHome());
         }else{
-            setContent(new ManagerLogin());
+            setContent(new AdminLogin());
         }
 
 

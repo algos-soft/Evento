@@ -17,7 +17,7 @@ public class ERWContainer extends EContainer{
 	 * Read-Write JPAContainer automatically filtered on a given company.
 	 * <p>
 	 * @param entityClass - the entity class
-	 * @param manager - the entity manager
+	 * @param manager - the entity admin
 	 * @param company - the company
 	 */
 	public ERWContainer(Class entityClass, EntityManager manager, Company company) {
@@ -28,7 +28,7 @@ public class ERWContainer extends EContainer{
 	 * Read-Write JPAContainer automatically filtered on the current company
 	 * <p>
 	 * @param entityClass - the entity class
-	 * @param manager - the entity manager
+	 * @param manager - the entity admin
 	 */
 	public ERWContainer(Class entityClass, EntityManager manager) {
 		this(entityClass, manager, EventoSession.getCompany());

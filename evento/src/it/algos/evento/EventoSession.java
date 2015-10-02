@@ -26,7 +26,7 @@ public class EventoSession {
 
     public static boolean isManager() {
         boolean manager = false;
-        Object attr = LibSession.getAttribute("manager");
+        Object attr = LibSession.getAttribute("admin");
         if ((attr != null) & (attr instanceof Boolean)) {
             manager = (Boolean) attr;
         }// fine del blocco if
@@ -35,7 +35,7 @@ public class EventoSession {
     }// end of method
 
     public static void setManager(Boolean manager) {
-        LibSession.setAttribute("manager", manager);
+        LibSession.setAttribute("admin", manager);
     }// end of method
 
 }// end of class

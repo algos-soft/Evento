@@ -1,13 +1,13 @@
-package it.algos.evento.ui.manager;
+package it.algos.evento.ui.admin;
 
 import com.vaadin.ui.MenuBar;
 import it.algos.evento.EventoApp;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.lib.LibSession;
 
-public class ManagerMenuBar extends MenuBar {
+public class AdminMenuBar extends MenuBar {
 
-    public ManagerMenuBar() {
+    public AdminMenuBar() {
         super();
         addStyleName("mybarmenu");
         //boolean prog=EventoApp.MODO_PROG;
@@ -23,7 +23,7 @@ public class ManagerMenuBar extends MenuBar {
 
                     @Override
                     public void menuSelected(MenuItem selectedItem) {
-                        getUI().getNavigator().navigateTo(ManagerSplashView.NAME);
+                        getUI().getNavigator().navigateTo(AdminSplashView.NAME);
                     }
 
                 });

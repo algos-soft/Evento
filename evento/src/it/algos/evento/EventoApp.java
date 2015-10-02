@@ -24,7 +24,7 @@ public abstract class EventoApp extends AlgosApp {
 //	public static Boolean MODO_PROG = false;
 
 //	/**
-//	 * modo manager
+//	 * modo admin
 //	 */
 //	public static Boolean MANAGER = false;
 
@@ -39,9 +39,9 @@ public abstract class EventoApp extends AlgosApp {
     public static final String CONF_PAGE = "conf";
 
     /**
-     * Nome della pagina del manager
+     * Nome della pagina del admin
      */
-    public static final String MANAGER_PAGE = "manager";
+    public static final String MANAGER_PAGE = "admin";
 
 //    /**
 //     * chiave per la property user id nella session

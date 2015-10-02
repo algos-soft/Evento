@@ -88,13 +88,13 @@ public class EventoUI extends AlgosUI {
 
         if (!EventoSession.isManager()) {
 
-            // se non è il manager è una azienda
+            // se non è il admin è una azienda
             showHomeScreen();
 
 
         } else {
 
-            // è il manager
+            // è il admin
             EventoSession.setCompany(null);
             startUI();
 
@@ -119,7 +119,7 @@ public class EventoUI extends AlgosUI {
 
         if (!EventoSession.isManager()) {
 
-            // se non è il manager deve essere una azienda
+            // se non è il admin deve essere una azienda
 
             // legge il parametro "company" e regola la variabile statica
             // dell'azienda.
@@ -180,7 +180,7 @@ public class EventoUI extends AlgosUI {
                 }
 
             } else {
-                // né manager né azienda
+                // né admin né azienda
                 ErrorScreen screen = new ErrorScreen(
                         "Specificare l'azienda con il parametro ?company=nomeazienda");
                 setContent(screen);
@@ -189,7 +189,7 @@ public class EventoUI extends AlgosUI {
 
         } else {
 
-            // è il manager
+            // è il admin
             EventoSession.setCompany(null);
             startUI();
 
@@ -219,9 +219,9 @@ public class EventoUI extends AlgosUI {
 
         EventoSession.setManager(false);
 
-        // legge il parametro "manager" e regola la variabile statica
-        if (request.getParameter("manager") != null) {
-            boolean manager = (request.getParameter("manager") != null);
+        // legge il parametro "admin" e regola la variabile statica
+        if (request.getParameter("admin") != null) {
+            boolean manager = (request.getParameter("admin") != null);
             EventoSession.setManager(manager);
         }// fine del blocco if
 
@@ -323,7 +323,7 @@ public class EventoUI extends AlgosUI {
     /**
      * Crea la MenuBar in base alla Company.
      * <p>
-     * Se la Company è null crea la menubar per il manager.
+     * Se la Company è null crea la menubar per il admin.
      */
     private MenuBar createMenuBar(Company company) {
         MenuBar mb = null;
@@ -336,7 +336,7 @@ public class EventoUI extends AlgosUI {
 
         } else {
 
-            // manager
+            // admin
             splashScreen = new SplashScreen(LibResource.getImgResource("splash_image.png"));
             mb = createManagerMenuBar();
 

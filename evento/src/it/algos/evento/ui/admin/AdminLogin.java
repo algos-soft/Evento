@@ -1,12 +1,8 @@
-package it.algos.evento.ui.manager;
+package it.algos.evento.ui.admin;
 
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import it.algos.evento.EventoSession;
-import it.algos.evento.entities.company.Company;
-import it.algos.evento.entities.company.Company_;
-import it.algos.evento.ui.company.CompanyHome;
 import it.algos.webbase.domain.ruolo.Ruolo;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.domain.utenteruolo.UtenteRuolo;
@@ -20,9 +16,9 @@ import java.util.ArrayList;
 /**
  * Login page for the Manager
  */
-public class ManagerLogin extends VerticalLayout {
+public class AdminLogin extends VerticalLayout {
 
-	public ManagerLogin() {
+	public AdminLogin() {
 
 		super();
 
@@ -74,7 +70,7 @@ public class ManagerLogin extends VerticalLayout {
 
 
 	private Button createLoginButton(){
-		Button button=new Button("Manager Login");
+		Button button=new Button("Admin Login");
 		button.setStyleName("loginbutton");
 		button.addClickListener(new Button.ClickListener() {
 			@Override
@@ -104,9 +100,9 @@ public class ManagerLogin extends VerticalLayout {
 
 	private void doLogin(){
 
-		// controlla se l'utente ha ruolo di manager
+		// controlla se l'utente ha ruolo di admin
 		boolean found=false;
-		Ruolo managerRole = Ruolo.read("manager");
+		Ruolo managerRole = Ruolo.read("admin");
 		if (managerRole!=null){
 			Utente user=Login.getLogin().getUser();
 			ArrayList<UtenteRuolo> urs = UtenteRuolo.findUtente(user);
@@ -121,11 +117,11 @@ public class ManagerLogin extends VerticalLayout {
 		}
 
 		if(found){
-			// Avvia la UI del manager
-			Component comp = new ManagerHome();
+			// Avvia la UI del admin
+			Component comp = new AdminHome();
 			UI.getCurrent().setContent(comp);
 		}else{
-			Notification.show("L'utente non è abilitato all'accesso come manager.", Notification.Type.ERROR_MESSAGE);
+			Notification.show("L'utente non è abilitato all'accesso come admin.", Notification.Type.ERROR_MESSAGE);
 		}
 
 

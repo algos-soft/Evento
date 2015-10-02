@@ -3,15 +3,12 @@ package it.algos.evento.servlet;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.ServiceException;
 import com.vaadin.server.SessionInitEvent;
-import it.algos.evento.EventoSession;
-import it.algos.evento.ui.company.CompanyUI;
-import it.algos.evento.ui.manager.ManagerUI;
+import it.algos.evento.ui.admin.AdminUI;
 import it.algos.webbase.domain.ruolo.Ruolo;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.domain.utenteruolo.UtenteRuolo;
 import it.algos.webbase.web.lib.LibCrypto;
 import it.algos.webbase.web.login.Login;
-import it.algos.webbase.web.query.AQuery;
 import it.algos.webbase.web.servlet.AlgosServlet;
 
 import javax.servlet.annotation.WebServlet;
@@ -30,20 +27,20 @@ import java.util.ArrayList;
  * which provides you with the option to select UI by referring the UI class
  * directly toggle productionMode using a boolean and more
  */
-@WebServlet(value = "/admin/*", asyncSupported = true, displayName = "eVento - manager")
-@VaadinServletConfiguration(productionMode = false, ui = ManagerUI.class)
-public class ManagerServlet extends AlgosServlet {
+@WebServlet(value = "/admin/*", asyncSupported = true, displayName = "eVento - admin")
+@VaadinServletConfiguration(productionMode = false, ui = AdminUI.class)
+public class AdminServlet extends AlgosServlet {
 
     @Override
     public void sessionInit(SessionInitEvent event) throws ServiceException {
         super.sessionInit(event);
 
-        // make sure we have at least one valid manager
+        // make sure we have at least one valid admin
         ensureManager();
 
         // set the cookie prefix to make them unique
         // (cookie path does not work well so we use a prefix)
-        Login.getLogin().setCookiePrefix("manager");
+        Login.getLogin().setCookiePrefix("admin");
 
         // attempt to login from the cookies
         Login.getLogin().loginFromCookies();
@@ -52,25 +49,25 @@ public class ManagerServlet extends AlgosServlet {
 
 
     /**
-     * Make sure that a "manager" user and a "manager" role exist, and
+     * Make sure that a "admin" user and a "admin" role exist, and
      * that a corresponding UserRole exists. Otherwise, create them.
      */
     private void ensureManager(){
 
-        // make sure that a manager role exists
-        Ruolo ruolo = Ruolo.read("manager");
+        // make sure that a admin role exists
+        Ruolo ruolo = Ruolo.read("admin");
         if (ruolo==null){
             ruolo = new Ruolo();
-            ruolo.setNome("manager");
+            ruolo.setNome("admin");
             ruolo.save();
         }
 
-        // make sure that a user named "manager" exists
+        // make sure that a user named "admin" exists
         // if not create it now with a default password
-        Utente user=Utente.read("manager");
+        Utente user=Utente.read("admin");
         if (user==null){
             user = new Utente();
-            user.setNickname("manager");
+            user.setNickname("admin");
             user.setPassword(LibCrypto.encrypt("evento"));
             user.setEnabled(true);
             user.save();

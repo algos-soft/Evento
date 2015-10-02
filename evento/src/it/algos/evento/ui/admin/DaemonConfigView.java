@@ -1,4 +1,4 @@
-package it.algos.evento.ui.manager;
+package it.algos.evento.ui.admin;
 
 import it.algos.evento.config.GeneralDaemonConfigComponent;
 

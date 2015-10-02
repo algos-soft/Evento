@@ -1,4 +1,4 @@
-package it.algos.evento.ui.manager;
+package it.algos.evento.ui.admin;
 
 import com.vaadin.server.Page;
 import com.vaadin.server.ThemeResource;
@@ -10,49 +10,27 @@ import it.algos.evento.EventoApp;
 import it.algos.evento.EventoNavigator;
 import it.algos.evento.NavigatorPlaceholder;
 import it.algos.evento.SplashScreen;
-import it.algos.evento.config.ConfigScreen;
 import it.algos.evento.config.GeneralDaemonConfigComponent;
 import it.algos.evento.config.SMTPServerConfigComponent;
 import it.algos.evento.entities.company.CompanyModule;
-import it.algos.evento.entities.comune.ComuneModulo;
-import it.algos.evento.entities.evento.EventoModulo;
-import it.algos.evento.entities.insegnante.InsegnanteModulo;
-import it.algos.evento.entities.lettera.LetteraModulo;
-import it.algos.evento.entities.modopagamento.ModoPagamentoModulo;
-import it.algos.evento.entities.ordinescuola.OrdineScuolaModulo;
-import it.algos.evento.entities.prenotazione.PrenotazioneModulo;
-import it.algos.evento.entities.prenotazione.eventi.EventoPrenModulo;
-import it.algos.evento.entities.progetto.ProgettoModulo;
-import it.algos.evento.entities.rappresentazione.RappresentazioneModulo;
-import it.algos.evento.entities.sala.SalaModulo;
-import it.algos.evento.entities.scuola.ScuolaModulo;
-import it.algos.evento.entities.spedizione.SpedizioneModulo;
-import it.algos.evento.entities.stagione.StagioneModulo;
-import it.algos.evento.entities.tiporicevuta.TipoRicevutaModulo;
-import it.algos.evento.help.HelpModulo;
-import it.algos.evento.info.InfoModulo;
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.evento.statistiche.StatisticheModulo;
 import it.algos.evento.ui.MenuCommand;
-import it.algos.evento.ui.company.CompanyLogin;
 import it.algos.webbase.domain.ruolo.RuoloModulo;
 import it.algos.webbase.domain.utente.UtenteModulo;
 import it.algos.webbase.domain.utenteruolo.UtenteRuoloModulo;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
-import it.asteria.cultura.destinatario.DestinatarioModulo;
-import it.asteria.cultura.mailing.MailingModulo;
 
 /**
  * Home page della Company.
  */
-public class ManagerHome extends VerticalLayout {
+public class AdminHome extends VerticalLayout {
 
     private SplashScreen splashScreen;
     private MenuBar.MenuItem loginItem; // il menuItem di login
 
-    public ManagerHome() {
+    public AdminHome() {
 
         // regolazioni di questo layout
         setMargin(true);
@@ -99,7 +77,7 @@ public class ManagerHome extends VerticalLayout {
         nav.navigateTo("splash");
 
         // set browser window title
-        Page.getCurrent().setTitle(EventoApp.APP_NAME+" - manager");
+        Page.getCurrent().setTitle(EventoApp.APP_NAME+" - admin");
 
     }
 
@@ -171,7 +149,7 @@ public class ManagerHome extends VerticalLayout {
                 UI.getCurrent().getNavigator().navigateTo("");
 
                 // rimanda alla pagina di login
-                UI.getCurrent().setContent(new ManagerLogin());
+                UI.getCurrent().setContent(new AdminLogin());
 
             }
         });
