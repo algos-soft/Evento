@@ -662,7 +662,7 @@ public class EventoUI extends AlgosUI {
      * Il bottone login è stato premuto, presenta il login form
      */
     private void loginCommandSelected() {
-        Login.getLogin().showLoginForm(UI.getCurrent());
+        //Login.getLogin().showLoginForm(UI.getCurrent());
     }// end of method
 
 
