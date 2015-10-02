@@ -20,7 +20,8 @@ public abstract class EContainer extends JPAContainer<EventoEntity> {
 		setEntityProvider(entityProvider);
 		addContainerFilter(createCompanyFilter());
 	}
-	
+
+
 
 	private static Filter createCompanyFilter() {
 		return new Compare.Equal(EventoEntity_.company.getName(), company);
