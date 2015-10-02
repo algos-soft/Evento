@@ -305,10 +305,11 @@ public class DemoDataGenerator {
 	 */
 	public static void creaComuni(Company company) {
 		ServletContext svlContext = EventoApp.getServletContext();
-		String fullPath = svlContext
-				.getRealPath(AlgosApp.DEMODATA_FOLDER_NAME
-						+ "comuni/comuni.xls");
-		ComuneImport.doImport(fullPath, company);
+		String path=AlgosApp.DEMODATA_FOLDER_NAME+ "comuni/comuni.xls";
+		String fullPath = svlContext.getRealPath(path);
+		if(fullPath!=null){
+			ComuneImport.doImport(fullPath, company);
+		}
 	}// end of method
 
 	/**
