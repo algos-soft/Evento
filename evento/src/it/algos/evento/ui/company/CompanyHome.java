@@ -2,6 +2,7 @@ package it.algos.evento.ui.company;
 
 import com.vaadin.server.Page;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.UI;
@@ -35,6 +36,8 @@ import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
 import it.asteria.cultura.destinatario.DestinatarioModulo;
 import it.asteria.cultura.mailing.MailingModulo;
+
+import java.util.Collection;
 
 /**
  * Home page della Company.
@@ -180,11 +183,13 @@ public class CompanyHome extends VerticalLayout {
                 // annulla l'oggetto Login nella sessione
                 LibSession.setAttribute(Login.LOGIN_KEY_IN_SESSION, null);
 
-                // Navigate to the base URL
-                UI.getCurrent().getNavigator().navigateTo("");
+                // Rimetti il login screen in tutte le UI della sessione
+                // (serve se la sessione è aperta in diversi tab o finestre del browser)
+                Collection<UI> uis = VaadinSession.getCurrent().getUIs();
+                for(UI ui:uis){
+                    ui.setContent(new CompanyLogin());
+                }
 
-                // rimanda alla pagina di login
-                UI.getCurrent().setContent(new CompanyLogin());
 
             }
         });

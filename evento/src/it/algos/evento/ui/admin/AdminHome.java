@@ -2,6 +2,7 @@ package it.algos.evento.ui.admin;
 
 import com.vaadin.server.Page;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.UI;
@@ -15,12 +16,15 @@ import it.algos.evento.config.SMTPServerConfigComponent;
 import it.algos.evento.entities.company.CompanyModule;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.ui.MenuCommand;
+import it.algos.evento.ui.company.CompanyLogin;
 import it.algos.webbase.domain.ruolo.RuoloModulo;
 import it.algos.webbase.domain.utente.UtenteModulo;
 import it.algos.webbase.domain.utenteruolo.UtenteRuoloModulo;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
+
+import java.util.Collection;
 
 /**
  * Home page della Company.
@@ -145,11 +149,12 @@ public class AdminHome extends VerticalLayout {
                 // annulla l'oggetto Login nella sessione
                 LibSession.setAttribute(Login.LOGIN_KEY_IN_SESSION, null);
 
-                // Navigate to the base URL
-                UI.getCurrent().getNavigator().navigateTo("");
-
-                // rimanda alla pagina di login
-                UI.getCurrent().setContent(new AdminLogin());
+                // Rimetti il login screen in tutte le UI della sessione
+                // (serve se la sessione è aperta in diversi tab o finestre del browser)
+                Collection<UI> uis = VaadinSession.getCurrent().getUIs();
+                for(UI ui:uis){
+                    ui.setContent(new AdminLogin());
+                }
 
             }
         });
