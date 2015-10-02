@@ -34,10 +34,6 @@ public class CompanyServlet extends AlgosServlet {
         // attempt to login from the cookies
         Login.getLogin().loginFromCookies();
 
-        // Do session start stuff here
-        EventoSession.setManager(false);
-        EventoSession.setCompany(null);
-
     }// end of method
 
 }// end of class
