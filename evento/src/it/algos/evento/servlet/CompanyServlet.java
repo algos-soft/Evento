@@ -1,8 +1,10 @@
-package it.algos.evento;
+package it.algos.evento.servlet;
 
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.ServiceException;
 import com.vaadin.server.SessionInitEvent;
+import it.algos.evento.EventoSession;
+import it.algos.evento.ui.company.CompanyUI;
 import it.algos.webbase.web.login.Login;
 import it.algos.webbase.web.servlet.AlgosServlet;
 
@@ -22,8 +24,8 @@ import javax.servlet.annotation.WebServlet;
  * directly toggle productionMode using a boolean and more
  */
 @WebServlet(value = {"/*"}, asyncSupported = true, displayName = "eVento")
-@VaadinServletConfiguration(productionMode = false, ui = EventoUI.class)
-public class EventoServlet extends AlgosServlet {
+@VaadinServletConfiguration(productionMode = false, ui = CompanyUI.class)
+public class CompanyServlet extends AlgosServlet {
 
     @Override
     public void sessionInit(SessionInitEvent event) throws ServiceException {

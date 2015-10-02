@@ -35,14 +35,13 @@ import it.algos.evento.info.InfoModulo;
 import it.algos.evento.multiazienda.AsteriaMigration;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.statistiche.StatisticheModulo;
-import it.algos.evento.ui.EventoHome;
+import it.algos.evento.ui.company.CompanyLogin;
 import it.algos.evento.ui.MenuCommand;
 import it.algos.webbase.domain.ruolo.RuoloModulo;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.domain.utente.UtenteModulo;
 import it.algos.webbase.domain.utenteruolo.UtenteRuoloModulo;
 import it.algos.webbase.domain.vers.VersMod;
-import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.lib.LibSession;
@@ -203,7 +202,7 @@ public class EventoUI extends AlgosUI {
      * Mostra l'home page di eVento dove si può fare il login comne utente
      */
     private void showHomeScreen(){
-        Component comp = new EventoHome();
+        Component comp = new CompanyLogin();
         setContent(comp);
     }
 
@@ -606,40 +605,40 @@ public class EventoUI extends AlgosUI {
 //
 //	}
 
-    /**
-     * Richiede e valida le credenziali
-     */
-    private void doLogin(Company company) {
-
-        // listener per la conferma
-        ConfirmDialog.Listener listener = new ConfirmDialog.Listener() {
-
-            @Override
-            public void onClose(ConfirmDialog dialog, boolean confirmed) {
-                if (confirmed) {
-                    String username = ((LoginDialog) dialog).getUsername();
-
-                    // Store the current user in the service session
-                    getSession().setAttribute("user", username);
-
-                    // Cookie userCookie = new Cookie("user", username);
-                    // userCookie
-                    // .setComment("Cookie for storing the name of the user");
-                    // userCookie.setMaxAge(2592000); // 30gg
-                    // userCookie.setPath(VaadinService.getCurrentRequest()
-                    // .getContextPath());
-                    // VaadinService.getCurrentResponse().addCookie(userCookie);
-                    startUI();
-                }
-            }
-
-        };
-
-        // crea e visualizza il dialogo di inserimento delle credenziali
-        LoginDialog dialogo = new LoginDialog(company, listener);
-        dialogo.show(UI.getCurrent());
-
-    }// end of method
+//    /**
+//     * Richiede e valida le credenziali
+//     */
+//    private void doLogin(Company company) {
+//
+//        // listener per la conferma
+//        ConfirmDialog.Listener listener = new ConfirmDialog.Listener() {
+//
+//            @Override
+//            public void onClose(ConfirmDialog dialog, boolean confirmed) {
+//                if (confirmed) {
+//                    String username = ((LoginDialog) dialog).getUsername();
+//
+//                    // Store the current user in the service session
+//                    getSession().setAttribute("user", username);
+//
+//                    // Cookie userCookie = new Cookie("user", username);
+//                    // userCookie
+//                    // .setComment("Cookie for storing the name of the user");
+//                    // userCookie.setMaxAge(2592000); // 30gg
+//                    // userCookie.setPath(VaadinService.getCurrentRequest()
+//                    // .getContextPath());
+//                    // VaadinService.getCurrentResponse().addCookie(userCookie);
+//                    startUI();
+//                }
+//            }
+//
+//        };
+//
+//        // crea e visualizza il dialogo di inserimento delle credenziali
+//        LoginDialog dialogo = new LoginDialog(company, listener);
+//        dialogo.show(UI.getCurrent());
+//
+//    }// end of method
 
     private void logoutOld() {
         Cookie userCookie = getCookieByName("user");
@@ -689,7 +688,7 @@ public class EventoUI extends AlgosUI {
     private void logout() {
 
         // annulla l'oggetto Login nella sessione
-        LibSession.setAttribute(Login.KEY_LOGIN, null);
+        LibSession.setAttribute(Login.LOGIN_KEY_IN_SESSION, null);
 
         // "Logout" the user
         // inutile perché gli attributi vengono persi quando
@@ -722,7 +721,7 @@ public class EventoUI extends AlgosUI {
      * Aggiorna la UI di login in base ai contenuti della session
      */
     private void updateLoginUI() {
-        Object attr = LibSession.getAttribute(Login.KEY_LOGIN);
+        Object attr = LibSession.getAttribute(Login.LOGIN_KEY_IN_SESSION);
         Utente user = null;
         if (attr != null && attr instanceof Login) {
             Login login = (Login) attr;

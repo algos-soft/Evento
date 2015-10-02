@@ -1,4 +1,4 @@
-package it.algos.evento.ui;
+package it.algos.evento.ui.manager;
 
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
@@ -6,31 +6,38 @@ import com.vaadin.ui.Button.ClickEvent;
 import it.algos.evento.EventoSession;
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.company.Company_;
+import it.algos.evento.ui.company.CompanyHome;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.web.lib.LibImage;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.login.Login;
 import it.algos.webbase.web.login.LoginListener;
 
-public class EventoHome extends VerticalLayout {
+/**
+ * Login page for the Manager
+ */
+public class ManagerLogin extends VerticalLayout {
 
-	public EventoHome() {
+	public ManagerLogin() {
 
 		super();
 
 		createUI();
 
 		Login.getLogin().setLoginListener(new LoginListener() {
+
 			@Override
 			public void onUserLogin(Utente utente, boolean b) {
-				doLogin();
+				// Avvia la UI del manager
+				Component comp = new ManagerHome();
+				UI.getCurrent().setContent(comp);
+
 			}
 		});
 
 	}
 
 	private void createUI(){
-		Label label;
 
 		setWidth("100%");
 		setHeight("100%");
@@ -66,7 +73,7 @@ public class EventoHome extends VerticalLayout {
 
 
 	private Button createLoginButton(){
-		Button button=new Button("Login");
+		Button button=new Button("Manager Login");
 		button.setStyleName("loginbutton");
 		button.addClickListener(new Button.ClickListener() {
 			@Override
@@ -93,25 +100,5 @@ public class EventoHome extends VerticalLayout {
 		layout.setExpandRatio(label, ratio);
 	}
 
-	private void doLogin(){
-
-		// Trova la Company relativa all'utente loggato
-		String user=Login.getLogin().getUser().getNickname();
-		Company company = Company.query.queryOne(Company_.companyCode, user);
-
-		if(company!=null){
-
-			// registro la Company nella sessione
-			EventoSession.setCompany(company);
-
-			// Avvia la UI della Company
-			Component comp = new CompanyHome();
-			UI.getCurrent().setContent(comp);
-
-		}else{
-			Notification.show("L'utente "+user+" è registrato ma non c'è l'azienda corrispondente.\nContattateci per creare la vostra azienda.", Notification.Type.ERROR_MESSAGE);
-		}
-
-	}
 
 }

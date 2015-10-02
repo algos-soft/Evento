@@ -1,4 +1,4 @@
-package it.algos.evento.ui;
+package it.algos.evento.ui.company;
 
 import com.vaadin.server.Page;
 import com.vaadin.server.ThemeResource;
@@ -30,6 +30,7 @@ import it.algos.evento.help.HelpModulo;
 import it.algos.evento.info.InfoModulo;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.statistiche.StatisticheModulo;
+import it.algos.evento.ui.MenuCommand;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
 import it.asteria.cultura.destinatario.DestinatarioModulo;
@@ -177,13 +178,13 @@ public class CompanyHome extends VerticalLayout {
             public void menuSelected(MenuBar.MenuItem selectedItem) {
 
                 // annulla l'oggetto Login nella sessione
-                LibSession.setAttribute(Login.KEY_LOGIN, null);
+                LibSession.setAttribute(Login.LOGIN_KEY_IN_SESSION, null);
 
                 // Navigate to the base URL
                 UI.getCurrent().getNavigator().navigateTo("");
 
                 // rimanda alla pagina di login
-                UI.getCurrent().setContent(new EventoHome());
+                UI.getCurrent().setContent(new CompanyLogin());
 
             }
         });
