@@ -10,6 +10,7 @@ import it.algos.evento.ui.company.CompanyHome;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.web.lib.LibImage;
 import it.algos.webbase.web.lib.LibResource;
+import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
 import it.algos.webbase.web.login.LoginListener;
 
@@ -109,6 +110,7 @@ public class CompanyLogin extends VerticalLayout {
 			UI.getCurrent().setContent(comp);
 
 		}else{
+			LibSession.setAttribute(Login.LOGIN_KEY_IN_SESSION, null);	// annulla il login
 			Notification.show("L'utente "+user+" è registrato ma non c'è l'azienda corrispondente.\nContattateci per creare la vostra azienda.", Notification.Type.ERROR_MESSAGE);
 		}
 

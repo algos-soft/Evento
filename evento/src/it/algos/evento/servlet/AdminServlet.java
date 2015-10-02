@@ -73,18 +73,8 @@ public class AdminServlet extends AlgosServlet {
             user.save();
         }
 
-        // make sure that a corresponding UserRole exists
-        ArrayList<UtenteRuolo> urs = UtenteRuolo.findUtente(user);
-        boolean found=false;
-        if(urs.size()>0){
-            for(UtenteRuolo uruolo : urs){
-                if(uruolo.getRuolo().equals(ruolo)){
-                    found=true;
-                    break;
-                }
-            }
-        }
-        if(!found){
+        // make sure that the admin user has the admin role
+        if(!user.hasRole(Ruolo.read("admin"))){
             UtenteRuolo ur = new UtenteRuolo();
             ur.setUtente(user);
             ur.setRuolo(ruolo);

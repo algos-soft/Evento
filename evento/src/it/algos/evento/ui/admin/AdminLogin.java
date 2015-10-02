@@ -8,6 +8,7 @@ import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.domain.utenteruolo.UtenteRuolo;
 import it.algos.webbase.web.lib.LibImage;
 import it.algos.webbase.web.lib.LibResource;
+import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
 import it.algos.webbase.web.login.LoginListener;
 
@@ -101,29 +102,17 @@ public class AdminLogin extends VerticalLayout {
 	private void doLogin(){
 
 		// controlla se l'utente ha ruolo di admin
-		boolean found=false;
-		Ruolo managerRole = Ruolo.read("admin");
-		if (managerRole!=null){
-			Utente user=Login.getLogin().getUser();
-			ArrayList<UtenteRuolo> urs = UtenteRuolo.findUtente(user);
-			if(urs.size()>0){
-				for(UtenteRuolo uruolo : urs){
-					if(uruolo.getRuolo().equals(managerRole)){
-						found=true;
-						break;
-					}
-				}
-			}
-		}
-
-		if(found){
+		Ruolo adminRole = Ruolo.read("admin");
+		Utente user=Login.getLogin().getUser();
+		if(user.hasRole(adminRole)) {
 			// Avvia la UI del admin
 			Component comp = new AdminHome();
 			UI.getCurrent().setContent(comp);
 		}else{
+			// annulla il login e mostra una notifica
+			LibSession.setAttribute(Login.LOGIN_KEY_IN_SESSION, null);
 			Notification.show("L'utente non è abilitato all'accesso come admin.", Notification.Type.ERROR_MESSAGE);
 		}
-
 
 	}
 
