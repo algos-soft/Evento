@@ -7,11 +7,15 @@ import it.algos.evento.EventoSession;
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.company.Company_;
 import it.algos.evento.ui.company.CompanyHome;
+import it.algos.webbase.domain.ruolo.Ruolo;
 import it.algos.webbase.domain.utente.Utente;
+import it.algos.webbase.domain.utenteruolo.UtenteRuolo;
 import it.algos.webbase.web.lib.LibImage;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.login.Login;
 import it.algos.webbase.web.login.LoginListener;
+
+import java.util.ArrayList;
 
 /**
  * Login page for the Manager
@@ -28,10 +32,7 @@ public class ManagerLogin extends VerticalLayout {
 
 			@Override
 			public void onUserLogin(Utente utente, boolean b) {
-				// Avvia la UI del manager
-				Component comp = new ManagerHome();
-				UI.getCurrent().setContent(comp);
-
+				doLogin();
 			}
 		});
 
@@ -78,7 +79,7 @@ public class ManagerLogin extends VerticalLayout {
 		button.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				Login.getLogin().showLoginForm(UI.getCurrent());
+				Login.getLogin().openLoginForm();
 			}
 		});
 		return button;
@@ -99,6 +100,37 @@ public class ManagerLogin extends VerticalLayout {
 		layout.addComponent(label);
 		layout.setExpandRatio(label, ratio);
 	}
+
+
+	private void doLogin(){
+
+		// controlla se l'utente ha ruolo di manager
+		boolean found=false;
+		Ruolo managerRole = Ruolo.read("manager");
+		if (managerRole!=null){
+			Utente user=Login.getLogin().getUser();
+			ArrayList<UtenteRuolo> urs = UtenteRuolo.findUtente(user);
+			if(urs.size()>0){
+				for(UtenteRuolo uruolo : urs){
+					if(uruolo.getRuolo().equals(managerRole)){
+						found=true;
+						break;
+					}
+				}
+			}
+		}
+
+		if(found){
+			// Avvia la UI del manager
+			Component comp = new ManagerHome();
+			UI.getCurrent().setContent(comp);
+		}else{
+			Notification.show("L'utente non è abilitato all'accesso come manager.", Notification.Type.ERROR_MESSAGE);
+		}
+
+
+	}
+
 
 
 }

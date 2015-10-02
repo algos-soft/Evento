@@ -71,7 +71,7 @@ public class CompanyLogin extends VerticalLayout {
 		button.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				Login.getLogin().showLoginForm(UI.getCurrent());
+				Login.getLogin().openLoginForm();
 			}
 		});
 		return button;

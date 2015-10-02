@@ -11,9 +11,11 @@ import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.domain.utenteruolo.UtenteRuolo;
 import it.algos.webbase.web.lib.LibCrypto;
 import it.algos.webbase.web.login.Login;
+import it.algos.webbase.web.query.AQuery;
 import it.algos.webbase.web.servlet.AlgosServlet;
 
 import javax.servlet.annotation.WebServlet;
+import java.util.ArrayList;
 
 /**
  * Servlet 3.0 introduces a @WebServlet annotation which can be used to replace the traditional web.xml.
@@ -74,8 +76,23 @@ public class ManagerServlet extends AlgosServlet {
             user.save();
         }
 
-//        // make sure that a
-//        UtenteRuolo ur = UtenteRuolo.findUtente(user);
+        // make sure that a corresponding UserRole exists
+        ArrayList<UtenteRuolo> urs = UtenteRuolo.findUtente(user);
+        boolean found=false;
+        if(urs.size()>0){
+            for(UtenteRuolo uruolo : urs){
+                if(uruolo.getRuolo().equals(ruolo)){
+                    found=true;
+                    break;
+                }
+            }
+        }
+        if(!found){
+            UtenteRuolo ur = new UtenteRuolo();
+            ur.setUtente(user);
+            ur.setRuolo(ruolo);
+            ur.save();
+        }
 
     }
 
