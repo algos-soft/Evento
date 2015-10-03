@@ -49,9 +49,6 @@ public class CompanyForm extends AForm {
 		field = new TextField("Username");
 		addField(Company_.username, field);
 		
-		field = new PasswordField("Password");
-		addField(Company_.password, field);
-		
 		field = new TextField("Contatto");
 		addField(Company_.contact, field);
 		
@@ -77,7 +74,6 @@ public class CompanyForm extends AForm {
 		layout.addComponent(getField(Company_.email));
 		layout.addComponent(getField(Company_.companyCode));
 		layout.addComponent(getField(Company_.username));
-		layout.addComponent(getField(Company_.password));
 		layout.addComponent(getField(Company_.contact));
 		layout.addComponent(getField(Company_.address1));
 		layout.addComponent(getField(Company_.address2));

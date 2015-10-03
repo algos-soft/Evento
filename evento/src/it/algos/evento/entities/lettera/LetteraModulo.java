@@ -156,7 +156,7 @@ public class LetteraModulo extends EModulePop {
         Path demofile = null;
         String filename = modello.getDbCode() + ".txt";
         ServletContext svlContext = EventoApp.getServletContext();
-        String fullPath = svlContext.getRealPath(AlgosApp.DEMODATA_FOLDER_NAME + "lettere/" + filename);
+        String fullPath = svlContext.getRealPath("/"+AlgosApp.DEMODATA_FOLDER_NAME + "lettere/" + filename);
         Path path = Paths.get(fullPath);
         File file = path.toFile();
         if (file.exists()) {
