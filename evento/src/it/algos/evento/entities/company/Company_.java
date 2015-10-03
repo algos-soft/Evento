@@ -11,7 +11,6 @@ public class Company_ extends BaseEntity_ {
 	public static volatile SingularAttribute<Company, String> name;
 	public static volatile SingularAttribute<Company, String> email;
 	public static volatile SingularAttribute<Company, String> companyCode;
-	public static volatile SingularAttribute<Company, String> username;
 	public static volatile SingularAttribute<Company, String> address1;
 	public static volatile SingularAttribute<Company, String> address2;
 	public static volatile SingularAttribute<Company, String> contact;
