@@ -3,6 +3,11 @@ package it.algos.evento.servlet;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.ServiceException;
 import com.vaadin.server.SessionInitEvent;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
+import it.algos.evento.EventoSession;
+import it.algos.evento.ui.admin.AdminHome;
 import it.algos.evento.ui.admin.AdminUI;
 import it.algos.webbase.domain.ruolo.Ruolo;
 import it.algos.webbase.domain.utente.Utente;
@@ -13,6 +18,8 @@ import it.algos.webbase.web.servlet.AlgosServlet;
 
 import javax.servlet.annotation.WebServlet;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Servlet 3.0 introduces a @WebServlet annotation which can be used to replace the traditional web.xml.
@@ -31,6 +38,8 @@ import java.util.ArrayList;
 @VaadinServletConfiguration(productionMode = false, ui = AdminUI.class)
 public class AdminServlet extends AlgosServlet {
 
+    private final static Logger logger = Logger.getLogger(AdminServlet.class.getName());
+
     @Override
     public void sessionInit(SessionInitEvent event) throws ServiceException {
         super.sessionInit(event);
@@ -38,12 +47,19 @@ public class AdminServlet extends AlgosServlet {
         // make sure we have at least one valid admin
         ensureManager();
 
-        // set the cookie prefix to make them unique
-        // (cookie path does not work well so we use a prefix)
-        Login.getLogin().setCookiePrefix("admin");
-
         // attempt to login from the cookies
-        Login.getLogin().loginFromCookies();
+        if(EventoSession.getAdminLogin().loginFromCookies()){
+
+            // controlla se l'utente ha ruolo di admin
+            Ruolo adminRole = Ruolo.read("admin");
+            Utente user=EventoSession.getAdminLogin().getUser();
+            if(!user.hasRole(adminRole)) {
+                EventoSession.setLogin(null);
+                String err="L'utente "+user+" (loggato dai cookies) non è abilitato all'accesso come admin. Login fallito.";
+                logger.log(Level.SEVERE, err);
+            }
+
+        }
 
     }// end of method
 

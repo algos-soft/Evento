@@ -3,6 +3,7 @@ package it.algos.evento.ui.admin;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
+import it.algos.evento.EventoSession;
 import it.algos.webbase.domain.ruolo.Ruolo;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.domain.utenteruolo.UtenteRuolo;
@@ -25,13 +26,6 @@ public class AdminLogin extends VerticalLayout {
 
 		createUI();
 
-		Login.getLogin().setLoginListener(new LoginListener() {
-
-			@Override
-			public void onUserLogin(Utente utente, boolean b) {
-				doLogin();
-			}
-		});
 
 	}
 
@@ -76,7 +70,20 @@ public class AdminLogin extends VerticalLayout {
 		button.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				Login.getLogin().showLoginForm();
+
+				// attacco il listener al Login
+				// (lo faccio qui perché l'oggetto Login potrebbe
+				// essere annullato a causa di un login fallito,
+				// quindi non posso farlo una volta sola alla costruzione della GUI)
+				EventoSession.getAdminLogin().setLoginListener(new LoginListener() {
+
+					@Override
+					public void onUserLogin(Utente utente, boolean b) {
+						doLogin();
+					}
+				});
+
+				EventoSession.getAdminLogin().showLoginForm();
 			}
 		});
 		return button;
@@ -103,15 +110,15 @@ public class AdminLogin extends VerticalLayout {
 
 		// controlla se l'utente ha ruolo di admin
 		Ruolo adminRole = Ruolo.read("admin");
-		Utente user=Login.getLogin().getUser();
+		Utente user=EventoSession.getAdminLogin().getUser();
 		if(user.hasRole(adminRole)) {
-			// Avvia la UI del admin
+			// Avvia la UI dell'admin
 			Component comp = new AdminHome();
 			UI.getCurrent().setContent(comp);
 		}else{
 			// annulla il login e mostra una notifica
-			LibSession.setAttribute(Login.LOGIN_KEY_IN_SESSION, null);
-			Notification.show("L'utente non è abilitato all'accesso come admin.", Notification.Type.ERROR_MESSAGE);
+			EventoSession.setLogin(null);
+			Notification.show("L'utente "+user+" non è abilitato all'accesso come admin.", Notification.Type.ERROR_MESSAGE);
 		}
 
 	}

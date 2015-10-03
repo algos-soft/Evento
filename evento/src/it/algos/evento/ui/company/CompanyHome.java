@@ -7,10 +7,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import it.algos.evento.EventoApp;
-import it.algos.evento.EventoNavigator;
-import it.algos.evento.NavigatorPlaceholder;
-import it.algos.evento.SplashScreen;
+import it.algos.evento.*;
 import it.algos.evento.config.ConfigScreen;
 import it.algos.evento.entities.comune.ComuneModulo;
 import it.algos.evento.entities.evento.EventoModulo;
@@ -182,6 +179,9 @@ public class CompanyHome extends VerticalLayout {
 
                 // annulla l'oggetto Login nella sessione
                 LibSession.setAttribute(Login.LOGIN_KEY_IN_SESSION, null);
+
+                // annulla l'oggetto Company nella sessione
+                EventoSession.setCompany(null);
 
                 // Rimetti il login screen in tutte le UI della sessione
                 // (serve se la sessione è aperta in diversi tab o finestre del browser)

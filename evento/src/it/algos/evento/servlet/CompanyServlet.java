@@ -3,12 +3,18 @@ package it.algos.evento.servlet;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.ServiceException;
 import com.vaadin.server.SessionInitEvent;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 import it.algos.evento.EventoSession;
+import it.algos.evento.ui.company.CompanyHome;
 import it.algos.evento.ui.company.CompanyUI;
+import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.web.login.Login;
 import it.algos.webbase.web.servlet.AlgosServlet;
 
 import javax.servlet.annotation.WebServlet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Servlet 3.0 introduces a @WebServlet annotation which can be used to replace the traditional web.xml.
@@ -27,12 +33,24 @@ import javax.servlet.annotation.WebServlet;
 @VaadinServletConfiguration(productionMode = false, ui = CompanyUI.class)
 public class CompanyServlet extends AlgosServlet {
 
+    private final static Logger logger = Logger.getLogger(CompanyServlet.class.getName());
+
     @Override
     public void sessionInit(SessionInitEvent event) throws ServiceException {
         super.sessionInit(event);
 
         // attempt to login from the cookies
-        Login.getLogin().loginFromCookies();
+        if(Login.getLogin().loginFromCookies()){
+
+            // registra la company nella sessione in base all'utente loggato
+            Utente user = Login.getLogin().getUser();
+            if(!EventoSession.registerCompanyByUser(user)) {
+                EventoSession.setLogin(null);
+                String err="L'utente " + user + " (loggato dai cookies) è registrato ma non c'è l'azienda corrispondente. Login fallito.";
+                logger.log(Level.SEVERE, err);
+            }
+
+        }
 
     }// end of method
 

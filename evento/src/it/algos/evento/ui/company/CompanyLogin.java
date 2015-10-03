@@ -22,12 +22,6 @@ public class CompanyLogin extends VerticalLayout {
 
 		createUI();
 
-		Login.getLogin().setLoginListener(new LoginListener() {
-			@Override
-			public void onUserLogin(Utente utente, boolean b) {
-				doLogin();
-			}
-		});
 
 	}
 
@@ -72,6 +66,18 @@ public class CompanyLogin extends VerticalLayout {
 		button.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
+
+				// attacco il listener al Login
+				// (lo faccio qui perché l'oggetto Login potrebbe
+				// essere annullato a causa di un login fallito,
+				// quindi non posso farlo una volta sola alla costruzione della GUI)
+				Login.getLogin().setLoginListener(new LoginListener() {
+					@Override
+					public void onUserLogin(Utente utente, boolean b) {
+						doLogin();
+					}
+				});
+
 				Login.getLogin().showLoginForm();
 			}
 		});
@@ -96,24 +102,20 @@ public class CompanyLogin extends VerticalLayout {
 
 	private void doLogin(){
 
-		// Trova la Company relativa all'utente loggato
-		String user=Login.getLogin().getUser().getNickname();
-		Company company = Company.query.queryOne(Company_.companyCode, user);
+		// registra la company nella sessione in base all'utente loggato
+		Utente user = Login.getLogin().getUser();
+		boolean success= EventoSession.registerCompanyByUser(user);
 
-		if(company!=null){
-
-			// registro la Company nella sessione
-			EventoSession.setCompany(company);
-
-			// Avvia la UI della Company
-			Component comp = new CompanyHome();
-			UI.getCurrent().setContent(comp);
-
+		if(success){
+			UI.getCurrent().setContent(new CompanyHome());
 		}else{
-			LibSession.setAttribute(Login.LOGIN_KEY_IN_SESSION, null);	// annulla il login
+			EventoSession.setCompany(null);
+			EventoSession.setLogin(null);
 			Notification.show("L'utente "+user+" è registrato ma non c'è l'azienda corrispondente.\nContattateci per creare la vostra azienda.", Notification.Type.ERROR_MESSAGE);
 		}
 
 	}
+
+
 
 }

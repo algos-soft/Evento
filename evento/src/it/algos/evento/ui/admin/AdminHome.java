@@ -7,10 +7,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import it.algos.evento.EventoApp;
-import it.algos.evento.EventoNavigator;
-import it.algos.evento.NavigatorPlaceholder;
-import it.algos.evento.SplashScreen;
+import it.algos.evento.*;
 import it.algos.evento.config.GeneralDaemonConfigComponent;
 import it.algos.evento.config.SMTPServerConfigComponent;
 import it.algos.evento.entities.company.CompanyModule;
@@ -140,7 +137,7 @@ public class AdminHome extends VerticalLayout {
     private MenuBar createLoginMenuBar() {
         MenuBar menubar = new MenuBar();
         ThemeResource icon = new ThemeResource("img/action_user.png");
-        String username = Login.getLogin().getUser().getNickname();
+        String username = EventoSession.getAdminLogin().getUser().getNickname();
         loginItem = menubar.addItem(username, icon, null);
         loginItem.addItem("Logout", new MenuBar.Command() {
             @Override
