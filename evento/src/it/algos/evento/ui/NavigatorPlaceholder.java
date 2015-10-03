@@ -1,4 +1,4 @@
-package it.algos.evento;
+package it.algos.evento.ui;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;

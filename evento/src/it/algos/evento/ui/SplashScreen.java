@@ -1,4 +1,4 @@
-package it.algos.evento;
+package it.algos.evento.ui;
 
 import com.vaadin.server.Resource;
 import com.vaadin.ui.HorizontalLayout;

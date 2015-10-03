@@ -1,6 +1,6 @@
 package it.algos.evento.entities.company;
 
-import it.algos.evento.DemoDataGenerator;
+import it.algos.evento.demo.DemoDataGenerator;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;

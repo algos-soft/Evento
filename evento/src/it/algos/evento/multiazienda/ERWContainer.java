@@ -1,7 +1,7 @@
 package it.algos.evento.multiazienda;
 
 import com.vaadin.addon.jpacontainer.provider.MutableLocalEntityProvider;
-import it.algos.evento.EventoSession;
+import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.entities.company.Company;
 
 import javax.persistence.EntityManager;
@@ -31,7 +31,7 @@ public class ERWContainer extends EContainer{
 	 * @param manager - the entity admin
 	 */
 	public ERWContainer(Class entityClass, EntityManager manager) {
-		this(entityClass, manager, EventoSession.getCompany());
+		this(entityClass, manager, EventoSessionLib.getCompany());
 	}
 
 	

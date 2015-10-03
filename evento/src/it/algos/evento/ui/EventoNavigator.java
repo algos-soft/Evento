@@ -1,4 +1,4 @@
-package it.algos.evento;
+package it.algos.evento.ui;
 
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;

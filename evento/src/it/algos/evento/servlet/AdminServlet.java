@@ -3,21 +3,15 @@ package it.algos.evento.servlet;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.ServiceException;
 import com.vaadin.server.SessionInitEvent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.UI;
-import it.algos.evento.EventoSession;
-import it.algos.evento.ui.admin.AdminHome;
+import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.ui.admin.AdminUI;
 import it.algos.webbase.domain.ruolo.Ruolo;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.domain.utenteruolo.UtenteRuolo;
 import it.algos.webbase.web.lib.LibCrypto;
-import it.algos.webbase.web.login.Login;
 import it.algos.webbase.web.servlet.AlgosServlet;
 
 import javax.servlet.annotation.WebServlet;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,13 +42,13 @@ public class AdminServlet extends AlgosServlet {
         ensureManager();
 
         // attempt to login from the cookies
-        if(EventoSession.getAdminLogin().loginFromCookies()){
+        if(EventoSessionLib.getAdminLogin().loginFromCookies()){
 
             // controlla se l'utente ha ruolo di admin
             Ruolo adminRole = Ruolo.read("admin");
-            Utente user=EventoSession.getAdminLogin().getUser();
+            Utente user= EventoSessionLib.getAdminLogin().getUser();
             if(!user.hasRole(adminRole)) {
-                EventoSession.setLogin(null);
+                EventoSessionLib.setLogin(null);
                 String err="L'utente "+user+" (loggato dai cookies) non è abilitato all'accesso come admin. Login fallito.";
                 logger.log(Level.SEVERE, err);
             }

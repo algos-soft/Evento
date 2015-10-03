@@ -1,4 +1,4 @@
-package it.algos.evento;
+package it.algos.evento.demo;
 
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -6,6 +6,7 @@ import com.vaadin.addon.jpacontainer.provider.LocalEntityProvider;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
+import it.algos.evento.EventoApp;
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.company.Company_;
 import it.algos.evento.entities.comune.Comune;

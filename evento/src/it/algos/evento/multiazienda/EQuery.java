@@ -3,7 +3,7 @@ package it.algos.evento.multiazienda;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container.Filter;
-import it.algos.evento.EventoSession;
+import it.algos.evento.lib.EventoSessionLib;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
 
@@ -37,7 +37,7 @@ public class EQuery {
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 		Root<EventoEntity> root = (Root<EventoEntity>) cq.from(c);
 		//Predicate predicate = cb.equal(root.get(EventoEntity_.company), EventoApp.COMPANY);
-		Predicate predicate = cb.equal(root.get(EventoEntity_.company), EventoSession.getCompany());
+		Predicate predicate = cb.equal(root.get(EventoEntity_.company), EventoSessionLib.getCompany());
 		cq.where(predicate);
 		CriteriaQuery<Long> select = cq.select(cb.count(root));
 		TypedQuery<Long> typedQuery = manager.createQuery(select);
@@ -75,7 +75,7 @@ public class EQuery {
 		predicates.add(pred);
 		
 		//pred = cb.equal(root.get(EventoEntity_.company), EventoApp.COMPANY);
-		pred = cb.equal(root.get(EventoEntity_.company), EventoSession.getCompany());
+		pred = cb.equal(root.get(EventoEntity_.company), EventoSessionLib.getCompany());
 		predicates.add(pred);
 
 		cq.where(predicates.toArray(new Predicate[]{}));

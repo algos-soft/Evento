@@ -1,4 +1,4 @@
-package it.algos.evento;
+package it.algos.evento.ui.confermapren;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;

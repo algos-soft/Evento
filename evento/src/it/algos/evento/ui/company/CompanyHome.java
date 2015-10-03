@@ -26,9 +26,13 @@ import it.algos.evento.entities.stagione.StagioneModulo;
 import it.algos.evento.entities.tiporicevuta.TipoRicevutaModulo;
 import it.algos.evento.help.HelpModulo;
 import it.algos.evento.info.InfoModulo;
+import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.statistiche.StatisticheModulo;
+import it.algos.evento.ui.EventoNavigator;
 import it.algos.evento.ui.MenuCommand;
+import it.algos.evento.ui.NavigatorPlaceholder;
+import it.algos.evento.ui.SplashScreen;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
 import it.asteria.cultura.destinatario.DestinatarioModulo;
@@ -181,7 +185,7 @@ public class CompanyHome extends VerticalLayout {
                 LibSession.setAttribute(Login.LOGIN_KEY_IN_SESSION, null);
 
                 // annulla l'oggetto Company nella sessione
-                EventoSession.setCompany(null);
+                EventoSessionLib.setCompany(null);
 
                 // Rimetti il login screen in tutte le UI della sessione
                 // (serve se la sessione è aperta in diversi tab o finestre del browser)

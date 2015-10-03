@@ -1,8 +1,8 @@
 package it.asteria.cultura.test;
 
 import com.vaadin.ui.Notification;
-import it.algos.evento.DemoDataGenerator;
-import it.algos.evento.EventoSession;
+import it.algos.evento.demo.DemoDataGenerator;
+import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.multiazienda.EQuery;
@@ -17,7 +17,7 @@ public class StressTest implements Runnable {
 	@Override
 	public void run() {
 		//Company comp=EventoApp.COMPANY;
-		Company comp= EventoSession.getCompany();
+		Company comp= EventoSessionLib.getCompany();
 		if (comp!=null) {
 			ArrayList<Prenotazione> prenotazioni = testCreate();
 			testRead();

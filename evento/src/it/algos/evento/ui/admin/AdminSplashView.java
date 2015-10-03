@@ -2,7 +2,7 @@ package it.algos.evento.ui.admin;
 
 import com.vaadin.ui.Component;
 import it.algos.evento.EventoApp;
-import it.algos.evento.SplashScreen;
+import it.algos.evento.ui.SplashScreen;
 import it.algos.webbase.web.lib.LibResource;
 
 public class AdminSplashView extends AbsMenuBarView {

@@ -1,6 +1,6 @@
 package it.algos.evento.multiazienda;
 
-import it.algos.evento.EventoSession;
+import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.entities.company.Company;
 import it.algos.webbase.web.entity.BaseEntity;
 
@@ -20,7 +20,7 @@ public abstract class EventoEntity extends BaseEntity {
 
         // se manca la company la prende dalla sessione
         if (getCompany() == null) {
-            setCompany(EventoSession.getCompany());
+            setCompany(EventoSessionLib.getCompany());
         }
 
     }
