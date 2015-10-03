@@ -73,55 +73,7 @@ public class CompanyForm extends AForm {
 		layout.addComponent(getField(Company_.contact));
 		layout.addComponent(getField(Company_.address1));
 		layout.addComponent(getField(Company_.address2));
-		
-		
-		button = new Button("Genera dati demo");
-		button.addClickListener(new ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				
-				ConfirmDialog dialog = new ConfirmDialog("Generazione dati demo", "Vuoi procedere?",
-						new ConfirmDialog.Listener() {
 
-							@Override
-							public void onClose(ConfirmDialog dialog, boolean confirmed) {
-								if (confirmed) {
-									getCompany().createDemoData();
-								}// end of if cycle
-							}// end of inner method
-						});// end of anonymous inner class
-				dialog.setConfirmButtonText("Procedi");
-				dialog.show(getUI());
-				
-			}
-		});
-		layout.addComponent(button);
-
-		button = new Button("Elimina dati");
-		button.addClickListener(new ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				ConfirmDialog dialog = new ConfirmDialog("Eliminazione dati", "Vuoi procedere?",
-						new ConfirmDialog.Listener() {
-
-							@Override
-							public void onClose(ConfirmDialog dialog, boolean confirmed) {
-								if (confirmed) {
-									getCompany().deleteAllData();
-								}// end of if cycle
-							}// end of inner method
-						});// end of anonymous inner class
-				dialog.setConfirmButtonText("Procedi");
-				dialog.show(getUI());
-
-			}
-		});
-		layout.addComponent(button);
-
-		
-		
 		return incapsulaPerMargine(layout);
 	}// end of method
 	

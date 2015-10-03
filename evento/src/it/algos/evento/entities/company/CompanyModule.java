@@ -5,10 +5,12 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import it.algos.evento.demo.DemoDataGenerator;
+import it.algos.evento.entities.prenotazione.PrenotazioneTablePortal;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.query.AQuery;
+import it.algos.webbase.web.table.TablePortal;
 
 import javax.persistence.metamodel.Attribute;
 
@@ -46,7 +48,12 @@ public class CompanyModule extends ModulePop implements View {
 	public void enter(ViewChangeEvent event) {
 	}
 
-	
+	public TablePortal createTablePortal() {
+		return new CompanyTablePortal(this);
+	}// end of method
+
+
+
 	public void delete(Object id){
 		
 		// cancella prima tutti i dati

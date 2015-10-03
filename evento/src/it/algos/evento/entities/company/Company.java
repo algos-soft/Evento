@@ -344,40 +344,6 @@ public class Company extends BaseEntity {
 		AQuery.delete(PrefEventoEntity.class, EventoEntity_.company, this);
 
 
-//		// save current company
-//		Company currentCompany = EventoApp.COMPANY;
-//
-//		try {
-//			// set company for all subsequent operations
-//			EventoApp.COMPANY = this;
-//			
-//			EQuery.deleteAll(Spedizione.class);
-//			EQuery.deleteAll(Lettera.class);
-//			EQuery.deleteAll(EventoPren.class);
-//			EQuery.deleteAll(Prenotazione.class);
-//			EQuery.deleteAll(Rappresentazione.class);
-//			EQuery.deleteAll(Sala.class);
-//			EQuery.deleteAll(Evento.class);
-//			EQuery.deleteAll(Progetto.class);
-//			EQuery.deleteAll(ModoPagamento.class);
-//			EQuery.deleteAll(Insegnante.class);
-//			EQuery.deleteAll(Scuola.class);
-//			EQuery.deleteAll(Allegato.class);
-//			EQuery.deleteAll(Comune.class);			
-//			
-//			// elimina le preferenze
-//			for (CompanyPrefs pref : CompanyPrefs.values()) {
-//				pref.remove();
-//			}
-//			
-//			
-//		} catch (Exception e) {
-//			// restore current company
-//			EventoApp.COMPANY=currentCompany;
-//		}
-//		
-//		// restore current company
-//		EventoApp.COMPANY=currentCompany;
 
 	}
 	
