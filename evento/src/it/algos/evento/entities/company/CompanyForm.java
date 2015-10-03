@@ -58,14 +58,16 @@ public class CompanyForm extends AForm {
 	}
 
 	protected Component createComponent() {
-		
-		Button button;
-		
 		Layout layout = new AFormLayout();
+		addComponents(layout);
+		return incapsulaPerMargine(layout);
+	}// end of method
+
+
+	protected void addComponents(Layout layout){
 		Field<?> field=getField(Company_.id);
 		field.setReadOnly(true);
 		field.setEnabled(false);
-
 		layout.addComponent(field);
 		layout.addComponent(getField(Company_.name));
 		layout.addComponent(getField(Company_.email));
@@ -73,11 +75,10 @@ public class CompanyForm extends AForm {
 		layout.addComponent(getField(Company_.contact));
 		layout.addComponent(getField(Company_.address1));
 		layout.addComponent(getField(Company_.address2));
+	}
 
-		return incapsulaPerMargine(layout);
-	}// end of method
-	
-	
+
+
 	private Company getCompany(){
 		BaseEntity entity = getBaseEntity();
 		return (Company)entity;

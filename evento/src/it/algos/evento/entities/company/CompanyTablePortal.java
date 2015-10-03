@@ -1,26 +1,19 @@
 package it.algos.evento.entities.company;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.data.Container.Filter;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.Window;
 import it.algos.evento.demo.DemoDataGenerator;
-import it.algos.evento.entities.prenotazione.PrenExportProvider;
-import it.algos.evento.entities.prenotazione.Prenotazione;
-import it.algos.evento.entities.prenotazione.PrenotazioneModulo;
-import it.algos.evento.entities.prenotazione.PrenotazioneTable;
 import it.algos.webbase.web.dialog.ConfirmDialog;
-import it.algos.webbase.web.importexport.ExportConfiguration;
-import it.algos.webbase.web.importexport.ExportManager;
-import it.algos.webbase.web.importexport.ExportProvider;
-import it.algos.webbase.web.lib.LibSession;
+import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.TablePortal;
 import it.algos.webbase.web.toolbar.Toolbar;
-import it.asteria.cultura.mailing.MailingModulo;
 
 import java.util.ArrayList;
 
@@ -35,6 +28,41 @@ public class CompanyTablePortal extends TablePortal {
         // bottone Altro...
         MenuItem item = toolbar.addButton("Altro...", new ThemeResource("img/action_more.png"), null);
 
+
+        // crea nuova azienda e utente
+        item.addItem("Attiva nuova azienda", new ThemeResource("img/action_add18.png"), new MenuBar.Command() {
+            public void menuSelected(MenuItem selectedItem) {
+
+                Company company = new Company();
+                ActivateCompanyForm form = new ActivateCompanyForm(getModule(), new BeanItem(company));
+                form.addFormListener(new AForm.FormListener() {
+                    @Override
+                    public void cancel_() {
+                        form.getWindow().close();
+                    }
+
+                    @Override
+                    public void commit_() {
+                        form.getWindow().close();
+                        CompanyService.activateCompany(company, form.getPassword(), form.isCreateData());
+                        getTable().getJPAContainer().refresh();
+                    }
+                });
+
+                Window window = new Window("Attivazione azienda", form);
+                window.setResizable(false);
+
+                form.setHeightUndefined();
+                window.center();
+                UI.getCurrent().addWindow(window);
+
+
+            }
+        });
+
+        item.addSeparator();
+
+        // crea dati demo
         item.addItem("Crea dati demo", new ThemeResource("img/action_gear18.png"), new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
 
@@ -49,7 +77,7 @@ public class CompanyTablePortal extends TablePortal {
                                     public void run() {
                                         Notification.show("Creazione dati demo avviata...");
                                         DemoDataGenerator.createDemoData(company);
-                                        Notification.show("Creazione dati demo terminata per "+company+".");
+                                        Notification.show("Creazione dati demo completata per "+company+".");
                                     }
                                 }).start();
                             }
