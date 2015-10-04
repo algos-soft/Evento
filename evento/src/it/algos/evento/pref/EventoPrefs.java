@@ -30,6 +30,8 @@ public enum EventoPrefs implements PrefIF {
 	
 	startDaemonAtStartup("startDaemonAtStartup", PrefType.bool, false),
 
+	autoLoginCompany("autoLoginCompany", PrefType.integer, 0),
+
 	;
 
 	private String code;

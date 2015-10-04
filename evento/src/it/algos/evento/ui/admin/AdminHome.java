@@ -3,11 +3,9 @@ package it.algos.evento.ui.admin;
 import com.vaadin.server.Page;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import it.algos.evento.*;
+import it.algos.evento.config.AccessControlConfigComponent;
 import it.algos.evento.config.GeneralDaemonConfigComponent;
 import it.algos.evento.config.SMTPServerConfigComponent;
 import it.algos.evento.entities.company.CompanyModule;
@@ -92,7 +90,7 @@ public class AdminHome extends VerticalLayout {
      */
     private MenuBar createMainMenuBar() {
 
-        splashScreen = new SplashScreen(CompanyPrefs.splashImage.getResource());
+        splashScreen = new SplashScreen(LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME,"splash_image.png"));
 
         MenuBar.MenuItem item;
         MenuBar menubar = new MenuBar();
@@ -112,10 +110,17 @@ public class AdminHome extends VerticalLayout {
         // Menu Configurazione
         item = menubar.addItem("Configurazione", null, null);
 
+        // submenu controllo accessi
+        AccessControlConfigComponent accessComp = new AccessControlConfigComponent();
+        accessComp.loadContent();
+        item.addItem("Controllo accessi", null, new MenuCommand(menubar, "accesscontrol", accessComp));
+
+        // submenu smtp server
         SMTPServerConfigComponent smtpComp = new SMTPServerConfigComponent();
         smtpComp.loadContent();
         item.addItem("SMTP Server", null, new MenuCommand(menubar, "smtpserver", smtpComp));
 
+        // submenu daemon controlli automatici
         GeneralDaemonConfigComponent daemonComp = new GeneralDaemonConfigComponent();
         daemonComp.loadContent();
         item.addItem("Daemon controlli automatici", null, new MenuCommand(menubar, "daemon", daemonComp));

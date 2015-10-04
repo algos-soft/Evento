@@ -28,6 +28,7 @@ import it.algos.evento.help.HelpModulo;
 import it.algos.evento.info.InfoModulo;
 import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.pref.CompanyPrefs;
+import it.algos.evento.pref.EventoPrefs;
 import it.algos.evento.statistiche.StatisticheModulo;
 import it.algos.evento.ui.EventoNavigator;
 import it.algos.evento.ui.MenuCommand;
@@ -58,18 +59,22 @@ public class CompanyHome extends VerticalLayout {
         // crea la MenuBar principale
         MenuBar mainBar = createMainMenuBar();
 
-        // crea la MenuBar di Login
-        MenuBar loginBar = createLoginMenuBar();
 
-        // aggiunge la menubar principale e la menubar login
+        // aggiunge la menubar principale
         HorizontalLayout menuLayout = new HorizontalLayout();
         menuLayout.setHeight("32px");
         menuLayout.setWidth("100%");
         menuLayout.addComponent(mainBar);
         mainBar.setHeight("100%");
         menuLayout.setExpandRatio(mainBar, 1.0f);
-        menuLayout.addComponent(loginBar);
-        loginBar.setHeight("100%");
+
+        // crea e aggiunge la login bar (se il login utente è abilitato)
+        if(EventoPrefs.autoLoginCompany.getInt()==0) {
+            MenuBar loginBar = createLoginMenuBar();
+            menuLayout.addComponent(loginBar);
+            loginBar.setHeight("100%");
+        }
+
         addComponent(menuLayout);
 
         // crea e aggiunge uno spaziatore verticale
