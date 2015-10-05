@@ -39,7 +39,7 @@ public class AdminServlet extends AlgosServlet {
         super.sessionInit(event);
 
         // make sure we have at least one valid admin
-        ensureManager();
+        ensureAdmin();
 
         // attempt to login from the cookies
         if(EventoSessionLib.getAdminLogin().loginFromCookies()){
@@ -62,7 +62,7 @@ public class AdminServlet extends AlgosServlet {
      * Make sure that a "admin" user and a "admin" role exist, and
      * that a corresponding UserRole exists. Otherwise, create them.
      */
-    private void ensureManager(){
+    private void ensureAdmin(){
 
         // make sure that a admin role exists
         Ruolo ruolo = Ruolo.read("admin");
