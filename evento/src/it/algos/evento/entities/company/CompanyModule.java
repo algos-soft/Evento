@@ -4,9 +4,13 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 import it.algos.evento.demo.DemoDataGenerator;
 import it.algos.evento.entities.prenotazione.PrenotazioneTablePortal;
 import it.algos.webbase.domain.utente.Utente;
+import it.algos.webbase.web.dialog.ConfirmDialog;
+import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.query.AQuery;
@@ -65,26 +69,29 @@ public class CompanyModule extends ModulePop implements View {
 		
 	}
 
-	@Override
-	protected void postSave(Item item, boolean newRecord) {
+	/**
+	 * Create button pressed in table
+	 * <p>
+	 * Create a new item and edit it in a form
+	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public void create() {
 
-		// dopo aver creato l'azienda creo anche l'utente e i dati demo
-		if(newRecord){
-			String code = (String)item.getItemProperty(Company_.companyCode.getName()).getValue();
-			Utente user = new Utente();
-			user.setNickname(code);
-			user.setPassword(code);
-			user.setEnabled(true);
-			user.save();
+		String msg = "<b>Normalmente le aziende si creano tramite la funzione Altro->Attiva nuova azienda.</b><p>";
+		msg+="Se crei una azienda manualmente dovrai anche creare l'utente e i dati.<br>";
+		msg+="Vuoi continuare?<br>";
 
-			// crea i dati demo
-			if(item instanceof BeanItem){
-				BeanItem bi = (BeanItem)item;
-				Company company = (Company)bi.getBean();
-				DemoDataGenerator.createDemoData(company);
+		ConfirmDialog dialog = new ConfirmDialog("Creazione azienda", msg, new ConfirmDialog.Listener() {
+			@Override
+			public void onClose(ConfirmDialog dialog, boolean confirmed) {
+				if(confirmed){
+					CompanyModule.super.create();
+				}
 			}
+		});
 
-		}
+		dialog.show();
 
-	}
+	}// end of method
+
 }// end of class
