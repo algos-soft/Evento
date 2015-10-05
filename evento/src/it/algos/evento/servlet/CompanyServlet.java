@@ -4,7 +4,6 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.ServiceException;
 import com.vaadin.server.SessionInitEvent;
 import it.algos.evento.lib.EventoSessionLib;
-import it.algos.evento.ui.company.CompanyUI;
 import it.algos.evento.ui.company.CompanyUI2;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.web.login.Login;
