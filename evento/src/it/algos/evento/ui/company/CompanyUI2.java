@@ -1,5 +1,7 @@
 package it.algos.evento.ui.company;
 
+import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Title;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 import it.algos.evento.entities.company.Company;
@@ -9,8 +11,10 @@ import it.algos.evento.pref.EventoPrefs;
 import it.algos.webbase.web.lib.LibSession;
 
 /**
- * Created by Alex on 05/10/15.
+ * UI iniziale di Company.
  */
+@Theme("asteriacultura")
+@Title("eVento")
 public class CompanyUI2 extends UI {
 
 

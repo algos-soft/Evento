@@ -7,10 +7,10 @@ import com.vaadin.ui.UI;
 import it.algos.webbase.web.lib.LibSession;
 
 /**
- * UI iniziale della Company.
+ * UI iniziale di Admin.
  */
 @Theme("asteriacultura")
-@Title("eVento")
+@Title("eVento - admin")
 public class AdminUI extends UI {
 
 
