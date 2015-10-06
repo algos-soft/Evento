@@ -27,6 +27,7 @@ import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibResource;
+import it.algos.webbase.web.lib.LibResourceOld;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
 
@@ -433,7 +434,7 @@ public class PrenotazioneTable extends ETable {
             }
             Image img = null;
             if (imgName != null) {
-                img = new Image(null, LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME,imgName));
+                img = new Image(null, LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME, imgName));
                 img.setDescription(description);
             }
 
