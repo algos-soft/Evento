@@ -19,6 +19,7 @@ import it.algos.webbase.domain.ruolo.RuoloModulo;
 import it.algos.webbase.domain.utente.UtenteModulo;
 import it.algos.webbase.domain.utenteruolo.UtenteRuoloModulo;
 import it.algos.webbase.web.lib.LibResource;
+import it.algos.webbase.web.lib.LibResourceOld;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
 
@@ -90,7 +91,7 @@ public class AdminHome extends VerticalLayout {
      */
     private MenuBar createMainMenuBar() {
 
-        splashScreen = new SplashScreen(LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME,"splash_image.png"));
+        splashScreen = new SplashScreen(LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME, "splash_image.png"));
 
         MenuBar.MenuItem item;
         MenuBar menubar = new MenuBar();

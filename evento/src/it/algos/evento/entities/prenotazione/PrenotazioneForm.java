@@ -853,36 +853,31 @@ public class PrenotazioneForm extends AForm {
     }
 
     /**
-     * Recupera il numero di posti ancora disponibili per questa rappresentazione (sono esclusi quelli occupati da
-     * questa prenotazione e dalle prenotazioni congelate)
-     *
-     * @return il numero di posti disponibili
+     * Ritorna il numero di posti ancora disponibili per questa rappresentazione.
+     * Per la prenotazione corrente, non considera i posti registrati sul db ma
+     * considera quelli correntemente presenti nella scheda
      */
-    private int getPostiDisponibili() {
+    private int getPostiDisponibili(){
         int disponibili = 0;
         Rappresentazione questaRapp = null;
 
-        // recupera la rappresentazione, in base a quanto selezionato
-        // nel popup, null se non selezionata
         long idRapp = getLongValue(Prenotazione_.rappresentazione);
         questaRapp = Rappresentazione.read(idRapp);
 
-        // posti disponibili per questa rappresentazione
         if (questaRapp != null) {
 
-            // tutte le prenotazioni, compresa questa, escluse congelate
+            // tutte le prenotazioni non congelate (compresa questa)
             disponibili = RappresentazioneModulo.getPostiDisponibili(questaRapp);
 
-            // se record esistente, non considera occupati quelli registrati
-            // con questa prenotazione (se non era congelata)
-            if (!isNewRecord()) {
-                Prenotazione prenDb = Prenotazione.read(getItemId());
+            // tolgo questa come risulta dal db
+            Prenotazione prenDb = Prenotazione.read(getItemId());
+            if(prenDb!=null){
                 if (!prenDb.isCongelata()) {
                     disponibili += prenDb.getNumTotali();
                 }
             }
 
-            // toglie quelli dichiarati nella scheda (se non congelata)
+            // aggiungo questa come risulta dalla scheda
             if (!fieldCongelata.getValue()) {
                 disponibili -= fieldNumTotale.getValue();
             }
@@ -890,7 +885,11 @@ public class PrenotazioneForm extends AForm {
         }
 
         return disponibili;
+
     }
+
+
+
 
     @Override
     protected boolean save() {
@@ -903,7 +902,7 @@ public class PrenotazioneForm extends AForm {
             // avviso posti esauriti
             int disponibili = getPostiDisponibili();
             if (disponibili < 0) {
-                Notification.show("Attenzione", "\nPosti esauriti!", Notification.Type.WARNING_MESSAGE);
+                Notification.show("Attenzione", "\nPosti esauriti! ("+disponibili+")", Notification.Type.WARNING_MESSAGE);
             }
 
             // se si tratta di nuova prenotazione, eventualmente invia email di istruzioni

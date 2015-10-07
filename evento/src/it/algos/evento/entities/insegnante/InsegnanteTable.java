@@ -8,6 +8,7 @@ import it.algos.evento.entities.ordinescuola.OrdineScuola;
 import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibResource;
+import it.algos.webbase.web.lib.LibResourceOld;
 import it.algos.webbase.web.module.ModulePop;
 
 @SuppressWarnings("serial")
@@ -64,7 +65,7 @@ public class InsegnanteTable extends ETable {
 		addGeneratedColumn(COL_PRIVATO, (source, itemId, columnId) -> {
             boolean priv = Lib.getBool(getContainerProperty(itemId, Insegnante_.privato.getName()).getValue());
             String img_name=(priv? "person_20px.png":"teacher_20px.png");
-            return new Image(null, LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME,img_name));
+            return new Image(null, LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME, img_name));
         });
 
 	}

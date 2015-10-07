@@ -5,6 +5,7 @@ import com.vaadin.ui.Table;
 import it.algos.evento.EventoApp;
 import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.lib.LibResource;
+import it.algos.webbase.web.lib.LibResourceOld;
 import it.algos.webbase.web.module.ModulePop;
 
 @SuppressWarnings("serial")

@@ -67,11 +67,11 @@ public class EventoBootStrap extends ABootStrap {
         // registra il servlet context non appena è disponibile
         EventoApp.setServletContext(svltCtx);
 
-        // Creo l'azienda Asteria se non esiste.
-        AsteriaMigration.ensureCompanyAsteria();
+//        // Creo l'azienda Asteria se non esiste.
+//        AsteriaMigration.ensureCompanyAsteria();
 
-        // Creo l'azienda Demo se non esiste
-        DemoDataGenerator.ensureCompanyDemo();
+//        // Creo l'azienda Demo se non esiste
+//        DemoDataGenerator.ensureCompanyDemo();
 
         // Controllo, aggiunta, esecuzione di pacth e versioni (principalmente dei dati)
         this.versioneBootStrap(svltCtx);
@@ -148,11 +148,12 @@ public class EventoBootStrap extends ABootStrap {
             LibVers.nuova("Setup", "Installazione iniziale");
         }// fine del blocco if
 
-        //--eliminazione del trattino basso nelle lettere
-        if (LibVers.installa(2)) {
-            eliminaTrattinoLettera();
-            LibVers.nuova("Lettera", "Modifica contemporanea del campo Lettera.sigla e del campo ModelliLettere.dbCode per eliminare il trattino basso");
-        }// fine del blocco if
+//        //--eliminazione del trattino basso nelle lettere
+//        if (LibVers.installa(2)) {
+//            eliminaTrattinoLettera();
+//            LibVers.nuova("Lettera", "Modifica contemporanea del campo Lettera.sigla e del campo ModelliLettere.dbCode per eliminare il trattino basso");
+//        }// fine del blocco if
+
     }// end of method
 
     /**
