@@ -14,6 +14,9 @@ import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * UI iniziale di Company.
  */
@@ -21,6 +24,7 @@ import it.algos.webbase.web.login.Login;
 @Title("eVento")
 public class CompanyUI extends UI {
 
+    private final static Logger logger = Logger.getLogger(CompanyUI.class.getName());
 
     @Override
     protected void init(VaadinRequest request) {
@@ -77,8 +81,17 @@ public class CompanyUI extends UI {
                 String pass = request.getParameter("password");
                 Utente user = Utente.validate(login, pass);
                 if(user!=null) {
-                    Login.getLogin().setUser(user);
-                    EventoSessionLib.setLogin(Login.getLogin());
+
+                    // registra la company nella sessione in base all'utente
+                    if(EventoSessionLib.registerCompanyByUser(user)) {
+                        Login.getLogin().setUser(user);
+                        EventoSessionLib.setLogin(Login.getLogin());
+                    }else{
+                        EventoSessionLib.setLogin(null);
+                        String err = "L'utente " + user + " (loggato tramite parametri url) è registrato, ma non c'è l'azienda corrispondente. Login fallito.";
+                        logger.log(Level.SEVERE, err);
+                    }
+
                 }else{
                     EventoSessionLib.setLogin(null);
                 }
