@@ -17,7 +17,7 @@ import it.algos.webbase.web.lib.LibSession;
  */
 @Theme("asteriacultura")
 @Title("eVento")
-public class CompanyUI2 extends UI {
+public class CompanyUI extends UI {
 
 
     @Override
