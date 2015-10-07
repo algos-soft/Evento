@@ -9,8 +9,10 @@ import it.algos.evento.entities.company.Company_;
 import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.pref.EventoPrefs;
 import it.algos.evento.ui.DevPassDialog;
+import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.LibSession;
+import it.algos.webbase.web.login.Login;
 
 /**
  * UI iniziale di Company.
@@ -67,6 +69,24 @@ public class CompanyUI extends UI {
             LibSession.setDeveloper(developer);
         }// fine del blocco if
 
-    }// end of method
+        // login from url parameters
+        // legge il parametro "user" e "password" ed effettua il login
+        if (request.getParameter("user") != null) {
+            if (request.getParameter("password") != null) {
+                String login = request.getParameter("user");
+                String pass = request.getParameter("password");
+                Utente user = Utente.validate(login, pass);
+                if(user!=null) {
+                    Login.getLogin().setUser(user);
+                    EventoSessionLib.setLogin(Login.getLogin());
+                }else{
+                    EventoSessionLib.setLogin(null);
+                }
+            }
+        }
+
+
+
+    }
 
 }
