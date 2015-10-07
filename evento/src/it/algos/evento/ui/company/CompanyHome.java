@@ -1,8 +1,6 @@
 package it.algos.evento.ui.company;
 
-import com.vaadin.server.Page;
-import com.vaadin.server.ThemeResource;
-import com.vaadin.server.VaadinSession;
+import com.vaadin.server.*;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.UI;
@@ -220,7 +218,7 @@ public class CompanyHome extends VerticalLayout {
      */
     private MenuBar createLoginMenuBar() {
         MenuBar menubar = new MenuBar();
-        ThemeResource icon = new ThemeResource("img/action_user.png");
+        Resource icon = FontAwesome.USER;
         String username = Login.getLogin().getUser().getNickname();
         loginItem = menubar.addItem(username, icon, null);
         loginItem.addItem("Logout", new MenuBar.Command() {

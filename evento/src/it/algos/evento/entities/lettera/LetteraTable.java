@@ -1,6 +1,11 @@
 package it.algos.evento.entities.lettera;
 
+import com.vaadin.server.FontAwesome;
+import com.vaadin.server.FontIcon;
+import com.vaadin.server.Resource;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Image;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import it.algos.evento.EventoApp;
 import it.algos.evento.multiazienda.ETable;
@@ -38,25 +43,23 @@ public class LetteraTable extends ETable {
             Image image;
             String sigla;
             Lettera lettera = Lettera.find((long) itemId);
-            String locImgName = "";
             String description = "";
+            FontIcon resource=null;
 
             if (lettera != null) {
                 sigla = lettera.getSigla();
                 if (ModelliLettere.getAllDbCode().contains(sigla)) {
-                    locImgName = "lock-icon.png";
+                    resource=FontAwesome.LOCK;
                     description = "Lettera standard";
                 } else {
-                    locImgName = "lock-open-icon.png";
+                    resource=FontAwesome.UNLOCK;
                     description = "Lettera extra";
-                }// fine del blocco if-else
-            }// fine del blocco if
+                }
+            }
 
-            image = new Image(null, LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME, locImgName));
-            image.setDescription(description);
+            Label label = new Label(resource.getHtml() + " "+ description, ContentMode.HTML);
+            return label;
+        }
+    }
 
-            return image;
-        }// end of method
-    }// end of inner class
-
-}// end of class
+}

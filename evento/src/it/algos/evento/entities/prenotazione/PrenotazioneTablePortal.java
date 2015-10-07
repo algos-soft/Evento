@@ -2,6 +2,8 @@ package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container.Filter;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -21,28 +23,28 @@ import java.util.ArrayList;
 public class PrenotazioneTablePortal extends TablePortal {
 
     public static final String CMD_REGISTRA_PAGAMENTO = "Registra pagamento...";
-    public static final ThemeResource ICON_REGISTRA_PAGAMENTO = new ThemeResource("img/action_calc18.png");
+    public static final Resource ICON_REGISTRA_PAGAMENTO = FontAwesome.MONEY;
 
     public static final String CMD_RIEPILOGO_OPZIONE = "Invia riepilogo opzione...";
-    public static final ThemeResource ICON_RIEPILOGO_OPZIONE = new ThemeResource("img/action_email18.png");
+    public static final Resource ICON_RIEPILOGO_OPZIONE = FontAwesome.ENVELOPE_O;
 
     public static final String CMD_MEMO_INVIO_SCHEDA_PREN = "Promemoria invio scheda prenotazione...";
-    public static final ThemeResource ICON_MEMO_INVIO_SCHEDA_PREN = new ThemeResource("img/action_email18.png");
+    public static final Resource ICON_MEMO_INVIO_SCHEDA_PREN = FontAwesome.ENVELOPE_O;
 
     public static final String CMD_CONGELA_OPZIONE = "Congela opzione...";
-    public static final ThemeResource ICON_CONGELA_OPZIONE = new ThemeResource("img/action_snow18.png");
+    public static final Resource ICON_CONGELA_OPZIONE = FontAwesome.LOCK;
 
     public static final String CMD_MEMO_SCAD_PAGA = "Promemoria scadenza pagamento...";
-    public static final ThemeResource ICON_MEMO_SCAD_PAGA = new ThemeResource("img/action_email18.png");
+    public static final Resource ICON_MEMO_SCAD_PAGA = FontAwesome.ENVELOPE_O;
 
     public static final String CMD_ATTESTATO_PARTECIPAZIONE = "Attestato di partecipazione...";
-    public static final ThemeResource ICON_ATTESTATO_PARTECIPAZIONE = new ThemeResource("img/action_email18.png");
+    public static final Resource ICON_ATTESTATO_PARTECIPAZIONE = FontAwesome.FILE_TEXT_O;
 
     public static final String CMD_GESTIONE_MAILING = "Crea mailing...";
-    public static final ThemeResource ICON_GESTIONE_MAILING = new ThemeResource("img/action_email18.png");
+    public static final Resource ICON_GESTIONE_MAILING = FontAwesome.ENVELOPE_O;
 
     public static final String CMD_EXPORT = "Esporta...";
-    public static final ThemeResource ICON_EXPORT = new ThemeResource("img/action_export.png");
+    public static final Resource ICON_EXPORT = FontAwesome.DOWNLOAD;
 
 
     public PrenotazioneTablePortal(ModulePop modulo) {
@@ -51,9 +53,9 @@ public class PrenotazioneTablePortal extends TablePortal {
         Toolbar toolbar = getToolbar();
 
         // bottone Altro...
-        MenuBar.MenuItem item = toolbar.addButton("Altro...", new ThemeResource("img/action_more.png"), null);
+        MenuBar.MenuItem item = toolbar.addButton("Altro...", FontAwesome.BARS, null);
 
-        item.addItem("Opzioni da confermare...", new ThemeResource("img/action_clock18.png"), new MenuBar.Command() {
+        item.addItem("Opzioni da confermare...", FontAwesome.CLOCK_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 Filter filter = PrenotazioneModulo.getFiltroOpzioniDaConfermare();
                 JPAContainer cont = getTable().getJPAContainer();
@@ -63,7 +65,7 @@ public class PrenotazioneTablePortal extends TablePortal {
             }
         });// end of anonymous class
 
-        item.addItem("Pagamenti da confermare...", new ThemeResource("img/action_clock18.png"), new MenuBar.Command() {
+        item.addItem("Pagamenti da confermare...", FontAwesome.CLOCK_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 Filter filter = PrenotazioneModulo.getFiltroPagamentiDaConfermare();
                 JPAContainer cont = getTable().getJPAContainer();
@@ -73,7 +75,7 @@ public class PrenotazioneTablePortal extends TablePortal {
             }
         });// end of anonymous class
 
-        item.addItem("Pagamenti da ricevere...", new ThemeResource("img/action_clock18.png"), new MenuBar.Command() {
+        item.addItem("Pagamenti da ricevere...", FontAwesome.CLOCK_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 Filter filter = PrenotazioneModulo.getFiltroPagamentiDaRicevere();
                 JPAContainer cont = getTable().getJPAContainer();

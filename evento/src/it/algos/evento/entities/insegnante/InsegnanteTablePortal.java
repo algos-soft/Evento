@@ -1,5 +1,7 @@
 package it.algos.evento.entities.insegnante;
 
+import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -17,10 +19,10 @@ import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 public class InsegnanteTablePortal extends TablePortal {
 
 	public static final String CMD_IMPORT = "Importa...";
-	public static final ThemeResource ICON_IMPORT = new ThemeResource("img/action_import.png");
+	public static final Resource ICON_IMPORT = FontAwesome.UPLOAD;
 
 	public static final String CMD_EXPORT = "Esporta...";
-	public static final ThemeResource ICON_EXPORT = new ThemeResource("img/action_export.png");
+	public static final Resource ICON_EXPORT = FontAwesome.DOWNLOAD;
 
 	public InsegnanteTablePortal(ModulePop modulo) {
 		super(modulo);
@@ -30,7 +32,7 @@ public class InsegnanteTablePortal extends TablePortal {
 		final TableToolbar toolbar = super.createToolbar();
 
 		// bottone Altro...
-		MenuBar.MenuItem item = toolbar.addButton("Altro...", new ThemeResource("img/action_more.png"), null);
+		MenuBar.MenuItem item = toolbar.addButton("Altro...", FontAwesome.BARS, null);
 
 		item.addItem(CMD_IMPORT, ICON_IMPORT, new MenuBar.Command() {
 			public void menuSelected(MenuItem selectedItem) {

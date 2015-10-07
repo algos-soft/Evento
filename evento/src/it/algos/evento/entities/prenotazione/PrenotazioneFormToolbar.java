@@ -1,5 +1,6 @@
 package it.algos.evento.entities.prenotazione;
 
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -18,23 +19,44 @@ public class PrenotazioneFormToolbar extends FormToolbar {
 
 	protected void addButtons() {
 
-		addButton("Conferma prenotazione", new ThemeResource("img/action_confirm.png"), 180, new MenuBar.Command() {
+//		addButton("Conferma prenotazione", new ThemeResource("img/action_confirm.png"), 180, new MenuBar.Command() {
+//			public void menuSelected(MenuItem selectedItem) {
+//				prenFire(PrenEvents.confermaPrenotazione);
+//			}// end of method
+//		});// end of anonymous class
+
+		addButton("Conferma prenotazione", FontAwesome.THUMBS_O_UP, 180, new MenuBar.Command() {
 			public void menuSelected(MenuItem selectedItem) {
 				prenFire(PrenEvents.confermaPrenotazione);
 			}// end of method
 		});// end of anonymous class
 
-		addButton("Annulla", new ThemeResource("img/action_cancel.png"), new MenuBar.Command() {
+
+//		addButton("Annulla", new ThemeResource("img/action_cancel.png"), new MenuBar.Command() {
+//			public void menuSelected(MenuItem selectedItem) {
+//				fire(Events.cancel);
+//			}// end of method
+//		});// end of anonymous class
+
+		addButton("Annulla", FontAwesome.BAN, new MenuBar.Command() {
 			public void menuSelected(MenuItem selectedItem) {
 				fire(Events.cancel);
 			}// end of method
 		});// end of anonymous class
 
-		addButton("Registra", new ThemeResource("img/action_save.png"), new MenuBar.Command() {
+
+//		addButton("Registra", new ThemeResource("img/action_save.png"), new MenuBar.Command() {
+//			public void menuSelected(MenuItem selectedItem) {
+//				fire(Events.save);
+//			}// end of method
+//		});// end of anonymous class
+
+		addButton("Registra", FontAwesome.SAVE, new MenuBar.Command() {
 			public void menuSelected(MenuItem selectedItem) {
 				fire(Events.save);
 			}// end of method
 		});// end of anonymous class
+
 
 	}// end of method
 

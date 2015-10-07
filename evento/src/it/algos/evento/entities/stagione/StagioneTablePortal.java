@@ -1,5 +1,7 @@
 package it.algos.evento.entities.stagione;
 
+import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -12,7 +14,7 @@ import it.algos.webbase.web.toolbar.Toolbar;
 public class StagioneTablePortal extends TablePortal {
 
 	public static final String CMD_SET_CORRENTE = "Imposta come stagione corrente";
-	public static final ThemeResource ICON_SET_CORRENTE = new ThemeResource("img/action_checkmark18.png");
+	public static final Resource ICON_SET_CORRENTE = FontAwesome.CHECK;
 
 	public StagioneTablePortal(ModulePop modulo) {
 		super(modulo);
@@ -20,7 +22,7 @@ public class StagioneTablePortal extends TablePortal {
 		Toolbar toolbar = getToolbar();
 
 		// bottone Set Stagione Corrente...
-		MenuItem item = toolbar.addButton("Corrente", new ThemeResource("img/action_checkmark.png"), new MenuBar.Command() {
+		MenuItem item = toolbar.addButton("Corrente", FontAwesome.CHECK, new MenuBar.Command() {
 			public void menuSelected(MenuItem selectedItem) {
 				Object id = getTable().getSelectedId();
 

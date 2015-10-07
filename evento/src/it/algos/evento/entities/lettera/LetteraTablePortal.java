@@ -1,5 +1,6 @@
 package it.algos.evento.entities.lettera;
 
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -19,10 +20,10 @@ public class LetteraTablePortal extends TablePortal {
 	public TableToolbar createToolbar() {
 		final TableToolbar toolbar = super.createToolbar();
 
-		MenuBar.MenuItem item = toolbar.addButton("Altro...", new ThemeResource("img/action_more.png"), null);
+		MenuBar.MenuItem item = toolbar.addButton("Altro...", FontAwesome.BARS, null);
 
 		
-		item.addItem("Gestione allegati...", null, new MenuBar.Command() {
+		item.addItem("Gestione allegati...", FontAwesome.PAPERCLIP, new MenuBar.Command() {
 			public void menuSelected(MenuItem selectedItem) {
 				new GestoreAllegati().show(getUI());
 			}// end of method

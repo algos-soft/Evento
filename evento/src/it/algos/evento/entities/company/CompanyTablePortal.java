@@ -2,6 +2,7 @@ package it.algos.evento.entities.company;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.util.BeanItem;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -26,11 +27,11 @@ public class CompanyTablePortal extends TablePortal {
         Toolbar toolbar = getToolbar();
 
         // bottone Altro...
-        MenuItem item = toolbar.addButton("Altro...", new ThemeResource("img/action_more.png"), null);
+        MenuItem item = toolbar.addButton("Altro...", FontAwesome.BARS, null);
 
 
         // crea nuova azienda e utente
-        item.addItem("Attiva nuova azienda", new ThemeResource("img/action_add18.png"), new MenuBar.Command() {
+        item.addItem("Attiva nuova azienda", FontAwesome.HOME, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
 
                 Company company = new Company();
@@ -63,7 +64,7 @@ public class CompanyTablePortal extends TablePortal {
         item.addSeparator();
 
         // crea dati demo
-        item.addItem("Crea dati demo", new ThemeResource("img/action_gear18.png"), new MenuBar.Command() {
+        item.addItem("Crea dati demo", FontAwesome.GEARS, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
 
                 Company company = (Company)getTable().getSelectedBean();
@@ -90,7 +91,7 @@ public class CompanyTablePortal extends TablePortal {
             }
         });
 
-        item.addItem("Cancella dati azienda", new ThemeResource("img/action_delete18.png"), new MenuBar.Command() {
+        item.addItem("Cancella dati azienda", FontAwesome.TRASH_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 Company company = (Company)getTable().getSelectedBean();
                 if (company != null) {

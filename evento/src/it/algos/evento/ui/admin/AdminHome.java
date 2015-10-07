@@ -1,8 +1,6 @@
 package it.algos.evento.ui.admin;
 
-import com.vaadin.server.Page;
-import com.vaadin.server.ThemeResource;
-import com.vaadin.server.VaadinSession;
+import com.vaadin.server.*;
 import com.vaadin.ui.*;
 import it.algos.evento.*;
 import it.algos.evento.config.AccessControlConfigComponent;
@@ -154,7 +152,7 @@ public class AdminHome extends VerticalLayout {
      */
     private MenuBar createLoginMenuBar() {
         MenuBar menubar = new MenuBar();
-        ThemeResource icon = new ThemeResource("img/action_user.png");
+        Resource icon = FontAwesome.USER;
         String username = EventoSessionLib.getAdminLogin().getUser().getNickname();
         loginItem = menubar.addItem(username, icon, null);
         loginItem.addItem("Logout", new MenuBar.Command() {

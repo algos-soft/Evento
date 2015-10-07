@@ -1,5 +1,7 @@
 package it.algos.evento.entities.rappresentazione;
 
+import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -12,7 +14,7 @@ import it.algos.webbase.web.toolbar.TableToolbar;
 public class RappresentazioneTablePortal extends TablePortal {
 
 	public static final String CMD_MEMO_EXPORT = "Esporta riepilogo rappresentazione...";
-	public static final ThemeResource ICON_MEMO_EXPORT = new ThemeResource("img/action_export18.png");
+	public static final Resource ICON_MEMO_EXPORT = FontAwesome.DOWNLOAD;
 
 	public static final String CMD_PARTECIPANTI_EXPORT = "Esporta partecipanti...";
 
@@ -27,7 +29,7 @@ public class RappresentazioneTablePortal extends TablePortal {
 		MenuBar.MenuItem subItem;
 
 		// bottone Altro...
-		MenuBar.MenuItem item = toolbar.addButton("Altro...", new ThemeResource("img/action_more.png"), null);
+		MenuBar.MenuItem item = toolbar.addButton("Altro...", FontAwesome.BARS, null);
 
 		subItem = item.addItem(CMD_MEMO_EXPORT, ICON_MEMO_EXPORT, new MenuBar.Command() {
 			public void menuSelected(MenuItem selectedItem) {

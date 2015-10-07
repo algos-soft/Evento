@@ -17,6 +17,7 @@ import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.lib.LibVers;
 import it.algos.webbase.web.query.AQuery;
+import it.algos.webbase.web.toolbar.Toolbar;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -53,6 +54,10 @@ public class EventoBootStrap extends ABootStrap {
 
         // registra il servlet context non appena è disponibile
         EventoApp.setServletContext(svltCtx);
+
+        // imposto alcune costanti
+        Toolbar.ALTEZZA_BOTTONI=30;
+        Toolbar.LARGHEZZA_BOTTONI = 100;
 
 //        // Creo l'azienda Asteria se non esiste.
 //        AsteriaMigration.ensureCompanyAsteria();

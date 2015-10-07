@@ -1,5 +1,6 @@
 package it.algos.evento.statistiche;
 
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -20,7 +21,7 @@ public class StatToolbar extends Toolbar {
 	}
 
 	protected void addExport() {
-		addButton("Esporta", new ThemeResource("img/action_save.png"), new MenuBar.Command() {
+		addButton("Esporta", FontAwesome.DOWNLOAD, new MenuBar.Command() {
 			public void menuSelected(MenuItem selectedItem) {
 				fire(Bottoni.export);
 			}// end of method
