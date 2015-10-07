@@ -27,7 +27,6 @@ public class EventoSessionLib {
     }
 
 
-
     /**
      * Individua la Company relativa a un dato utente
      * e la registra nella sessione corrente.

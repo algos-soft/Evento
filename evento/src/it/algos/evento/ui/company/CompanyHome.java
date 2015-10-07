@@ -9,6 +9,8 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.evento.*;
 import it.algos.evento.config.ConfigScreen;
+import it.algos.evento.debug.DialogoCheckPrenScadute;
+import it.algos.evento.demo.DemoDataGenerator;
 import it.algos.evento.entities.comune.ComuneModulo;
 import it.algos.evento.entities.evento.EventoModulo;
 import it.algos.evento.entities.insegnante.InsegnanteModulo;
@@ -30,14 +32,14 @@ import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.pref.EventoPrefs;
 import it.algos.evento.statistiche.StatisticheModulo;
-import it.algos.evento.ui.EventoNavigator;
-import it.algos.evento.ui.MenuCommand;
-import it.algos.evento.ui.NavigatorPlaceholder;
-import it.algos.evento.ui.SplashScreen;
+import it.algos.evento.ui.*;
+import it.algos.webbase.domain.vers.VersMod;
+import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
 import it.asteria.cultura.destinatario.DestinatarioModulo;
 import it.asteria.cultura.mailing.MailingModulo;
+import it.asteria.cultura.test.StressTest;
 
 import java.util.Collection;
 
@@ -153,25 +155,64 @@ public class CompanyHome extends VerticalLayout {
         item.addItem("Informazioni", null, new MenuCommand(menubar, "info", new InfoModulo()));
         item.addItem("Manuale", null, new MenuCommand(menubar, "help", new HelpModulo()));
 
-//        // Menu Programmatore
-//        // boolean prog=EventoApp.MODO_PROG;
-////        boolean prog = EventoUI.isDeveloper();
-//        boolean prog = LibSession.isDeveloper(); //@todo xAlex: controlla
-//        if (prog) {
-//            addMenuProgrammatoreCompany(menubar);
-//        }
+        // Modo Programmatore
+        if (LibSession.isDeveloper()) {
 
-//        // colora la menubar se programmatore
-//        // boolean prog=EventoApp.MODO_PROG;
-//        // boolean prog = EventoUI.isDeveloper();
-//        boolean prog = LibSession.isDeveloper(); //@todo xAlex: controlla
-//        if (prog) {
-//            mb.addStyleName("redBg");
-//        }
+            DevPassDialog dialog = new DevPassDialog(new ConfirmDialog.Listener() {
+                @Override
+                public void onClose(ConfirmDialog dialog, boolean confirmed) {
+                    if(confirmed) {
+                        addMenuProgrammatore(menubar);
+                        menubar.addStyleName("redBg");
+                    }else{
+                        LibSession.setDeveloper(false);
+                    }
+                }
+            });
+
+            dialog.show();
+
+        }
 
         return menubar;
 
     }
+
+
+    /**
+     * Crea il menu Programmatore per la menubar Company
+     */
+    private void addMenuProgrammatore(MenuBar menubar) {
+        MenuBar.MenuItem item;
+        item = menubar.addItem("Programmatore", null, null);
+
+        item.addItem("Carica comuni da file embedded", null, new MenuBar.Command() {
+
+            @Override
+            public void menuSelected(MenuBar.MenuItem selectedItem) {
+                DemoDataGenerator.creaComuni(null);
+            }
+        });
+
+        item.addItem("Esegui controllo prenotazioni scadute", null, new MenuBar.Command() {
+
+            @Override
+            public void menuSelected(MenuBar.MenuItem selectedItem) {
+                new DialogoCheckPrenScadute(null).show(getUI());
+            }
+        });
+
+        item.addItem("Stress test", null, new MenuBar.Command() {
+
+            @Override
+            public void menuSelected(MenuBar.MenuItem selectedItem) {
+                StressTest st = new StressTest();
+                st.run();
+            }
+        });
+        item.addItem("Versioni", null, new MenuCommand(menubar, "versioni", new VersMod()));
+
+    }// end of method
 
 
     /**

@@ -75,7 +75,6 @@ public class CompanyTablePortal extends TablePortal {
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Notification.show("Creazione dati demo avviata...");
                                         DemoDataGenerator.createDemoData(company);
                                         Notification.show("Creazione dati demo completata per "+company+".");
                                     }

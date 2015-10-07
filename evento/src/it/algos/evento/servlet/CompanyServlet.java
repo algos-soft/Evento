@@ -4,7 +4,7 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.ServiceException;
 import com.vaadin.server.SessionInitEvent;
 import it.algos.evento.lib.EventoSessionLib;
-import it.algos.evento.ui.company.CompanyUI2;
+import it.algos.evento.ui.company.CompanyUI;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.web.login.Login;
 import it.algos.webbase.web.servlet.AlgosServlet;
@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  * directly toggle productionMode using a boolean and more
  */
 @WebServlet(value = {"/*"}, asyncSupported = true, displayName = "eVento")
-@VaadinServletConfiguration(productionMode = false, ui = CompanyUI2.class)
+@VaadinServletConfiguration(productionMode = false, ui = CompanyUI.class)
 public class CompanyServlet extends AlgosServlet {
 
     private final static Logger logger = Logger.getLogger(CompanyServlet.class.getName());
