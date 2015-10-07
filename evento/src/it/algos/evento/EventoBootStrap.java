@@ -12,7 +12,7 @@ import it.algos.evento.entities.lettera.Lettera_;
 import it.algos.evento.entities.lettera.ModelliLettere;
 import it.algos.evento.multiazienda.AsteriaMigration;
 import it.algos.evento.pref.EventoPrefs;
-import it.algos.webbase.web.ABootStrap;
+import it.algos.webbase.web.bootstrap.ABootStrap;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.lib.LibVers;
@@ -32,11 +32,6 @@ import java.util.List;
  */
 public class EventoBootStrap extends ABootStrap {
 
-    /**
-     * Valore standard suggerito per ogni progetto
-     * Questo singolo progetto può modificarlo nel metodo setPersistenceEntity()
-     */
-    private static final String DEFAULT_PERSISTENCE_UNIT = "MySqlUnit";
 
     /**
      * @return the name of the current user
@@ -45,14 +40,6 @@ public class EventoBootStrap extends ABootStrap {
         return ""; // not implemented
     }// end of method
 
-    /**
-     * Regola il valore della persistence unit per crearae l'EntityManager <br>
-     * DEVE essere sovrascritto (obbligatorio) nella sottoclasse del progetto <br>
-     */
-    @Override
-    public void setPersistenceEntity() {
-        EM.PERSISTENCE_UNIT = DEFAULT_PERSISTENCE_UNIT;
-    }// end of method
 
     /**
      * Executed on container startup

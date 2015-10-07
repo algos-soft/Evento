@@ -1,6 +1,6 @@
 package it.algos.evento.daemons;
 
-import it.algos.webbase.web.ABootStrap;
+import it.algos.webbase.web.bootstrap.ABootStrap;
 import it.algos.webbase.web.lib.LibDate;
 import it.sauronsoftware.cron4j.Scheduler;
 import it.sauronsoftware.cron4j.Task;
