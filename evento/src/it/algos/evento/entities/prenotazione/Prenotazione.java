@@ -23,12 +23,17 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Entity
 //@CascadeOnDelete
 public class Prenotazione extends EventoEntity {
 
     private static final long serialVersionUID = -6685175938276422883L;
+
+    private final static Logger logger = Logger.getLogger(PrenotazioneModulo.class.getName());
+
 
     @PostPersist
     protected void postPersist() {
@@ -573,10 +578,27 @@ public class Prenotazione extends EventoEntity {
         BigDecimal totImporto = new BigDecimal(0);
 
         try {
-            BigDecimal totInteri = iInteri.multiply(new BigDecimal(nInteri));
-            BigDecimal totRidotti = iRidotti.multiply(new BigDecimal(nRidotti));
-            BigDecimal totDisabili = iDisabili.multiply(new BigDecimal(nDisabili));
-            BigDecimal totAccomp = iAccomp.multiply(new BigDecimal(nAccomp));
+
+
+            BigDecimal totInteri= new BigDecimal(0);
+            if(iInteri!=null){
+                totInteri = iInteri.multiply(new BigDecimal(nInteri));
+            }
+
+            BigDecimal totRidotti= new BigDecimal(0);
+            if(iRidotti!=null){
+                totRidotti = iRidotti.multiply(new BigDecimal(nRidotti));
+            }
+
+            BigDecimal totDisabili= new BigDecimal(0);
+            if(iDisabili!=null){
+                totDisabili=iDisabili.multiply(new BigDecimal(nDisabili));
+            }
+
+            BigDecimal totAccomp= new BigDecimal(0);
+            if(iAccomp!=null){
+                totAccomp=iAccomp.multiply(new BigDecimal(nAccomp));
+            }
 
             totImporto = totImporto.add(totInteri);
             totImporto = totImporto.add(totRidotti);
@@ -584,7 +606,7 @@ public class Prenotazione extends EventoEntity {
             totImporto = totImporto.add(totAccomp);
 
         } catch (Exception e) {
-            System.err.println("Errore nel calcolo totale importo prenotazione: " + e.getMessage());
+            logger.log(Level.WARNING, "Errore nel calcolo totale importo prenotazione: " + e.getMessage());
         }
 
         return totImporto;
