@@ -10,14 +10,13 @@ import it.algos.evento.config.GeneralDaemonConfigComponent;
 import it.algos.evento.config.SMTPServerConfigComponent;
 import it.algos.evento.entities.company.CompanyModule;
 import it.algos.evento.lib.EventoSessionLib;
+import it.algos.evento.multiazienda.AsteriaMigration;
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.evento.ui.EventoNavigator;
-import it.algos.evento.ui.MenuCommand;
-import it.algos.evento.ui.NavigatorPlaceholder;
-import it.algos.evento.ui.SplashScreen;
+import it.algos.evento.ui.*;
 import it.algos.webbase.domain.ruolo.RuoloModulo;
 import it.algos.webbase.domain.utente.UtenteModulo;
 import it.algos.webbase.domain.utenteruolo.UtenteRuoloModulo;
+import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.lib.LibResourceOld;
 import it.algos.webbase.web.lib.LibSession;
@@ -126,14 +125,24 @@ public class AdminHome extends VerticalLayout {
         daemonComp.loadContent();
         item.addItem("Daemon controlli automatici", null, new MenuCommand(menubar, "daemon", daemonComp));
 
-//        // Menu Programmatore
-//        // boolean prog=EventoApp.MODO_PROG;
-////        boolean prog = EventoUI.isDeveloper();
-//        boolean prog = LibSession.isDeveloper(); //@todo xAlex: controlla
-//        if (prog) {
-//            addMenuProgrammatoreManager(menubar);
-//        }
+        // Modo Programmatore
+        if (LibSession.isDeveloper()) {
 
+            DevPassDialog dialog = new DevPassDialog(new ConfirmDialog.Listener() {
+                @Override
+                public void onClose(ConfirmDialog dialog, boolean confirmed) {
+                    if(confirmed) {
+                        addMenuProgrammatore(menubar);
+                        menubar.addStyleName("redBg");
+                    }else{
+                        LibSession.setDeveloper(false);
+                    }
+                }
+            });
+
+            dialog.show();
+
+        }
 
         return menubar;
 
@@ -168,7 +177,31 @@ public class AdminHome extends VerticalLayout {
     }
 
 
+    /**
+     * Crea il menu Programmatore per la menubar Manager
+     */
+    private void addMenuProgrammatore(MenuBar menubar) {
+        MenuBar.MenuItem item;
+        item = menubar.addItem("Programmatore", null, null);
 
+
+        item.addItem("Migrazione Asteria a multi-azienda", null, new MenuBar.Command() {
+
+            @Override
+            public void menuSelected(MenuBar.MenuItem selectedItem) {
+                AsteriaMigration.start();
+            }
+        });
+
+        item.addItem("Aggiunta UUID prenotazioni dove nulli", null, new MenuBar.Command() {
+
+            @Override
+            public void menuSelected(MenuBar.MenuItem selectedItem) {
+                AsteriaMigration.aggiungiUUIDPrenotazione();
+            }
+        });
+
+    }// end of method
 
 
 }

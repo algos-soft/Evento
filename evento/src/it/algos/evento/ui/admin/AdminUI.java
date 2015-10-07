@@ -17,6 +17,9 @@ public class AdminUI extends UI {
     @Override
     protected void init(VaadinRequest request) {
 
+        // parse request parameters
+        checkParams(request);
+
 
         // intervallo di polling della UI
         // consente di vedere i risultati anche quando si aggiorna
@@ -32,5 +35,22 @@ public class AdminUI extends UI {
 
 
     }
+
+    /**
+     * Legge eventuali parametri passati nella request
+     * <p>
+     */
+    public void checkParams(VaadinRequest request) {
+
+        LibSession.setDeveloper(false);
+
+        // legge il parametro "developer" e regola la variabile statica
+        if (request.getParameter("developer") != null) {
+            boolean developer = (request.getParameter("developer") != null);
+            LibSession.setDeveloper(developer);
+        }// fine del blocco if
+
+    }// end of method
+
 
 }
