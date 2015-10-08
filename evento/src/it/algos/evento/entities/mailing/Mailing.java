@@ -15,6 +15,7 @@ public class Mailing extends EventoEntity {
 
 //    public static EventoEntityQuery<Mailing> query = new EventoEntityQuery(Mailing.class);
 
+
     @Size(min = 2, max = 80)
     private String titolo = "";
 
