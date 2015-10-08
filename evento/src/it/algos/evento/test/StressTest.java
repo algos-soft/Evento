@@ -1,4 +1,4 @@
-package it.asteria.cultura.test;
+package it.algos.evento.test;
 
 import com.vaadin.ui.Notification;
 import it.algos.evento.demo.DemoDataGenerator;

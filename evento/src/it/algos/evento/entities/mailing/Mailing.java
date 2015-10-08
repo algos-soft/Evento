@@ -1,12 +1,10 @@
-package it.asteria.cultura.mailing;
+package it.algos.evento.entities.mailing;
 
 import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.webbase.web.lib.LibDate;
 
-import javax.persistence.Entity;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -21,6 +19,7 @@ public class Mailing extends EventoEntity {
     private String titolo = "";
 
     @NotNull
+    @OneToOne
     private Lettera lettera = null;
 
     @Temporal(TemporalType.TIMESTAMP)

@@ -1,4 +1,4 @@
-package it.asteria.cultura.test;
+package it.algos.evento.test;
 
 import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.lib.Mese;

@@ -1,4 +1,4 @@
-package it.asteria.cultura.mailing;
+package it.algos.evento.entities.mailing;
 
 import java.util.HashMap;
 

@@ -28,8 +28,8 @@
 		<class>it.algos.evento.entities.spedizione.Spedizione</class>
 		<class>it.algos.evento.entities.tiporicevuta.TipoRicevuta</class>
 		<class>it.algos.evento.entities.ordinescuola.OrdineScuola</class>
-		<class>it.asteria.cultura.mailing.Mailing</class>
-		<class>it.asteria.cultura.destinatario.Destinatario</class>
+		<class>it.algos.evento.entities.mailing.Mailing</class>
+		<class>it.algos.evento.entities.destinatario.Destinatario</class>
 		<class>it.algos.evento.entities.stagione.Stagione</class>
 
 
@@ -37,8 +37,6 @@
 		<class>it.algos.webbase.domain.utente.Utente</class>
 		<class>it.algos.webbase.domain.utenteruolo.UtenteRuolo</class>
 		<class>it.algos.webbase.domain.vers.Versione</class>
-
-	    <!--<class>it.asteria.cultura.preferenze.Preferenze</class>-->
 
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		

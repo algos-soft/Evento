@@ -12,9 +12,9 @@ import it.algos.evento.entities.scuola.Scuola;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.field.ArrayComboField;
 import it.algos.webbase.web.field.TextField;
-import it.asteria.cultura.mailing.DestWrap;
-import it.asteria.cultura.mailing.MailManager;
-import it.asteria.cultura.mailing.MailWrap;
+import it.algos.evento.entities.mailing.DestWrap;
+import it.algos.evento.entities.mailing.MailManager;
+import it.algos.evento.entities.mailing.MailWrap;
 
 import java.util.ArrayList;
 import java.util.HashMap;

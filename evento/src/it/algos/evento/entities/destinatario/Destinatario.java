@@ -1,8 +1,8 @@
-package it.asteria.cultura.destinatario;
+package it.algos.evento.entities.destinatario;
 
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.multiazienda.EventoEntityQuery;
-import it.asteria.cultura.mailing.Mailing;
+import it.algos.evento.entities.mailing.Mailing;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;

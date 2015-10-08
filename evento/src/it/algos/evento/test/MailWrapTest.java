@@ -1,8 +1,8 @@
-package it.asteria.cultura.test;
+package it.algos.evento.test;
 
 import it.algos.evento.entities.lettera.Lettera;
-import it.asteria.cultura.mailing.DestWrap;
-import it.asteria.cultura.mailing.MailWrap;
+import it.algos.evento.entities.mailing.DestWrap;
+import it.algos.evento.entities.mailing.MailWrap;
 import org.junit.Test;
 
 import java.util.ArrayList;

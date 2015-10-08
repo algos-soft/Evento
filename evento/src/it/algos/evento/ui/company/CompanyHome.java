@@ -35,9 +35,9 @@ import it.algos.webbase.domain.vers.VersMod;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
-import it.asteria.cultura.destinatario.DestinatarioModulo;
-import it.asteria.cultura.mailing.MailingModulo;
-import it.asteria.cultura.test.StressTest;
+import it.algos.evento.entities.destinatario.DestinatarioModulo;
+import it.algos.evento.entities.mailing.MailingModulo;
+import it.algos.evento.test.StressTest;
 
 import java.util.Collection;
 

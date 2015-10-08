@@ -1,4 +1,4 @@
-package it.asteria.cultura.test;
+package it.algos.evento.test;
 
 import it.algos.evento.entities.lettera.LetteraService;
 import org.apache.commons.mail.EmailException;

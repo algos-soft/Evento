@@ -1,43 +1,15 @@
-package it.asteria.cultura.mailing;
+package it.algos.evento.entities.destinatario;
 
-import com.vaadin.server.Page;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.UI;
-import it.algos.evento.entities.prenotazione.MailDialog;
 import it.algos.evento.multiazienda.EModulePop;
 
 import javax.persistence.metamodel.Attribute;
-import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class MailingModulo extends EModulePop {
+public class DestinatarioModulo extends EModulePop {
 
-    public MailingModulo() {
-        super(Mailing.class);
+    public DestinatarioModulo() {
+        super(Destinatario.class);
     }// end of constructor
-
-    /**
-     * Gestione mailing integrata.
-     * <p>
-     * Nelle prenotazioni si seleziona una lista di prenotazioni <br>
-     * Ci si assicura che nelle Lettere esista quella desiderata. Altrimenti la si crea <br>
-     * Inserimento del titolo, selezione della lettera e conferma della data di creazione <br>
-     * Si selezionano (ricorsivamente) i destinatari <br>
-     * Conferma <br>
-     * Creazione di 1 record di Mailing <br>
-     * Creazione di n records di Destinatarimailing <br>
-     */
-    public static void gestioneMailing(ArrayList<Long> ids, UI gui) {
-        if (ids != null && ids.size() > 0) {
-            new MailDialog(ids).show(gui);
-        } else {
-            new Notification("Non risulta selezionata nessuna prenotazione",
-                    "Devi selezionare una o più prenotazioni",
-                    Notification.TYPE_HUMANIZED_MESSAGE, true)
-                    .show(Page.getCurrent());
-        }// fine del blocco if-else
-
-    }// end of method
 
     /**
      * Titolo (caption) dei dialogo nuovo record. <br>
@@ -46,7 +18,7 @@ public class MailingModulo extends EModulePop {
      */
     @Override
     protected String getCaptionNew() {
-        return "Nuova mailing";
+        return "Nuovo destinatario";
     }// end of method
 
     /**
@@ -56,7 +28,7 @@ public class MailingModulo extends EModulePop {
      */
     @Override
     protected String getCaptionEdit() {
-        return "Modifica mailing";
+        return "Modifica destinatario";
     }// end of method
 
     /**
@@ -66,7 +38,7 @@ public class MailingModulo extends EModulePop {
      */
     @Override
     protected String getCaptionSearch() {
-        return "Ricerca mailing";
+        return "Ricerca destinatari";
     }// end of method
 
     /**
@@ -80,6 +52,7 @@ public class MailingModulo extends EModulePop {
      * sovrascrivere creaFieldsList, creaFieldsForm e creaFieldsSearch <br>
      */
     protected Attribute<?, ?>[] creaFieldsAll() {
-        return new Attribute[]{Mailing_.titolo, Mailing_.lettera, Mailing_.dataCreazione};
+        return new Attribute[]{Destinatario_.mailing, Destinatario_.indirizzo, Destinatario_.dataSpedizione, Destinatario_.spedita};
     }// end of method
+
 }// end of class

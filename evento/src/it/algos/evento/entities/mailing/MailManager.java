@@ -1,10 +1,10 @@
-package it.asteria.cultura.mailing;
+package it.algos.evento.entities.mailing;
 
 import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.entities.lettera.LetteraService;
 import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.lib.LibSession;
-import it.asteria.cultura.destinatario.Destinatario;
+import it.algos.evento.entities.destinatario.Destinatario;
 
 import java.util.ArrayList;
 import java.util.HashMap;
