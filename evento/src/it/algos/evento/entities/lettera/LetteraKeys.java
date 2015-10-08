@@ -131,9 +131,11 @@ public enum LetteraKeys {
 	 */
 	public static String getTestoDemo() {
 		String elenco = "";
+		elenco+="Elenco delle chiavi di sostituzione disponibili per la composizione delle email.<p>\n";
+		elenco+="Le chiavi vanno inserite tra parentesi graffe (es. {keyname}) e vengono sostituite dai valori reali.<p><p>\n";
 
 		for (LetteraKeys item : values()) {
-			elenco += "${"+item.getKey()+"} -> "+item.getDescrizione()+"\n";
+			elenco += "<strong>"+item.getKey()+ "</strong> ["+item.getDescrizione()+"] -> ${"+item.getKey()+"}<br>\n";
 		} // fine del ciclo for
 		elenco = elenco.trim();
 

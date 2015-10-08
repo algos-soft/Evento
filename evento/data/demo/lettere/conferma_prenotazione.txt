@@ -1,6 +1,8 @@
 <p>Gentile ${titoloInsegnante} ${nomeInsegnante} ${cognomeInsegnante},</p>
-<p>Le  confermiamo la registrazione della Sua prenotazione per l’evento <strong>${titoloEvento}</strong> del giorno ${dataRappresentazione}, con codice identificativo ${numeroPrenotazione}.</p>
-<p>Il codice identificativo della prenotazione andrà indicato nella causale di pagamento del corrispettivo dei biglietti, da effettuarsi entro i 30 gg dalla data dell’evento prenotato secondo le seguenti modalità:</p>
+<p>Le  confermiamo la registrazione della Sua prenotazione per l’evento <strong>${titoloEvento}</strong> del giorno ${dataRappresentazione},
+ con codice identificativo ${numeroPrenotazione}.</p>
+<p>Il codice identificativo della prenotazione andrà indicato nella causale di pagamento del corrispettivo dei biglietti,
+da effettuarsi entro i 30 gg dalla data dell’evento prenotato secondo le seguenti modalità:</p>
 <ol>
 <li><p>In contanti, recandosi al botteghino del teatro (orario: 9,00 – 18,00 dal lunedì al venerdì).</p></li>
 <li><p>Tramite vaglia postale ordinario intestato a:<br>

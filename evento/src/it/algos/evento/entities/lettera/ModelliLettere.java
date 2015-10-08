@@ -26,7 +26,7 @@ public enum ModelliLettere {
 
     attestatoPartecipazione("attestato_partecipazione", "Attestato di partecipazione", null, null, null, null),
 
-    demo("demo_sostituzioni", "Demo sostituzioni supportate", null, null, null, null);
+    demoSostituzioni("demo_sostituzioni", "Demo sostituzioni supportate", null, null, null, null);
 
     private String dbCode;
     private String oggettoDefault; // usato per creare demo data

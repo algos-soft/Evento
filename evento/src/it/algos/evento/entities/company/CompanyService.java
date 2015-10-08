@@ -12,7 +12,7 @@ public class CompanyService {
 
     /**
      * Activate a Company.
-     * - create a corrisponding user with the given password
+     * - create a corresponding user with the given password
      * - create demo data for the new company
      *
      * @param company    the company

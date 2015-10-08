@@ -34,6 +34,7 @@ import it.algos.evento.entities.stagione.Stagione_;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.pref.CompanyPrefs;
+import it.algos.evento.pref.EventoPrefs;
 import it.algos.webbase.web.AlgosApp;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
@@ -58,29 +59,6 @@ public class DemoDataGenerator {
      * Codice della demo company
      */
     private static final String DEMO_COMPANY_CODE = "demo";
-
-
-    /**
-     * Si assicura che esista l'azienda demo.
-     * <p>
-     * se non c'è la genera ora
-     */
-    public static void ensureCompanyDemo() {
-        Company company = Company.query.queryOne(Company_.companyCode, DEMO_COMPANY_CODE);
-        if (company == null) {
-
-            // crea e registra la company
-            company = new Company();
-            company.setCompanyCode("demo");
-            company.setName("Demo");
-            company.save();
-
-            // crea i dati demo
-            company.createDemoData();
-
-        }
-    }
-
 
     /**
      * Creazione dei dati iniziali per una data azienda.
@@ -107,11 +85,9 @@ public class DemoDataGenerator {
             if (getCount(Allegato.class, company) == 0) {
                 creaAllegati(company);
             }
-
             if (getCount(Lettera.class, company) == 0) {
                 creaLettere(company);
             }
-
             if (getCount(Sala.class, company) == 0) {
                 creaSale(company);
             }
@@ -148,6 +124,8 @@ public class DemoDataGenerator {
             if (getCount(Prenotazione.class, company) == 0) {
                 creaPrenotazioni(company);
             }
+            // personalizza le preferenze per questa azienda
+            creaPreferenze(company);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -715,6 +693,14 @@ public class DemoDataGenerator {
         }
 
     }// end of method
+
+    /**
+     * Crea le preferenze
+     */
+    private static void creaPreferenze(Company company){
+        // registra l'indirizzo della company come mittente delle email
+        CompanyPrefs.senderEmailAddress.put(company, company.getEmail());
+    }
 
 
 }// end of class

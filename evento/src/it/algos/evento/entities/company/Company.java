@@ -45,6 +45,7 @@ public class Company extends BaseEntity {
 	private String name = "";
 	
 	@Email
+	@NotEmpty
 	private String email;
 	
 	@Column(unique=true)
