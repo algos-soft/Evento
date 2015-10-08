@@ -21,8 +21,12 @@ public class CompanyService {
      */
     public static boolean activateCompany(Company company, String password, boolean createData) {
 
-        // create a user
-        Utente user = new Utente();
+        // create a new user or update existing user
+        String username=company.getCompanyCode();
+        Utente user = Utente.read(username);
+        if(user==null){
+            user = new Utente();
+        }
         user.setNickname(company.getCompanyCode());
         user.setPassword(LibCrypto.encrypt(password));
         user.setEnabled(true);
