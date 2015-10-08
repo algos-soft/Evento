@@ -79,7 +79,7 @@ public class EventoBootStrap extends ABootStrap {
     /**
      * Esegue per ogni company allo startup del server
      */
-    private void doForCompany(Company company) {
+    public static void doForCompany(Company company) {
 
         // Controlla che esista la lettera demoSostituzioni con elencate
         // le sostituzioni della Enumeration LetteraKeys.

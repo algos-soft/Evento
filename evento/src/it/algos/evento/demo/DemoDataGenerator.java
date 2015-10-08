@@ -7,6 +7,7 @@ import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
 import it.algos.evento.EventoApp;
+import it.algos.evento.EventoBootStrap;
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.company.Company_;
 import it.algos.evento.entities.comune.Comune;
@@ -126,6 +127,10 @@ public class DemoDataGenerator {
             }
             // personalizza le preferenze per questa azienda
             creaPreferenze(company);
+
+            // cose eseguite per ogni company ad ogi avvio del server - le devo fare anche qui
+            // dopo la creazione della nuova company.
+            EventoBootStrap.doForCompany(company);
 
         } catch (Exception e) {
             e.printStackTrace();
