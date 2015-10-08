@@ -582,6 +582,7 @@ public class DemoDataGenerator {
                     pren.setInsegnante((Insegnante) getEntityRandom(Insegnante.class, company));
                     pren.setEmailRiferimento(pren.getInsegnante().getEmail());
                     pren.setTelRiferimento(pren.getInsegnante().getTelefono());
+                    pren.setClasse("4D");
 
                     pren.setNumInteri(nInteri);
                     pren.setNumRidotti(nRidotti);

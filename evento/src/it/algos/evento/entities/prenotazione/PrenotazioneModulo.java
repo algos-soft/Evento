@@ -323,7 +323,10 @@ public class PrenotazioneModulo extends EModulePop {
             super(null);
             this.pren = pren;
             setTitle("Congelamento opzione");
-            setMessage("Vuoi congelare questa opzione?");
+            String msg="Il congelamento di una opzione libera i posti impegnati e blocca " +
+                    "l'invio di ulteriori soleciti.<br>Una email di avviso viene inviata " +
+                    "al referente.<br>";
+            setMessage(msg);
             setConfirmButtonText("Congela");
         }
 
@@ -558,10 +561,11 @@ public class PrenotazioneModulo extends EModulePop {
 
         // invia la mail se previsto, e incrementa il livello di sollecito
         if(ModelliLettere.congelamentoOpzione.isSend(pren)){
-            sendEmailEvento(pren, tipoEvento, user);
             int level = pren.getLivelloSollecitoConferma();
             pren.setLivelloSollecitoConferma(level + 1);
             pren.save();
+            fireStatusChanged(tipoEvento);
+            sendEmailEvento(pren, tipoEvento, user);
             emailInviata = true;
         }
 
