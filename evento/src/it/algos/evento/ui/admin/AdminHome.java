@@ -1,22 +1,26 @@
 package it.algos.evento.ui.admin;
 
-import com.vaadin.server.*;
-import com.vaadin.ui.*;
-import it.algos.evento.*;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Page;
+import com.vaadin.server.Resource;
+import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import it.algos.evento.EventoApp;
 import it.algos.evento.config.AccessControlConfigComponent;
 import it.algos.evento.config.GeneralDaemonConfigComponent;
 import it.algos.evento.config.SMTPServerConfigComponent;
 import it.algos.evento.entities.company.CompanyModule;
 import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.multiazienda.AsteriaMigration;
-import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.ui.*;
 import it.algos.webbase.domain.ruolo.RuoloModulo;
 import it.algos.webbase.domain.utente.UtenteModulo;
 import it.algos.webbase.domain.utenteruolo.UtenteRuoloModulo;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.LibResource;
-import it.algos.webbase.web.lib.LibResourceOld;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
 
@@ -183,21 +187,14 @@ public class AdminHome extends VerticalLayout {
         item = menubar.addItem("Programmatore", null, null);
 
 
-        item.addItem("Migrazione Asteria a multi-azienda", null, new MenuBar.Command() {
+        item.addItem("empty item", null, new MenuBar.Command() {
 
             @Override
             public void menuSelected(MenuBar.MenuItem selectedItem) {
-                AsteriaMigration.start();
+                // do something here
             }
         });
 
-        item.addItem("Aggiunta UUID prenotazioni dove nulli", null, new MenuBar.Command() {
-
-            @Override
-            public void menuSelected(MenuBar.MenuItem selectedItem) {
-                AsteriaMigration.aggiungiUUIDPrenotazione();
-            }
-        });
 
     }// end of method
 

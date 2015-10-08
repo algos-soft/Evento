@@ -42,98 +42,12 @@ public class AsteriaMigration {
     public static final String CODE_AZIENDA_ASTERIA = "asteria";
 
     public static void start() {
-        ensureCompanyAsteria();
-        //migraPreferenze();
         migraTabelle();
         aggiungiUUIDPrenotazione();
 
         logger.log(Level.INFO, "Migrazione completata.");
 
     }
-
-    /**
-     * Si assicura che esista l'azienda Centro Asteria Se manca la crea ora.
-     */
-    public static void ensureCompanyAsteria() {
-        Company company = getCompanyAsteria();
-        if (company == null) {
-            company = new Company();
-            company.setName("Centro Asteria");
-            company.setAddress1("Piazza Carrara 17/1");
-            company.setAddress2("Milano");
-            company.setContact("Suor Elisabetta Stocchi");
-            company.setEmail("direzione@centroasteria.it");
-            company.setCompanyCode(CODE_AZIENDA_ASTERIA);
-            company.setUsername("asteria");
-            company.setPassword("cemmo");
-            company.save();
-            logger.log(Level.INFO, "Creata azienda " + CODE_AZIENDA_ASTERIA
-                    + " id=" + company.getId());
-        }
-    }
-
-//    /**
-//     * Copia tutte le preferenze nel nuovo sistema e assegna l'azienda
-//     */
-//    private static void migraPreferenze() {
-//
-//        // migrazione preferenze generali, se non ancora impostate
-//        if (!EventoPrefs.smtpPassword.exists()) {
-//            EventoPrefs.smtpPassword.put(PrefOld.smtpPassword.getString());
-//        }
-//        if (!EventoPrefs.smtpPort.exists()) {
-//            EventoPrefs.smtpPort.put(PrefOld.smtpPort.getInt());
-//        }
-//        if (!EventoPrefs.smtpServer.exists()) {
-//            EventoPrefs.smtpServer.put(PrefOld.smtpServer.getString());
-//        }
-//        if (!EventoPrefs.smtpUseAuth.exists()) {
-//            EventoPrefs.smtpUseAuth.put(PrefOld.smtpUseAuth.getBool());
-//        }
-//        if (!EventoPrefs.smtpUserName.exists()) {
-//            EventoPrefs.smtpUserName.put(PrefOld.smtpUserName.getString());
-//        }
-//
-//        // migrazione preferenze specifiche dell'azienda
-//        Company company = getCompanyAsteria();
-//        CompanyPrefs.doRunSolleciti.put(company,
-//                PrefOld.avviaServizioSollecitiAtStartup.getBool());
-//        CompanyPrefs.backupEmail.put(company, PrefOld.backupEmail.getString());
-//        CompanyPrefs.backupEmailAddress.put(company,
-//                PrefOld.backupEmail.getString());
-//        CompanyPrefs.ggProlungamentoConfDopoSollecito.put(company,
-//                PrefOld.ggProlungamentoConfDopoSollecito.getInt());
-//        CompanyPrefs.ggProlungamentoPagamDopoSollecito.put(company,
-//                PrefOld.ggProlungamentoPagamDopoSollecito.getInt());
-//        CompanyPrefs.ggScadConfermaPagamento.put(company,
-//                PrefOld.ggScadConfermaPagamento.getInt());
-//        CompanyPrefs.ggScadConfermaPrenotazione.put(company,
-//                PrefOld.ggScadConfermaPrenotazione.getInt());
-//        CompanyPrefs.idSalaDefault.put(company, PrefOld.idSalaDefault.getInt());
-//        CompanyPrefs.importoBaseInteri.put(company,
-//                PrefOld.importoBaseInteri.getDecimal());
-//        CompanyPrefs.importoBaseRidotti.put(company,
-//                PrefOld.importoBaseRidotti.getDecimal());
-//        CompanyPrefs.menubarIcon.put(company, PrefOld.menubarIcon.getBytes());
-//        CompanyPrefs.nextNumPren.put(company, PrefOld.nextNumPren.getInt());
-//        CompanyPrefs.oraRunSolleciti.put(company,
-//                PrefOld.oraRunSolleciti.getInt());
-//        CompanyPrefs.senderEmailAddress.put(company,
-//                PrefOld.senderEmailAddress.getString());
-//        CompanyPrefs.sendMailConfPaga.put(company,
-//                PrefOld.sendMailConfPaga.getBool());
-//        CompanyPrefs.sendMailConfPren.put(company,
-//                PrefOld.sendMailConfPren.getBool());
-//        CompanyPrefs.sendMailCongOpzione.put(company,
-//                PrefOld.sendMailCongOpzione.getBool());
-//        CompanyPrefs.sendMailInfoPren.put(company,
-//                PrefOld.sendMailInfoPren.getBool());
-//        CompanyPrefs.sendMailRegisPaga.put(company,
-//                PrefOld.sendMailRegisPaga.getBool());
-//        CompanyPrefs.splashImage.put(company, PrefOld.splashImage.getBytes());
-//
-//        logger.log(Level.INFO, "Migrazione preferenze eseguita.");
-//    }
 
     /**
      * Regola il riferimento all'azienda in tutte le tabelle

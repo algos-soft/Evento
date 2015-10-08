@@ -4,17 +4,14 @@ import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
 import it.algos.evento.daemons.DaemonPrenScadute;
-import it.algos.evento.demo.DemoDataGenerator;
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.entities.lettera.LetteraKeys;
 import it.algos.evento.entities.lettera.Lettera_;
 import it.algos.evento.entities.lettera.ModelliLettere;
-import it.algos.evento.multiazienda.AsteriaMigration;
 import it.algos.evento.pref.EventoPrefs;
 import it.algos.webbase.web.bootstrap.ABootStrap;
 import it.algos.webbase.web.entity.BaseEntity;
-import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.lib.LibVers;
 import it.algos.webbase.web.query.AQuery;
 import it.algos.webbase.web.toolbar.Toolbar;
@@ -58,12 +55,6 @@ public class EventoBootStrap extends ABootStrap {
         // imposto alcune costanti
         Toolbar.ALTEZZA_BOTTONI=30;
         Toolbar.LARGHEZZA_BOTTONI = 100;
-
-//        // Creo l'azienda Asteria se non esiste.
-//        AsteriaMigration.ensureCompanyAsteria();
-
-//        // Creo l'azienda Demo se non esiste
-//        DemoDataGenerator.ensureCompanyDemo();
 
         // Controllo, aggiunta, esecuzione di pacth e versioni (principalmente dei dati)
         this.versioneBootStrap(svltCtx);

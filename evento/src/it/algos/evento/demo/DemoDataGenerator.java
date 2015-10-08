@@ -53,13 +53,6 @@ import java.util.Random;
 
 public class DemoDataGenerator {
 
-    /**
-     * Name of the folder for bootstrap files <br>
-     * The folder is located in:<br>
-     * /.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/
-     * asteriacultura/
-     */
-    public static final String BOOTSTRAP_FOLDER_NAME = "bootstrap";
 
     /**
      * Codice della demo company
@@ -700,21 +693,6 @@ public class DemoDataGenerator {
         }
     }// end of method
 
-    /**
-     * Crea le aziende
-     */
-    public static void creaCompany() {
-        Company company;
-
-        company = new Company();
-        company.setName("Asteria");
-        company.save();
-
-        company = new Company();
-        company.setName("Algos");
-        company.save();
-
-    }// end of method
 
     /**
      * Crea le lettere mancanti
