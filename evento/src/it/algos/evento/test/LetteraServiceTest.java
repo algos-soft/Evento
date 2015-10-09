@@ -15,13 +15,14 @@ public class LetteraServiceTest {
 
 	@Test
 	public void testSend() {
+		String from = "info@algos.it";
 		String dest = "gac@algos.it";
 		String oggetto = "prova";
 		String testo = "testo senza allegati";
 		String errore = "";
 
 		try {
-			if (LetteraService.sendMail(dest, oggetto, testo, false)) {
+			if (LetteraService.sendMail(from, dest, oggetto, testo, false)) {
 				System.out.println("spedita senza allegati");
 			} else {
 				System.out.println("Non spedita");
@@ -36,6 +37,7 @@ public class LetteraServiceTest {
 
 	@Test
 	public void testSendMailAllegati() {
+		String from = "info@algos.it";
 		String dest = "gac@algos.it";
 		String oggetto = "prova";
 		String testo = "testo con allegati\n";
@@ -43,7 +45,7 @@ public class LetteraServiceTest {
 		String errore = "";
 
 		try {
-			if (LetteraService.sendMail(dest, oggetto, testo, false, allegati)) {
+			if (LetteraService.sendMail(from, dest, oggetto, testo, false, allegati)) {
 				System.out.println("spedita con allegati");
 			} else {
 				System.out.print("Non spedita");

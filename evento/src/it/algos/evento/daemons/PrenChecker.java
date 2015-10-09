@@ -47,6 +47,9 @@ public class PrenChecker implements Runnable {
 		this.checkDate = checkDate;
 	}
 
+	/**
+	 * Esegue il check per tutte quelle aziende che lo hanno programmato per quest'ora del giorno.
+	 */
 	@Override
 	public void run() {
 		
@@ -68,7 +71,7 @@ public class PrenChecker implements Runnable {
 		    if (doChecks) {
 		    	int checkHour=Lib.getInt(CompanyPrefs.oraRunSolleciti.get(company));
 				if (checkHour==currentHour) {
-					executeChecks(company);
+					run(company);
 				}
 			}
 		    
@@ -78,10 +81,15 @@ public class PrenChecker implements Runnable {
 		logger.log(Level.INFO, "end ciclo di controllo posizioni scadute");
 
 	}
-	
-	private void executeChecks(Company company){
-		
-		logger.log(Level.INFO, "Azienda "+company+": start esecuzione controlli posizioni scadute");
+
+
+	/**
+	 * Esegue il check ora, per una data azienda.
+	 * @param company l'azienda
+	 */
+	public void run(Company company) {
+
+		logger.log(Level.INFO, "Azienda " + company + ": start esecuzione controlli posizioni scadute");
 
 		if (checkConfLevel1) {
 			logger.log(Level.INFO, "Azienda "+company+": start controllo prenotazioni scadute");

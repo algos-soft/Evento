@@ -113,7 +113,7 @@ public class MailManager {
         destinatario = registra(mailing, indirizzo);
 
         if (destinatario != null) {
-            spedita = spedisce(destinatario, wrap);
+            spedita = spedisce(null, destinatario, wrap);
         }// fine del blocco if
 
         if (spedita) {
@@ -140,8 +140,12 @@ public class MailManager {
 
     /**
      * Spedisce la singola mail
+     *
+     * @param from         il mittente, se null o vuoto usa l'indirizzo della company corrente
+     * @param destinatario il destinatario
+     * @param wrap         il wrapper con indirizzo e mappa sostituzione
      */
-    private boolean spedisce(Destinatario destinatario, DestWrap wrap) {
+    private boolean spedisce(String from, Destinatario destinatario, DestWrap wrap) {
         boolean spedita = false;
         String oggetto = "";
         String titolo = "";
@@ -155,39 +159,12 @@ public class MailManager {
             titolo = destinatario.getTitolo();
             testo = destinatario.getTesto(mappa);
 
-            if (LibSession.isDebug()) {
-                String testoDebug;
-
-//                String hostName = "smtp.algos.it";
-//                int smtpPort = 25;
-//                boolean useAuth = true;
-//                String username = "gac@algos.it";
-//                String password = "fulvia";
-//                String from = "alex@algos.it";
-//                boolean html = false;
-//                String allegati = "";
-
-                testoDebug = "Titolo della mail: ";
-                testoDebug += titolo + "\n\n";
-                testoDebug += "Spedita a: ";
-                testoDebug += dest + "\n\n";
-                testoDebug += "Testo definitivo: \n";
-
-                dest = "gac@algos.it";
-                testo = testoDebug + testo;
-
-            } else {
-//                new Notification("Occhio che non sei in debug!",
-//                        "Cambia il parametro d'ingresso",
-//                        Notification.TYPE_ERROR_MESSAGE, true)
-//                        .show(Page.getCurrent());
-            }// fine del blocco if-else
-
             try { // prova ad eseguire il codice
-                spedita = LetteraService.sendMail(dest, oggetto, testo);
-            } catch (Exception unErrore) { // intercetta l'errore
-                String alfa = "";
+                spedita = LetteraService.sendMail(from, dest, oggetto, testo);
+            } catch (Exception e) { // intercetta l'errore
+                e.printStackTrace();
             }// fine del blocco try-catch
+
 
         }// fine del blocco if
 

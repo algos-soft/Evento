@@ -9,14 +9,17 @@ import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import it.algos.evento.daemons.PrenChecker;
 import it.algos.evento.demo.DemoDataGenerator;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.TablePortal;
 import it.algos.webbase.web.toolbar.Toolbar;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 @SuppressWarnings("serial")
 public class CompanyTablePortal extends TablePortal {
@@ -77,7 +80,7 @@ public class CompanyTablePortal extends TablePortal {
                                     @Override
                                     public void run() {
                                         DemoDataGenerator.createDemoData(company);
-                                        Notification.show("Creazione dati demo completata per "+company+".");
+                                        Notification.show("Creazione dati demo completata per l'azienda "+company+".");
                                     }
                                 }).start();
                             }
@@ -100,7 +103,7 @@ public class CompanyTablePortal extends TablePortal {
                         public void onClose(ConfirmDialog dialog, boolean confirmed) {
                             if(confirmed){
                                 company.deleteAllData();
-                                Notification.show("Tutti i dati di "+company+" sono stati cancellati.");
+                                Notification.show("Tutti i dati di " + company + " sono stati cancellati.");
                             }
                         }
                     });
@@ -111,6 +114,29 @@ public class CompanyTablePortal extends TablePortal {
 
             }
         });// end of anonymous class
+
+
+        item.addItem("Esegui PrenChecker per l'azienda selezionata", FontAwesome.GEARS, new MenuBar.Command() {
+            public void menuSelected(MenuItem selectedItem) {
+                Company company = (Company)getTable().getSelectedBean();
+                if (company != null) {
+                    ConfirmDialog dialog = new ConfirmDialog("Controllo prenotazioni","Vuoi eseguire il controllo prenotazioni per l'azienda "+company+"?<br>(Attenzione, potrebbe inviare i solleciti e congelare delle prenotazioni!)",new ConfirmDialog.Listener() {
+                        @Override
+                        public void onClose(ConfirmDialog dialog, boolean confirmed) {
+                            if(confirmed){
+                                PrenChecker checker = new PrenChecker(LibDate.today());
+                                checker.run(company);
+                            }
+                        }
+                    });
+                    dialog.show(UI.getCurrent());
+                } else {
+                    msgNoSelection();
+                }
+
+            }
+        });// end of anonymous class
+
 
 
     }// end of method

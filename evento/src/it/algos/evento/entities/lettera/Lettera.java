@@ -1,5 +1,9 @@
 package it.algos.evento.entities.lettera;
 
+import com.vaadin.data.Container;
+import com.vaadin.data.util.filter.And;
+import com.vaadin.data.util.filter.Compare;
+import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.multiazienda.EventoEntity;
@@ -190,6 +194,27 @@ public class Lettera extends EventoEntity {
 
 		return testoOut;
 	}// end of method
-	
+
+
+	/**
+	 * Recupera una lettera di una data company.
+	 *
+	 * @param modello  il modello lettera
+	 * @param company la company
+	 * @return la lettera
+	 */
+	public static Lettera getLettera(ModelliLettere modello, Company company) {
+		Lettera lettera = null;
+		Container.Filter f1 = new Compare.Equal(Lettera_.sigla.getName(), modello.getDbCode());
+		Container.Filter f2 = new Compare.Equal(Lettera_.company.getName(), company);
+		Container.Filter filter = new And(f1, f2);
+		ArrayList<BaseEntity> lettere = AQuery.getList(Lettera.class, filter);
+		if(lettere.size()==1){
+			BaseEntity entity=lettere.get(0);
+			lettera = (Lettera) entity;
+		}
+		return lettera;
+	}
+
 
 }// end of entity class

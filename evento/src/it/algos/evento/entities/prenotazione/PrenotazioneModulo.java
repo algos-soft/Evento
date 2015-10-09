@@ -9,6 +9,7 @@ import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import it.algos.evento.EventoBootStrap;
+import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;
@@ -524,6 +525,8 @@ public class PrenotazioneModulo extends EModulePop {
 
     /**
      * Invio promemoria invio scheda prenotazione (no UI)
+     * @param pren la prenotazione
+     * @param user l'utente che genera l'evento
      */
     public static void doPromemoriaInvioSchedaPrenotazione(Prenotazione pren, String user) throws EmailFailedException {
         boolean mailInviata=false;
@@ -532,7 +535,7 @@ public class PrenotazioneModulo extends EModulePop {
         // pone il livello di sollecito a 1 e prolunga la scadenza a X giorni da oggi
         if (pren.getLivelloSollecitoConferma() < 1) {
             pren.setLivelloSollecitoConferma(1);
-            int numDays = CompanyPrefs.ggProlungamentoConfDopoSollecito.getInt();
+            int numDays = CompanyPrefs.ggProlungamentoConfDopoSollecito.getInt(pren.getCompany());
             Date date = new DateTime(LibDate.today()).plusDays(numDays).toDate();
             pren.setScadenzaConferma(date);
             pren.save();
@@ -588,7 +591,7 @@ public class PrenotazioneModulo extends EModulePop {
             // e prolunga la scadenza a X giorni da oggi
             if (pren.getLivelloSollecitoPagamento() < 1) {
                 pren.setLivelloSollecitoPagamento(1);
-                int numDays = CompanyPrefs.ggProlungamentoPagamDopoSollecito.getInt();
+                int numDays = CompanyPrefs.ggProlungamentoPagamDopoSollecito.getInt(pren.getCompany());
                 Date date = new DateTime(LibDate.today()).plusDays(numDays).toDate();
                 pren.setScadenzaPagamento(date);
                 pren.save();
@@ -738,13 +741,17 @@ public class PrenotazioneModulo extends EModulePop {
             // crea una mappa di informazioni generale per la stampa/invio delle lettere
             HashMap<String, Object> mailMap;
             try {
-                mailMap = createMailMap(pren, modelloLettera, modelloLettera.getOggetto(), addr);
+                Lettera lettera = Lettera.getLettera(modelloLettera, pren.getCompany());
+                mailMap = createMailMap(pren, modelloLettera, lettera.getOggetto(), addr);
             } catch (EmailInfoMissingException e) {
                 throw new EmailFailedException(e.getMessage());
             }
 
+            // recupera la lettera da utilizzare
+            Lettera lettera = Lettera.getLettera(modelloLettera, pren.getCompany());
+
             // spedisce la mail
-            Spedizione sped = LetteraService.spedisci(escapeMap, mailMap);
+            Spedizione sped = LetteraService.spedisci(lettera, escapeMap, mailMap);
 
             // crea un nuovo evento di spedizione email
             creaEventoMail(pren, tipoEvento, user, mailMap, sped.isSpedita());
@@ -755,7 +762,7 @@ public class PrenotazioneModulo extends EModulePop {
         }
 
 
-    }// end of method
+    }
 
     private static void notifyEmailFailed(EmailFailedException e) {
         Notification notification = new Notification("Invio email fallito", "\n"+e.getMessage(), Notification.Type.ERROR_MESSAGE);
@@ -794,9 +801,16 @@ public class PrenotazioneModulo extends EModulePop {
         if (addr.equals("")) {
             throw new EmailInfoMissingException("Nessun indirizzo valido per la prenotazione " + pren);
         }
+
+        // from: dalla company della prenotazione
+        Company company = pren.getCompany();
+        String from = CompanyPrefs.senderEmailAddress.getString(company);
+
+        map.put(MailKeys.from.getKey(), from);
         map.put(MailKeys.destinatario.getKey(), addr);
         map.put(MailKeys.modello.getKey(), modello);
         map.put(MailKeys.oggetto.getKey(), oggetto);
+
         return map;
     }// end of method
 
@@ -1085,7 +1099,8 @@ public class PrenotazioneModulo extends EModulePop {
                     mailMap = createMailMap(pren, modello, modello.getOggetto(), email);
 
                     // spedisce la mail
-                    Spedizione sped = LetteraService.spedisci(escapeMap, mailMap);
+                    Lettera lettera = Lettera.getLettera(modello, pren.getCompany());
+                    Spedizione sped = LetteraService.spedisci(lettera, escapeMap, mailMap);
                     if (sped.isSpedita()) {
                         Notification.show("Email spedita");
                         super.onConfirm();

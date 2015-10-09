@@ -1,10 +1,14 @@
 package it.algos.evento.entities.lettera;
 
+import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.lettera.allegati.AllegatoModulo;
 import it.algos.evento.entities.spedizione.Spedizione;
+import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.pref.EventoPrefs;
 import it.algos.webbase.web.lib.Lib;
+import it.algos.webbase.web.lib.LibSecurity;
+import it.algos.webbase.web.lib.LibSession;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
@@ -49,82 +53,99 @@ public class LetteraService {
         return testoOut;
     }// end of method
 
-    public static Spedizione spedisci(LetteraMap mappaEscape,
-                                      HashMap<String, Object> mappaMail) {
+    public static Spedizione spedisci(Lettera lettera, LetteraMap mappaEscape, HashMap<String, Object> mappaMail) {
         Spedizione spedizione = new Spedizione();
         boolean spedita = false;
         String testoMail = null;
-        Object modLettera = null;
-        ModelliLettere modelloLettera = null;
-        Lettera lettera = null;
-        String oggetto = "";
-        String destinatario = null;
         HashMap<String, String> mappaEsc = mappaEscape.getEscapeMap();
         String errore = null;
         String allegati = "";
+        Object obj;
 
-        if (mappaMail != null) {
-            modLettera = mappaMail.get(MailKeys.modello.getKey());
-            if (modLettera != null) {
-                if (modLettera instanceof ModelliLettere) {
-                    modelloLettera = (ModelliLettere) modLettera;
-                }// end of if cycle
-            }// end of if cycle
-        }// end of if cycle
+        testoMail = lettera.getTestOut(mappaEsc);
 
-        if (modelloLettera != null) {
-            lettera = modelloLettera.getLettera();
-        }// end of if cycle
+        String from = null;
+        obj = mappaMail.get(MailKeys.from.getKey());
+        if (obj != null) {
+            from = (String) obj;
+        }
 
-        if (lettera != null) {
-            testoMail = lettera.getTestOut(mappaEsc);
+        String destinatario = null;
+        obj = mappaMail.get(MailKeys.destinatario.getKey());
+        if (obj != null) {
+            destinatario = (String) obj;
+        }
 
-            if (mappaMail.get(MailKeys.destinatario.getKey()) != null) {
-                destinatario = (String) mappaMail.get(MailKeys.destinatario
-                        .getKey());
-            }// end of if cycle
+        String oggetto = "";
+        obj = mappaMail.get(MailKeys.oggetto.getKey());
+        if (obj != null) {
+            oggetto = (String) obj;
+        } else {
+            oggetto = lettera.getOggetto();
+        }
 
-            if (mappaMail.get(MailKeys.oggetto.getKey()) != null) {
-                oggetto = (String) mappaMail.get(MailKeys.oggetto.getKey());
-            } else {
-                if (lettera != null) {
-                    oggetto = lettera.getOggetto();
-                }// end of if cycle
-            }// end of if/else cycle
+        allegati = lettera.getAllegati();
 
-            allegati = lettera.getAllegati();
-
-            try {
-                spedita = LetteraService.sendMail(destinatario, oggetto,
-                        testoMail, lettera.isHtml(), allegati);
-            } catch (EmailException e) {
-                errore = e.getMessage();
-                spedizione.setErrore(errore);
-            }
-            spedizione.setLettera(lettera);
-            spedizione.setDestinatario(destinatario);
-            spedizione.setSpedita(spedita);
-        }// end of if cycle
+        try {
+            spedita = LetteraService.sendMail(from, destinatario, oggetto,
+                    testoMail, lettera.isHtml(), allegati);
+        } catch (EmailException e) {
+            errore = e.getMessage();
+            spedizione.setErrore(errore);
+        }
+        spedizione.setLettera(lettera);
+        spedizione.setDestinatario(destinatario);
+        spedizione.setSpedita(spedita);
 
         spedizione.save();
 
         return spedizione;
     }// end of method
 
-    public static boolean sendMail(String dest, String oggetto, String testo) throws EmailException {
-        return sendMail(dest, oggetto, testo, true);
+    /**
+     * Invia una email.
+     *
+     * @param from    il mittente, se null o vuoto usa l'indirizzo della company corrente
+     * @param dest    il destinatario
+     * @param oggetto l'oggetto della mail
+     * @param testo   il corpo della mail
+     * @return true se spedita correttamente
+     */
+    public static boolean sendMail(String from, String dest, String oggetto, String testo) throws EmailException {
+        return sendMail(from, dest, oggetto, testo, true);
     }// end of method
 
-    public static boolean sendMail(String dest, String oggetto, String testo, boolean html) throws EmailException {
-        return sendMail(dest, oggetto, testo, html, "");
+    /**
+     * Invia una email.
+     *
+     * @param from    il mittente, se null o vuoto usa l'indirizzo della company corrente
+     * @param dest    il destinatario
+     * @param oggetto l'oggetto della mail
+     * @param testo   il corpo della mail
+     * @param html   true se è una mail html
+     * @return true se spedita correttamente
+     */
+    public static boolean sendMail(String from, String dest, String oggetto, String testo, boolean html) throws EmailException {
+        return sendMail(from, dest, oggetto, testo, html, "");
     }// end of method
 
-    public static boolean sendMail(String dest, String oggetto, String testo, boolean html, String allegati) throws EmailException {
+
+    /**
+     * Invia una email.
+     *
+     * @param from    il mittente, se null o vuoto usa l'indirizzo della company corrente
+     * @param dest    il destinatario
+     * @param oggetto l'oggetto della mail
+     * @param testo   il corpo della mail
+     * @param html   true se è una mail html
+     * @param allegati elenco dei nomi degli allegati (comma-separated string)
+     * @return true se spedita correttamente
+     */
+    public static boolean sendMail(String from, String dest, String oggetto, String testo, boolean html, String allegati) throws EmailException {
         boolean spedita = false;
         String hostName = "";
         String username = "";
         String password = "";
-        String from = "";
         boolean useAuth = false;
         int smtpPort;
 
@@ -135,7 +156,11 @@ public class LetteraService {
         password = EventoPrefs.smtpPassword.getString();
         useAuth = EventoPrefs.smtpUseAuth.getBool();
         smtpPort = EventoPrefs.smtpPort.getInt();
-        from = CompanyPrefs.senderEmailAddress.getString();
+
+        // se from non è specificato usa quello della company corrente
+        if ((from == null) || (from.equals(""))){
+            from = CompanyPrefs.senderEmailAddress.getString();
+        }
 
         // spedisce
         spedita = sendMail(hostName, smtpPort, useAuth, username, password, from, dest, oggetto, testo, html, allegati);

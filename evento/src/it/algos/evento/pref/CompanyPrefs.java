@@ -159,6 +159,11 @@ public enum CompanyPrefs implements PrefIF {
         return (boolean) get();
     }
 
+    public boolean getBool(Company company) {
+        return (boolean) get(company);
+    }
+
+
     public byte[] getBytes() {
         return (byte[]) get();
     }
@@ -200,6 +205,11 @@ public enum CompanyPrefs implements PrefIF {
     public String getString() {
         return (String) get();
     }
+
+    public String getString(Company company) {
+        return (String) get(company);
+    }
+
 
     /**
      * Scrive un valore nello storage per questa preferenza per una data

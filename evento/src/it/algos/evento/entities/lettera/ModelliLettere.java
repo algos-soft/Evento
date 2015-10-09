@@ -1,11 +1,18 @@
 package it.algos.evento.entities.lettera;
 
+import com.vaadin.data.Container;
+import com.vaadin.data.util.filter.And;
+import com.vaadin.data.util.filter.Compare;
+import it.algos.evento.entities.company.Company;
+import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.query.AQuery;
 
+import javax.persistence.metamodel.SingularAttribute;
 import java.util.ArrayList;
 
 public enum ModelliLettere {
@@ -36,7 +43,7 @@ public enum ModelliLettere {
     private CompanyPrefs prefNoPrivati;    // riferimento alla preferenza che indica di non inviare ai privati
 
 
-    private ModelliLettere(String dbCode, String oggettoDefault, CompanyPrefs prefSend, CompanyPrefs prefReferente, CompanyPrefs prefScuola, CompanyPrefs prefNoPrivati) {
+    ModelliLettere(String dbCode, String oggettoDefault, CompanyPrefs prefSend, CompanyPrefs prefReferente, CompanyPrefs prefScuola, CompanyPrefs prefNoPrivati) {
         this.dbCode = dbCode;
         this.oggettoDefault = oggettoDefault;
         this.prefSend = prefSend;
@@ -94,6 +101,8 @@ public enum ModelliLettere {
         return lettera;
     }// end of method
 
+
+
     /**
      * lista di tutti gli elementi dell'Enumeration
      */
@@ -145,8 +154,9 @@ public enum ModelliLettere {
      */
     public boolean isSendScuola(Prenotazione pren) {
         boolean send = false;
-        if(prefScuola != null && prefScuola.getBool()){
-            if(!pren.isPrivato()){
+
+        if (prefScuola != null && prefScuola.getBool(pren.getCompany())) {
+            if (!pren.isPrivato()) {
                 send = true;
             }
         }
@@ -158,10 +168,13 @@ public enum ModelliLettere {
      */
     public boolean isSendReferente(Prenotazione pren) {
         boolean send = false;
-        if (prefReferente != null && prefReferente.getBool()) {
+
+        Company company = pren.getCompany();
+
+        if (prefReferente != null && prefReferente.getBool(company)) {
             send = true;
             if (pren.isPrivato()) {
-                if (prefNoPrivati != null && prefNoPrivati.getBool()) {
+                if (prefNoPrivati != null && prefNoPrivati.getBool(company)) {
                     send = false;
                 }
             }
@@ -175,26 +188,28 @@ public enum ModelliLettere {
      * per una data prenotazione.
      * Basta che debba essere mandata a qualcuno.
      */
-    public boolean isSend(Prenotazione pren){
-        boolean send=false;
+    public boolean isSend(Prenotazione pren) {
+        boolean send = false;
 
-        if(prefSend.getBool()){
+        Company company = pren.getCompany();
+
+        if (prefSend.getBool(company)) {
 
             // manda alla scuola, ma non se privato
-            if(prefScuola.getBool()){
-                if(!pren.isPrivato()){
-                    send=true;
+            if (prefScuola.getBool(company)) {
+                if (!pren.isPrivato()) {
+                    send = true;
                 }
             }
 
             // manda al referente, ma non se privato e opzione NO PRIVATI=ON
-            if (prefReferente.getBool()){
-                if(prefNoPrivati.getBool()){
-                    if (!pren.isPrivato()){
-                        send=true;
+            if (prefReferente.getBool(company)) {
+                if (prefNoPrivati.getBool(company)) {
+                    if (!pren.isPrivato()) {
+                        send = true;
                     }
-                }else{
-                    send=true;
+                } else {
+                    send = true;
                 }
             }
 
