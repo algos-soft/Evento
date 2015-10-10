@@ -22,7 +22,7 @@ public class LetteraServiceTest {
 		String errore = "";
 
 		try {
-			if (LetteraService.sendMail(from, dest, oggetto, testo, false)) {
+			if (LetteraService.sendMail(null, from, dest, oggetto, testo, false)) {
 				System.out.println("spedita senza allegati");
 			} else {
 				System.out.println("Non spedita");
@@ -41,11 +41,10 @@ public class LetteraServiceTest {
 		String dest = "gac@algos.it";
 		String oggetto = "prova";
 		String testo = "testo con allegati\n";
-		String allegati = "pippoz.csv,Mario.rtf";
 		String errore = "";
 
 		try {
-			if (LetteraService.sendMail(from, dest, oggetto, testo, false, allegati)) {
+			if (LetteraService.sendMail(null, from, dest, oggetto, testo, false, null)) {
 				System.out.println("spedita con allegati");
 			} else {
 				System.out.print("Non spedita");

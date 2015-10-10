@@ -95,6 +95,7 @@ public class EventoBootStrap extends ABootStrap {
             lettera = new Lettera(siglaDemo, ModelliLettere.demoSostituzioni.getOggettoDefault(), LetteraKeys.getTestoDemo());
             lettera.setCompany(company);
         } else {
+
             lettera = (Lettera) entity;
             lettera.setTesto(LetteraKeys.getTestoDemo());
         }// fine del blocco if

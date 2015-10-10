@@ -1,5 +1,6 @@
 package it.algos.evento.entities.mailing;
 
+import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.entities.lettera.LetteraService;
 import it.algos.webbase.web.lib.LibDate;
@@ -113,7 +114,7 @@ public class MailManager {
         destinatario = registra(mailing, indirizzo);
 
         if (destinatario != null) {
-            spedita = spedisce(null, destinatario, wrap);
+            spedita = spedisce(mailing.getCompany(), null, destinatario, wrap);
         }// fine del blocco if
 
         if (spedita) {
@@ -145,7 +146,7 @@ public class MailManager {
      * @param destinatario il destinatario
      * @param wrap         il wrapper con indirizzo e mappa sostituzione
      */
-    private boolean spedisce(String from, Destinatario destinatario, DestWrap wrap) {
+    private boolean spedisce(Company company, String from, Destinatario destinatario, DestWrap wrap) {
         boolean spedita = false;
         String oggetto = "";
         String titolo = "";
@@ -160,7 +161,7 @@ public class MailManager {
             testo = destinatario.getTesto(mappa);
 
             try { // prova ad eseguire il codice
-                spedita = LetteraService.sendMail(from, dest, oggetto, testo);
+                spedita = LetteraService.sendMail(company, from, dest, oggetto, testo);
             } catch (Exception e) { // intercetta l'errore
                 e.printStackTrace();
             }// fine del blocco try-catch

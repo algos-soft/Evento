@@ -1,14 +1,22 @@
 package it.algos.evento.entities.lettera.allegati;
 
+import com.vaadin.data.Container;
 import com.vaadin.data.Item;
+import com.vaadin.data.util.filter.And;
+import com.vaadin.data.util.filter.Compare;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import eu.medsea.mimeutil.MimeType;
+import it.algos.evento.entities.company.Company;
+import it.algos.evento.entities.lettera.Lettera_;
+import it.algos.evento.entities.lettera.ModelliLettere;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.webbase.web.AlgosApp;
+import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.lib.LibFile;
+import it.algos.webbase.web.query.AQuery;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.updown.FileUploader;
 import it.algos.webbase.web.updown.FileUploader.UploadFinishedListener;
@@ -196,23 +204,29 @@ public class AllegatoModulo extends EModulePop {
 		return allegato;
 	}
 
+
 	/**
-	 * Recupera un allegato come DataSource
-	 * <p>
-	 * 
-	 * @param name
-	 *            il nome del file
-	 * @return il DataSource corrispondente
+	 * Recupera un allegato di una data company.
+	 *
+	 * @param name  il nome dell'allegato
+	 * @param company la company
+	 * @return l'allegato
 	 */
-	public static DataSource getDataSource(String name) {
-		ByteArrayDataSource bds = null;
-		Allegato allegato = getAllegato(name);
-		if (allegato != null) {
-			bds = new ByteArrayDataSource(allegato.getContent(), allegato.getMimeType());
-			bds.setName(allegato.getName());
+	public static Allegato getAllegato(String name, Company company) {
+		Allegato allegato = null;
+		Container.Filter f1 = new Compare.Equal(Allegato_.name.getName(), name);
+		Container.Filter f2 = new Compare.Equal(Allegato_.company.getName(), company);
+		Container.Filter filter = new And(f1, f2);
+		ArrayList<BaseEntity> allegati = AQuery.getList(Allegato.class, filter);
+		if(allegati.size()==1){
+			BaseEntity entity=allegati.get(0);
+			allegato = (Allegato) entity;
 		}
-		return bds;
+		return allegato;
 	}
+
+
+
 
 	/**
 	 * Ritorna la lista di tutti gli allegati ordinata per nome

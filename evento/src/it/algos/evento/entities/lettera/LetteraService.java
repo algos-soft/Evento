@@ -1,20 +1,28 @@
 package it.algos.evento.entities.lettera;
 
+import com.vaadin.data.Container;
+import com.vaadin.data.util.filter.And;
+import com.vaadin.data.util.filter.Compare;
 import it.algos.evento.entities.company.Company;
+import it.algos.evento.entities.lettera.allegati.Allegato;
 import it.algos.evento.entities.lettera.allegati.AllegatoModulo;
+import it.algos.evento.entities.lettera.allegati.Allegato_;
 import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.pref.EventoPrefs;
+import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibSecurity;
 import it.algos.webbase.web.lib.LibSession;
+import it.algos.webbase.web.query.AQuery;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.ImageHtmlEmail;
 
 import javax.activation.DataSource;
+import javax.mail.util.ByteArrayDataSource;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -59,7 +67,6 @@ public class LetteraService {
         String testoMail = null;
         HashMap<String, String> mappaEsc = mappaEscape.getEscapeMap();
         String errore = null;
-        String allegati = "";
         Object obj;
 
         testoMail = lettera.getTestOut(mappaEsc);
@@ -84,10 +91,29 @@ public class LetteraService {
             oggetto = lettera.getOggetto();
         }
 
-        allegati = lettera.getAllegati();
+        // crea l'array degli allegati
+        Allegato[] allegati=null;
+        String sNomi=lettera.getAllegati();
+        if(sNomi!=null){
+            String[] aNomi=sNomi.split(",");
+            allegati=new Allegato[aNomi.length];
+            for(int i=0; i<aNomi.length; i++){
+                String nome = aNomi[i];
+                Allegato allegato = null;
+                Container.Filter f1 = new Compare.Equal(Allegato_.name.getName(), nome);
+                Container.Filter f2 = new Compare.Equal(Allegato_.company.getName(), lettera.getCompany());
+                Container.Filter filter = new And(f1, f2);
+                ArrayList<BaseEntity> listAllegati = AQuery.getList(Allegato.class, filter);
+                if(listAllegati.size()==1){
+                    BaseEntity entity=listAllegati.get(0);
+                    allegato = (Allegato) entity;
+                }
+                allegati[i]=allegato;
+            }
+        }
 
         try {
-            spedita = LetteraService.sendMail(from, destinatario, oggetto,
+            spedita = LetteraService.sendMail(lettera.getCompany(), from, destinatario, oggetto,
                     testoMail, lettera.isHtml(), allegati);
         } catch (EmailException e) {
             errore = e.getMessage();
@@ -105,19 +131,21 @@ public class LetteraService {
     /**
      * Invia una email.
      *
+     * @param company  l'azienda per conto della quale si spedisce la mail
      * @param from    il mittente, se null o vuoto usa l'indirizzo della company corrente
      * @param dest    il destinatario
      * @param oggetto l'oggetto della mail
      * @param testo   il corpo della mail
      * @return true se spedita correttamente
      */
-    public static boolean sendMail(String from, String dest, String oggetto, String testo) throws EmailException {
-        return sendMail(from, dest, oggetto, testo, true);
+    public static boolean sendMail(Company company, String from, String dest, String oggetto, String testo) throws EmailException {
+        return sendMail(company, from, dest, oggetto, testo, true);
     }// end of method
 
     /**
      * Invia una email.
      *
+     * @param company  l'azienda per conto della quale si spedisce la mail
      * @param from    il mittente, se null o vuoto usa l'indirizzo della company corrente
      * @param dest    il destinatario
      * @param oggetto l'oggetto della mail
@@ -125,23 +153,24 @@ public class LetteraService {
      * @param html   true se è una mail html
      * @return true se spedita correttamente
      */
-    public static boolean sendMail(String from, String dest, String oggetto, String testo, boolean html) throws EmailException {
-        return sendMail(from, dest, oggetto, testo, html, "");
+    public static boolean sendMail(Company company, String from, String dest, String oggetto, String testo, boolean html) throws EmailException {
+        return sendMail(company, from, dest, oggetto, testo, html, null);
     }// end of method
 
 
     /**
      * Invia una email.
      *
+     * @param company  l'azienda per conto della quale si spedisce la mail
      * @param from    il mittente, se null o vuoto usa l'indirizzo della company corrente
      * @param dest    il destinatario
      * @param oggetto l'oggetto della mail
      * @param testo   il corpo della mail
      * @param html   true se è una mail html
-     * @param allegati elenco dei nomi degli allegati (comma-separated string)
+     * @param allegati elenco degli allegati
      * @return true se spedita correttamente
      */
-    public static boolean sendMail(String from, String dest, String oggetto, String testo, boolean html, String allegati) throws EmailException {
+    public static boolean sendMail(Company company, String from, String dest, String oggetto, String testo, boolean html, Allegato[] allegati) throws EmailException {
         boolean spedita = false;
         String hostName = "";
         String username = "";
@@ -157,34 +186,48 @@ public class LetteraService {
         useAuth = EventoPrefs.smtpUseAuth.getBool();
         smtpPort = EventoPrefs.smtpPort.getInt();
 
-        // se from non è specificato usa quello della company corrente
+        // se from non è specificato usa quello della company
         if ((from == null) || (from.equals(""))){
-            from = CompanyPrefs.senderEmailAddress.getString();
+            if(company!=null){
+                from = CompanyPrefs.senderEmailAddress.getString(company);
+            }
         }
 
         // spedisce
-        spedita = sendMail(hostName, smtpPort, useAuth, username, password, from, dest, oggetto, testo, html, allegati);
+        spedita = sendMail(company, hostName, smtpPort, useAuth, username, password, from, dest, oggetto, testo, html, allegati);
 
         return spedita;
     }// end of method
 
 
-    public static boolean sendMail(String hostName, int smtpPort, boolean useAuth, String nickName,
+    public static boolean sendMail(Company company, String hostName, int smtpPort, boolean useAuth, String nickName,
                                    String password, String from, String dest, String oggetto,
-                                   String testo, boolean html, String allegati) throws EmailException {
+                                   String testo, boolean html, Allegato[] allegati) throws EmailException {
         boolean spedita = false;
         ImageHtmlEmail email;
 
 
         email = new ImageHtmlEmail();
 
-        //adds attachments
-        if (allegati != null && !allegati.equals("")) {
-            ArrayList<String> listaAllegati = Lib.getArrayDaTesto(allegati);
-            for (String name : listaAllegati) {
-                DataSource ds = AllegatoModulo.getDataSource(name);
+//        //adds attachments
+//        if (allegati != null && !allegati.equals("")) {
+//            ArrayList<String> listaAllegati = Lib.getArrayDaTesto(allegati);
+//            for (String name : listaAllegati) {
+//                DataSource ds = AllegatoModulo.getDataSource(name);
+//                if(ds!=null){
+//                    String disposition = EmailAttachment.ATTACHMENT;
+//                    email.attach(ds, name, name, disposition);
+//                }
+//            }
+//        }
+
+        // adds attachments
+        if(allegati!=null){
+            for(Allegato allegato : allegati){
+                ByteArrayDataSource bds = new ByteArrayDataSource(allegato.getContent(), allegato.getMimeType());
+                bds.setName(allegato.getName());
                 String disposition = EmailAttachment.ATTACHMENT;
-                email.attach(ds, name, name, disposition);
+                email.attach(bds, allegato.getName(), allegato.getName(), disposition);
             }
         }
 
@@ -210,8 +253,8 @@ public class LetteraService {
         }
 
         // aggiunge email di backup se configurato
-        if (CompanyPrefs.backupEmail.getBool()) {
-            String backupAddress = CompanyPrefs.backupEmailAddress.getString();
+        if (CompanyPrefs.backupEmail.getBool(company)) {
+            String backupAddress = CompanyPrefs.backupEmailAddress.getString(company);
             if (!(backupAddress.equals(""))) {
                 email.addBcc(backupAddress);
             }
@@ -234,10 +277,9 @@ public class LetteraService {
 
         // set a data source resolver to resolve embedded images
         if (html) {
-            ImageResolver resolver = new ImageResolver();
+            ImageResolver resolver = new ImageResolver(company);
             email.setDataSourceResolver(resolver);
         }
-
 
         // send the email
         email.send();
