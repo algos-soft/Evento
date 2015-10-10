@@ -48,7 +48,12 @@ public class PrenChecker implements Runnable {
 	}
 
 	/**
-	 * Esegue il check per tutte quelle aziende che lo hanno programmato per quest'ora del giorno.
+	 * Esegue il check per tutte quelle aziende che lo hanno programmato per quest'ora del giorno.<p>
+	 * ATTENZIONE! Questa procedura è invocata da un thread sul server.
+	 * Quindi non abbiamo sessioni e di conseguenza non abbiamo company corrente.
+	 * Pertanto tutte le chiamate che partono da qui devono:
+	 * - NON usare EQuery perché la company è nulla
+	 * - Assegnare sempre esplicitamente la company
 	 */
 	@Override
 	public void run() {
