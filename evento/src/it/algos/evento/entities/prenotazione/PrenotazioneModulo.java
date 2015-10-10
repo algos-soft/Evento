@@ -529,7 +529,6 @@ public class PrenotazioneModulo extends EModulePop {
      * @param user l'utente che genera l'evento
      */
     public static void doPromemoriaInvioSchedaPrenotazione(Prenotazione pren, String user) throws EmailFailedException {
-        boolean mailInviata=false;
         TipoEventoPren tipoEvento = TipoEventoPren.promemoriaInvioSchedaPrenotazione;
 
         // pone il livello di sollecito a 1 e prolunga la scadenza a X giorni da oggi
@@ -981,6 +980,7 @@ public class PrenotazioneModulo extends EModulePop {
      */
     public static EventoPren creaEvento(Prenotazione pren, TipoEventoPren tipo, String dettagli, String user, boolean email, boolean inviata) {
         EventoPren evento = new EventoPren();
+        evento.setCompany(pren.getCompany());
         evento.setDettagli(dettagli);
         evento.setPrenotazione(pren);
         evento.setTimestamp(new Date());

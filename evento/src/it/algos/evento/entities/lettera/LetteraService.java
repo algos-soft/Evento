@@ -63,6 +63,7 @@ public class LetteraService {
 
     public static Spedizione spedisci(Lettera lettera, LetteraMap mappaEscape, HashMap<String, Object> mappaMail) {
         Spedizione spedizione = new Spedizione();
+        spedizione.setCompany(lettera.getCompany());
         boolean spedita = false;
         String testoMail = null;
         HashMap<String, String> mappaEsc = mappaEscape.getEscapeMap();
