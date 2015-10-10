@@ -37,7 +37,7 @@ public class AccessControlConfigComponent extends BaseConfigPanel {
         title = "<b>Gestione controllo accessi</b><p>";
         layout.addComponent(new Label(title, ContentMode.HTML));
 
-        title = "Se è selezionata una azienda di auto-login, tutti gli utenti vengo loggati automaticamente su questa azienda (installazioni mono-azienda).<br>";
+        title = "Se è selezionata una azienda di auto-login, tutti gli utenti vengono loggati automaticamente su questa azienda (installazioni mono-azienda).<br>";
         title += "Altrimenti ogni utente deve effettuare il login e l'azienda viene determinata in base all'utente.<p>";
         title += "(Gli amministratori devono sempre effettuare il login).";
 
