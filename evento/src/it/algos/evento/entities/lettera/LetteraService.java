@@ -95,7 +95,7 @@ public class LetteraService {
         // crea l'array degli allegati
         Allegato[] allegati=null;
         String sNomi=lettera.getAllegati();
-        if(sNomi!=null){
+        if(sNomi!=null && !sNomi.equals("")){
             String[] aNomi=sNomi.split(",");
             allegati=new Allegato[aNomi.length];
             for(int i=0; i<aNomi.length; i++){
@@ -225,7 +225,9 @@ public class LetteraService {
         // adds attachments
         if(allegati!=null){
             for(Allegato allegato : allegati){
-                ByteArrayDataSource bds = new ByteArrayDataSource(allegato.getContent(), allegato.getMimeType());
+                byte[] content=allegato.getContent();
+                String mimeType=allegato.getMimeType();
+                ByteArrayDataSource bds = new ByteArrayDataSource(content, mimeType);
                 bds.setName(allegato.getName());
                 String disposition = EmailAttachment.ATTACHMENT;
                 email.attach(bds, allegato.getName(), allegato.getName(), disposition);
