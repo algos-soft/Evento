@@ -86,11 +86,9 @@ public class RappresentazioneModulo extends EModulePop {
         // crea un container contenente un wrapper per ogni partecipazione
         // alle rappresentazioni correntemente elencate in tabella
         BeanItemContainer<PartecipazioneBean> container = new BeanItemContainer(PartecipazioneBean.class);
-        Table tableRapp = getTable();
-        JPAContainer cont = getTable().getJPAContainer();
-        Collection<Object> ids = cont.getItemIds();
+        Object[] ids = getTable().getSelectedIds();
         for(Object id:ids){
-            EntityItem item = cont.getItem(id);
+            EntityItem item = getTable().getJPAContainer().getItem(id);
             Rappresentazione rapp=(Rappresentazione)item.getEntity();
             List<Insegnante> insegnanti = rapp.getInsegnanti();
             for(Insegnante ins : insegnanti){
