@@ -1,6 +1,7 @@
 package it.algos.evento.entities.comune;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.data.Property;
 import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.module.ModulePop;
 
@@ -9,6 +10,8 @@ public class ComuneTable extends ETable{
 	public ComuneTable(ModulePop modulo) {
 		super(modulo);
 	}
+
+
 
 	/**
 	 * Initial sort order for the JPA container
@@ -21,5 +24,7 @@ public class ComuneTable extends ETable{
 		String sortField = Comune_.nome.getName();
 		cont.sort(new String[] { sortField }, new boolean[] { true });
 	}// end of method
+
+
 
 }

@@ -10,6 +10,7 @@ import it.algos.evento.entities.lettera.LetteraKeys;
 import it.algos.evento.entities.lettera.Lettera_;
 import it.algos.evento.entities.lettera.ModelliLettere;
 import it.algos.evento.pref.EventoPrefs;
+import it.algos.webbase.web.AlgosApp;
 import it.algos.webbase.web.bootstrap.ABootStrap;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.lib.LibVers;
@@ -101,8 +102,6 @@ public class EventoBootStrap extends ABootStrap {
         }// fine del blocco if
 
         lettera.save();
-
-
     }// end of method
 
     /**
