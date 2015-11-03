@@ -118,6 +118,7 @@ public class Prenotazione extends EventoEntity {
     @ManyToOne
     private TipoRicevuta tipoRicevuta;
 
+    @Lob
     private String note = "";
 
     @Temporal(TemporalType.DATE)

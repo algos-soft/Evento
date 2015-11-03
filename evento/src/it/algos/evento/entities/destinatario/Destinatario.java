@@ -6,6 +6,7 @@ import it.algos.evento.entities.mailing.Mailing;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -16,10 +17,14 @@ import java.util.HashMap;
 public class Destinatario extends EventoEntity {
 
     public static EventoEntityQuery<Destinatario> query = new EventoEntityQuery(Destinatario.class);
+
+    @ManyToOne
     @NotNull
     private Mailing mailing = null;
+
     @NotEmpty
     private String indirizzo = "";
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataSpedizione;
     private boolean spedita;

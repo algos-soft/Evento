@@ -35,6 +35,7 @@ public class Rappresentazione extends EventoEntity {
     @NotNull
     private Date dataRappresentazione;
 
+    @Lob
     private String note;
 
     @ManyToMany

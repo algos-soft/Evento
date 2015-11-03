@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -31,7 +32,10 @@ public class Insegnante extends EventoEntity {
 	private String materie;
 	private String indirizzo1;
 	private String indirizzo2;
+
+	@Lob
 	private String note;
+
 	private boolean privato;
 
 

@@ -15,6 +15,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class Lettera extends EventoEntity {
 	@Size(min = 2, max = 80)
 	private String oggetto = "";
 
-	@Column(length = 16384)
+	@Lob
 	private String testo = "";
 
 	private String allegati = "";

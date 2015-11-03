@@ -8,6 +8,7 @@ import it.algos.webbase.web.query.AQuery;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
@@ -36,6 +37,8 @@ public class Scuola extends EventoEntity {
 	private String telefono;
 	private String fax;
 	private String email;
+
+	@Lob
 	private String note;
 
 	public Scuola() {
