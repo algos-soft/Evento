@@ -74,7 +74,7 @@ public class PrenotazioneFormToolbar extends FormToolbar {
 	}// end of method
 
 	public interface PrenotazioneFormToolbarListener {
-		public void confermaPrenotazione();
+		void confermaPrenotazione();
 	}// end of method
 
 	public enum PrenEvents {

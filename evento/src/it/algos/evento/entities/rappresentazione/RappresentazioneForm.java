@@ -34,6 +34,7 @@ import it.algos.webbase.web.table.ATable;
 import javax.persistence.metamodel.Attribute;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -289,13 +290,14 @@ public class RappresentazioneForm extends AForm {
 
 	/**
 	 * Registra il contenuto della tabella Insegnanti nella relativa property
+	 * prima di registrare.
 	 */
 	@SuppressWarnings({ "unchecked" })
 	@Override
-	protected boolean save() {
+	protected boolean save(LinkedHashMap<Object, Field> fieldMap, boolean newRecord) {
 		Property<ArrayList<?>> prop=getItem().getItemProperty(Rappresentazione_.insegnanti.getName());
 		prop.setValue(tableInsegnanti.getListaInsegnanti());
-		return super.save();
+		return super.save(fieldMap, newRecord);
 	}
 
 	

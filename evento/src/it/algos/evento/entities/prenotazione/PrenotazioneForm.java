@@ -54,6 +54,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 @SuppressWarnings("serial")
 public class PrenotazioneForm extends AForm {
@@ -142,7 +143,6 @@ public class PrenotazioneForm extends AForm {
 
             @Override
             public void reset_() {
-                // TODO Auto-generated method stub
             }// end of method
 
             @Override
@@ -891,11 +891,10 @@ public class PrenotazioneForm extends AForm {
 
 
 
-    @Override
-    protected boolean save() {
+    private boolean save() {
         boolean saved;
 
-        saved = super.save();
+        saved = super.save(bindMap, isNewRecord());
 
         if (saved) {
 
