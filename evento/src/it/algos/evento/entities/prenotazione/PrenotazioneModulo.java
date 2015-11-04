@@ -507,11 +507,11 @@ public class PrenotazioneModulo extends EModulePop {
     /**
      * Esecuzione conferma prenotazione (no UI)
      */
-    public static void doConfermaPrenotazione(Prenotazione pren, String user) throws EmailFailedException {
+    public static void doConfermaPrenotazione(Prenotazione pren, Date dataConferma, String user) throws EmailFailedException {
         TipoEventoPren tipoEvento = TipoEventoPren.confermaPrenotazione;
         pren.setConfermata(true);
+        pren.setDataConferma(dataConferma);
         pren.setCongelata(false);
-        pren.setDataConferma(LibDate.today());
         pren.save();
 
         PrenotazioneModulo.creaEvento(pren, tipoEvento, "", getUsername());

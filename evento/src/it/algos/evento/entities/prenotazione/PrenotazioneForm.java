@@ -54,7 +54,6 @@ import javax.persistence.metamodel.SingularAttribute;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 
 @SuppressWarnings("serial")
 public class PrenotazioneForm extends AForm {
@@ -64,12 +63,16 @@ public class PrenotazioneForm extends AForm {
     private IntegerField fieldDisponibili;
     private DecimalField fieldImportoTotale;
     private DecimalField fieldImportoTotale2;    // nella seconda pagina
+    private CheckBoxField fieldConfermata;
     private CheckBoxField fieldCongelata;
     private TextField fieldClasse;
     private RelatedComboField comboScuola;
     private CheckBoxField fieldPrivato;
     private EventoPrenTable eventsTable; // la table con gli eventi
     private Label dettaglioInsegnante;
+
+    private boolean inValueChange =false;   // flag per evitare di reagire ricorsivamente agli eventi di cambio valore di alcuni campi
+
 
     public PrenotazioneForm(ModulePop modulo) {
         this(modulo, null);
@@ -315,9 +318,37 @@ public class PrenotazioneForm extends AForm {
 
         fieldCongelata = new CheckBoxField("Congelata");
         addField(Prenotazione_.congelata, fieldCongelata);
+        fieldCongelata.addValueChangeListener(event -> {
+            if (!inValueChange) {
+                ConfirmDialog dialog = new ConfirmDialog(null, "Questo campo è gestito automaticamente.<br>Sei sicuro di volerlo modificare manualmente?", (dialog1, confirmed) -> {
+                    if (!confirmed) {
+                        inValueChange = true;
+                        fieldCongelata.setValue(!fieldCongelata.getValue());
+                        inValueChange = false;
+                    }
+                });
+                dialog.setConfirmButtonText("Modifica");
+                dialog.show();
+            }
+        });
 
-        field = new CheckBoxField("Confermata");
-        addField(Prenotazione_.confermata, field);
+
+        fieldConfermata = new CheckBoxField("Confermata");
+        addField(Prenotazione_.confermata, fieldConfermata);
+        fieldConfermata.addValueChangeListener(event -> {
+            if(!inValueChange){
+                ConfirmDialog dialog = new ConfirmDialog(null, "Questo campo è gestito automaticamente.<br>Sei sicuro di volerlo modificare manualmente?", (dialog1, confirmed) -> {
+                    if(!confirmed){
+                        inValueChange =true;
+                        fieldConfermata.setValue(!fieldConfermata.getValue());
+                        inValueChange =false;
+                    }
+                });
+                dialog.setConfirmButtonText("Modifica");
+                dialog.show();
+            }
+        });
+
 
         field = new DateField("Data conferma");
         addField(Prenotazione_.dataConferma, field);
@@ -339,6 +370,7 @@ public class PrenotazioneForm extends AForm {
 
 
     }
+
 
     /**
      * Invocato quando il valore del flag privato cambia.
@@ -993,53 +1025,57 @@ public class PrenotazioneForm extends AForm {
             }
         }
 
+
         // presenta il dialogo di conferma
-        if (cont) {
-            ConfirmDialog dialog = new ConfirmDialog((dialog1, confirmed) -> {
-                if (confirmed) {
+        if(cont){
+            Date dataConf=new Date();
+            final DialogoConfermaPrenotazione dialogoConferma=new DialogoConfermaPrenotazione(new ConfirmDialog.Listener() {
+                @Override
+                public void onClose(ConfirmDialog dialog, boolean confirmed) {
+                    if(confirmed){
+                        Date dataConferma=((DialogoConfermaPrenotazione)dialog).getDataConferma();
 
-                    // invia la mail di istruzioni in un thread separato
-                    // (usa una lambda al posto del runnable)
-                    new Thread(
-                            () -> {
+                        // invia la mail di istruzioni in un thread separato
+                        // (usa una lambda al posto del runnable)
+                        new Thread(
+                                () -> {
 
-                                Prenotazione pren = getPrenotazione();
-                                String detail = pren.toStringNumDataInsegnante();
-                                Notification notif;
-                                try {
-                                    String user = EventoBootStrap.getUsername();
+                                    Prenotazione pren = getPrenotazione();
+                                    String detail = pren.toStringNumDataInsegnante();
+                                    Notification notif;
+                                    try {
+                                        String user = EventoBootStrap.getUsername();
 
-                                    // questo comando scrive i campi e salva la prenotazione
-                                    // ed eventualmente invia la mail
-                                    PrenotazioneModulo.doConfermaPrenotazione(pren, user);
+                                        // questo comando scrive i campi e salva la prenotazione
+                                        // ed eventualmente invia la mail
+                                        PrenotazioneModulo.doConfermaPrenotazione(pren, dataConferma, user);
 
-                                    String inviata = "";
-                                    if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
-                                        inviata = "Inviata e-mail di conferma";
+                                        String inviata = "";
+                                        if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
+                                            inviata = "Inviata e-mail di conferma";
+                                        }
+                                        notif = new Notification("Prenotazione confermata", inviata + " " + detail, Notification.Type.HUMANIZED_MESSAGE);
+                                    } catch (EmailFailedException e) {
+                                        notif = new Notification("Invio email fallito: " + e.getMessage(), detail, Notification.Type.ERROR_MESSAGE);
                                     }
-                                    notif = new Notification("Prenotazione confermata", inviata + " " + detail, Notification.Type.HUMANIZED_MESSAGE);
-                                } catch (EmailFailedException e) {
-                                    notif = new Notification("Invio email fallito: " + e.getMessage(), detail, Notification.Type.ERROR_MESSAGE);
+
+                                    notif.setDelayMsec(-1);
+                                    notif.show(Page.getCurrent());
+
                                 }
+                        ).start();
 
-                                notif.setDelayMsec(-1);
-                                notif.show(Page.getCurrent());
+                        // chiude la finestra
+                        Window w = getWindow();
+                        if (w != null) {
+                            w.close();
+                        }
 
-                            }
-                    ).start();
-
-                    // chiude la finestra
-                    Window w = getWindow();
-                    if (w != null) {
-                        w.close();
-                        ;
                     }
-
                 }
-            });
-            dialog.setTitle("Conferma prenotazione");
-            dialog.setMessage("Vuoi confermare la prenotazione?");
-            dialog.show(getUI());
+            }, dataConf);
+            dialogoConferma.show(getUI());
+
         }
 
     }
