@@ -12,7 +12,7 @@ import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.query.AQuery;
-import org.eclipse.persistence.annotations.CascadeOnDelete;
+import org.eclipse.persistence.annotations.*;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
@@ -28,6 +28,16 @@ import java.util.logging.Logger;
 
 @Entity
 //@CascadeOnDelete
+//@Indexes(name="EMP_NAME_INDEX", columnList="pippo")
+//@Indexes({
+//        @Index(columnList={"lastName","firstName"}),
+//        @Index(columnList={"firstName"})
+//})
+
+//@Table(indexes = { @Index(name="pippo", columnList={"numPrenotazione"}) })
+
+
+
 public class Prenotazione extends EventoEntity {
 
     private static final long serialVersionUID = -6685175938276422883L;
@@ -46,6 +56,7 @@ public class Prenotazione extends EventoEntity {
     }
 
     // @GeneratedValue(strategy = GenerationType.AUTO)
+   // @org.eclipse.persistence.annotations.Index
     private int numPrenotazione;
 
     private String uuid;
@@ -65,6 +76,7 @@ public class Prenotazione extends EventoEntity {
     @NotNull
     private Insegnante insegnante;
 
+    //@org.eclipse.persistence.annotations.Index
     private String classe = "";
 
     @NotEmpty
