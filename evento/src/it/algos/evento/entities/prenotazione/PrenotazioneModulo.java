@@ -325,7 +325,7 @@ public class PrenotazioneModulo extends EModulePop {
             this.pren = pren;
             setTitle("Congelamento opzione");
             String msg="Il congelamento di una opzione libera i posti impegnati e blocca " +
-                    "l'invio di ulteriori soleciti.<br>Una email di avviso viene inviata " +
+                    "l'invio di ulteriori solleciti.<br>Una email di notifica viene inviata " +
                     "al referente.<br>";
             setMessage(msg);
             setConfirmButtonText("Congela");
