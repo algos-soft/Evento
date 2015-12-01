@@ -21,6 +21,7 @@ import java.util.logging.Logger;
  * UI iniziale di Company.
  */
 @Theme("asteriacultura")
+//@Theme("valo")
 @Title("eVento")
 public class CompanyUI extends UI {
 

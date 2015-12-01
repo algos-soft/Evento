@@ -2,6 +2,7 @@ package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container.Filter;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.MenuBar;
@@ -207,6 +208,25 @@ public class PrenotazioneTablePortal extends TablePortal {
                 }
             }
         });// end of anonymous class
+
+
+        item.addItem("Sposta ad altra data...", null, new MenuBar.Command() {
+            public void menuSelected(MenuItem selectedItem) {
+                BeanItem[] beans = getTable().getSelectedBeans();
+                if ((beans != null) && (beans.length>0)) {
+                    ArrayList<Prenotazione> lPren = new ArrayList<Prenotazione>();
+                    for (BeanItem bean : beans){
+                        Prenotazione p = (Prenotazione)bean.getBean();
+                        lPren.add(p);
+                    }
+                    Prenotazione[] aPren=lPren.toArray(new Prenotazione[0]);
+                    PrenotazioneModulo.cmdSpostaPrenotazioni(aPren);
+                } else {
+                    Notification.show("Seleziona prima le prenotazioni da spostare.");
+                }
+            }
+        });// end of anonymous class
+
 
     }// end of method
 

@@ -123,6 +123,7 @@ public class DialogoRegistraPagamento extends ConfirmDialog {
 	protected VerticalLayout createDetailComponent() {
 		placeholderLayout = new VerticalLayout();
 		placeholderLayout.setSpacing(true);
+		placeholderLayout.setMargin(true);
 		return placeholderLayout;
 	}
 

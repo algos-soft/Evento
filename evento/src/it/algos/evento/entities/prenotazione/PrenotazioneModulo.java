@@ -416,6 +416,15 @@ public class PrenotazioneModulo extends EModulePop {
 
     }
 
+    /**
+     * Sposta delle prenotazioni ad altra rappresentazione
+     * <p>
+     * Invocato dai menu
+     */
+    public static void cmdSpostaPrenotazioni(final Prenotazione[] aPren) {
+        new DialogoSpostaPrenotazioni(aPren).show(UI.getCurrent());
+    }
+
 
     /**
      * Invia l'attestato di partecipazione
@@ -1123,5 +1132,8 @@ public class PrenotazioneModulo extends EModulePop {
 
 
     }
+
+
+
 
 }// end of class
