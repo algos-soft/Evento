@@ -422,7 +422,14 @@ public class PrenotazioneModulo extends EModulePop {
      * Invocato dai menu
      */
     public static void cmdSpostaPrenotazioni(final Prenotazione[] aPren) {
-        new DialogoSpostaPrenotazioni(aPren).show(UI.getCurrent());
+        if (aPren.length>0){
+            Evento e = aPren[0].getRappresentazione().getEvento();
+            try {
+                new DialogoSpostaPrenotazioni(e, aPren).show(UI.getCurrent());
+            } catch (DialogoSpostaPrenotazioni.EventiDiversiException e1) {
+                Notification.show(null, e1.getMessage(), Notification.Type.ERROR_MESSAGE);
+            }
+        }
     }
 
 
