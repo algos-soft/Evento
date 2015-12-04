@@ -1,13 +1,19 @@
 package it.algos.evento.entities.prenotazione;
 
+import com.vaadin.data.Container;
 import com.vaadin.data.Property;
+import com.vaadin.data.util.filter.Compare;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
+import it.algos.evento.entities.rappresentazione.RappresentazioneModulo;
+import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.field.RelatedComboField;
+
+import java.util.ArrayList;
 
 /**
  * Dialogo di spostamento di un gruppo di prenotazioni relative allo stesso evento.
@@ -18,7 +24,9 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
     private Evento evento;  // evento di riferimento
     private Prenotazione[] aPren;   // prenotazioni da spostare
     private VerticalLayout contentLayout;
-    private VerticalLayout destPlaceholder; // il placeholder per i componenti da visualizzare in base all'opzione
+    private VerticalLayout previewPlaceholder; // il placeholder per la visualizzazione del preview operazione
+    private RelatedComboField destPop;
+    private OpWrapper opWrapper;
 
     /**
      * @param evento l'evento di riferimento
@@ -52,7 +60,25 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
 
         Label label = new Label("Spostamento di " + aPren.length + " prenotazioni");
 
-        RelatedComboField destPop = new RelatedComboField(Rappresentazione.class, "destinazione");
+        // combo filtrato sulle rappresentazioni dello stesso evento
+        this.destPop = new RelatedComboField(Rappresentazione.class, "destinazione");
+        Container.Filter filter = new Compare.Equal(Rappresentazione_.evento.getName(), this.evento);
+        destPop.getJPAContainer().addContainerFilter(filter);
+
+        // selezione del popup modificata
+        destPop.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                syncConfirmButton();
+                if (getSelectedRapp()!=null){
+                    buildOpWrapper();
+                }
+                syncPreviewArea();
+            }
+        });
+
+        // placeholder per la preview dell'operazione
+        previewPlaceholder=new VerticalLayout();
 
 //        OptionGroup multi = new OptionGroup("Multiple Selection");
 //        multi.setMultiSelect(true);
@@ -76,19 +102,59 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
         //costruzione UI
         addComponent(label);
         addComponent(destPop);
+        addComponent(previewPlaceholder);
+
+        syncConfirmButton();
+
 
     }
 
 
     /**
-     * Sincronizza il componente di destinazione in
-     * base all'opzione correntemente selezionata.
-     * Se "Sposta su data esistente", mostra il popup di scelta delle rappresentazioni
-     * Se "Crea nuova data" richiede di selezionare la data/ora, la sala e la capienza
+     * Sincronizza l'area di preview in base alla rappresentazione selezionata.
      */
-    private void syncDestArea() {
-
+    private void syncPreviewArea() {
+        Rappresentazione rapp = getSelectedRapp();
+        previewPlaceholder.removeAllComponents();
+        if(rapp!=null){
+            if (opWrapper!=null){
+                Label label = new Label(rapp.toString());
+                label.setContentMode(ContentMode.HTML);
+                label.setValue(opWrapper.getHTMLText());
+                previewPlaceholder.addComponent(label);
+            }
+        }
     }
+
+
+    /**
+     * Abilita il bottone di conferma in base allo stato corrente del dialogo
+     */
+    private void syncConfirmButton(){
+        boolean enabled=false;
+        if(getSelectedRapp()!=null){
+            if (opWrapper!=null){
+                if (opWrapper.isEffettuabile()){
+                    enabled=true;
+                }
+            }
+        }
+        getConfirmButton().setEnabled(enabled);
+    }
+
+
+    /**
+     * @return la rappresentazione selezionata, null se nessuna
+     */
+    private Rappresentazione getSelectedRapp(){
+        Rappresentazione rapp=null;
+        Object value = destPop.getSelectedBean();
+        if((value!=null) && (value instanceof Rappresentazione)){
+            rapp=(Rappresentazione)value;
+        }
+        return rapp;
+    }
+
 
     /**
      * The component shown in the detail area.
@@ -105,6 +171,85 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
     @Override
     protected void onConfirm() {
         super.onConfirm();
+    }
+
+
+    /**
+     * Costruisce il wrapper delle operazioni
+     */
+    private void buildOpWrapper(){
+        opWrapper=new OpWrapper();
+    }
+
+
+    /**
+     * Wrapper che mantiene i dati di controllo della operazione
+     * */
+    private class OpWrapper{
+
+        ArrayList<String> warningRows = new ArrayList();
+        ArrayList<String> errorRows = new ArrayList();
+        ArrayList<String> infoRows = new ArrayList();
+        private int totPersoneSpostate;
+
+        Rappresentazione destRapp;
+
+        public OpWrapper() {
+            destRapp=getSelectedRapp();
+            for (Prenotazione pren : aPren){
+                checkPren(pren);
+
+                // incrementa il totale delle persone che verrebero spostate
+                if(!pren.isCongelata()){
+                    totPersoneSpostate +=pren.getNumTotali();
+                }
+            }
+        }
+
+        /**
+         * Processa una prenotazione e genera le righe di warning o di errore
+         */
+        private void checkPren(Prenotazione pren){
+
+            // controllo che la prenotazione non faccia già parte della rappresentazione destinazione
+            if (pren.getRappresentazione().equals(destRapp)){
+                errorRows.add(pren+" è già nella rappresentazione selezionata.");
+            }
+
+
+        }
+
+        /**
+         * Controlla l'operazione a livello generale
+         */
+        private void checkOp(Prenotazione pren){
+
+            // numero di persone totali nella rappresentazione destinazione dopo lo spostamento
+            int numPersoneDopo = RappresentazioneModulo.getPostiPrenotati(destRapp)+totPersoneSpostate;
+            int capienza = destRapp.getCapienza();
+            if (numPersoneDopo>capienza){
+                String warn = "Dopo lo spostamento, la capienza massima sarà superata (max="+capienza+", tot="+numPersoneDopo;
+                warningRows.add(warn);
+            }
+
+
+        }
+
+
+
+
+            String getHTMLText(){
+            String s = "a<br>b<br>c<br>d<br>e";
+            return s;
+        }
+
+        /**
+         * @return true se l'operazione è effettuabile
+         */
+        boolean isEffettuabile(){
+            return false;
+        }
+
     }
 
     /**
