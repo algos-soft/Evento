@@ -152,8 +152,29 @@ public class Rappresentazione extends EventoEntity {
         this.insegnanti = insegnanti;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-//	/**
+        Rappresentazione that = (Rappresentazione) o;
+
+        if (evento != null ? !evento.equals(that.evento) : that.evento != null) return false;
+        if (sala != null ? !sala.equals(that.sala) : that.sala != null) return false;
+        return !(dataRappresentazione != null ? !dataRappresentazione.equals(that.dataRappresentazione) : that.dataRappresentazione != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = evento != null ? evento.hashCode() : 0;
+        result = 31 * result + (sala != null ? sala.hashCode() : 0);
+        result = 31 * result + (dataRappresentazione != null ? dataRappresentazione.hashCode() : 0);
+        return result;
+    }
+
+
+    //	/**
 //	 * Ritorna l'importo totale di una prenotazione per una data rappresentazione
 //	 * @deprecated
 //	 * @see Prenotazione

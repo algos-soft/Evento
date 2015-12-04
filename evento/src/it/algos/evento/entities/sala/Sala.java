@@ -101,4 +101,23 @@ public class Sala extends EventoEntity {
 		return sala;
 	}// end of method
 
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Sala sala = (Sala) o;
+
+		if (nome != null ? !nome.equals(sala.nome) : sala.nome != null) return false;
+		return !(capienza != null ? !capienza.equals(sala.capienza) : sala.capienza != null);
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = nome != null ? nome.hashCode() : 0;
+		result = 31 * result + (capienza != null ? capienza.hashCode() : 0);
+		return result;
+	}
 }// end of entity class

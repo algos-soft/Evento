@@ -2,15 +2,11 @@
   <library name="webbase_jar">
     <CLASSES>
       <root url="file://$PROJECT_DIR$/../webbase/out/artifacts/webbase_jar" />
-      <root url="file://$PROJECT_DIR$/../webbase/out/artifacts/webbase_jar" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="file://$PROJECT_DIR$/../webbase/src" />
-      <root url="file://$PROJECT_DIR$/../webbase/out/artifacts/webbase_jar" />
     </SOURCES>
     <jarDirectory url="file://$PROJECT_DIR$/../webbase/out/artifacts/webbase_jar" recursive="false" />
-    <jarDirectory url="file://$PROJECT_DIR$/../webbase/out/artifacts/webbase_jar" recursive="false" />
-    <jarDirectory url="file://$PROJECT_DIR$/../webbase/out/artifacts/webbase_jar" recursive="false" type="SOURCES" />
   </library>
 </component>
