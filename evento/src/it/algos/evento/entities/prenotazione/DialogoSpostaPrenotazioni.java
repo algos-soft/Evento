@@ -269,11 +269,15 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
             return bean;
         }
 
+        @Override
+        protected void pippo() {
+            super.pippo();
+        }
     }
 
     /**
      * Form specifico per la creazione di nuova rappresentazione da popup.
-     * Il campo evento è bloccato.
+     * Il campo evento viene bloccato.
      * Nota: le classi interne devono deve essere dichiarate static per
      * poter essere instanziate per reflection (e questa lo è).
      */
@@ -281,7 +285,9 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
         public RappresentazioneLockedForm(Item item) {
             super(item);
             Field field = getField(Rappresentazione_.evento);
-            field.setReadOnly(true);
+            if (field!=null){
+                field.setReadOnly(true);
+            }
         }
     }
 
