@@ -48,7 +48,7 @@ class PrenMover {
 
         // controllo che la prenotazione non faccia già parte della rappresentazione destinazione
         if (pren.getRappresentazione().equals(destRapp)) {
-            errorRows.add(pren + " è già nella rappresentazione selezionata.");
+            errorRows.add("La prenotazione "+pren + " è già nella rappresentazione selezionata.");
         }
 
 
@@ -64,7 +64,9 @@ class PrenMover {
         int numPersoneDopo = RappresentazioneModulo.getPostiPrenotati(destRapp) + totPersoneSpostate;
         int capienza = destRapp.getCapienza();
         if (numPersoneDopo > capienza) {
-            String warn = "Dopo lo spostamento, la capienza massima sarà superata (max=" + capienza + ", tot=" + numPersoneDopo+")";
+            int diff=numPersoneDopo-capienza;
+            String warn = "Attenzione: dopo lo spostamento, la capienza massima sarà superata";
+            warn+=" di "+diff+" posti (max=" + capienza + ", tot=" + numPersoneDopo+")";
             warningRows.add(warn);
         }
 
@@ -73,18 +75,11 @@ class PrenMover {
 
 
     /**
-     * Ritorna la stringa di preview in formato html
+     * Ritorna il testo di preview degli warning in formato html
+     * @return il testo di warning
      */
-    public String getHTMLText() {
+    public String getHTMLWarnings() {
         String s="";
-
-        // righe di errpre
-        for (String row : errorRows){
-            if (!s.equals("")){
-                s+="<br>";
-            }
-            s+="ERR: "+row;
-        }
 
         // righe di warning
         for (String row : warningRows){
@@ -98,11 +93,46 @@ class PrenMover {
         return s;
     }
 
+
+    /**
+     * Ritorna il testo di preview degli errori in formato html
+     * @return il testo di errore
+     */
+    public String getHTMLErrors() {
+        String s="";
+
+        // righe di errore
+        for (String row : errorRows){
+            if (!s.equals("")){
+                s+="<br>";
+            }
+            s+=row;
+        }
+
+        return s;
+    }
+
+
     /**
      * @return true se l'operazione è effettuabile
      */
     boolean isEffettuabile() {
         return (errorRows.size() == 0);
     }
+
+    /**
+     * @return true se ci sono errori
+     */
+    boolean hasErrors() {
+        return (errorRows.size() > 0);
+    }
+
+    /**
+     * @return true se ci sono errori
+     */
+    boolean hasWarnings() {
+        return (warningRows.size() > 0);
+    }
+
 
 }
