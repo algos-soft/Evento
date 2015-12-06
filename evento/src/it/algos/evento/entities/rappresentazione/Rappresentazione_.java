@@ -18,4 +18,5 @@ public class Rappresentazione_ extends EventoEntity_ {
 	public static volatile SingularAttribute<Rappresentazione, Date> dataRappresentazione;
 	public static volatile SingularAttribute<Rappresentazione, String> note;
 	public static volatile ListAttribute<Rappresentazione, Insegnante> insegnanti;
+	public static volatile SingularAttribute<Rappresentazione, String> pippo;
 }// end of entity class

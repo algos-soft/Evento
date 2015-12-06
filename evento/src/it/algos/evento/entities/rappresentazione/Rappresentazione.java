@@ -1,5 +1,6 @@
 package it.algos.evento.entities.rappresentazione;
 
+import com.vaadin.addon.jpacontainer.EntityItem;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.prenotazione.Prenotazione;
@@ -12,6 +13,7 @@ import org.eclipse.persistence.annotations.CascadeOnDelete;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
+import java.text.StringCharacterIterator;
 import java.util.Date;
 import java.util.List;
 
@@ -151,6 +153,26 @@ public class Rappresentazione extends EventoEntity {
     public void setInsegnanti(List<Insegnante> insegnanti) {
         this.insegnanti = insegnanti;
     }
+
+
+    /**
+     * Ritorna una stringa con data e disponibilità
+     * da visualizzare in alcuni popup
+     */
+    public String getDataEtDisponibilita(){
+
+        String sData = getDateAsString();
+        Sala sala = getSala();
+        String sSala="";
+        if (sala!=null){
+            sSala=sala.toString();
+        }
+        int disponibili=RappresentazioneModulo.getPostiDisponibili(this);
+        String s = sData+" "+sSala+" - disp: "+disponibili;
+
+        return s;
+    }
+
 
     @Override
     public boolean equals(Object o) {

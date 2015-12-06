@@ -5,6 +5,7 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractSelect;
@@ -23,6 +24,7 @@ import it.algos.webbase.web.field.RelatedComboField;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.module.ModulePop;
 
+import javax.persistence.Entity;
 import javax.persistence.metamodel.Attribute;
 import java.util.Collection;
 
@@ -37,7 +39,7 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
     private VerticalLayout contentLayout;
     private VerticalLayout msgPlaceholder; // il placeholder per la visualizzazione dei messaggi di warning o error
     private VerticalLayout previewPlaceholder; // il placeholder per la visualizzazione del preview operazione
-    private RelatedComboField destPop;
+    private DestPopup destPop;
     private PrenMover mover;
 
     /**
@@ -220,31 +222,37 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
             Container.Filter filter = new Compare.Equal(Rappresentazione_.evento.getName(), evento);
             container.addContainerFilter(filter);
 
-            // regola i testi visualizzati nel popup
-            setItemCaptionMode(ItemCaptionMode.EXPLICIT);   // li devo assegnare io o restano vuoti
-            setCaptionAsHtml(true);
-            Collection ids = container.getItemIds();
-            for (Object id : ids){
-                EntityItem<Rappresentazione> ei = container.getItem(id);
-                Rappresentazione rapp = ei.getEntity();
-                String sData = rapp.getDateAsString();
-                Sala sala = rapp.getSala();
-                String sSala="";
-                if (sala!=null){
-                    sSala=sala.toString();
+            // regola i testi visualizzati nel popup in modo esplicito
+            // così posso usare una stringa custom
+            setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+
+            // aggiorna tutte le captions
+            updateCaptions();
+
+            // invocato quando un nuovo record è committed
+            // reinfresco le descrizioni nel combo
+            addRecordEditedListener(new RecordEditedListener() {
+                @Override
+                public void save_(BeanItem bi, boolean newRecord) {
+                    updateCaptions();
                 }
-                int disponibili=RappresentazioneModulo.getPostiDisponibili(rapp);
-                String s = sData+" "+sSala+" - disp: "+disponibili;
+            });
+
+        }
+
+        /**
+         * Aggiorna tutte le captions del combo
+         */
+        public void updateCaptions(){
+            Collection ids = getJPAContainer().getItemIds();
+            for (Object id : ids){
+                EntityItem<Rappresentazione> ei = getJPAContainer().getItem(id);
+                Rappresentazione rapp = ei.getEntity();
+                String s = rapp.getDataEtDisponibilita();
                 setItemCaption(id,s);
             }
-
-
         }
 
-        @Override
-        protected void newButtonClicked() {
-            super.newButtonClicked();
-        }
     }
 
     /**
@@ -269,10 +277,6 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
             return bean;
         }
 
-        @Override
-        protected void pippo() {
-            super.pippo();
-        }
     }
 
     /**
@@ -290,6 +294,7 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
             }
         }
     }
+
 
 
 }
