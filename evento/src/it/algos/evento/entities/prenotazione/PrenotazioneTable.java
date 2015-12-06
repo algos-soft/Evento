@@ -4,6 +4,7 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.converter.StringToIntegerConverter;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.event.Action;
@@ -126,7 +127,7 @@ public class PrenotazioneTable extends ETable {
         setColumnUseTotals(Prenotazione_.numTotali, true);
         setColumnUseTotals(Prenotazione_.importoDaPagare, true);
 
-        // comandi contestuali aggiuntivi per invio email varie
+        // comandi contestuali aggiuntivi specifici
         addActionHandler(new Action.Handler() {
 
             private final Action actIstruzioni = new Action(PrenotazioneTablePortal.CMD_RIEPILOGO_OPZIONE,
@@ -140,19 +141,22 @@ public class PrenotazioneTable extends ETable {
                     PrenotazioneTablePortal.ICON_MEMO_INVIO_SCHEDA_PREN);
             private final Action actAvvisoCongOpz = new Action(PrenotazioneTablePortal.CMD_CONGELA_OPZIONE,
                     PrenotazioneTablePortal.ICON_CONGELA_OPZIONE);
+            private final Action actSpostaAdAltraData = new Action(PrenotazioneTablePortal.CMD_SPOSTA_AD_ALTRA_DATA,
+                    PrenotazioneTablePortal.ICON_SPOSTA_AD_ALTRA_DATA);
             private final Action actAttestatoPartecipazione = new Action(PrenotazioneTablePortal.CMD_ATTESTATO_PARTECIPAZIONE,
                     PrenotazioneTablePortal.ICON_ATTESTATO_PARTECIPAZIONE);
 
 
             public Action[] getActions(Object target, Object sender) {
                 Action[] actions = null;
-                actions = new Action[6];
+                actions = new Action[7];
                 actions[0] = actIstruzioni;
                 actions[1] = actRegistraPagamento;
                 actions[2] = actMemoInvioSchedaPren;
                 actions[3] = actAvvisoCongOpz;
-                actions[4] = actMemoScadPag;
-                actions[5] = actAttestatoPartecipazione;
+                actions[4] = actSpostaAdAltraData;
+                actions[5] = actMemoScadPag;
+                actions[6] = actAttestatoPartecipazione;
 
                 return actions;
             }
@@ -186,6 +190,15 @@ public class PrenotazioneTable extends ETable {
 
                         if (action.equals(actAvvisoCongOpz)) {
                             PrenotazioneModulo.cmdCongelamentoOpzione(id);
+                        }
+
+                        if (action.equals(actSpostaAdAltraData)) {
+                            BeanItem[] beans = getTable().getSelectedBeans();
+                            Prenotazione[] aPren = new Prenotazione[beans.length];
+                            for (int i=0;i<aPren.length;i++){
+                                aPren[i]=(Prenotazione)beans[i].getBean();
+                            }
+                            PrenotazioneModulo.cmdSpostaPrenotazioni(aPren, getTable());
                         }
 
                         if (action.equals(actMemoScadPag)) {

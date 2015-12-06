@@ -8,24 +8,19 @@ import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.rappresentazione.RappresentazioneForm;
-import it.algos.evento.entities.rappresentazione.RappresentazioneModulo;
 import it.algos.evento.entities.rappresentazione.Rappresentazione_;
-import it.algos.evento.entities.sala.Sala;
+import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.field.ComboNewItemHandler;
 import it.algos.webbase.web.field.RelatedComboField;
-import it.algos.webbase.web.form.AForm;
-import it.algos.webbase.web.module.ModulePop;
+import org.joda.time.DateTime;
 
-import javax.persistence.Entity;
-import javax.persistence.metamodel.Attribute;
 import java.util.Collection;
 
 /**
@@ -41,16 +36,19 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
     private VerticalLayout previewPlaceholder; // il placeholder per la visualizzazione del preview operazione
     private DestPopup destPop;
     private PrenMover mover;
+    private OnMoveDoneListener listener;
+
 
     /**
      * @param evento l'evento di riferimento
      * @param aPren  le prenotazioni da spostare (devono essere tutte relative
      *               allo stesso evento passato in evento, altrimenti lancia una eccezione.
      */
-    public DialogoSpostaPrenotazioni(Evento evento, Prenotazione[] aPren) throws EventiDiversiException {
+    public DialogoSpostaPrenotazioni(Evento evento, Prenotazione[] aPren, OnMoveDoneListener listener) throws EventiDiversiException {
         super(null);
         this.evento = evento;
         this.aPren = aPren;
+        this.listener=listener;
 
         // controlla che tutte le prenotazioni siano dell'evento
         for (Prenotazione pren : aPren) {
@@ -58,6 +56,10 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
                 throw new EventiDiversiException();
             }
         }
+
+        // fisso la larghezza e lascio libera l'altezza
+        setWidth("44em");
+        setConfirmButtonText("Sposta "+aPren.length+" prenotazioni");
 
         // titolo della finestra
         int posti=getTotPostiSpostati();
@@ -81,9 +83,12 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
 
         // placeholder per i messaggi
         msgPlaceholder = new VerticalLayout();
+        //msgPlaceholder.addStyleName("yellowBg");
 
         // placeholder per la preview dell'operazione
         previewPlaceholder = new VerticalLayout();
+        //previewPlaceholder.addStyleName("greenBg");
+
 
         //costruzione UI
         addComponent( new Label("Evento: "+evento.toString()));
@@ -139,7 +144,7 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
                     // qui il riepilogo operazione...
                     Label label = new Label();
                     label.setContentMode(ContentMode.HTML);
-                    label.setValue("<strong>Premi conferma per eseguire lo spostamento</strong>");
+                    label.setValue("<p style='text-decoration: underline;'><strong>Premi Sposta per eseguire l'operazione</strong></p>");
                     previewPlaceholder.addComponent(label);
 
                 }
@@ -185,17 +190,43 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
         contentLayout = new VerticalLayout();
         contentLayout.setSpacing(true);
         contentLayout.setMargin(true);
-        contentLayout.setStyleName("yellowBg");
+        //contentLayout.setStyleName("yellowBg");
         return contentLayout;
     }
 
 
     @Override
     protected void onConfirm() {
-        super.onConfirm();
+        execute();  //esegue
+        super.onConfirm();  // chiude
     }
 
 
+    /**
+     * Esegue l'operazione di spostamento
+     */
+    private void execute(){
+        Rappresentazione dest = getSelectedRapp();
+        for (Prenotazione pren : aPren){
+
+            // cambia la rappresentazione
+            pren.setRappresentazione(dest);
+
+            // modifica la scadenza pagamento in base alla nuova data
+            DateTime dt = new DateTime(dest.getDataRappresentazione());
+            dt = dt.minusDays(CompanyPrefs.ggScadConfermaPagamento.getInt());
+            pren.setScadenzaPagamento(dt.toDate());
+
+            // registra
+            pren.save();
+        }
+
+        //notifica il listener registrato
+        if (listener!=null){
+            listener.moveDone(aPren.length, dest);
+        }
+
+    }
 
 
     /**
@@ -222,6 +253,7 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
             Container.Filter filter = new Compare.Equal(Rappresentazione_.evento.getName(), evento);
             container.addContainerFilter(filter);
 
+
             // regola i testi visualizzati nel popup in modo esplicito
             // così posso usare una stringa custom
             setItemCaptionMode(ItemCaptionMode.EXPLICIT);
@@ -244,6 +276,9 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
          * Aggiorna tutte le captions del combo
          */
         public void updateCaptions(){
+
+            sort(Rappresentazione_.dataRappresentazione);
+
             Collection ids = getJPAContainer().getItemIds();
             for (Object id : ids){
                 EntityItem<Rappresentazione> ei = getJPAContainer().getItem(id);
@@ -293,6 +328,10 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
                 field.setReadOnly(true);
             }
         }
+    }
+
+    public interface OnMoveDoneListener{
+        public void moveDone(int quante, Rappresentazione dest);
     }
 
 

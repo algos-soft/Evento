@@ -7,6 +7,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.event.Action;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
@@ -212,12 +213,17 @@ public class RappresentazioneTable extends ETable {
 		int posti=0;
 		JPAContainerItem<Rappresentazione> item = (JPAContainerItem<Rappresentazione>) source.getItem(itemId);
 		Rappresentazione rapp = item.getEntity();
+		Label label = new Label();
 		if (pren) {
 			posti = RappresentazioneModulo.getPostiPrenotati(rapp);
+			label.setValue("" + posti);
 		} else {
 			posti = RappresentazioneModulo.getPostiDisponibili(rapp);
+			if (posti<0){
+				label.addStyleName("redbold");
+			}
+			label.setValue("" + posti);
 		}
-		Label label = new Label("" + posti);
 		label.setSizeUndefined(); // se non metto questo, non allinea a destra la label
 		return label;
 	}
