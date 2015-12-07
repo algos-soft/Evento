@@ -34,6 +34,9 @@ public class PrenotazioneTablePortal extends TablePortal {
     public static final String CMD_CONGELA_OPZIONE = "Congela opzione...";
     public static final Resource ICON_CONGELA_OPZIONE = FontAwesome.LOCK;
 
+    public static final String CMD_SPOSTA_AD_ALTRA_DATA = "Sposta ad altra data...";
+    public static final Resource ICON_SPOSTA_AD_ALTRA_DATA = FontAwesome.CARET_SQUARE_O_RIGHT;
+
     public static final String CMD_MEMO_SCAD_PAGA = "Promemoria scadenza pagamento...";
     public static final Resource ICON_MEMO_SCAD_PAGA = FontAwesome.ENVELOPE_O;
 
@@ -124,6 +127,17 @@ public class PrenotazioneTablePortal extends TablePortal {
             }
         });// end of anonymous class
 
+        item.addItem(CMD_MEMO_SCAD_PAGA, ICON_MEMO_SCAD_PAGA, new MenuBar.Command() {
+            public void menuSelected(MenuItem selectedItem) {
+                Object id = getTable().getSelectedId();
+                if (id != null) {
+                    PrenotazioneModulo.cmdPromemoriaScadenzaPagamento(id, getTable());
+                } else {
+                    msgNoSelection();
+                }
+            }
+        });// end of anonymous class
+
         item.addItem(CMD_CONGELA_OPZIONE, ICON_CONGELA_OPZIONE, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 Object id = getTable().getSelectedId();
@@ -135,16 +149,24 @@ public class PrenotazioneTablePortal extends TablePortal {
             }
         });// end of anonymous class
 
-        item.addItem(CMD_MEMO_SCAD_PAGA, ICON_MEMO_SCAD_PAGA, new MenuBar.Command() {
+
+        item.addItem(CMD_SPOSTA_AD_ALTRA_DATA, ICON_SPOSTA_AD_ALTRA_DATA, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Object id = getTable().getSelectedId();
-                if (id != null) {
-                    PrenotazioneModulo.cmdPromemoriaScadenzaPagamento(id, getTable());
+                BeanItem[] beans = getTable().getSelectedBeans();
+                if ((beans != null) && (beans.length>0)) {
+                    ArrayList<Prenotazione> lPren = new ArrayList<Prenotazione>();
+                    for (BeanItem bean : beans){
+                        Prenotazione p = (Prenotazione)bean.getBean();
+                        lPren.add(p);
+                    }
+                    Prenotazione[] aPren=lPren.toArray(new Prenotazione[0]);
+                    PrenotazioneModulo.cmdSpostaPrenotazioni(aPren, table);
                 } else {
-                    msgNoSelection();
+                    Notification.show("Seleziona prima le prenotazioni da spostare.");
                 }
             }
         });// end of anonymous class
+
 
         item.addItem(CMD_ATTESTATO_PARTECIPAZIONE, ICON_ATTESTATO_PARTECIPAZIONE, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
@@ -197,6 +219,9 @@ public class PrenotazioneTablePortal extends TablePortal {
 //			}
 //		});// end of anonymous class
 
+
+
+
         item.addItem("Test lettera", null, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 Object bean = getTable().getSelectedBean();
@@ -210,22 +235,6 @@ public class PrenotazioneTablePortal extends TablePortal {
         });// end of anonymous class
 
 
-        item.addItem("Sposta ad altra data...", null, new MenuBar.Command() {
-            public void menuSelected(MenuItem selectedItem) {
-                BeanItem[] beans = getTable().getSelectedBeans();
-                if ((beans != null) && (beans.length>0)) {
-                    ArrayList<Prenotazione> lPren = new ArrayList<Prenotazione>();
-                    for (BeanItem bean : beans){
-                        Prenotazione p = (Prenotazione)bean.getBean();
-                        lPren.add(p);
-                    }
-                    Prenotazione[] aPren=lPren.toArray(new Prenotazione[0]);
-                    PrenotazioneModulo.cmdSpostaPrenotazioni(aPren);
-                } else {
-                    Notification.show("Seleziona prima le prenotazioni da spostare.");
-                }
-            }
-        });// end of anonymous class
 
 
     }// end of method

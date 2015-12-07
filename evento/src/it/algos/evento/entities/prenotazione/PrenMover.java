@@ -1,5 +1,6 @@
 package it.algos.evento.entities.prenotazione;
 
+import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.rappresentazione.RappresentazioneModulo;
 
@@ -48,7 +49,9 @@ class PrenMover {
 
         // controllo che la prenotazione non faccia già parte della rappresentazione destinazione
         if (pren.getRappresentazione().equals(destRapp)) {
-            errorRows.add("La prenotazione "+pren + " è già nella rappresentazione selezionata.");
+            Insegnante ins = pren.getInsegnante();
+            String s = "La prenotazione N. "+pren.getNumPrenotazione()+" di "+ins.getCognomeNome()+" è già nella rappresentazione selezionata.";
+            errorRows.add(s);
         }
 
 
@@ -65,7 +68,7 @@ class PrenMover {
         int capienza = destRapp.getCapienza();
         if (numPersoneDopo > capienza) {
             int diff=numPersoneDopo-capienza;
-            String warn = "Attenzione: dopo lo spostamento, la capienza massima sarà superata";
+            String warn = "Attenzione: dopo lo spostamento, la capienza sarà superata";
             warn+=" di "+diff+" posti (max=" + capienza + ", tot=" + numPersoneDopo+")";
             warningRows.add(warn);
         }

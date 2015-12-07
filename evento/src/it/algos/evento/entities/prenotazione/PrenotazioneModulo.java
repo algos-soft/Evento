@@ -421,11 +421,20 @@ public class PrenotazioneModulo extends EModulePop {
      * <p>
      * Invocato dai menu
      */
-    public static void cmdSpostaPrenotazioni(final Prenotazione[] aPren) {
+    public static void cmdSpostaPrenotazioni(final Prenotazione[] aPren, final ATable table) {
         if (aPren.length>0){
             Evento e = aPren[0].getRappresentazione().getEvento();
             try {
-                new DialogoSpostaPrenotazioni(e, aPren).show(UI.getCurrent());
+                DialogoSpostaPrenotazioni dialogo = new DialogoSpostaPrenotazioni(e, aPren, new DialogoSpostaPrenotazioni.OnMoveDoneListener() {
+                    @Override
+                    public void moveDone(int quante, Rappresentazione dest) {
+                        Notification.show(quante+" prenotazioni spostate.");
+                        table.refreshRowCache();
+                    }
+                });
+
+                dialogo.show(UI.getCurrent());
+
             } catch (DialogoSpostaPrenotazioni.EventiDiversiException e1) {
                 Notification.show(null, e1.getMessage(), Notification.Type.ERROR_MESSAGE);
             }
