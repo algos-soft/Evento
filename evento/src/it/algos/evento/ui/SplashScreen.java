@@ -32,6 +32,7 @@ public class SplashScreen extends VerticalLayout {
 
         addComponent(createUIComponentOld());
 
+
     }
 
     private Component createUIComponent() {
