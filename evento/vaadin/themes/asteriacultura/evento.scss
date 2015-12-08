@@ -67,6 +67,14 @@ $v-font-weight: 400;
     background: #F0311E;
   }
 
+  .darkGrayBg {
+    background: #5d5d5d;
+  }
+
+  .lightGrayBg {
+    background: lightgray;
+  }
+
   .red {
     color: red;
   }
@@ -76,9 +84,6 @@ $v-font-weight: 400;
   }
 
 
-  .darkGrayBg {
-    background: #5d5d5d;
-  }
 
   .v-textfield-align-left {
     text-align: left;

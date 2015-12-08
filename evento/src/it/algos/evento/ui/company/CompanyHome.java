@@ -46,7 +46,7 @@ import java.util.Collection;
  */
 public class CompanyHome extends VerticalLayout {
 
-    private SplashScreen splashScreen;
+    private CompanySplash splashScreen;
     private MenuBar.MenuItem loginItem; // il menuItem di login
 
     public CompanyHome() {
@@ -111,7 +111,7 @@ public class CompanyHome extends VerticalLayout {
      */
     private MenuBar createMainMenuBar() {
 
-        splashScreen = new SplashScreen(CompanyPrefs.splashImage.getResource());
+        splashScreen = new CompanySplash(CompanyPrefs.splashImage.getResource());
 
         MenuBar.MenuItem item;
         MenuBar menubar = new MenuBar();

@@ -14,8 +14,8 @@ import it.algos.evento.config.GeneralDaemonConfigComponent;
 import it.algos.evento.config.SMTPServerConfigComponent;
 import it.algos.evento.entities.company.CompanyModule;
 import it.algos.evento.lib.EventoSessionLib;
-import it.algos.evento.multiazienda.AsteriaMigration;
 import it.algos.evento.ui.*;
+import it.algos.evento.ui.company.CompanySplash;
 import it.algos.webbase.domain.ruolo.RuoloModulo;
 import it.algos.webbase.domain.utente.UtenteModulo;
 import it.algos.webbase.domain.utenteruolo.UtenteRuoloModulo;
@@ -27,11 +27,11 @@ import it.algos.webbase.web.login.Login;
 import java.util.Collection;
 
 /**
- * Home page della Company.
+ * Home page dell'Admin.
  */
 public class AdminHome extends VerticalLayout {
 
-    private SplashScreen splashScreen;
+    private AdminSplash splashScreen;
     private MenuBar.MenuItem loginItem; // il menuItem di login
 
     public AdminHome() {
@@ -92,7 +92,7 @@ public class AdminHome extends VerticalLayout {
      */
     private MenuBar createMainMenuBar() {
 
-        splashScreen = new SplashScreen(LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME, "splash_image.png"));
+        splashScreen = new AdminSplash();
 
         MenuBar.MenuItem item;
         MenuBar menubar = new MenuBar();
