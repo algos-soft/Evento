@@ -5,8 +5,11 @@ import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import it.algos.evento.entities.stagione.Stagione;
+import it.algos.evento.multiazienda.EQuery;
 import it.algos.webbase.web.field.RelatedComboField;
 import it.algos.webbase.web.lib.LibImage;
+
+import java.util.Date;
 
 
 //Andamento stagione 2015-2016
@@ -101,6 +104,7 @@ public class CompanySplash extends VerticalLayout {
         VerticalLayout vLayout;
         Button button;
         FmtLabel label;
+        String s;
 
         injectCSS();
 
@@ -115,15 +119,25 @@ public class CompanySplash extends VerticalLayout {
         vLayout.addComponent(comboStagioni);
 
         label = new FmtLabel();
-        label.setValue(spanSmall("numero di eventi in programma:\u2003")+spanBig("7"));
+        label.setValue(spanSmall("numero di eventi in programma:\u2003")+spanBig(""+EQuery.countEventi(getStagione())));
         vLayout.addComponent(label);
 
         label = new FmtLabel();
-        label.setValue(spanSmall("numero di rappresentazioni effettuate:\u2003")+spanBig("7")+spanSmall("\u2003su\u2003")+spanBig("99")+spanSmall("\u2003previste"));
+        int totRapp=EQuery.countRappresentazioni(getStagione());
+        int rappPassate=EQuery.countRappresentazioni(getStagione(), new Date());;
+        label.setValue(spanSmall("numero di rappresentazioni effettuate:\u2003")+spanBig(""+rappPassate)+spanSmall("\u2003su\u2003")+spanBig(""+totRapp)+spanSmall("\u2003previste"));
         vLayout.addComponent(label);
 
         label = new FmtLabel();
-        label.setValue(spanSmall("numero di prenotazioni ricevute:\u2003")+spanBig(""+DashboardData.getNumPrenotazioni(getStagione())));
+        s=spanSmall("numero di prenotazioni ricevute:\u2003");
+        s+=spanBig(""+ EQuery.countPrenotazioni(getStagione()));
+        int congelate = EQuery.countPrenotazioniCongelate(getStagione());
+        if (congelate>0){
+            s+=spanSmall("\u2003(congelate:\u2003");
+            s+=spanBig(""+congelate);
+            s+=spanSmall(")");
+        }
+        label.setValue(s);
         vLayout.addComponent(label);
 
         label = new FmtLabel();
