@@ -1,5 +1,6 @@
 package it.algos.evento.ui.company;
 
+import com.vaadin.data.util.converter.StringToBigDecimalConverter;
 import com.vaadin.data.util.converter.StringToIntegerConverter;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
@@ -12,22 +13,13 @@ import it.algos.webbase.web.field.RelatedComboField;
 import it.algos.webbase.web.lib.LibImage;
 import it.algos.webbase.web.lib.LibSession;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
-
-//Andamento stagione 2015-2016
-//
-//        numero di eventi in programma: 7
-//        numero di rappresentazioni effettuate: 45 su 99 previste
-//        numero di prenotazioni ricevute: 87
-//        numero di posti assegnati : 1245 su 3400
-//
-//        conferme prenotazione in ritardo: 8 -> [Vai]
-//        conferme di pagamento in ritardo: 22 -> [Vai]
-//
-//        pagamenti ricevuti: N. 38 per 13.200 € -> [Vai]
-//        pagamenti da ricevere: N. 22 pari a 6.500€ -> [Vai]
-
+/**
+ * Splash screen della Company.
+ * E' costituito dalla dashboard e dal logo.
+ */
 @SuppressWarnings("serial")
 public class CompanySplash extends VerticalLayout {
 
@@ -35,10 +27,10 @@ public class CompanySplash extends VerticalLayout {
     private static final String CSS_MIDDLE = "middle";
     private static final String CSS_BIG = "big";
 
-    CompanyHome home;
+    private CompanyHome home;
     private Resource res;
-    private RelatedComboField comboStagioni;
-    private StringToIntegerConverter converter = new StringToIntegerConverter();
+    private StringToIntegerConverter intConverter = new StringToIntegerConverter();
+    private StringToBigDecimalConverter bdConverter = new StringToBigDecimalConverter();
 
 
     public CompanySplash(CompanyHome home, Resource res) {
@@ -121,45 +113,20 @@ public class CompanySplash extends VerticalLayout {
         vLayout.setHeight("100%");
         vLayout.setMargin(true);
 
-        comboStagioni = new RelatedComboField(Stagione.class, "Stagione");
-        comboStagioni.setValue(Stagione.getStagioneCorrente().getId());
-        vLayout.addComponent(comboStagioni);
-
+        s = "Andamento stagione " + Stagione.getStagioneCorrente().toString();
         label = new FmtLabel();
-        label.setValue(spanSmall("eventi in programma:\u2003") + spanBig(getString(EQuery.countEventi(getStagione()))));
+        label.setValue(spanBig(s));
         vLayout.addComponent(label);
 
-        label = new FmtLabel();
-        int totRapp = EQuery.countRappresentazioni(getStagione());
-        int rappPassate = EQuery.countRappresentazioni(getStagione(), new Date());
-        percent = Math.round(rappPassate * 100 / totRapp);
-        label.setValue(spanSmall("rappresentazioni effettuate:\u2003") + spanBig(getString(rappPassate)) + spanSmall("\u2003su\u2003") + spanBig(getString(totRapp) + " (" + percent + "%)"));
-        vLayout.addComponent(label);
+        //vLayout.addComponent(new Hr());
+        //vLayout.addComponent(new Divider());
 
-        label = new FmtLabel();
-        s = spanSmall("prenotazioni ricevute:\u2003");
-        s += spanBig(getString(EQuery.countPrenotazioni(getStagione())));
-        int congelate = EQuery.countPrenotazioniCongelate(getStagione());
-        if (congelate > 0) {
-            s += spanSmall("\u2003(congelate:\u2003");
-            s += spanBig(getString(congelate));
-            s += spanSmall(")");
-        }
-        label.setValue(s);
-        vLayout.addComponent(label);
-
-        label = new FmtLabel();
-        int prenotati = EQuery.countPostiPrenotati(getStagione());
-        int disponibili = EQuery.countCapienza(getStagione());
-        percent = Math.round(prenotati * 100 / disponibili);
-        label.setValue(spanSmall("posti prenotati:\u2003") + spanBig(getString(prenotati)) + spanSmall("\u2003su\u2003") + spanBig(getString(disponibili) + " (" + percent + "%)"));
-        vLayout.addComponent(label);
-
-        // conferme prenotazioni in ritardo
-        hLayout = new HorizontalLayout();
+        // conferme prenotazioni scadute
+        HorizontalLayout layoutPscad = new HorizontalLayout();
+        layoutPscad.addStyleName("blueBg");
         label = new FmtLabel();
         int confInRitardo = EQuery.countPrenRitardoConferma(getStagione());
-        label.setValue(spanSmall("conferme prenotazione in ritardo:\u2003") + spanBig(getString(confInRitardo)) + spanSmall("\u2003"));
+        label.setValue(spanSmall("conferme prenotazione scadute:\u2003") + spanBig(getString(confInRitardo)) + spanSmall("\u2003"));
         button = new Button("Vedi", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
@@ -172,16 +139,16 @@ public class CompanySplash extends VerticalLayout {
 
             }
         });
-        hLayout.addComponent(label);
-        hLayout.addComponent(button);
-        hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
-        vLayout.addComponent(hLayout);
+        layoutPscad.addComponent(label);
+        layoutPscad.addComponent(button);
+        layoutPscad.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
+        vLayout.addComponent(layoutPscad);
 
         // conferme di pagamento in ritardo
-        hLayout = new HorizontalLayout();
+        HorizontalLayout layoutPrit = new HorizontalLayout();
         label = new FmtLabel();
         int confPagaInRitardo = EQuery.countPrenRitardoPagamento1(getStagione());
-        label.setValue(spanSmall("conferme di pagamento in ritardo:\u2003") + spanBig(getString(confPagaInRitardo)) + spanSmall("\u2003"));
+        label.setValue(spanSmall("conferme di pagamento scadute:\u2003") + spanBig(getString(confPagaInRitardo)) + spanSmall("\u2003"));
         button = new Button("Vedi", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
@@ -195,19 +162,27 @@ public class CompanySplash extends VerticalLayout {
 
             }
         });
-        hLayout.addComponent(label);
-        hLayout.addComponent(button);
-        hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
-        vLayout.addComponent(hLayout);
+        layoutPrit.addComponent(label);
+        layoutPrit.addComponent(button);
+        layoutPrit.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
+        vLayout.addComponent(layoutPrit);
+
+//        Hr hr = new Hr();
+//        vLayout.addComponent(hr);
+//        vLayout.setExpandRatio(hr,0);
+
+        Button b1 = new Button("Ciao");
+        b1.setHeight("4px");
+        vLayout.addComponent(b1);
+        b1.addStyleName("yellowBg");
 
 
-
-        // pagamenti ricevuti
+        // pagamenti confermati
         hLayout = new HorizontalLayout();
         label = new FmtLabel();
-        int numPagaRicevuti=EQuery.countPrenotazioniPagamentoConfermato(getStagione());
-        int importoPagaRicevuti=900;
-        label.setValue(spanSmall("pagamenti confermati:\u2003") + spanBig(getString(numPagaRicevuti)) + spanSmall("\u2003per\u2003") + spanBig(getString(importoPagaRicevuti) + " &euro;") + spanSmall("\u2003"));
+        int numPagaConfermati = EQuery.countPrenotazioniPagamentoConfermato(getStagione());
+        BigDecimal importoPagaConfermati = EQuery.sumImportoPrenotazioniPagamentoConfermato(getStagione());
+        label.setValue(spanSmall("pagamenti confermati:\u2003") + spanBig(getString(numPagaConfermati)) + spanSmall("\u2003per\u2003") + spanBig(getString(importoPagaConfermati) + " &euro;") + spanSmall("\u2003"));
         button = new Button("Vedi", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
@@ -222,21 +197,93 @@ public class CompanySplash extends VerticalLayout {
         hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
         vLayout.addComponent(hLayout);
 
-        // pagamenti da ricevere
+        // pagamenti da confermare
         hLayout = new HorizontalLayout();
         label = new FmtLabel();
-        label.setValue(spanSmall("pagamenti da ricevere:\u2003") + spanBig("99") + spanSmall("\u2003per\u2003") + spanBig("32000" + " &euro;") + spanSmall("\u2003"));
+        int numPagaDaConfermare = EQuery.countPrenotazioniPagamentoNonConfermato(getStagione());
+        BigDecimal importoPagaDaConfermare = EQuery.sumImportoPrenotazioniPagamentoNonConfermato(getStagione());
+        label.setValue(spanSmall("pagamenti da confermare:\u2003") + spanBig(getString(numPagaDaConfermare)) + spanSmall("\u2003per\u2003") + spanBig(getString(importoPagaDaConfermare) + " &euro;") + spanSmall("\u2003"));
         button = new Button("Vedi", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                int a = 87;
-                int b = a;
+                // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
+                LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO, true);
+                // clicca sul menu Prenotazioni
+                clickMenuPren();
             }
         });
         hLayout.addComponent(label);
         hLayout.addComponent(button);
         hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
         vLayout.addComponent(hLayout);
+
+        vLayout.addComponent(new Hr());
+
+        // eventi in programma
+        label = new FmtLabel();
+        label.setValue(spanSmall("eventi in programma:\u2003") + spanBig(getString(EQuery.countEventi(getStagione()))));
+        vLayout.addComponent(label);
+
+        // rappresentazioni effettuate / da effettuare
+        label = new FmtLabel();
+        int totRapp = EQuery.countRappresentazioni(getStagione());
+        int rappPassate = EQuery.countRappresentazioni(getStagione(), new Date());
+        percent = Math.round(rappPassate * 100 / totRapp);
+        label.setValue(spanSmall("rappresentazioni effettuate:\u2003") + spanBig(getString(rappPassate)) + spanSmall("\u2003su\u2003") + spanBig(getString(totRapp) + " (" + percent + "%)"));
+        vLayout.addComponent(label);
+
+        // prenotazioni ricevute
+        hLayout = new HorizontalLayout();
+        label = new FmtLabel();
+        int prenRicevute = EQuery.countPrenotazioni(getStagione());
+        int prenCongelate = EQuery.countPrenotazioniCongelate(getStagione());
+        s = spanSmall("prenotazioni ricevute:\u2003") + spanBig(getString(prenRicevute));
+        button = null;
+        if (prenCongelate > 0) {
+            s += spanSmall("\u2003(di cui congelate:\u2003");
+            s += spanBig(getString(prenCongelate));
+            s += spanSmall(")");
+
+            button = new Button("Vedi", new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+
+                    // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
+                    LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_CONGELATE, true);
+
+                    // clicca sul menu Prenotazioni
+                    clickMenuPren();
+
+                }
+            });
+
+        }
+        s += "\u2003";
+        label.setValue(s);
+        hLayout.addComponent(label);
+        if (prenCongelate > 0) {
+            hLayout.addComponent(button);
+            hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
+        }
+        vLayout.addComponent(hLayout);
+
+        // posti prenotati e posti disponibili
+        label = new FmtLabel();
+        int prenotati = EQuery.countPostiPrenotati(getStagione());
+        int disponibili = EQuery.countCapienza(getStagione());
+        percent = Math.round(prenotati * 100 / disponibili);
+        label.setValue(spanSmall("posti prenotati:\u2003") + spanBig(getString(prenotati)) + spanSmall("\u2003su\u2003") + spanBig(getString(disponibili) + " (" + percent + "%)"));
+        vLayout.addComponent(label);
+
+
+//        Panel pan = new Panel("Scadenze");
+//        VerticalLayout l1 = new VerticalLayout();
+//        l1.setMargin(true);
+//        l1.setSpacing(true);
+//        l1.addComponent(layoutPscad);
+//        l1.addComponent(layoutPrit);
+//        pan.setContent(l1);
+//        vLayout.addComponent(pan);
 
 
         return vLayout;
@@ -265,27 +312,26 @@ public class CompanySplash extends VerticalLayout {
 
 
     /**
-     * Ritorn la stagione correntemente selezionata nel popup
+     * Ritorna la stagione corrente
      */
     private Stagione getStagione() {
-        Stagione stagione = null;
-        Object bean = comboStagioni.getSelectedBean();
-        if ((bean != null) && (bean instanceof Stagione)) {
-            stagione = (Stagione) bean;
-        }
-        return stagione;
+//        Stagione stagione = null;
+//        Object bean = comboStagioni.getSelectedBean();
+//        if ((bean != null) && (bean instanceof Stagione)) {
+//            stagione = (Stagione) bean;
+//        }
+        return Stagione.getStagioneCorrente();
     }
 
-
-    private class FmtLabel extends Label {
-        public FmtLabel() {
-            setContentMode(ContentMode.HTML);
-        }
-    }
 
     private String getString(int num) {
-        return converter.convertToPresentation(num, String.class, null);
+        return intConverter.convertToPresentation(num, String.class, null);
     }
+
+    private String getString(BigDecimal num) {
+        return bdConverter.convertToPresentation(num, String.class, null);
+    }
+
 
     /**
      * Clicca sul menu Prenotazioni
@@ -336,5 +382,39 @@ public class CompanySplash extends VerticalLayout {
 
         return main;
     }
+
+    /**
+     * HTML Label
+     */
+    private class FmtLabel extends Label {
+        public FmtLabel() {
+            setContentMode(ContentMode.HTML);
+            addStyleName("greenBg");
+        }
+    }
+
+    /**
+     * Horizontal divider
+     */
+    private class Hr extends Label {
+        Hr() {
+            super("<hr/>", ContentMode.HTML);
+            addStyleName("yellowBg");
+        }
+    }
+
+    /**
+     * Horizontal divider
+     */
+    private class Divider extends HorizontalLayout {
+        Divider() {
+            setWidth("100%");
+            setHeight("4px");
+            addStyleName("yellowBg");
+            setMargin(false);
+        }
+    }
+
+
 
 }

@@ -1,9 +1,11 @@
 package it.algos.evento.entities.prenotazione;
 
+import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.modopagamento.ModoPagamento;
 import it.algos.evento.entities.prenotazione.eventi.EventoPren;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
+import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
 import it.algos.evento.multiazienda.EventoEntity;

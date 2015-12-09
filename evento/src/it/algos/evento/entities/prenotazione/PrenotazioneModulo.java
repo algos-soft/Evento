@@ -1,14 +1,11 @@
 package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.util.DefaultQueryModifierDelegate;
-import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.UnsupportedFilterException;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
@@ -24,6 +21,7 @@ import it.algos.evento.entities.modopagamento.ModoPagamento;
 import it.algos.evento.entities.prenotazione.eventi.EventoPren;
 import it.algos.evento.entities.prenotazione.eventi.TipoEventoPren;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
+import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.entities.stagione.Stagione;
@@ -43,7 +41,6 @@ import org.joda.time.DateTime;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -52,6 +49,9 @@ import java.util.logging.Logger;
 @SuppressWarnings("serial")
 public class PrenotazioneModulo extends EModulePop {
 
+    public static final String PROP_PROGETTO = Rappresentazione.class.getSimpleName().toLowerCase() + "." + Rappresentazione_.evento.getName() + "." + Evento_.progetto.getName();
+    public static final String PROP_EVENTO = Rappresentazione.class.getSimpleName().toLowerCase() + "." + Rappresentazione_.evento.getName();
+    public static final String PROP_STAGIONE = Rappresentazione.class.getSimpleName().toLowerCase() + "." + Rappresentazione_.evento.getName() + "." + Evento_.stagione.getName();
     private static ArrayList<StatusChangeListener> statusChangeListeners = new ArrayList<StatusChangeListener>();
     private final static Logger logger = Logger.getLogger(PrenotazioneModulo.class.getName());
 
@@ -81,7 +81,7 @@ public class PrenotazioneModulo extends EModulePop {
                 // lista le opzioni in ritardo di conferma ed elimina l'attributo
                 if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_CONFERMA)!=null){
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_CONFERMA, null);
-                    Filter filter = PrenotazioneModulo.getFiltroOpzioniDaConfermare();
+                    Filter filter = PrenotazioneModulo.getFiltroOpzioniDaConfermare(Stagione.getStagioneCorrente());
                     JPAContainer cont = getTable().getJPAContainer();
                     cont.removeAllContainerFilters();
                     cont.refresh(); // refresh container before applying new filters!
@@ -92,7 +92,7 @@ public class PrenotazioneModulo extends EModulePop {
                 // lista le opzioni in ritardo di conferma ed elimina l'attributo
                 if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_PAGAMENTO_1)!=null){
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_PAGAMENTO_1, null);
-                    Filter filter = PrenotazioneModulo.getFiltroPagamentiDaConfermare();
+                    Filter filter = PrenotazioneModulo.getFiltroPagamentiDaConfermare(Stagione.getStagioneCorrente());
                     JPAContainer cont = getTable().getJPAContainer();
                     cont.removeAllContainerFilters();
                     cont.refresh(); // refresh container before applying new filters!
@@ -103,12 +103,36 @@ public class PrenotazioneModulo extends EModulePop {
                 // lista le opzioni in ritardo di conferma ed elimina l'attributo
                 if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO)!=null){
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO, null);
-                    Filter filter = PrenotazioneModulo.getFiltroPrenPagamentoConfermato();
+                    Filter filter = PrenotazioneModulo.getFiltroPren(Stagione.getStagioneCorrente(), true);
                     JPAContainer cont = getTable().getJPAContainer();
                     cont.removeAllContainerFilters();
                     cont.refresh(); // refresh container before applying new filters!
                     cont.addContainerFilter(filter);
                 }
+
+                // se questo attributo esiste nella sessione, carica in
+                // lista le opzioni in ritardo di conferma ed elimina l'attributo
+                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO)!=null){
+                    LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO, null);
+                    Filter filter = PrenotazioneModulo.getFiltroPren(Stagione.getStagioneCorrente(), false);
+                    JPAContainer cont = getTable().getJPAContainer();
+                    cont.removeAllContainerFilters();
+                    cont.refresh(); // refresh container before applying new filters!
+                    cont.addContainerFilter(filter);
+                }
+
+                // se questo attributo esiste nella sessione, carica in
+                // lista le opzioni in ritardo di conferma ed elimina l'attributo
+                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_CONGELATE)!=null){
+                    LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_CONGELATE, null);
+                    Filter filter = PrenotazioneModulo.getFiltroPrenCongelate(Stagione.getStagioneCorrente());
+                    JPAContainer cont = getTable().getJPAContainer();
+                    cont.removeAllContainerFilters();
+                    cont.refresh(); // refresh container before applying new filters!
+                    cont.addContainerFilter(filter);
+                }
+
+
 
 
 
@@ -1080,14 +1104,13 @@ public class PrenotazioneModulo extends EModulePop {
     /**
      * Ritorna un filtro che seleziona tutte le prenotazioni scadute e non confermate
      */
-    public static Filter getFiltroOpzioniDaConfermare() {
+    public static Filter getFiltroOpzioniDaConfermare(Stagione stagione) {
         DateTime jToday = new DateTime().withTimeAtStartOfDay();
         Date today = jToday.toDate();
         ArrayList<Filter> filters = new ArrayList<Filter>();
-        //filters.add(new Compare.Equal("evento."+Evento_.stagione.getName(), Stagione.getStagioneCorrente()));
+        filters.add(new Compare.Equal(PROP_STAGIONE, stagione));
         filters.add(new Compare.Equal(Prenotazione_.confermata.getName(), false));
         filters.add(new Compare.Less(Prenotazione_.scadenzaConferma.getName(), today));
-        //filters.add(new FiltroStagioneCorrente());
         Filter outFilter = new And(filters.toArray(new Filter[0]));
         return outFilter;
     }// end of method
@@ -1097,10 +1120,11 @@ public class PrenotazioneModulo extends EModulePop {
     /**
      * Ritorna un filtro che seleziona tutti i pagamenti scaduti e non confermati
      */
-    public static Filter getFiltroPagamentiDaConfermare() {
+    public static Filter getFiltroPagamentiDaConfermare(Stagione stagione) {
         DateTime jToday = new DateTime().withTimeAtStartOfDay();
         Date today = jToday.toDate();
         ArrayList<Filter> filters = new ArrayList<Filter>();
+        filters.add(new Compare.Equal(PROP_STAGIONE, stagione));
         filters.add(new Compare.Equal(Prenotazione_.confermata.getName(), true));
         filters.add(new Compare.Equal(Prenotazione_.pagamentoConfermato.getName(), false));
         filters.add(new Compare.Less(Prenotazione_.scadenzaPagamento.getName(), today));
@@ -1110,15 +1134,29 @@ public class PrenotazioneModulo extends EModulePop {
 
 
     /**
-     * Ritorna un filtro che seleziona tutte le prenotazioni con pagamento confermato
+     * Ritorna un filtro che seleziona tutte le prenotazioni
+     * con pagamento confermato o non confermato
      */
-    public static Filter getFiltroPrenPagamentoConfermato() {
+    public static Filter getFiltroPren(Stagione stagione, boolean confermato) {
         ArrayList<Filter> filters = new ArrayList<Filter>();
-        filters.add(new Compare.Equal(Prenotazione_.confermata.getName(), true));
-        filters.add(new Compare.Equal(Prenotazione_.pagamentoConfermato.getName(), true));
+        filters.add(new Compare.Equal(PROP_STAGIONE, stagione));
+        filters.add(new Compare.Equal(Prenotazione_.pagamentoConfermato.getName(), confermato));
         Filter outFilter = new And(filters.toArray(new Filter[0]));
         return outFilter;
     }// end of method
+
+    /**
+     * Ritorna un filtro che seleziona tutte le prenotazioni
+     * congelate di una stagione
+     */
+    public static Filter getFiltroPrenCongelate(Stagione stagione) {
+        ArrayList<Filter> filters = new ArrayList<Filter>();
+        filters.add(new Compare.Equal(PROP_STAGIONE, stagione));
+        filters.add(new Compare.Equal(Prenotazione_.congelata.getName(), true));
+        Filter outFilter = new And(filters.toArray(new Filter[0]));
+        return outFilter;
+    }// end of method
+
 
 
 
@@ -1127,6 +1165,7 @@ public class PrenotazioneModulo extends EModulePop {
      */
     public static Filter getFiltroPagamentiDaRicevere() {
         ArrayList<Filter> filters = new ArrayList<Filter>();
+        filters.add(new Compare.Equal(PROP_STAGIONE, Stagione.getStagioneCorrente()));
         filters.add(new Compare.Equal(Prenotazione_.pagamentoConfermato.getName(), true));
         filters.add(new Compare.Equal(Prenotazione_.pagamentoRicevuto.getName(), false));
         Filter outFilter = new And(filters.toArray(new Filter[0]));

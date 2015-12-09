@@ -105,8 +105,8 @@ public class PrenotazioneSearch extends StagioneSearchManager {
 		filters.add(createBeanFilter(fScuola, Prenotazione_.scuola));
 		filters.add(createBeanFilter(fInsegnante, Prenotazione_.insegnante));
 		filters.add(createBeanFilter(fRappresentazione, Prenotazione_.rappresentazione));
-		filters.add(createBeanFilter(fEvento, PrenotazioneTable.PROP_EVENTO));
-		filters.add(createBeanFilter(fProgetto, PrenotazioneTable.PROP_PROGETTO));
+		filters.add(createBeanFilter(fEvento, PrenotazioneModulo.PROP_EVENTO));
+		filters.add(createBeanFilter(fProgetto, PrenotazioneModulo.PROP_PROGETTO));
 
 		filters.add(createBoolFilter(fPrivato, Prenotazione_.privato));
 		filters.add(createBoolFilter(fConfermata, Prenotazione_.confermata));
@@ -119,7 +119,7 @@ public class PrenotazioneSearch extends StagioneSearchManager {
 
 		// filtro stagione corrente
 		if(isStagioneCorrente()){
-			Filter filter = new Compare.Equal(PrenotazioneTable.PROP_STAGIONE, Stagione.getStagioneCorrente());
+			Filter filter = new Compare.Equal(PrenotazioneModulo.PROP_STAGIONE, Stagione.getStagioneCorrente());
 			filters.add(filter);
 		}
 

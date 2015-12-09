@@ -14,13 +14,10 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
 import it.algos.evento.EventoApp;
 import it.algos.evento.entities.comune.Comune;
-import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.modopagamento.ModoPagamento;
 import it.algos.evento.entities.prenotazione.PrenotazioneModulo.StatusChangeListener;
 import it.algos.evento.entities.prenotazione.eventi.TipoEventoPren;
-import it.algos.evento.entities.rappresentazione.Rappresentazione;
-import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
@@ -28,7 +25,6 @@ import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibResource;
-import it.algos.webbase.web.lib.LibResourceOld;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
 
@@ -42,9 +38,6 @@ public class PrenotazioneTable extends ETable {
     private static final StringToIntegerConverter intConv = new StringToIntegerConverter();
     private BigDecimal bd;
     private static final BigDecimal bdZero = new BigDecimal(0);
-    public static final String PROP_PROGETTO = Rappresentazione.class.getSimpleName().toLowerCase() + "." + Rappresentazione_.evento.getName() + "." + Evento_.progetto.getName();
-    public static final String PROP_EVENTO = Rappresentazione.class.getSimpleName().toLowerCase() + "." + Rappresentazione_.evento.getName();
-    public static final String PROP_STAGIONE = Rappresentazione.class.getSimpleName().toLowerCase() + "." + Rappresentazione_.evento.getName() + "." + Evento_.stagione.getName();
 
     // id della colonna generata "stato"
     private static final String COL_STATUS="stato";
@@ -69,7 +62,7 @@ public class PrenotazioneTable extends ETable {
         // aggiunge un filtro sulla stagione corrente
         Container cont = super.createContainer();
         JPAContainer JPAcont = (JPAContainer) cont;
-        Filter filter = new Compare.Equal(PrenotazioneTable.PROP_STAGIONE, Stagione.getStagioneCorrente());
+        Filter filter = new Compare.Equal(PrenotazioneModulo.PROP_STAGIONE, Stagione.getStagioneCorrente());
         JPAcont.addContainerFilter(filter);
         return JPAcont;
     }// end of method
@@ -290,9 +283,9 @@ public class PrenotazioneTable extends ETable {
     protected void createAdditionalColumns() {
         // queste property aggiunte servono per consentire
         // di effettuare ricerche su proprietà in relazione
-        getJPAContainer().addNestedContainerProperty(PROP_PROGETTO);
-        getJPAContainer().addNestedContainerProperty(PROP_EVENTO);
-        getJPAContainer().addNestedContainerProperty(PROP_STAGIONE);
+        getJPAContainer().addNestedContainerProperty(PrenotazioneModulo.PROP_PROGETTO);
+        getJPAContainer().addNestedContainerProperty(PrenotazioneModulo.PROP_EVENTO);
+        getJPAContainer().addNestedContainerProperty(PrenotazioneModulo.PROP_STAGIONE);
 
         addGeneratedColumn(COL_STATUS, new StatusColumnGenerator());
         addGeneratedColumn(COL_PAGAM, new PagamColumnGenerator());

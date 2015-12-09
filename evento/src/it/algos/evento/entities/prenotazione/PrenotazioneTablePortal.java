@@ -8,6 +8,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
+import it.algos.evento.entities.stagione.Stagione;
 import it.algos.webbase.web.importexport.ExportConfiguration;
 import it.algos.webbase.web.importexport.ExportManager;
 import it.algos.webbase.web.importexport.ExportProvider;
@@ -60,7 +61,7 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addItem("Opzioni da confermare...", FontAwesome.CLOCK_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Filter filter = PrenotazioneModulo.getFiltroOpzioniDaConfermare();
+                Filter filter = PrenotazioneModulo.getFiltroOpzioniDaConfermare(Stagione.getStagioneCorrente());
                 JPAContainer cont = getTable().getJPAContainer();
                 cont.removeAllContainerFilters();
                 cont.refresh(); // refresh container before applying new filters
@@ -70,7 +71,7 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addItem("Pagamenti da confermare...", FontAwesome.CLOCK_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Filter filter = PrenotazioneModulo.getFiltroPagamentiDaConfermare();
+                Filter filter = PrenotazioneModulo.getFiltroPagamentiDaConfermare(Stagione.getStagioneCorrente());
                 JPAContainer cont = getTable().getJPAContainer();
                 cont.removeAllContainerFilters();
                 cont.refresh(); // refresh container before applying new filters
