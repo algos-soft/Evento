@@ -61,5 +61,13 @@ public abstract class EventoApp extends AlgosApp {
      */
     public static final String IMG_FOLDER_NAME = "WEB-INF/data/img/";
 
+    /**
+     * Keys for session attributes.<br>
+     */
+    public static final String KEY_MOSTRA_PREN_RITARDO_CONFERMA = "mostraOpzioniRitardoConferma";
+    public static final String KEY_MOSTRA_PREN_RITARDO_PAGAMENTO_1 = "mostraOpzioniRitardoPagamento1";
+    public static final String KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO = "mostraPrenPagamentoConfermato";
+
+
 
 }// end of static abstract class

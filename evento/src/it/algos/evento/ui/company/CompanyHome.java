@@ -48,6 +48,7 @@ public class CompanyHome extends VerticalLayout {
 
     private CompanySplash splashScreen;
     private MenuBar.MenuItem loginItem; // il menuItem di login
+    private MenuBar.MenuItem itemPrenotazioni; // il menuItem di Prenotazioni
 
     public CompanyHome() {
 
@@ -95,9 +96,9 @@ public class CompanyHome extends VerticalLayout {
         setExpandRatio(placeholder, 1.0f);
 
         // crea un Navigator e lo configura in base ai contenuti della MenuBar
-        EventoNavigator nav = new EventoNavigator(UI.getCurrent(), placeholder);
-        nav.configureFromMenubar(mainBar);
-        nav.navigateTo("splash");
+        EventoNavigator navigator = new EventoNavigator(UI.getCurrent(), placeholder);
+        navigator.configureFromMenubar(mainBar);
+        navigator.navigateTo("splash");
 
         // set browser window title
         Page.getCurrent().setTitle(EventoApp.APP_NAME);
@@ -111,7 +112,7 @@ public class CompanyHome extends VerticalLayout {
      */
     private MenuBar createMainMenuBar() {
 
-        splashScreen = new CompanySplash(CompanyPrefs.splashImage.getResource());
+        splashScreen = new CompanySplash(this, CompanyPrefs.splashImage.getResource());
 
         MenuBar.MenuItem item;
         MenuBar menubar = new MenuBar();
@@ -123,11 +124,10 @@ public class CompanyHome extends VerticalLayout {
         menubar.addItem("Eventi", null, new MenuCommand(menubar, "eventi", new EventoModulo()));
         menubar.addItem("Rappresentazioni", null, new MenuCommand(menubar, "rappresentazioni",
                 new RappresentazioneModulo()));
-        menubar.addItem("Prenotazioni", null, new MenuCommand(menubar, "prenotazioni", new PrenotazioneModulo()));
+        itemPrenotazioni=menubar.addItem("Prenotazioni", null, new MenuCommand(menubar, "prenotazioni", new PrenotazioneModulo()));
         menubar.addItem("Scuole", null, new MenuCommand(menubar, "scuole", new ScuolaModulo()));
         menubar.addItem("Referenti", null, new MenuCommand(menubar, "referenti", new InsegnanteModulo()));
         menubar.addItem("Statistiche", null, new MenuCommand(menubar, "statistiche", new StatisticheModulo()));
-
 
         // Menu tabelle
         item = menubar.addItem("Tabelle", null, null);
@@ -245,7 +245,7 @@ public class CompanyHome extends VerticalLayout {
     }
 
 
-
-
-
+    public MenuBar.MenuItem getItemPrenotazioni() {
+        return itemPrenotazioni;
+    }
 }

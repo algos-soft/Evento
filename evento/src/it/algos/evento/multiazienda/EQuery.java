@@ -3,6 +3,8 @@ package it.algos.evento.multiazienda;
 import com.vaadin.addon.jpacontainer.EntityItem;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container.Filter;
+import com.vaadin.data.util.filter.And;
+import com.vaadin.data.util.filter.Compare;
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.evento.Evento_;
@@ -14,6 +16,7 @@ import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.lib.EventoSessionLib;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
+import org.joda.time.DateTime;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -369,8 +372,196 @@ public class EQuery {
 
 
     /**
-     * Aggiunge un filtro sulla company corrente a una query.
+     * Ritorna il numero di posti prenotati per l'azienda corrente in una data stagione.
+     *
+     * @param stagione  la stagione
+     * @return il numero totale di posti prenotati
      */
+    public static int countPostiPrenotati(Stagione stagione) {
+        int num = 0;
+
+        EntityManager em = EM.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Integer> cq = cb.createQuery(Integer.class);
+
+        Root<Prenotazione> root = cq.from(Prenotazione.class);
+        Join<Prenotazione, Rappresentazione> joinRapp = root.join(Prenotazione_.rappresentazione);
+        Join<Rappresentazione, Evento> joinEve = joinRapp.join(Rappresentazione_.evento);
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(creaFiltroCompany(root, cb));
+        predicates.add(cb.equal(joinEve.get(Evento_.stagione), stagione));
+
+        cq.where(predicates.toArray(new Predicate[]{}));
+
+        Expression<Integer> e1 = cb.sum(root.get(Prenotazione_.numInteri));
+        Expression<Integer> e2 = cb.sum(root.get(Prenotazione_.numRidotti));
+        Expression<Integer> e3 = cb.sum(root.get(Prenotazione_.numDisabili));
+        Expression<Integer> e4 = cb.sum(root.get(Prenotazione_.numAccomp));
+
+        Expression<Integer> e1e2 = cb.sum(e1,e2);
+        Expression<Integer> e3e4 = cb.sum(e3,e4);
+
+        Expression<Integer> sTot = cb.sum(e1e2,e3e4);
+
+        cq.select(sTot);
+
+        TypedQuery<Integer> q = em.createQuery(cq);
+        num = q.getSingleResult();
+        em.close();
+
+        return num;
+    }
+
+
+    /**
+     * Ritorna la capienza totale per l'azienda corrente in una data stagione.
+     *
+     * @param stagione  la stagione
+     * @return la capienza totale
+     */
+    public static int countCapienza(Stagione stagione) {
+        int num = 0;
+
+        EntityManager em = EM.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Integer> cq = cb.createQuery(Integer.class);
+
+        Root<Rappresentazione> root = cq.from(Rappresentazione.class);
+        Join<Rappresentazione, Evento> joinEve = root.join(Rappresentazione_.evento);
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(creaFiltroCompany(root, cb));
+        predicates.add(cb.equal(joinEve.get(Evento_.stagione), stagione));
+
+        cq.where(predicates.toArray(new Predicate[]{}));
+
+        Expression<Integer> e1 = cb.sum(root.get(Rappresentazione_.capienza));
+
+        cq.select(e1);
+
+        TypedQuery<Integer> q = em.createQuery(cq);
+        num = q.getSingleResult();
+        em.close();
+
+        return num;
+    }
+
+
+    /**
+     * Ritorna il numero prenotazioni in ritardo di conferma per l'azienda corrente in una data stagione.
+     *
+     * @param stagione  la stagione
+     * @return il numero di prenotazioni in ritardo di conferma
+     */
+    public static int countPrenRitardoConferma(Stagione stagione) {
+
+        int num = 0;
+
+        EntityManager em = EM.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+
+        Root<Prenotazione> root = cq.from(Prenotazione.class);
+        Join<Prenotazione, Rappresentazione> joinRapp = root.join(Prenotazione_.rappresentazione);
+        Join<Rappresentazione, Evento> joinEve = joinRapp.join(Rappresentazione_.evento);
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(creaFiltroCompany(root, cb));
+        predicates.add(cb.equal(joinEve.get(Evento_.stagione), stagione));
+        predicates.add(cb.equal(root.get(Prenotazione_.confermata), false));
+        predicates.add(cb.lessThan(root.get(Prenotazione_.scadenzaConferma), new DateTime().withTimeAtStartOfDay().toDate()));
+
+        cq.where(predicates.toArray(new Predicate[]{}));
+
+        cq.select(cb.count(root));
+
+        TypedQuery<Long> q = em.createQuery(cq);
+        num = q.getSingleResult().intValue();
+        em.close();
+
+        return num;
+    }
+
+
+    /**
+     * Ritorna il numero prenotazioni in ritardo di conferma pagamento (fase 1)
+     * per l'azienda corrente in una data stagione.
+     *
+     * @param stagione  la stagione
+     * @return il numero di prenotazioni in ritardo di conferma pagamento (fase 1)
+     */
+    public static int countPrenRitardoPagamento1(Stagione stagione) {
+
+        int num = 0;
+
+        EntityManager em = EM.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+
+        Root<Prenotazione> root = cq.from(Prenotazione.class);
+        Join<Prenotazione, Rappresentazione> joinRapp = root.join(Prenotazione_.rappresentazione);
+        Join<Rappresentazione, Evento> joinEve = joinRapp.join(Rappresentazione_.evento);
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(creaFiltroCompany(root, cb));
+        predicates.add(cb.equal(joinEve.get(Evento_.stagione), stagione));
+        predicates.add(cb.equal(root.get(Prenotazione_.confermata), true));
+        predicates.add(cb.equal(root.get(Prenotazione_.pagamentoConfermato), false));
+        predicates.add(cb.lessThan(root.get(Prenotazione_.scadenzaPagamento), new DateTime().withTimeAtStartOfDay().toDate()));
+
+        cq.where(predicates.toArray(new Predicate[]{}));
+
+        cq.select(cb.count(root));
+
+        TypedQuery<Long> q = em.createQuery(cq);
+        num = q.getSingleResult().intValue();
+        em.close();
+
+        return num;
+    }
+
+
+    /**
+     * Ritorna il numero di prenorazioni con pagamento confermato
+     * per l'azienda corrente in una data stagione.
+     *
+     * @param stagione  la stagione
+     * @return il numero di prenorazioni con pagamento confermato
+     */
+    public static int countPrenotazioniPagamentoConfermato(Stagione stagione) {
+        int num = 0;
+
+        EntityManager em = EM.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+
+        Root<Prenotazione> root = cq.from(Prenotazione.class);
+        Join<Prenotazione, Rappresentazione> joinRapp = root.join(Prenotazione_.rappresentazione);
+        Join<Rappresentazione, Evento> joinEve = joinRapp.join(Rappresentazione_.evento);
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(creaFiltroCompany(root, cb));
+        predicates.add(cb.equal(joinEve.get(Evento_.stagione), stagione));
+        predicates.add(cb.equal(root.get(Prenotazione_.pagamentoConfermato), true));
+
+        cq.where(predicates.toArray(new Predicate[]{}));
+
+        cq.select(cb.count(root));
+
+        TypedQuery<Long> q = em.createQuery(cq);
+        num = q.getSingleResult().intValue();
+        em.close();
+
+        return num;
+
+    }
+
+
+
+        /**
+         * Aggiunge un filtro sulla company corrente a una query.
+         */
     private static Predicate creaFiltroCompany(Root root, CriteriaBuilder cb) {
         Company company = EventoSessionLib.getCompany();
         return cb.equal(root.get(EventoEntity_.company), company);

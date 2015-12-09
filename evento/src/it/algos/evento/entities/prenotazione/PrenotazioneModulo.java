@@ -1,17 +1,23 @@
 package it.algos.evento.entities.prenotazione;
 
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.util.DefaultQueryModifierDelegate;
+import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
+import com.vaadin.data.util.filter.UnsupportedFilterException;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
+import it.algos.evento.EventoApp;
 import it.algos.evento.EventoBootStrap;
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.evento.Evento;
+import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.lettera.*;
 import it.algos.evento.entities.modopagamento.ModoPagamento;
@@ -20,6 +26,7 @@ import it.algos.evento.entities.prenotazione.eventi.TipoEventoPren;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.spedizione.Spedizione;
+import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
@@ -28,6 +35,7 @@ import it.algos.webbase.web.field.ArrayComboField;
 import it.algos.webbase.web.field.EmailField;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.lib.LibDate;
+import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
@@ -35,6 +43,7 @@ import org.joda.time.DateTime;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -62,6 +71,50 @@ public class PrenotazioneModulo extends EModulePop {
 
     public PrenotazioneModulo() {
         super(Prenotazione.class);
+
+        // listener invocato quando il modulo diventa visibile
+        addAttachListener(new AttachListener() {
+            @Override
+            public void attach(AttachEvent attachEvent) {
+
+                // se questo attributo esiste nella sessione, carica in
+                // lista le opzioni in ritardo di conferma ed elimina l'attributo
+                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_CONFERMA)!=null){
+                    LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_CONFERMA, null);
+                    Filter filter = PrenotazioneModulo.getFiltroOpzioniDaConfermare();
+                    JPAContainer cont = getTable().getJPAContainer();
+                    cont.removeAllContainerFilters();
+                    cont.refresh(); // refresh container before applying new filters!
+                    cont.addContainerFilter(filter);
+                }
+
+                // se questo attributo esiste nella sessione, carica in
+                // lista le opzioni in ritardo di conferma ed elimina l'attributo
+                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_PAGAMENTO_1)!=null){
+                    LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_PAGAMENTO_1, null);
+                    Filter filter = PrenotazioneModulo.getFiltroPagamentiDaConfermare();
+                    JPAContainer cont = getTable().getJPAContainer();
+                    cont.removeAllContainerFilters();
+                    cont.refresh(); // refresh container before applying new filters!
+                    cont.addContainerFilter(filter);
+                }
+
+                // se questo attributo esiste nella sessione, carica in
+                // lista le opzioni in ritardo di conferma ed elimina l'attributo
+                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO)!=null){
+                    LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO, null);
+                    Filter filter = PrenotazioneModulo.getFiltroPrenPagamentoConfermato();
+                    JPAContainer cont = getTable().getJPAContainer();
+                    cont.removeAllContainerFilters();
+                    cont.refresh(); // refresh container before applying new filters!
+                    cont.addContainerFilter(filter);
+                }
+
+
+
+            }
+        });
+
     }// end of constructor
 
     public TablePortal createTablePortal() {
@@ -1031,11 +1084,15 @@ public class PrenotazioneModulo extends EModulePop {
         DateTime jToday = new DateTime().withTimeAtStartOfDay();
         Date today = jToday.toDate();
         ArrayList<Filter> filters = new ArrayList<Filter>();
+        //filters.add(new Compare.Equal("evento."+Evento_.stagione.getName(), Stagione.getStagioneCorrente()));
         filters.add(new Compare.Equal(Prenotazione_.confermata.getName(), false));
         filters.add(new Compare.Less(Prenotazione_.scadenzaConferma.getName(), today));
+        //filters.add(new FiltroStagioneCorrente());
         Filter outFilter = new And(filters.toArray(new Filter[0]));
         return outFilter;
     }// end of method
+
+
 
     /**
      * Ritorna un filtro che seleziona tutti i pagamenti scaduti e non confermati
@@ -1050,6 +1107,20 @@ public class PrenotazioneModulo extends EModulePop {
         Filter outFilter = new And(filters.toArray(new Filter[0]));
         return outFilter;
     }// end of method
+
+
+    /**
+     * Ritorna un filtro che seleziona tutte le prenotazioni con pagamento confermato
+     */
+    public static Filter getFiltroPrenPagamentoConfermato() {
+        ArrayList<Filter> filters = new ArrayList<Filter>();
+        filters.add(new Compare.Equal(Prenotazione_.confermata.getName(), true));
+        filters.add(new Compare.Equal(Prenotazione_.pagamentoConfermato.getName(), true));
+        Filter outFilter = new And(filters.toArray(new Filter[0]));
+        return outFilter;
+    }// end of method
+
+
 
     /**
      * Ritorna un filtro che seleziona tutti i pagamenti confermati ma ancora da ricevere
