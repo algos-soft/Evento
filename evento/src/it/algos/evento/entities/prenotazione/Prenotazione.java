@@ -390,9 +390,9 @@ public class Prenotazione extends EventoEntity {
         return totale;
     }
 
-    public void setImportoDaPagare(BigDecimal importoDaPagare) {
-        this.importoDaPagare = importoDaPagare;
-    }
+//    public void setImportoDaPagare(BigDecimal importoDaPagare) {
+//        this.importoDaPagare = importoDaPagare;
+//    }
 
     public ModoPagamento getModoPagamento() {
         return modoPagamento;

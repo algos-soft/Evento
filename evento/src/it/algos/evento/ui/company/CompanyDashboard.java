@@ -26,6 +26,7 @@ public class CompanyDashboard extends VerticalLayout {
     private HorizontalLayout pscadPlaceholder = new HorizontalLayout();
     private HorizontalLayout confPagScadPlaceholder = new HorizontalLayout();
     private HorizontalLayout pagamentiConfermatiPlaceholder = new HorizontalLayout();
+    private HorizontalLayout pagamentiRicevutiPlaceholder = new HorizontalLayout();
     private HorizontalLayout pagamentiDaConfermarePlaceholder = new HorizontalLayout();
     private HorizontalLayout eventiInProgrammaPlaceholder = new HorizontalLayout();
     private HorizontalLayout rappresentazioniPlaceholder = new HorizontalLayout();
@@ -64,6 +65,7 @@ public class CompanyDashboard extends VerticalLayout {
         addComponent(confPagScadPlaceholder);
         addComponent(new Hr());
         addComponent(pagamentiConfermatiPlaceholder);
+        addComponent(pagamentiRicevutiPlaceholder);
         addComponent(pagamentiDaConfermarePlaceholder);
         addComponent(new Hr());
         addComponent(eventiInProgrammaPlaceholder);
@@ -83,6 +85,7 @@ public class CompanyDashboard extends VerticalLayout {
         createPrenScadute();
         createConfPagaScadute();
         createPagamentiConfermati();
+        createPagamentiRicevuti();
         createPagamentiDaConfermare();
         createEventiInProgramma();
         createRappresentazioni();
@@ -172,7 +175,7 @@ public class CompanyDashboard extends VerticalLayout {
 
 
     /**
-     * Crea il componente UI che rappresenta i pagamenti confermati
+     * Crea il componente UI che rappresenta i pagamenti confermati ma non ricevuti
      */
     private void createPagamentiConfermati() {
         HorizontalLayout hLayout;
@@ -199,6 +202,37 @@ public class CompanyDashboard extends VerticalLayout {
 
         pagamentiConfermatiPlaceholder.removeAllComponents();
         pagamentiConfermatiPlaceholder.addComponent(hLayout);
+
+    }
+
+    /**
+     * Crea il componente UI che rappresenta i pagamenti ricevuti
+     */
+    private void createPagamentiRicevuti(){
+        HorizontalLayout hLayout;
+        HTMLLabel label;
+        Button button;
+
+        hLayout = new HorizontalLayout();
+        label = new HTMLLabel();
+        int numPagaRicevuti = EQuery.countPrenotazioniPagamentoRicevuto(getStagione());
+        BigDecimal importoPagaRicevuti = EQuery.sumImportoPrenotazioniPagamentoRicevuto(getStagione());
+        label.setValue(spanSmall("pagamenti ricevuti:\u2003") + spanBig(getString(numPagaRicevuti)) + spanSmall("\u2003per\u2003") + spanBig(getString(importoPagaRicevuti) + " &euro;") + spanSmall("\u2003"));
+        button = new Button("Vedi", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
+                LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_RICEVUTO, true);
+                // clicca sul menu Prenotazioni
+                clickMenuPren();
+            }
+        });
+        hLayout.addComponent(label);
+        hLayout.addComponent(button);
+        hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
+
+        pagamentiRicevutiPlaceholder.removeAllComponents();
+        pagamentiRicevutiPlaceholder.addComponent(hLayout);
 
     }
 

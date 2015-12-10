@@ -103,7 +103,7 @@ public class PrenotazioneModulo extends EModulePop {
                 // lista le opzioni in ritardo di conferma ed elimina l'attributo
                 if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO)!=null){
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO, null);
-                    Filter filter = PrenotazioneModulo.getFiltroPren(Stagione.getStagioneCorrente(), true);
+                    Filter filter = PrenotazioneModulo.getFiltroPren(Stagione.getStagioneCorrente(), true, false);
                     JPAContainer cont = getTable().getJPAContainer();
                     cont.removeAllContainerFilters();
                     cont.refresh(); // refresh container before applying new filters!
@@ -114,7 +114,7 @@ public class PrenotazioneModulo extends EModulePop {
                 // lista le opzioni in ritardo di conferma ed elimina l'attributo
                 if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO)!=null){
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO, null);
-                    Filter filter = PrenotazioneModulo.getFiltroPren(Stagione.getStagioneCorrente(), false);
+                    Filter filter = PrenotazioneModulo.getFiltroPren(Stagione.getStagioneCorrente(), false, false);
                     JPAContainer cont = getTable().getJPAContainer();
                     cont.removeAllContainerFilters();
                     cont.refresh(); // refresh container before applying new filters!
@@ -727,7 +727,7 @@ public class PrenotazioneModulo extends EModulePop {
         pren.setNumDisabili(numDisabili);
         pren.setNumAccomp(numAccomp);
 
-        pren.setImportoDaPagare(importoPrevisto);
+        //pren.setImportoDaPagare(importoPrevisto);
         pren.setImportoPagato(importoPagato);
         pren.setModoPagamento(mezzo);
 
@@ -1135,12 +1135,17 @@ public class PrenotazioneModulo extends EModulePop {
 
     /**
      * Ritorna un filtro che seleziona tutte le prenotazioni
-     * con pagamento confermato o non confermato
+     * con pagamento confermato o non confermato, ricevuto o non ricevuto
+     * @param stagione la stagione di riferimento
+     * @param confermato flag per confermato
+     * @param ricevuto flag per ricevuto
+     *
      */
-    public static Filter getFiltroPren(Stagione stagione, boolean confermato) {
+    public static Filter getFiltroPren(Stagione stagione, boolean confermato, boolean ricevuto) {
         ArrayList<Filter> filters = new ArrayList<Filter>();
         filters.add(new Compare.Equal(PROP_STAGIONE, stagione));
         filters.add(new Compare.Equal(Prenotazione_.pagamentoConfermato.getName(), confermato));
+        filters.add(new Compare.Equal(Prenotazione_.pagamentoRicevuto.getName(), ricevuto));
         Filter outFilter = new And(filters.toArray(new Filter[0]));
         return outFilter;
     }// end of method

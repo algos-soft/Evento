@@ -536,7 +536,7 @@ public class EQuery {
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 
         Root<Prenotazione> root = cq.from(Prenotazione.class);
-        cq.where(getFiltroPagamento(root, cb, stagione, true));
+        cq.where(getFiltroPagamento(root, cb, stagione, true, false));
 
         cq.select(cb.count(root));
 
@@ -563,7 +563,7 @@ public class EQuery {
         CriteriaQuery<BigDecimal> cq = cb.createQuery(BigDecimal.class);
 
         Root<Prenotazione> root = cq.from(Prenotazione.class);
-        cq.where(getFiltroPagamento(root, cb, stagione, true));
+        cq.where(getFiltroPagamento(root, cb, stagione, true, false));
 
         Expression<BigDecimal> e1 = cb.sum(root.get(Prenotazione_.importoPagato));
 
@@ -597,7 +597,7 @@ public class EQuery {
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 
         Root<Prenotazione> root = cq.from(Prenotazione.class);
-        cq.where(getFiltroPagamento(root, cb, stagione, false));
+        cq.where(getFiltroPagamento(root, cb, stagione, false, false));
 
         cq.select(cb.count(root));
 
@@ -617,28 +617,107 @@ public class EQuery {
      * @return l'importo totale delle prenorazioni
      */
     public static BigDecimal sumImportoPrenotazioniPagamentoNonConfermato(Stagione stagione) {
-        BigDecimal num;
+
+        EntityManager em = EM.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Number> cq = cb.createQuery(Number.class);
+
+        Root<Prenotazione> root = cq.from(Prenotazione.class);
+        cq.where(getFiltroPagamento(root, cb, stagione, false, false));
+
+        Expression<Number> e1 = cb.prod(root.get(Prenotazione_.numInteri), root.get(Prenotazione_.importoIntero));
+        Expression<Number> e2 = cb.prod(root.get(Prenotazione_.numRidotti), root.get(Prenotazione_.importoRidotto));
+        Expression<Number> e3 = cb.prod(root.get(Prenotazione_.numDisabili), root.get(Prenotazione_.importoDisabili));
+        Expression<Number> e4 = cb.prod(root.get(Prenotazione_.numAccomp), root.get(Prenotazione_.importoAccomp));
+
+        Expression<Number> e1e2 = cb.sum(e1, e2);
+        Expression<Number> e3e4 = cb.sum(e3, e4);
+
+        Expression<Number> sTot = cb.sum(e1e2, e3e4);
+
+        cq.select(cb.sum(sTot));
+
+        Number num = em.createQuery(cq).getSingleResult();
+        em.close();
+
+        BigDecimal bd=new BigDecimal(0);
+        if (num != null) {
+            if (num instanceof BigDecimal){
+                bd=(BigDecimal)num;
+            }
+        }
+
+        return bd;
+    }
+
+
+
+
+
+
+
+
+
+    /**
+     * Ritorna il numero di prenorazioni con pagamento ricevuto
+     * per l'azienda corrente in una data stagione.
+     *
+     * @param stagione la stagione
+     * @return il numero di prenorazioni con pagamento ricevuto
+     */
+    public static int countPrenotazioniPagamentoRicevuto(Stagione stagione) {
+        int num;
+
+        EntityManager em = EM.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+
+        Root<Prenotazione> root = cq.from(Prenotazione.class);
+        cq.where(getFiltroPagamento(root, cb, stagione, true, true));
+
+        cq.select(cb.count(root));
+
+        num = em.createQuery(cq).getSingleResult().intValue();
+
+        em.close();
+
+        return num;
+
+    }
+
+    /**
+     * Ritorna l'importo totale delle prenorazioni con pagamento ricevuto
+     * per l'azienda corrente in una data stagione.
+     *
+     * @param stagione la stagione
+     * @return l'importo totale delle prenorazioni
+     */
+    public static BigDecimal sumImportoPrenotazioniPagamentoRicevuto(Stagione stagione) {
 
         EntityManager em = EM.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<BigDecimal> cq = cb.createQuery(BigDecimal.class);
 
         Root<Prenotazione> root = cq.from(Prenotazione.class);
-        cq.where(getFiltroPagamento(root, cb, stagione, false));
+        cq.where(getFiltroPagamento(root, cb, stagione, true, true));
 
-        Expression<BigDecimal> e1 = cb.sum(root.get(Prenotazione_.importoDaPagare));
+        Expression<BigDecimal> e1 = cb.sum(root.get(Prenotazione_.importoPagato));
 
         cq.select(e1);
 
-        num = em.createQuery(cq).getSingleResult();
+        BigDecimal num = em.createQuery(cq).getSingleResult();
         em.close();
 
-        if (num == null) {
-            num = new BigDecimal(0);
+        if(num==null){
+            num=new BigDecimal(0);
         }
 
         return num;
     }
+
+
+
+
 
 
     /**
@@ -648,15 +727,17 @@ public class EQuery {
      * @param root       root della query
      * @param cb         il CriteriaBuilder da usare
      * @param stagione   la stagione di riferimento
-     * @param confermato flag di selezione
+     * @param confermato flag di selezione confermato
+     * @param ricevuto flag di selezione ricevuto
      */
-    private static Predicate[] getFiltroPagamento(Root<Prenotazione> root, CriteriaBuilder cb, Stagione stagione, boolean confermato) {
+    private static Predicate[] getFiltroPagamento(Root<Prenotazione> root, CriteriaBuilder cb, Stagione stagione, boolean confermato, boolean ricevuto) {
         Join<Prenotazione, Rappresentazione> joinRapp = root.join(Prenotazione_.rappresentazione);
         Join<Rappresentazione, Evento> joinEve = joinRapp.join(Rappresentazione_.evento);
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(creaFiltroCompany(root, cb));
         predicates.add(cb.equal(joinEve.get(Evento_.stagione), stagione));
         predicates.add(cb.equal(root.get(Prenotazione_.pagamentoConfermato), confermato));
+        predicates.add(cb.equal(root.get(Prenotazione_.pagamentoRicevuto), ricevuto));
         return predicates.toArray(new Predicate[0]);
     }
 

@@ -587,8 +587,8 @@ public class DemoDataGenerator {
                     pren.setImportoRidotto(iRidotto);
                     pren.setImportoDisabili(iDisabili);
                     pren.setImportoAccomp(iAccomp);
-                    BigDecimal totPren = Prenotazione.getTotImporto(nInteri, nRidotti, nDisabili, nAccomp, iIntero, iRidotto, iDisabili, iAccomp);
-					pren.setImportoDaPagare(totPren);
+                    //BigDecimal totPren = Prenotazione.getTotImporto(nInteri, nRidotti, nDisabili, nAccomp, iIntero, iRidotto, iDisabili, iAccomp);
+					//pren.setImportoDaPagare(totPren);
 
                     //BigDecimal totPren = Rappresentazione.getTotImporto(rapp, nInteri, nRidotti);
 //					BigDecimal iIntero=pren.getImportoIntero();
