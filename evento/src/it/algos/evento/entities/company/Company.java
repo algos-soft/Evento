@@ -17,6 +17,7 @@ import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
+import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.multiazienda.EventoEntity_;
 import it.algos.evento.pref.PrefEventoEntity;
 import it.algos.webbase.domain.ruolo.Ruolo;
@@ -346,6 +347,14 @@ public class Company extends BaseEntity {
 
 
 
+	}
+
+	/**
+	 * Ritorna la Company corrente.
+	 * @return la Company corrente
+	 */
+	public static Company getCurrent(){
+		return EventoSessionLib.getCompany();
 	}
 	
 

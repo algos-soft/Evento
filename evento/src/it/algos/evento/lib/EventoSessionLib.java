@@ -12,6 +12,10 @@ import it.algos.webbase.web.login.Login;
 public class EventoSessionLib {
 
 
+    /**
+     * Ritorna la Company corrente.
+     * @return la Company corrente
+     */
     public static Company getCompany() {
         Company company = null;
         Object attr = LibSession.getAttribute("company");

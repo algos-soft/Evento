@@ -70,5 +70,7 @@ public abstract class EventoApp extends AlgosApp {
     public static final String KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO = "mostraPrenPagamentoDaConfermare";
     public static final String KEY_MOSTRA_PREN_CONGELATE = "mostraPrenCongelate";
 
+    // company code della azienda Asteria - per gestire personalizzazioni specifiche
+    public static final String ASTERIA_COMPANY_CODE="asteria";
 
 }// end of static abstract class
