@@ -69,11 +69,14 @@ public class CompanySplash extends VerticalLayout {
         hLayout.setWidth("100%");
         hLayout.setHeight("100%");
         dashboard=new CompanyDashboard(home);
+        dashboard.setSizeFull();
         hLayout.addComponent(dashboard);
+//        dashboard.setWidth("100%");
+//        hLayout.setExpandRatio(dashboard, 1);
 
-        Component logo = createLogo();
-        hLayout.addComponent(logo);
-        hLayout.setExpandRatio(logo, 1);
+//        Component logo = createLogo();
+//        hLayout.addComponent(logo);
+//        hLayout.setExpandRatio(logo, 0);
 
         return hLayout;
     }

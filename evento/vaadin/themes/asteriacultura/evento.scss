@@ -130,10 +130,53 @@ $v-font-weight: 400;
     max-height: 0;
   }
 
+
+
+  .infoBarTitle{
+    font-size: 14px;
+    font-weight: bold;
+  }
+
   .infoBarSegment{
     font-size: 18px;
     font-weight: bold;
   }
+
+  .infoBarSegment1{
+    background: red;
+    background: -webkit-linear-gradient(left, darkred, red);
+    background: -moz-linear-gradient(left, darkred, red);
+    background: -o-linear-gradient(left, darkred, red);
+    background: linear-gradient(left, darkred, red);
+  }
+
+  .infoBarSegment2{
+    background: orange;
+    background: -webkit-linear-gradient(left, darkorange, orange);
+    background: -moz-linear-gradient(left, darkorange, orange);
+    background: -o-linear-gradient(left, darkorange, orange);
+    background: linear-gradient(left, darkorange, orange);
+  }
+
+  .infoBarSegment3{
+    background: goldenrod;
+    background: -webkit-linear-gradient(left, darkgoldenrod, goldenrod);
+    background: -moz-linear-gradient(left, darkgoldenrod, goldenrod);
+    background: -o-linear-gradient(left, darkgoldenrod, goldenrod);
+    background: linear-gradient(left, darkgoldenrod, goldenrod);
+  }
+
+  .infoBarSegment4{
+    background: green;
+    background: -webkit-linear-gradient(left, darkgreen, green);
+    background: -moz-linear-gradient(left, darkgreen, green);
+    background: -o-linear-gradient(left, darkgreen, green);
+    background: linear-gradient(left, darkgreen, green);
+  }
+
+
+
+
 
 
 }

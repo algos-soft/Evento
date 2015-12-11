@@ -13,12 +13,6 @@ import it.algos.webbase.web.lib.LibSession;
 import java.math.BigDecimal;
 import java.util.Date;
 
-//import org.jfree.chart.ChartFactory;
-//import org.jfree.chart.JFreeChart;
-//import org.jfree.data.general.DefaultPieDataset;
-//import org.jfree.data.general.PieDataset;
-//import org.vaadin.addon.JFreeChartWrapper;
-
 /**
  * Dashboard della Company
  */
@@ -31,16 +25,14 @@ public class CompanyDashboard extends VerticalLayout {
     private HorizontalLayout titlePlaceholder = new HorizontalLayout();
     private HorizontalLayout pscadPlaceholder = new HorizontalLayout();
     private HorizontalLayout confPagScadPlaceholder = new HorizontalLayout();
-    private HorizontalLayout prenotazioniNonConfermate = new HorizontalLayout();
-    private HorizontalLayout pagamentiNonConfermatiPlaceholder = new HorizontalLayout();
-    private HorizontalLayout pagamentiConfermatiPlaceholder = new HorizontalLayout();
-    private HorizontalLayout pagamentiRicevutiPlaceholder = new HorizontalLayout();
     private HorizontalLayout eventiInProgrammaPlaceholder = new HorizontalLayout();
     private HorizontalLayout rappresentazioniPlaceholder = new HorizontalLayout();
     private HorizontalLayout prenotazioniRicevutePlaceholder = new HorizontalLayout();
     private HorizontalLayout postiPrenotatiPlaceholder = new HorizontalLayout();
 
-    private InfoBar barNumeri = new InfoBar();
+    private InfoBar barNumeri;
+    private InfoBar barPosti;
+    private InfoBar barImporti;
 
 
     // classi per il CSS iniettato
@@ -50,12 +42,16 @@ public class CompanyDashboard extends VerticalLayout {
     public CompanyDashboard(CompanyHome home) {
         this.home = home;
 
-        addStyleName("lightGrayBg");
+        //addStyleName("lightGrayBg");
         setWidthUndefined();
         setHeight("100%");
         setMargin(true);
 
         injectCSS();
+
+        barNumeri = new InfoBar("Prenotazioni", home, false);
+        barPosti = new InfoBar("Posti", home, false);
+        barImporti = new InfoBar("Importi", home, true);
 
         init();
 
@@ -74,10 +70,12 @@ public class CompanyDashboard extends VerticalLayout {
         addComponent(confPagScadPlaceholder);
         addComponent(new Hr());
         addComponent(barNumeri);
-        addComponent(prenotazioniNonConfermate);
-        addComponent(pagamentiNonConfermatiPlaceholder);
-        addComponent(pagamentiConfermatiPlaceholder);
-        addComponent(pagamentiRicevutiPlaceholder);
+        addComponent(new VSpacer());
+        addComponent(barPosti);
+        addComponent(new VSpacer());
+        addComponent(barImporti);
+        addComponent(new VSpacer());
+        addComponent(new InfoBarLegend());
         addComponent(new Hr());
         addComponent(eventiInProgrammaPlaceholder);
         addComponent(rappresentazioniPlaceholder);
@@ -156,10 +154,25 @@ public class CompanyDashboard extends VerticalLayout {
         creaTitoloDashboard();
         createPrenScadute();
         createConfPagaScadute();
-        createPrenotazioniNonConfermate();
-        createPagamentiNonConfermati();
-        createPagamentiConfermati();
-        createPagamentiRicevuti();
+
+        // barra n. prenotazioni
+        barNumeri.update(EQuery.countPrenotazioniNonConfermate(),
+                EQuery.countPrenotazioniPagamentoNonConfermato(),
+                EQuery.countPrenotazioniPagamentoConfermato(),
+                EQuery.countPrenotazioniPagamentoRicevuto());
+
+        // barra n. posti
+        barPosti.update(EQuery.sumPostiPrenotazioniNonConfermate(),
+                EQuery.sumPostiPrenotazioniPagamentoNonConfermato(),
+                EQuery.sumPostiPrenotazioniPagamentoConfermato(),
+                EQuery.sumPostiPrenotazioniPagamentoRicevuto());
+
+        // barra importi
+        barImporti.update(EQuery.sumImportoPrenotazioniNonConfermate().intValue(),
+                EQuery.sumImportoPrenotazioniPagamentoNonConfermato().intValue(),
+                EQuery.sumImportoPrenotazioniPagamentoConfermato().intValue(),
+                EQuery.sumImportoPrenotazioniPagamentoRicevuto().intValue());
+
         createEventiInProgramma();
         createRappresentazioni();
         createPrenotazioniRicevute();
@@ -249,172 +262,6 @@ public class CompanyDashboard extends VerticalLayout {
 
     }
 
-
-    /**
-     * Crea il componente UI che rappresenta le prenotazioni non confermate
-     */
-    private void createPrenotazioniNonConfermate() {
-        HorizontalLayout hLayout;
-        HTMLLabel label;
-        Button button;
-
-        hLayout = new HorizontalLayout();
-        label = new HTMLLabel();
-        int quante = EQuery.countPrenotazioniNonConfermate();
-        int posti = EQuery.sumPostiPrenotazioniNonConfermate();
-        BigDecimal importo = EQuery.sumImportoPrenotazioniNonConfermate();
-        String s = spanSmall("prenotazioni non confermate:\u2003");
-        s += spanBig(getString(quante));
-        s += spanSmall("\u2003per\u2003");
-        s += spanBig(getString(posti));
-        s += spanSmall("\u2003posti e\u2003");
-        s += spanBig(getString(importo) + " &euro;");
-        s += spanSmall("\u2003");
-        label.setValue(s);
-
-        button = new Button("Vedi", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
-                LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE, true);
-                // clicca sul menu Prenotazioni
-                clickMenuPren();
-            }
-        });
-        hLayout.addComponent(label);
-        hLayout.addComponent(button);
-        hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
-
-        prenotazioniNonConfermate.removeAllComponents();
-        prenotazioniNonConfermate.addComponent(hLayout);
-
-    }
-
-
-    /**
-     * Crea il componente UI che rappresenta i pagamenti non confermati
-     */
-    private void createPagamentiNonConfermati() {
-        HorizontalLayout hLayout;
-        HTMLLabel label;
-        Button button;
-
-        hLayout = new HorizontalLayout();
-        label = new HTMLLabel();
-        int quante = EQuery.countPrenotazioniPagamentoNonConfermato();
-        int posti = EQuery.sumPostiPrenotazioniPagamentoNonConfermato();
-        BigDecimal importo = EQuery.sumImportoPrenotazioniPagamentoNonConfermato();
-
-        String s = spanSmall("pagamenti non confermati:\u2003");
-        s += spanBig(getString(quante));
-        s += spanSmall("\u2003per\u2003");
-        s += spanBig(getString(posti));
-        s += spanSmall("\u2003posti e\u2003");
-        s += spanBig(getString(importo) + " &euro;");
-        s += spanSmall("\u2003");
-        label.setValue(s);
-
-        button = new Button("Vedi", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
-                LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO, true);
-                // clicca sul menu Prenotazioni
-                clickMenuPren();
-            }
-        });
-        hLayout.addComponent(label);
-        hLayout.addComponent(button);
-        hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
-
-        pagamentiNonConfermatiPlaceholder.removeAllComponents();
-        pagamentiNonConfermatiPlaceholder.addComponent(hLayout);
-
-    }
-
-
-    /**
-     * Crea il componente UI che rappresenta i pagamenti confermati ma non ricevuti
-     */
-    private void createPagamentiConfermati() {
-        HorizontalLayout hLayout;
-        HTMLLabel label;
-        Button button;
-
-        hLayout = new HorizontalLayout();
-        label = new HTMLLabel();
-        int quante = EQuery.countPrenotazioniPagamentoConfermato();
-        int posti = EQuery.sumPostiPrenotazioniPagamentoConfermato();
-        BigDecimal importo = EQuery.sumImportoPrenotazioniPagamentoConfermato();
-
-        String s = spanSmall("pagamenti confermati:\u2003");
-        s += spanBig(getString(quante));
-        s += spanSmall("\u2003per\u2003");
-        s += spanBig(getString(posti));
-        s += spanSmall("\u2003posti e\u2003");
-        s += spanBig(getString(importo) + " &euro;");
-        s += spanSmall("\u2003");
-        label.setValue(s);
-
-        button = new Button("Vedi", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
-                LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO, true);
-                // clicca sul menu Prenotazioni
-                clickMenuPren();
-            }
-        });
-        hLayout.addComponent(label);
-        hLayout.addComponent(button);
-        hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
-
-        pagamentiConfermatiPlaceholder.removeAllComponents();
-        pagamentiConfermatiPlaceholder.addComponent(hLayout);
-
-    }
-
-    /**
-     * Crea il componente UI che rappresenta i pagamenti ricevuti
-     */
-    private void createPagamentiRicevuti() {
-        HorizontalLayout hLayout;
-        HTMLLabel label;
-        Button button;
-
-        hLayout = new HorizontalLayout();
-        label = new HTMLLabel();
-        int quante = EQuery.countPrenotazioniPagamentoRicevuto();
-        int posti = EQuery.sumPostiPrenotazioniPagamentoRicevuto();
-        //int posti=0;
-        BigDecimal importo = EQuery.sumImportoPrenotazioniPagamentoRicevuto();
-
-        String s = spanSmall("pagamenti ricevuti:\u2003");
-        s += spanBig(getString(quante));
-        s += spanSmall("\u2003per\u2003");
-        s += spanBig(getString(posti));
-        s += spanSmall("\u2003posti e\u2003");
-        s += spanBig(getString(importo) + " &euro;");
-        s += spanSmall("\u2003");
-        label.setValue(s);
-
-        button = new Button("Vedi", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
-                LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_RICEVUTO, true);
-                // clicca sul menu Prenotazioni
-                clickMenuPren();
-            }
-        });
-        hLayout.addComponent(label);
-        hLayout.addComponent(button);
-        hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
-
-        pagamentiRicevutiPlaceholder.removeAllComponents();
-        pagamentiRicevutiPlaceholder.addComponent(hLayout);
-
-    }
 
 
     /**
@@ -584,6 +431,21 @@ public class CompanyDashboard extends VerticalLayout {
     }
 
 
+    /**
+     * Vertical Spacer
+     */
+    private class VSpacer extends Label {
+
+        VSpacer(double ems) {
+            String h = ems + "em";
+            setHeight(h);
+        }
+
+        VSpacer() {
+            this(1);
+        }
+
+    }
 
 
 }

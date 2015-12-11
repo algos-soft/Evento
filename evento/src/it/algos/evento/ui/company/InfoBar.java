@@ -1,37 +1,50 @@
 package it.algos.evento.ui.company;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.data.util.converter.StringToIntegerConverter;
+import com.vaadin.ui.*;
+import it.algos.evento.EventoApp;
+import it.algos.webbase.web.lib.LibSession;
+
+import java.util.Locale;
 
 /**
  * Barra informativa grafica sullo stato delle prenotazioni.
  */
-public class InfoBar extends HorizontalLayout {
+public class InfoBar extends VerticalLayout {
+
+    private CompanyHome home;
+    private boolean euro;
+    private HorizontalLayout segmentsLayout;
     private Segment segNonConf;
     private Segment segPagaNonConf;
     private Segment segPagaConf;
     private Segment segPagaRic;
 
 
-    public InfoBar() {
+    public InfoBar(String titolo, CompanyHome home, boolean euro) {
+        this.home=home;
+        this.euro=euro;
 
         setWidth("100%");
-        setHeight("3em");
         setSpacing(false);
 
+        segNonConf=new Segment("prenotazioni non confermate","infoBarSegment1",EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE);
+        segPagaNonConf=new Segment("pagamenti non confermati","infoBarSegment2",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO);
+        segPagaConf=new Segment("pagamenti confermati","infoBarSegment3",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO);
+        segPagaRic=new Segment("pagamenti ricevuti", "infoBarSegment4",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_RICEVUTO);
 
-        segNonConf=new Segment("prenotazioni non confermate","redBg");
-        segPagaNonConf=new Segment("pagamenti non confermati","yellowBg");
-        segPagaConf=new Segment("pagamenti confermati","blueBg");
-        segPagaRic=new Segment("pagamenti ricevuti", "greenBg");
+        Label label = new Label(titolo);
+        label.addStyleName("infoBarTitle");
+        addComponent(label);
 
-        addComponent(segNonConf);
-        addComponent(segPagaNonConf);
-        addComponent(segPagaConf);
-        addComponent(segPagaRic);
-
-        setSizes(2,250,34,160);
+        segmentsLayout = new HorizontalLayout();
+        segmentsLayout.setWidth("100%");
+        segmentsLayout.setHeight("4em");
+        segmentsLayout.addComponent(segNonConf);
+        segmentsLayout.addComponent(segPagaNonConf);
+        segmentsLayout.addComponent(segPagaConf);
+        segmentsLayout.addComponent(segPagaRic);
+        addComponent(segmentsLayout);
 
     }
 
@@ -39,17 +52,17 @@ public class InfoBar extends HorizontalLayout {
     /**
      * Assegna i pesi ai vari segmenti
      */
-    public void setSizes(int nonConf, int pagaNonConf, int pagaConf, int pagaRic){
-        setExpandRatio(segNonConf, nonConf);
+    public void update(int nonConf, int pagaNonConf, int pagaConf, int pagaRic){
+        segmentsLayout.setExpandRatio(segNonConf, nonConf);
         segNonConf.setValue(nonConf);
 
-        setExpandRatio(segPagaNonConf, pagaNonConf);
+        segmentsLayout.setExpandRatio(segPagaNonConf, pagaNonConf);
         segPagaNonConf.setValue(pagaNonConf);
 
-        setExpandRatio(segPagaConf, pagaConf);
+        segmentsLayout.setExpandRatio(segPagaConf, pagaConf);
         segPagaConf.setValue(pagaConf);
 
-        setExpandRatio(segPagaRic, pagaRic);
+        segmentsLayout.setExpandRatio(segPagaRic, pagaRic);
         segPagaRic.setValue(pagaRic);
 
     }
@@ -61,27 +74,50 @@ public class InfoBar extends HorizontalLayout {
     private class Segment extends Button {
 
         private String title;
-        private int value;
+        private final StringToIntegerConverter intConv = new StringToIntegerConverter();
 
-        public Segment(String title, String style) {
+        public Segment(String title, String style, final String key) {
             this.title=title;
             addStyleName(style);
             addStyleName("infoBarSegment");
             setHeight("100%");
             setWidth("100%");
+            setHtmlContentAllowed(true);
+
+            addClickListener(new ClickListener() {
+                @Override
+                public void buttonClick(ClickEvent clickEvent) {
+
+                    // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
+                    LibSession.setAttribute(key, true);
+                    // clicca sul menu Prenotazioni
+                    clickMenuPren();
+
+                }
+            });
 
         }
-
-//        public void setLabel(String text){
-//            setCaption(text);
-//            //label.setValue(text);
-//        }
 
         public void setValue(int value){
-            this.value=value;
-            setCaption(""+value);
-            setDescription(title+" "+value);
+            String s = intConv.convertToPresentation(value, String.class, Locale.getDefault());
+            if (euro){
+                s+="&euro;";
+            }
+            setCaption(s);
+            setDescription(title + ": " + s+"<br><strong>clicca sul grafico per vedere</strong>");
         }
+
+        /**
+         * Clicca sul menu Prenotazioni
+         */
+        private void clickMenuPren() {
+            MenuBar.MenuItem mi = home.getItemPrenotazioni();
+            mi.getCommand().menuSelected(mi);
+            if (mi.isCheckable()) {
+                mi.setChecked(!mi.isChecked());
+            }
+        }
+
 
 
     }
