@@ -9,9 +9,25 @@ import it.algos.evento.EventoApp;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.webbase.web.lib.LibSession;
+import org.dussan.vaadin.dcharts.DCharts;
+import org.dussan.vaadin.dcharts.base.elements.XYaxis;
+import org.dussan.vaadin.dcharts.data.DataSeries;
+import org.dussan.vaadin.dcharts.data.Ticks;
+import org.dussan.vaadin.dcharts.metadata.renderers.AxisRenderers;
+import org.dussan.vaadin.dcharts.metadata.renderers.SeriesRenderers;
+import org.dussan.vaadin.dcharts.options.Axes;
+import org.dussan.vaadin.dcharts.options.Highlighter;
+import org.dussan.vaadin.dcharts.options.Options;
+import org.dussan.vaadin.dcharts.options.SeriesDefaults;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
+//import org.jfree.chart.ChartFactory;
+//import org.jfree.chart.JFreeChart;
+//import org.jfree.data.general.DefaultPieDataset;
+//import org.jfree.data.general.PieDataset;
+//import org.vaadin.addon.JFreeChartWrapper;
 
 /**
  * Dashboard della Company
@@ -74,6 +90,71 @@ public class CompanyDashboard extends VerticalLayout {
         addComponent(rappresentazioniPlaceholder);
         addComponent(prenotazioniRicevutePlaceholder);
         addComponent(postiPrenotatiPlaceholder);
+
+//        String title="titolo";
+//
+//        DefaultPieDataset dataset = new DefaultPieDataset( );
+//        dataset.setValue( "IPhone 5s" , new Double( 20 ) );
+//        dataset.setValue( "SamSung Grand" , new Double( 20 ) );
+//        dataset.setValue( "MotoG" , new Double( 40 ) );
+//        dataset.setValue( "Nokia Lumia" , new Double( 10 ) );
+//
+//        JFreeChart chart = ChartFactory.createPieChart(
+//                "Mobile Sales",  // chart title
+//                dataset,        // data
+//                true,           // include legend
+//                true,
+//                false);
+//
+//        JFreeChartWrapper jFreeChartWrapper = new JFreeChartWrapper(chart) {
+//
+//            @Override
+//            public void attach() {
+//                super.attach();
+//                markAsDirty();
+//            }
+//
+//        };
+//
+//        addComponent(jFreeChartWrapper);
+
+
+
+
+//        addComponent(createBasicDemo());
+
+
+
+
+
+        DataSeries dataSeries = new DataSeries()
+                .add(2, 6, 7, 10);
+
+        SeriesDefaults seriesDefaults = new SeriesDefaults()
+                .setRenderer(SeriesRenderers.BAR);
+
+        Axes axes = new Axes()
+                .addAxis(
+                        new XYaxis()
+                                .setRenderer(AxisRenderers.CATEGORY)
+                                .setTicks(
+                                        new Ticks()
+                                                .add("a", "b", "c", "d")));
+
+        Highlighter highlighter = new Highlighter()
+                .setShow(false);
+
+        Options options = new Options()
+                .setSeriesDefaults(seriesDefaults)
+                .setAxes(axes)
+                .setHighlighter(highlighter);
+
+        DCharts chart = new DCharts()
+                .setDataSeries(dataSeries)
+                .setOptions(options)
+                .show();
+
+        addComponent(chart);
 
     }
 
@@ -231,7 +312,7 @@ public class CompanyDashboard extends VerticalLayout {
         label = new HTMLLabel();
         int quante = EQuery.countPrenotazioniPagamentoNonConfermato();
         int posti = EQuery.sumPostiPrenotazioniPagamentoNonConfermato();
-        BigDecimal importo = EQuery.sumImportoPrenotazioniPagamentoNonConfermato(getStagione());
+        BigDecimal importo = EQuery.sumImportoPrenotazioniPagamentoNonConfermato();
 
         String s=spanSmall("pagamenti non confermati:\u2003");
         s+=spanBig(getString(quante));
@@ -273,9 +354,19 @@ public class CompanyDashboard extends VerticalLayout {
 
         hLayout = new HorizontalLayout();
         label = new HTMLLabel();
-        int numPagaConfermati = EQuery.countPrenotazioniPagamentoConfermato(getStagione());
-        BigDecimal importoPagaConfermati = EQuery.sumImportoPrenotazioniPagamentoConfermato(getStagione());
-        label.setValue(spanSmall("pagamenti confermati:\u2003") + spanBig(getString(numPagaConfermati)) + spanSmall("\u2003per\u2003") + spanBig(getString(importoPagaConfermati) + " &euro;") + spanSmall("\u2003"));
+        int quante = EQuery.countPrenotazioniPagamentoConfermato();
+        int posti = EQuery.sumPostiPrenotazioniPagamentoConfermato();
+        BigDecimal importo = EQuery.sumImportoPrenotazioniPagamentoConfermato();
+
+        String s=spanSmall("pagamenti confermati:\u2003");
+        s+=spanBig(getString(quante));
+        s+=spanSmall("\u2003per\u2003");
+        s+=spanBig(getString(posti));
+        s+=spanSmall("\u2003posti e\u2003");
+        s+=spanBig(getString(importo) + " &euro;");
+        s+=spanSmall("\u2003");
+        label.setValue(s);
+
         button = new Button("Vedi", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
@@ -304,9 +395,19 @@ public class CompanyDashboard extends VerticalLayout {
 
         hLayout = new HorizontalLayout();
         label = new HTMLLabel();
-        int numPagaRicevuti = EQuery.countPrenotazioniPagamentoRicevuto(getStagione());
-        BigDecimal importoPagaRicevuti = EQuery.sumImportoPrenotazioniPagamentoRicevuto(getStagione());
-        label.setValue(spanSmall("pagamenti ricevuti:\u2003") + spanBig(getString(numPagaRicevuti)) + spanSmall("\u2003per\u2003") + spanBig(getString(importoPagaRicevuti) + " &euro;") + spanSmall("\u2003"));
+        int quante = EQuery.countPrenotazioniPagamentoRicevuto();
+        int posti = EQuery.sumPostiPrenotazioniPagamentoRicevuto();
+        BigDecimal importo = EQuery.sumImportoPrenotazioniPagamentoRicevuto();
+
+        String s=spanSmall("pagamenti ricevuti:\u2003");
+        s+=spanBig(getString(quante));
+        s+=spanSmall("\u2003per\u2003");
+        s+=spanBig(getString(posti));
+        s+=spanSmall("\u2003posti e\u2003");
+        s+=spanBig(getString(importo) + " &euro;");
+        s+=spanSmall("\u2003");
+        label.setValue(s);
+
         button = new Button("Vedi", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
@@ -493,6 +594,8 @@ public class CompanyDashboard extends VerticalLayout {
             addStyleName("hrule");
         }
     }
+
+
 
 
 }

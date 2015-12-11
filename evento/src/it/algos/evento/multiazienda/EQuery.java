@@ -677,12 +677,11 @@ public class EQuery {
 
     /**
      * Ritorna l'importo totale delle prenorazioni con pagamento da confermare (scaduto)
-     * per l'azienda corrente in una data stagione.
+     * per l'azienda corrente nella stagione corrente.
      *
-     * @param stagione la stagione
      * @return l'importo totale delle prenorazioni
      */
-    public static BigDecimal sumImportoPrenotazioniPagamentoNonConfermato(Stagione stagione) {
+    public static BigDecimal sumImportoPrenotazioniPagamentoNonConfermato() {
 
         EntityManager em = EM.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -737,7 +736,7 @@ public class EQuery {
      *
      * @return il numero di prenorazioni con pagamento confermato
      */
-    public static int countPrenotazioniPagamentoConfermato(Stagione stagione) {
+    public static int countPrenotazioniPagamentoConfermato() {
         int num;
 
         EntityManager em = EM.createEntityManager();
@@ -757,13 +756,39 @@ public class EQuery {
 
     }
 
+
+    /**
+     * Ritorna il numero di posti totale delle prenotazioni con pagamento confermato
+     * per l'azienda corrente nella stagione corrente.
+     *
+     * @return il numero di posti totale delle prenotazioni
+     */
+    public static int sumPostiPrenotazioniPagamentoConfermato() {
+        EntityManager em = EM.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Integer> cq = cb.createQuery(Integer.class);
+
+        Root<Prenotazione> root = cq.from(Prenotazione.class);
+
+        cq.where(getFiltroPagamento(root, cb, true, false));
+
+        cq.select(cb.sum(getExprPostiPrenotati(cb, root)));
+
+        TypedQuery<Integer> q = em.createQuery(cq);
+        int num = q.getSingleResult();
+        em.close();
+
+        return num;
+    }
+
+
     /**
      * Ritorna l'importo totale delle prenorazioni con pagamento confermato
      * per l'azienda corrente nella stagione corrente.
      *
      * @return l'importo totale delle prenorazioni
      */
-    public static BigDecimal sumImportoPrenotazioniPagamentoConfermato(Stagione stagione) {
+    public static BigDecimal sumImportoPrenotazioniPagamentoConfermato() {
         BigDecimal num;
 
         EntityManager em = EM.createEntityManager();
@@ -798,12 +823,12 @@ public class EQuery {
 
 
     /**
-     * Ritorna il numero di prenorazioni con pagamento ricevuto
+     * Ritorna il numero di prenotazioni con pagamento ricevuto
      * per l'azienda corrente nella stagione corrente.
      *
      * @return il numero di prenorazioni con pagamento ricevuto
      */
-    public static int countPrenotazioniPagamentoRicevuto(Stagione stagione) {
+    public static int countPrenotazioniPagamentoRicevuto() {
         int num;
 
         EntityManager em = EM.createEntityManager();
@@ -824,12 +849,38 @@ public class EQuery {
     }
 
     /**
+     * Ritorna il numero di posti totale delle prenotazioni con pagamento ricevuto
+     * per l'azienda corrente nella stagione corrente.
+     *
+     * @return il numero di posti totale delle prenotazioni
+     */
+    public static int sumPostiPrenotazioniPagamentoRicevuto() {
+        EntityManager em = EM.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Integer> cq = cb.createQuery(Integer.class);
+
+        Root<Prenotazione> root = cq.from(Prenotazione.class);
+
+        cq.where(getFiltroPagamento(root, cb, null, true));
+
+        cq.select(cb.sum(getExprPostiPrenotati(cb, root)));
+
+        TypedQuery<Integer> q = em.createQuery(cq);
+        int num = q.getSingleResult();
+        em.close();
+
+        return num;
+    }
+
+
+
+    /**
      * Ritorna l'importo totale delle prenorazioni con pagamento ricevuto
      * per l'azienda corrente nella stagione corrente.
      *
      * @return l'importo totale delle prenorazioni
      */
-    public static BigDecimal sumImportoPrenotazioniPagamentoRicevuto(Stagione stagione) {
+    public static BigDecimal sumImportoPrenotazioniPagamentoRicevuto() {
 
         EntityManager em = EM.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
