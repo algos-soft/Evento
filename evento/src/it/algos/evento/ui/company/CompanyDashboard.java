@@ -25,9 +25,10 @@ public class CompanyDashboard extends VerticalLayout {
     private HorizontalLayout titlePlaceholder = new HorizontalLayout();
     private HorizontalLayout pscadPlaceholder = new HorizontalLayout();
     private HorizontalLayout confPagScadPlaceholder = new HorizontalLayout();
+    private HorizontalLayout prenotazioniNonConfermate = new HorizontalLayout();
+    private HorizontalLayout pagamentiNonConfermatiPlaceholder = new HorizontalLayout();
     private HorizontalLayout pagamentiConfermatiPlaceholder = new HorizontalLayout();
     private HorizontalLayout pagamentiRicevutiPlaceholder = new HorizontalLayout();
-    private HorizontalLayout pagamentiDaConfermarePlaceholder = new HorizontalLayout();
     private HorizontalLayout eventiInProgrammaPlaceholder = new HorizontalLayout();
     private HorizontalLayout rappresentazioniPlaceholder = new HorizontalLayout();
     private HorizontalLayout prenotazioniRicevutePlaceholder = new HorizontalLayout();
@@ -64,9 +65,10 @@ public class CompanyDashboard extends VerticalLayout {
         addComponent(pscadPlaceholder);
         addComponent(confPagScadPlaceholder);
         addComponent(new Hr());
+        addComponent(prenotazioniNonConfermate);
+        addComponent(pagamentiNonConfermatiPlaceholder);
         addComponent(pagamentiConfermatiPlaceholder);
         addComponent(pagamentiRicevutiPlaceholder);
-        addComponent(pagamentiDaConfermarePlaceholder);
         addComponent(new Hr());
         addComponent(eventiInProgrammaPlaceholder);
         addComponent(rappresentazioniPlaceholder);
@@ -84,9 +86,10 @@ public class CompanyDashboard extends VerticalLayout {
         creaTitoloDashboard();
         createPrenScadute();
         createConfPagaScadute();
+        createPrenotazioniNonConfermate();
+        createPagamentiNonConfermati();
         createPagamentiConfermati();
         createPagamentiRicevuti();
-        createPagamentiDaConfermare();
         createEventiInProgramma();
         createRappresentazioni();
         createPrenotazioniRicevute();
@@ -175,8 +178,94 @@ public class CompanyDashboard extends VerticalLayout {
 
 
     /**
-     * Crea il componente UI che rappresenta i pagamenti confermati ma non ricevuti
+     * Crea il componente UI che rappresenta le prenotazioni non confermate
      */
+    private void createPrenotazioniNonConfermate() {
+        HorizontalLayout hLayout;
+        HTMLLabel label;
+        Button button;
+
+        hLayout = new HorizontalLayout();
+        label = new HTMLLabel();
+        int quante = EQuery.countPrenotazioniNonConfermate();
+        int posti = EQuery.sumPostiPrenotazioniNonConfermate();
+        BigDecimal importo = EQuery.sumImportoPrenotazioniNonConfermate();
+        String s=spanSmall("prenotazioni non confermate:\u2003");
+        s+=spanBig(getString(quante));
+        s+=spanSmall("\u2003per\u2003");
+        s+=spanBig(getString(posti));
+        s+=spanSmall("\u2003posti e\u2003");
+        s+=spanBig(getString(importo) + " &euro;");
+        s+=spanSmall("\u2003");
+        label.setValue(s);
+
+        button = new Button("Vedi", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
+                LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE, true);
+                // clicca sul menu Prenotazioni
+                clickMenuPren();
+            }
+        });
+        hLayout.addComponent(label);
+        hLayout.addComponent(button);
+        hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
+
+        prenotazioniNonConfermate.removeAllComponents();
+        prenotazioniNonConfermate.addComponent(hLayout);
+
+    }
+
+
+
+    /**
+     * Crea il componente UI che rappresenta i pagamenti non confermati
+     */
+    private void createPagamentiNonConfermati() {
+        HorizontalLayout hLayout;
+        HTMLLabel label;
+        Button button;
+
+        hLayout = new HorizontalLayout();
+        label = new HTMLLabel();
+        int quante = EQuery.countPrenotazioniPagamentoNonConfermato();
+        int posti = EQuery.sumPostiPrenotazioniPagamentoNonConfermato();
+        BigDecimal importo = EQuery.sumImportoPrenotazioniPagamentoNonConfermato(getStagione());
+
+        String s=spanSmall("pagamenti non confermati:\u2003");
+        s+=spanBig(getString(quante));
+        s+=spanSmall("\u2003per\u2003");
+        s+=spanBig(getString(posti));
+        s+=spanSmall("\u2003posti e\u2003");
+        s+=spanBig(getString(importo) + " &euro;");
+        s+=spanSmall("\u2003");
+        label.setValue(s);
+
+        button = new Button("Vedi", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
+                LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO, true);
+                // clicca sul menu Prenotazioni
+                clickMenuPren();
+            }
+        });
+        hLayout.addComponent(label);
+        hLayout.addComponent(button);
+        hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
+
+        pagamentiNonConfermatiPlaceholder.removeAllComponents();
+        pagamentiNonConfermatiPlaceholder.addComponent(hLayout);
+
+    }
+
+
+
+
+    /**
+         * Crea il componente UI che rappresenta i pagamenti confermati ma non ricevuti
+         */
     private void createPagamentiConfermati() {
         HorizontalLayout hLayout;
         HTMLLabel label;
@@ -237,36 +326,6 @@ public class CompanyDashboard extends VerticalLayout {
     }
 
 
-    /**
-     * Crea il componente UI che rappresenta i pagamenti da confermare
-     */
-    private void createPagamentiDaConfermare() {
-        HorizontalLayout hLayout;
-        HTMLLabel label;
-        Button button;
-
-        hLayout = new HorizontalLayout();
-        label = new HTMLLabel();
-        int numPagaDaConfermare = EQuery.countPrenotazioniPagamentoNonConfermato(getStagione());
-        BigDecimal importoPagaDaConfermare = EQuery.sumImportoPrenotazioniPagamentoNonConfermato(getStagione());
-        label.setValue(spanSmall("pagamenti da confermare:\u2003") + spanBig(getString(numPagaDaConfermare)) + spanSmall("\u2003per\u2003") + spanBig(getString(importoPagaDaConfermare) + " &euro;") + spanSmall("\u2003"));
-        button = new Button("Vedi", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
-                LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO, true);
-                // clicca sul menu Prenotazioni
-                clickMenuPren();
-            }
-        });
-        hLayout.addComponent(label);
-        hLayout.addComponent(button);
-        hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
-
-        pagamentiDaConfermarePlaceholder.removeAllComponents();
-        pagamentiDaConfermarePlaceholder.addComponent(hLayout);
-
-    }
 
 
     /**

@@ -77,6 +77,7 @@ public class PrenotazioneTable extends ETable {
         setColumnHeader(Prenotazione_.insegnante, "referente");
         setColumnHeader(Prenotazione_.numTotali, "pers");
         setColumnHeader(Prenotazione_.importoDaPagare, "importo");
+        setColumnHeader(Prenotazione_.importoPagato, "pagato");
         setColumnHeader(Prenotazione_.scadenzaConferma, "conf. entro");
 //        setColumnHeader(Prenotazione_.livelloSollecitoConferma, "SC");
 //        setColumnHeader(Prenotazione_.congelata, "cong");
@@ -96,6 +97,7 @@ public class PrenotazioneTable extends ETable {
 //        setColumnWidth(Prenotazione_.privato, 40);
         setColumnWidth(Prenotazione_.numTotali, 46);
         setColumnWidth(Prenotazione_.importoDaPagare, 65);
+        setColumnWidth(Prenotazione_.importoPagato, 65);
 //        setColumnWidth(Prenotazione_.livelloSollecitoConferma, 30);
 //        setColumnWidth(Prenotazione_.congelata, 50);
 //        setColumnWidth(Prenotazione_.confermata, 50);
@@ -119,6 +121,7 @@ public class PrenotazioneTable extends ETable {
 
         setColumnUseTotals(Prenotazione_.numTotali, true);
         setColumnUseTotals(Prenotazione_.importoDaPagare, true);
+        setColumnUseTotals(Prenotazione_.importoPagato, true);
 
         // comandi contestuali aggiuntivi specifici
         addActionHandler(new Action.Handler() {
@@ -224,6 +227,7 @@ public class PrenotazioneTable extends ETable {
         setColumnCollapsed(Prenotazione_.scadenzaPagamento.getName(), true);
         setColumnCollapsed(Prenotazione_.modoPagamento.getName(), true);
         setColumnCollapsed(Prenotazione_.tipoRicevuta.getName(), true);
+        setColumnCollapsed(Prenotazione_.importoPagato.getName(), true);
         setColumnCollapsed(Prenotazione_.numInteri.getName(), true);
         setColumnCollapsed(Prenotazione_.numRidotti.getName(), true);
         setColumnCollapsed(Prenotazione_.numDisabili.getName(), true);
@@ -304,6 +308,7 @@ public class PrenotazioneTable extends ETable {
                 Prenotazione_.insegnante,
                 Prenotazione_.numTotali,
                 Prenotazione_.importoDaPagare,
+                Prenotazione_.importoPagato,
                 COL_STATUS,
                 Prenotazione_.scadenzaConferma,
                 COL_PAGAM,
@@ -358,6 +363,16 @@ public class PrenotazioneTable extends ETable {
             }
             return string;
         }
+
+        if (colId.equals(Prenotazione_.importoPagato.getName())) {
+            string = "";
+            bd = Lib.getBigDecimal(property.getValue());
+            if (!bd.equals(bdZero)) {
+                string = bdConv.convertToPresentation(bd);
+            }
+            return string;
+        }
+
 
         if (colId.equals(Prenotazione_.livelloSollecitoConferma.getName())) {
             string = "";

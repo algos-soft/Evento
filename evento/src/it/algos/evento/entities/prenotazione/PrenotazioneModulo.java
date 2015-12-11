@@ -77,69 +77,63 @@ public class PrenotazioneModulo extends EModulePop {
             @Override
             public void attach(AttachEvent attachEvent) {
 
-                // se questo attributo esiste nella sessione, carica in
-                // lista le opzioni in ritardo di conferma ed elimina l'attributo
+                // prenotazioni in ritardo di conferma prenotazione
                 if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_CONFERMA)!=null){
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_CONFERMA, null);
-                    Filter filter = PrenotazioneModulo.getFiltroOpzioniDaConfermare(Stagione.getStagioneCorrente());
-                    JPAContainer cont = getTable().getJPAContainer();
-                    cont.removeAllContainerFilters();
-                    cont.refresh(); // refresh container before applying new filters!
-                    cont.addContainerFilter(filter);
+                    changeFilter(PrenotazioneModulo.getFiltroOpzioniDaConfermare(Stagione.getStagioneCorrente()));
                 }
 
-                // se questo attributo esiste nella sessione, carica in
-                // lista le opzioni in ritardo di conferma ed elimina l'attributo
+                // prenotazioni in ritardo di conferma pagamento
                 if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_PAGAMENTO_1)!=null){
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_PAGAMENTO_1, null);
-                    Filter filter = PrenotazioneModulo.getFiltroPagamentiDaConfermare(Stagione.getStagioneCorrente());
-                    JPAContainer cont = getTable().getJPAContainer();
-                    cont.removeAllContainerFilters();
-                    cont.refresh(); // refresh container before applying new filters!
-                    cont.addContainerFilter(filter);
+                    changeFilter(PrenotazioneModulo.getFiltroPagamentiDaConfermare(Stagione.getStagioneCorrente()));
                 }
 
-                // se questo attributo esiste nella sessione, carica in
-                // lista le opzioni in ritardo di conferma ed elimina l'attributo
-                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO)!=null){
-                    LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO, null);
-                    Filter filter = PrenotazioneModulo.getFiltroPren(Stagione.getStagioneCorrente(), true, false);
-                    JPAContainer cont = getTable().getJPAContainer();
-                    cont.removeAllContainerFilters();
-                    cont.refresh(); // refresh container before applying new filters!
-                    cont.addContainerFilter(filter);
+                // prenotazioni non confermate
+                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE)!=null){
+                    LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE, null);
+                    changeFilter(PrenotazioneModulo.getFiltroPren(false, null, null));
                 }
 
-                // se questo attributo esiste nella sessione, carica in
-                // lista le opzioni in ritardo di conferma ed elimina l'attributo
+                // prenotazioni confermate con pagamento non confermato
                 if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO)!=null){
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO, null);
-                    Filter filter = PrenotazioneModulo.getFiltroPren(Stagione.getStagioneCorrente(), false, false);
-                    JPAContainer cont = getTable().getJPAContainer();
-                    cont.removeAllContainerFilters();
-                    cont.refresh(); // refresh container before applying new filters!
-                    cont.addContainerFilter(filter);
+                    changeFilter(PrenotazioneModulo.getFiltroPren(true, false, false));
                 }
 
-                // se questo attributo esiste nella sessione, carica in
-                // lista le opzioni in ritardo di conferma ed elimina l'attributo
+                // prenotazioni confermate con pagamento confermato ma non ricevuto
+                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO)!=null){
+                    LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO, null);
+                    changeFilter(PrenotazioneModulo.getFiltroPren(true, true, false));
+                }
+
+                // prenotazioni confermate con pagamento ricevuto
+                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_RICEVUTO)!=null){
+                    LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_RICEVUTO, null);
+                    changeFilter(PrenotazioneModulo.getFiltroPren(true, null, true));
+                }
+
+                // prenotazioni congelate
                 if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_CONGELATE)!=null){
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_CONGELATE, null);
-                    Filter filter = PrenotazioneModulo.getFiltroPrenCongelate(Stagione.getStagioneCorrente());
-                    JPAContainer cont = getTable().getJPAContainer();
-                    cont.removeAllContainerFilters();
-                    cont.refresh(); // refresh container before applying new filters!
-                    cont.addContainerFilter(filter);
+                    changeFilter(PrenotazioneModulo.getFiltroPrenCongelate(Stagione.getStagioneCorrente()));
                 }
-
-
-
-
 
             }
         });
 
     }// end of constructor
+
+
+    /**
+     * Assegna un nuovo filtro alla table
+     */
+    private void changeFilter(Filter filter){
+        JPAContainer cont = getTable().getJPAContainer();
+        cont.removeAllContainerFilters();
+        cont.refresh(); // refresh container before applying new filters!
+        cont.addContainerFilter(filter);
+    }
 
     public TablePortal createTablePortal() {
         return new PrenotazioneTablePortal(this);
@@ -1134,18 +1128,25 @@ public class PrenotazioneModulo extends EModulePop {
 
 
     /**
-     * Ritorna un filtro che seleziona tutte le prenotazioni
-     * con pagamento confermato o non confermato, ricevuto o non ricevuto
-     * @param stagione la stagione di riferimento
-     * @param confermato flag per confermato
-     * @param ricevuto flag per ricevuto
+     * Ritorna un filtro che seleziona tutte le prenotazioni della stagione corrente
+     * secondo i flag Prenotazione Confermata, Pagamento Confermato, Pagamento Ricevuto.
+     * @param prenConf flag per prenotazione confermata (null per non selezionare)
+     * @param pagaConf flag per pagamento confermato (null per non selezionare)
+     * @param pagaRic flag per pagamento ricevuto (null per non selezionare)
      *
      */
-    public static Filter getFiltroPren(Stagione stagione, boolean confermato, boolean ricevuto) {
+    public static Filter getFiltroPren(Boolean prenConf, Boolean pagaConf, Boolean pagaRic) {
         ArrayList<Filter> filters = new ArrayList<Filter>();
-        filters.add(new Compare.Equal(PROP_STAGIONE, stagione));
-        filters.add(new Compare.Equal(Prenotazione_.pagamentoConfermato.getName(), confermato));
-        filters.add(new Compare.Equal(Prenotazione_.pagamentoRicevuto.getName(), ricevuto));
+        filters.add(new Compare.Equal(PROP_STAGIONE, Stagione.getStagioneCorrente()));
+        if (prenConf!=null){
+            filters.add(new Compare.Equal(Prenotazione_.confermata.getName(), prenConf));
+        }
+        if (pagaConf!=null){
+            filters.add(new Compare.Equal(Prenotazione_.pagamentoConfermato.getName(), pagaConf));
+        }
+        if (pagaRic!=null){
+            filters.add(new Compare.Equal(Prenotazione_.pagamentoRicevuto.getName(), pagaRic));
+        }
         Filter outFilter = new And(filters.toArray(new Filter[0]));
         return outFilter;
     }// end of method
