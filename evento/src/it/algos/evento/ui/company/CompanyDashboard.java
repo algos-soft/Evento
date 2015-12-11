@@ -9,16 +9,6 @@ import it.algos.evento.EventoApp;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.webbase.web.lib.LibSession;
-import org.dussan.vaadin.dcharts.DCharts;
-import org.dussan.vaadin.dcharts.base.elements.XYaxis;
-import org.dussan.vaadin.dcharts.data.DataSeries;
-import org.dussan.vaadin.dcharts.data.Ticks;
-import org.dussan.vaadin.dcharts.metadata.renderers.AxisRenderers;
-import org.dussan.vaadin.dcharts.metadata.renderers.SeriesRenderers;
-import org.dussan.vaadin.dcharts.options.Axes;
-import org.dussan.vaadin.dcharts.options.Highlighter;
-import org.dussan.vaadin.dcharts.options.Options;
-import org.dussan.vaadin.dcharts.options.SeriesDefaults;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -125,36 +115,36 @@ public class CompanyDashboard extends VerticalLayout {
 
 
 
-
-
-        DataSeries dataSeries = new DataSeries()
-                .add(2, 6, 7, 10);
-
-        SeriesDefaults seriesDefaults = new SeriesDefaults()
-                .setRenderer(SeriesRenderers.BAR);
-
-        Axes axes = new Axes()
-                .addAxis(
-                        new XYaxis()
-                                .setRenderer(AxisRenderers.CATEGORY)
-                                .setTicks(
-                                        new Ticks()
-                                                .add("a", "b", "c", "d")));
-
-        Highlighter highlighter = new Highlighter()
-                .setShow(false);
-
-        Options options = new Options()
-                .setSeriesDefaults(seriesDefaults)
-                .setAxes(axes)
-                .setHighlighter(highlighter);
-
-        DCharts chart = new DCharts()
-                .setDataSeries(dataSeries)
-                .setOptions(options)
-                .show();
-
-        addComponent(chart);
+//
+//
+//        DataSeries dataSeries = new DataSeries()
+//                .add(2, 6, 7, 10);
+//
+//        SeriesDefaults seriesDefaults = new SeriesDefaults()
+//                .setRenderer(SeriesRenderers.BAR);
+//
+//        Axes axes = new Axes()
+//                .addAxis(
+//                        new XYaxis()
+//                                .setRenderer(AxisRenderers.CATEGORY)
+//                                .setTicks(
+//                                        new Ticks()
+//                                                .add("a", "b", "c", "d")));
+//
+//        Highlighter highlighter = new Highlighter()
+//                .setShow(false);
+//
+//        Options options = new Options()
+//                .setSeriesDefaults(seriesDefaults)
+//                .setAxes(axes)
+//                .setHighlighter(highlighter);
+//
+//        DCharts chart = new DCharts()
+//                .setDataSeries(dataSeries)
+//                .setOptions(options)
+//                .show();
+//
+//        addComponent(chart);
 
     }
 
@@ -397,6 +387,7 @@ public class CompanyDashboard extends VerticalLayout {
         label = new HTMLLabel();
         int quante = EQuery.countPrenotazioniPagamentoRicevuto();
         int posti = EQuery.sumPostiPrenotazioniPagamentoRicevuto();
+        //int posti=0;
         BigDecimal importo = EQuery.sumImportoPrenotazioniPagamentoRicevuto();
 
         String s=spanSmall("pagamenti ricevuti:\u2003");

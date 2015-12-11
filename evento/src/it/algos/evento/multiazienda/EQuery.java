@@ -40,7 +40,6 @@ public class EQuery {
      * @return il numero di record
      */
     public static long getCount(Class<? extends EventoEntity> c) {
-        long count = 0;
         EntityManager manager = EM.createEntityManager();
         CriteriaBuilder cb = manager.getCriteriaBuilder();
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
@@ -49,7 +48,10 @@ public class EQuery {
         cq.where(predicate);
         CriteriaQuery<Long> select = cq.select(cb.count(root));
         TypedQuery<Long> typedQuery = manager.createQuery(select);
-        count = typedQuery.getSingleResult();
+        Long count = typedQuery.getSingleResult();
+        if(count==null){
+            count=0l;
+        }
         manager.close();
         return count;
     }// end of method
@@ -240,7 +242,6 @@ public class EQuery {
      * @return il numero totale di prenotazioni
      */
     public static int countPrenotazioni(Stagione stagione, int congelate) {
-        int num = 0;
 
         EntityManager em = EM.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -268,10 +269,14 @@ public class EQuery {
         cq.where(predicates.toArray(new Predicate[]{}));
 
         TypedQuery<Long> q = em.createQuery(cq);
-        num = q.getSingleResult().intValue();
+        Long num = q.getSingleResult();
+        if(num==null){
+            num=0l;
+        }
+
         em.close();
 
-        return num;
+        return num.intValue();
     }
 
     /**
@@ -301,7 +306,6 @@ public class EQuery {
      * @return il numero totale di eventi
      */
     public static int countEventi(Stagione stagione) {
-        int num = 0;
 
         EntityManager em = EM.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -317,10 +321,14 @@ public class EQuery {
         cq.where(predicates.toArray(new Predicate[]{}));
 
         TypedQuery<Long> q = em.createQuery(cq);
-        num = q.getSingleResult().intValue();
+        Long num = q.getSingleResult();
+        if(num==null){
+            num=0l;
+        }
+
         em.close();
 
-        return num;
+        return num.intValue();
     }
 
 
@@ -332,7 +340,6 @@ public class EQuery {
      * @return il numero totale di rappresentazioni
      */
     public static int countRappresentazioni(Stagione stagione, Date primaDel) {
-        int num = 0;
 
         EntityManager em = EM.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -353,10 +360,14 @@ public class EQuery {
         cq.select(cb.count(root));
 
         TypedQuery<Long> q = em.createQuery(cq);
-        num = q.getSingleResult().intValue();
+        Long num = q.getSingleResult();
+        if(num==null){
+            num=0l;
+        }
+
         em.close();
 
-        return num;
+        return num.intValue();
     }
 
     /**
@@ -377,7 +388,6 @@ public class EQuery {
      * @return il numero totale di posti prenotati
      */
     public static int countPostiPrenotati(Stagione stagione) {
-        int num = 0;
 
         EntityManager em = EM.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -406,7 +416,11 @@ public class EQuery {
         cq.select(sTot);
 
         TypedQuery<Integer> q = em.createQuery(cq);
-        num = q.getSingleResult();
+        Integer num = q.getSingleResult();
+        if(num==null){
+            num=0;
+        }
+
         em.close();
 
         return num;
@@ -420,7 +434,6 @@ public class EQuery {
      * @return la capienza totale
      */
     public static int countCapienza(Stagione stagione) {
-        int num = 0;
 
         EntityManager em = EM.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -440,7 +453,10 @@ public class EQuery {
         cq.select(e1);
 
         TypedQuery<Integer> q = em.createQuery(cq);
-        num = q.getSingleResult();
+        Integer num = q.getSingleResult();
+        if(num==null){
+            num=0;
+        }
         em.close();
 
         return num;
@@ -454,8 +470,6 @@ public class EQuery {
      * @return il numero di prenotazioni in ritardo di conferma
      */
     public static int countPrenRitardoConferma(Stagione stagione) {
-
-        int num = 0;
 
         EntityManager em = EM.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -476,7 +490,11 @@ public class EQuery {
         cq.select(cb.count(root));
 
         TypedQuery<Long> q = em.createQuery(cq);
-        num = q.getSingleResult().intValue();
+        Integer num = q.getSingleResult().intValue();
+        if(num==null){
+            num=0;
+        }
+
         em.close();
 
         return num;
@@ -491,8 +509,6 @@ public class EQuery {
      * @return il numero di prenotazioni in ritardo di conferma pagamento (fase 1)
      */
     public static int countPrenRitardoPagamento1(Stagione stagione) {
-
-        int num = 0;
 
         EntityManager em = EM.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -514,7 +530,11 @@ public class EQuery {
         cq.select(cb.count(root));
 
         TypedQuery<Long> q = em.createQuery(cq);
-        num = q.getSingleResult().intValue();
+        Integer num = q.getSingleResult().intValue();
+        if(num==null){
+            num=0;
+        }
+
         em.close();
 
         return num;
@@ -528,7 +548,6 @@ public class EQuery {
      * @return il numero di prenorazioni con pagamento non confermato
      */
     public static int countPrenotazioniNonConfermate() {
-        int num;
 
         EntityManager em = EM.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -540,11 +559,14 @@ public class EQuery {
 
         cq.select(cb.count(root));
 
-        num = em.createQuery(cq).getSingleResult().intValue();
+        Long num = em.createQuery(cq).getSingleResult();
+        if(num==null){
+            num=0l;
+        }
 
         em.close();
 
-        return num;
+        return num.intValue();
 
     }
 
@@ -566,7 +588,11 @@ public class EQuery {
         cq.select(cb.sum(getExprPostiPrenotati(cb, root)));
 
         TypedQuery<Integer> q = em.createQuery(cq);
-        int num = q.getSingleResult();
+        Integer num = q.getSingleResult();
+        if(num==null){
+            num=0;
+        }
+
         em.close();
 
         return num;
@@ -627,7 +653,6 @@ public class EQuery {
      * @return il numero di prenorazioni
      */
     public static int countPrenotazioniPagamentoNonConfermato() {
-        int num;
 
         EntityManager em = EM.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -639,11 +664,14 @@ public class EQuery {
 
         cq.select(cb.count(root));
 
-        num = em.createQuery(cq).getSingleResult().intValue();
+        Long num = em.createQuery(cq).getSingleResult();
+        if(num==null){
+            num=0l;
+        }
 
         em.close();
 
-        return num;
+        return num.intValue();
 
     }
 
@@ -666,7 +694,11 @@ public class EQuery {
         cq.select(cb.sum(getExprPostiPrenotati(cb, root)));
 
         TypedQuery<Integer> q = em.createQuery(cq);
-        int num = q.getSingleResult();
+        Integer num = q.getSingleResult();
+        if(num==null){
+            num=0;
+        }
+
         em.close();
 
         return num;
@@ -737,7 +769,6 @@ public class EQuery {
      * @return il numero di prenorazioni con pagamento confermato
      */
     public static int countPrenotazioniPagamentoConfermato() {
-        int num;
 
         EntityManager em = EM.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -749,7 +780,11 @@ public class EQuery {
         cq.select(cb.count(root));
 
         TypedQuery<Long> q = em.createQuery(cq);
-        num = q.getSingleResult().intValue();
+        Integer num = q.getSingleResult().intValue();
+        if(num==null){
+            num=0;
+        }
+
         em.close();
 
         return num;
@@ -775,7 +810,11 @@ public class EQuery {
         cq.select(cb.sum(getExprPostiPrenotati(cb, root)));
 
         TypedQuery<Integer> q = em.createQuery(cq);
-        int num = q.getSingleResult();
+        Integer num = q.getSingleResult();
+        if(num==null){
+            num=0;
+        }
+
         em.close();
 
         return num;
@@ -829,7 +868,6 @@ public class EQuery {
      * @return il numero di prenorazioni con pagamento ricevuto
      */
     public static int countPrenotazioniPagamentoRicevuto() {
-        int num;
 
         EntityManager em = EM.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -840,11 +878,14 @@ public class EQuery {
 
         cq.select(cb.count(root));
 
-        num = em.createQuery(cq).getSingleResult().intValue();
+        Long num = em.createQuery(cq).getSingleResult();
+        if(num==null){
+            num=0l;
+        }
 
         em.close();
 
-        return num;
+        return num.intValue();
 
     }
 
@@ -866,7 +907,10 @@ public class EQuery {
         cq.select(cb.sum(getExprPostiPrenotati(cb, root)));
 
         TypedQuery<Integer> q = em.createQuery(cq);
-        int num = q.getSingleResult();
+        Integer num = q.getSingleResult();
+        if (num==null){
+            num=0;
+        }
         em.close();
 
         return num;
