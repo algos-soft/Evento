@@ -40,6 +40,8 @@ public class CompanyDashboard extends VerticalLayout {
     private HorizontalLayout prenotazioniRicevutePlaceholder = new HorizontalLayout();
     private HorizontalLayout postiPrenotatiPlaceholder = new HorizontalLayout();
 
+    private InfoBar barNumeri = new InfoBar();
+
 
     // classi per il CSS iniettato
     private static final String CSS_MIDDLE = "middle";
@@ -71,6 +73,7 @@ public class CompanyDashboard extends VerticalLayout {
         addComponent(pscadPlaceholder);
         addComponent(confPagScadPlaceholder);
         addComponent(new Hr());
+        addComponent(barNumeri);
         addComponent(prenotazioniNonConfermate);
         addComponent(pagamentiNonConfermatiPlaceholder);
         addComponent(pagamentiConfermatiPlaceholder);
@@ -109,10 +112,7 @@ public class CompanyDashboard extends VerticalLayout {
 //        addComponent(jFreeChartWrapper);
 
 
-
-
 //        addComponent(createBasicDemo());
-
 
 
 //
@@ -149,7 +149,6 @@ public class CompanyDashboard extends VerticalLayout {
     }
 
 
-
     /**
      * Aggiorna tutti i valori visualizzati
      */
@@ -165,6 +164,9 @@ public class CompanyDashboard extends VerticalLayout {
         createRappresentazioni();
         createPrenotazioniRicevute();
         createPostiPrenotati();
+
+        //updateBarNumeri();
+
     }
 
     /**
@@ -261,13 +263,13 @@ public class CompanyDashboard extends VerticalLayout {
         int quante = EQuery.countPrenotazioniNonConfermate();
         int posti = EQuery.sumPostiPrenotazioniNonConfermate();
         BigDecimal importo = EQuery.sumImportoPrenotazioniNonConfermate();
-        String s=spanSmall("prenotazioni non confermate:\u2003");
-        s+=spanBig(getString(quante));
-        s+=spanSmall("\u2003per\u2003");
-        s+=spanBig(getString(posti));
-        s+=spanSmall("\u2003posti e\u2003");
-        s+=spanBig(getString(importo) + " &euro;");
-        s+=spanSmall("\u2003");
+        String s = spanSmall("prenotazioni non confermate:\u2003");
+        s += spanBig(getString(quante));
+        s += spanSmall("\u2003per\u2003");
+        s += spanBig(getString(posti));
+        s += spanSmall("\u2003posti e\u2003");
+        s += spanBig(getString(importo) + " &euro;");
+        s += spanSmall("\u2003");
         label.setValue(s);
 
         button = new Button("Vedi", new Button.ClickListener() {
@@ -289,7 +291,6 @@ public class CompanyDashboard extends VerticalLayout {
     }
 
 
-
     /**
      * Crea il componente UI che rappresenta i pagamenti non confermati
      */
@@ -304,13 +305,13 @@ public class CompanyDashboard extends VerticalLayout {
         int posti = EQuery.sumPostiPrenotazioniPagamentoNonConfermato();
         BigDecimal importo = EQuery.sumImportoPrenotazioniPagamentoNonConfermato();
 
-        String s=spanSmall("pagamenti non confermati:\u2003");
-        s+=spanBig(getString(quante));
-        s+=spanSmall("\u2003per\u2003");
-        s+=spanBig(getString(posti));
-        s+=spanSmall("\u2003posti e\u2003");
-        s+=spanBig(getString(importo) + " &euro;");
-        s+=spanSmall("\u2003");
+        String s = spanSmall("pagamenti non confermati:\u2003");
+        s += spanBig(getString(quante));
+        s += spanSmall("\u2003per\u2003");
+        s += spanBig(getString(posti));
+        s += spanSmall("\u2003posti e\u2003");
+        s += spanBig(getString(importo) + " &euro;");
+        s += spanSmall("\u2003");
         label.setValue(s);
 
         button = new Button("Vedi", new Button.ClickListener() {
@@ -332,11 +333,9 @@ public class CompanyDashboard extends VerticalLayout {
     }
 
 
-
-
     /**
-         * Crea il componente UI che rappresenta i pagamenti confermati ma non ricevuti
-         */
+     * Crea il componente UI che rappresenta i pagamenti confermati ma non ricevuti
+     */
     private void createPagamentiConfermati() {
         HorizontalLayout hLayout;
         HTMLLabel label;
@@ -348,13 +347,13 @@ public class CompanyDashboard extends VerticalLayout {
         int posti = EQuery.sumPostiPrenotazioniPagamentoConfermato();
         BigDecimal importo = EQuery.sumImportoPrenotazioniPagamentoConfermato();
 
-        String s=spanSmall("pagamenti confermati:\u2003");
-        s+=spanBig(getString(quante));
-        s+=spanSmall("\u2003per\u2003");
-        s+=spanBig(getString(posti));
-        s+=spanSmall("\u2003posti e\u2003");
-        s+=spanBig(getString(importo) + " &euro;");
-        s+=spanSmall("\u2003");
+        String s = spanSmall("pagamenti confermati:\u2003");
+        s += spanBig(getString(quante));
+        s += spanSmall("\u2003per\u2003");
+        s += spanBig(getString(posti));
+        s += spanSmall("\u2003posti e\u2003");
+        s += spanBig(getString(importo) + " &euro;");
+        s += spanSmall("\u2003");
         label.setValue(s);
 
         button = new Button("Vedi", new Button.ClickListener() {
@@ -378,7 +377,7 @@ public class CompanyDashboard extends VerticalLayout {
     /**
      * Crea il componente UI che rappresenta i pagamenti ricevuti
      */
-    private void createPagamentiRicevuti(){
+    private void createPagamentiRicevuti() {
         HorizontalLayout hLayout;
         HTMLLabel label;
         Button button;
@@ -390,13 +389,13 @@ public class CompanyDashboard extends VerticalLayout {
         //int posti=0;
         BigDecimal importo = EQuery.sumImportoPrenotazioniPagamentoRicevuto();
 
-        String s=spanSmall("pagamenti ricevuti:\u2003");
-        s+=spanBig(getString(quante));
-        s+=spanSmall("\u2003per\u2003");
-        s+=spanBig(getString(posti));
-        s+=spanSmall("\u2003posti e\u2003");
-        s+=spanBig(getString(importo) + " &euro;");
-        s+=spanSmall("\u2003");
+        String s = spanSmall("pagamenti ricevuti:\u2003");
+        s += spanBig(getString(quante));
+        s += spanSmall("\u2003per\u2003");
+        s += spanBig(getString(posti));
+        s += spanSmall("\u2003posti e\u2003");
+        s += spanBig(getString(importo) + " &euro;");
+        s += spanSmall("\u2003");
         label.setValue(s);
 
         button = new Button("Vedi", new Button.ClickListener() {
@@ -416,8 +415,6 @@ public class CompanyDashboard extends VerticalLayout {
         pagamentiRicevutiPlaceholder.addComponent(hLayout);
 
     }
-
-
 
 
     /**
