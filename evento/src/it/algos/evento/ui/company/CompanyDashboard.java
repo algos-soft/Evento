@@ -77,6 +77,8 @@ public class CompanyDashboard extends VerticalLayout {
         layout.addComponent(confPagScadPlaceholder);
         addComponent(layout);
 
+        addComponent(new VSpacer());
+
         // barre grafiche
         addComponent(barNumeri);
         addComponent(new VSpacer());
