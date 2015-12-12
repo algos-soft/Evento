@@ -66,6 +66,8 @@ public abstract class EventoApp extends AlgosApp {
      */
     public static final String KEY_MOSTRA_PREN_RITARDO_CONFERMA = "mostraOpzioniRitardoConferma";
     public static final String KEY_MOSTRA_PREN_RITARDO_PAGAMENTO_1 = "mostraOpzioniRitardoPagamento1";
+    public static final String KEY_MOSTRA_PREN_PAGAMENTO_SCADUTO = "mostraPrenPagamentoScaduto";
+
     public static final String KEY_MOSTRA_PREN_NON_CONFERMATE = "mostraPrenNonConfermate";
     public static final String KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO = "mostraPrenPagamentoConfermato";
     public static final String KEY_MOSTRA_PREN_PAGAMENTO_RICEVUTO = "mostraPrenPagamentoRicevuto";

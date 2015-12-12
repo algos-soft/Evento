@@ -23,8 +23,9 @@ public class CompanyDashboard extends VerticalLayout {
     private CompanyHome home;
 
     private HorizontalLayout titlePlaceholder = new HorizontalLayout();
-    private HorizontalLayout pscadPlaceholder = new HorizontalLayout();
-    private HorizontalLayout confPagScadPlaceholder = new HorizontalLayout();
+    private HorizontalLayout pScadPlaceholder = new HorizontalLayout();
+    private HorizontalLayout pConfPagScadPlaceholder = new HorizontalLayout();
+    private HorizontalLayout pPagScadPlaceholder = new HorizontalLayout();
     private HorizontalLayout eventiInProgrammaPlaceholder = new HorizontalLayout();
     private HorizontalLayout rappresentazioniPlaceholder = new HorizontalLayout();
     private HorizontalLayout prenotazioniRicevutePlaceholder = new HorizontalLayout();
@@ -73,8 +74,9 @@ public class CompanyDashboard extends VerticalLayout {
         layout.setWidthUndefined();
         layout.setMargin(false);
         layout.setSpacing(true);
-        layout.addComponent(pscadPlaceholder);
-        layout.addComponent(confPagScadPlaceholder);
+        layout.addComponent(pScadPlaceholder);
+        layout.addComponent(pConfPagScadPlaceholder);
+        layout.addComponent(pPagScadPlaceholder);
         addComponent(layout);
 
         addComponent(new VSpacer());
@@ -168,6 +170,7 @@ public class CompanyDashboard extends VerticalLayout {
         creaTitoloDashboard();
         createPrenScadute();
         createConfPagaScadute();
+        createPagaScadute();
 
         // barra n. prenotazioni
         barNumeri.update(EQuery.countPrenotazioniNonConfermate(),
@@ -220,7 +223,7 @@ public class CompanyDashboard extends VerticalLayout {
         HorizontalLayout hLayout = new HorizontalLayout();
         hLayout.setSpacing(true);
         HTMLLabel label = new HTMLLabel();
-        int quante = EQuery.countPrenRitardoConferma(getStagione());
+        int quante = EQuery.countPrenRitardoConferma();
         String s = spanSmall("conferme prenotazione scadute:");
         label.setValue(s);
         Button button = new NumButton(""+quante,s, new Button.ClickListener() {
@@ -241,8 +244,8 @@ public class CompanyDashboard extends VerticalLayout {
         hLayout.setComponentAlignment(label, Alignment.MIDDLE_LEFT);
         hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
 
-        pscadPlaceholder.removeAllComponents();
-        pscadPlaceholder.addComponent(hLayout);
+        pScadPlaceholder.removeAllComponents();
+        pScadPlaceholder.addComponent(hLayout);
 
     }
 
@@ -259,7 +262,7 @@ public class CompanyDashboard extends VerticalLayout {
         HorizontalLayout hLayout = new HorizontalLayout();
         hLayout.setSpacing(true);
         HTMLLabel label = new HTMLLabel();
-        int quante = EQuery.countPrenRitardoPagamento1(getStagione());
+        int quante = EQuery.countPrenRitardoPagamento1();
         String s = spanSmall("conferme di pagamento scadute:");
         label.setValue(s);
         Button button = new NumButton(""+quante,s, new Button.ClickListener() {
@@ -280,10 +283,45 @@ public class CompanyDashboard extends VerticalLayout {
         hLayout.setComponentAlignment(label, Alignment.MIDDLE_LEFT);
         hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
 
-        confPagScadPlaceholder.removeAllComponents();
-        confPagScadPlaceholder.addComponent(hLayout);
+        pConfPagScadPlaceholder.removeAllComponents();
+        pConfPagScadPlaceholder.addComponent(hLayout);
 
     }
+
+    /**
+     * Crea il componente UI che rappresenta le prenotazioni con pagamento scaduto
+     */
+    private void createPagaScadute() {
+
+        HorizontalLayout hLayout = new HorizontalLayout();
+        hLayout.setSpacing(true);
+        HTMLLabel label = new HTMLLabel();
+        int quante = EQuery.countPrenPagamentoScaduto();
+        String s = spanSmall("pagamenti scaduti:");
+        label.setValue(s);
+        Button button = new NumButton(""+quante,s, new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+
+                // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
+                LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_SCADUTO, true);
+
+                // clicca sul menu Prenotazioni
+                clickMenuPren();
+
+            }
+        });
+
+        hLayout.addComponent(label);
+        hLayout.addComponent(button);
+        hLayout.setComponentAlignment(label, Alignment.MIDDLE_LEFT);
+        hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
+
+        pPagScadPlaceholder.removeAllComponents();
+        pPagScadPlaceholder.addComponent(hLayout);
+
+    }
+
 
 
 

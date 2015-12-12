@@ -464,12 +464,12 @@ public class EQuery {
 
 
     /**
-     * Ritorna il numero prenotazioni in ritardo di conferma per l'azienda corrente in una data stagione.
+     * Ritorna il numero prenotazioni in ritardo di conferma per
+     * l'azienda corrente nella stagione corrente.
      *
-     * @param stagione la stagione
      * @return il numero di prenotazioni in ritardo di conferma
      */
-    public static int countPrenRitardoConferma(Stagione stagione) {
+    public static int countPrenRitardoConferma() {
 
         EntityManager em = EM.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -481,7 +481,7 @@ public class EQuery {
 
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(creaFiltroCompany(root, cb));
-        predicates.add(cb.equal(joinEve.get(Evento_.stagione), stagione));
+        predicates.add(cb.equal(joinEve.get(Evento_.stagione), Stagione.getStagioneCorrente()));
         predicates.add(cb.equal(root.get(Prenotazione_.confermata), false));
         predicates.add(cb.lessThan(root.get(Prenotazione_.scadenzaConferma), today()));
 
@@ -503,12 +503,11 @@ public class EQuery {
 
     /**
      * Ritorna il numero prenotazioni in ritardo di conferma pagamento (fase 1)
-     * per l'azienda corrente in una data stagione.
+     * per l'azienda corrente nella stagione corrente.
      *
-     * @param stagione la stagione
      * @return il numero di prenotazioni in ritardo di conferma pagamento (fase 1)
      */
-    public static int countPrenRitardoPagamento1(Stagione stagione) {
+    public static int countPrenRitardoPagamento1() {
 
         EntityManager em = EM.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -520,7 +519,7 @@ public class EQuery {
 
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(creaFiltroCompany(root, cb));
-        predicates.add(cb.equal(joinEve.get(Evento_.stagione), stagione));
+        predicates.add(cb.equal(joinEve.get(Evento_.stagione), Stagione.getStagioneCorrente()));
         predicates.add(cb.equal(root.get(Prenotazione_.confermata), true));
         predicates.add(cb.equal(root.get(Prenotazione_.pagamentoConfermato), false));
         predicates.add(cb.lessThan(root.get(Prenotazione_.scadenzaPagamento), today()));
@@ -539,6 +538,49 @@ public class EQuery {
 
         return num;
     }
+
+
+    /**
+     * Ritorna il numero prenotazioni con pagamento scaduto
+     * per l'azienda corrente nella stagione corrente.
+     *
+     * @return il numero di prenotazioni con pagamento scaduto
+     */
+    public static int countPrenPagamentoScaduto() {
+
+        EntityManager em = EM.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+
+        Root<Prenotazione> root = cq.from(Prenotazione.class);
+        Join<Prenotazione, Rappresentazione> joinRapp = root.join(Prenotazione_.rappresentazione);
+        Join<Rappresentazione, Evento> joinEve = joinRapp.join(Rappresentazione_.evento);
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(creaFiltroCompany(root, cb));
+        predicates.add(cb.equal(joinEve.get(Evento_.stagione), Stagione.getStagioneCorrente()));
+        predicates.add(cb.equal(root.get(Prenotazione_.confermata), true));
+        predicates.add(cb.equal(root.get(Prenotazione_.pagamentoConfermato), true));
+        predicates.add(cb.equal(root.get(Prenotazione_.pagamentoRicevuto), false));
+        predicates.add(cb.lessThan(root.get(Prenotazione_.scadenzaPagamento), today()));
+
+        cq.where(predicates.toArray(new Predicate[]{}));
+
+        cq.select(cb.count(root));
+
+        TypedQuery<Long> q = em.createQuery(cq);
+        Integer num = q.getSingleResult().intValue();
+        if(num==null){
+            num=0;
+        }
+
+        em.close();
+
+        return num;
+    }
+
+
+
 
 
     /**
