@@ -224,7 +224,7 @@ public class CompanyDashboard extends VerticalLayout {
         hLayout.setSpacing(true);
         HTMLLabel label = new HTMLLabel();
         int quante = EQuery.countPrenRitardoConferma();
-        String s = spanSmall("conferme prenotazione scadute:");
+        String s = spanSmall("prenotazioni scadute:");
         label.setValue(s);
         Button button = new NumButton(""+quante,s, new Button.ClickListener() {
             @Override
@@ -263,7 +263,7 @@ public class CompanyDashboard extends VerticalLayout {
         hLayout.setSpacing(true);
         HTMLLabel label = new HTMLLabel();
         int quante = EQuery.countPrenRitardoPagamento1();
-        String s = spanSmall("conferme di pagamento scadute:");
+        String s = spanSmall("conferme pagamento scadute:");
         label.setValue(s);
         Button button = new NumButton(""+quante,s, new Button.ClickListener() {
             @Override

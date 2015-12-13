@@ -61,7 +61,7 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addItem("Opzioni da confermare...", FontAwesome.CLOCK_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Filter filter = PrenotazioneModulo.getFiltroOpzioniDaConfermare(Stagione.getStagioneCorrente());
+                Filter filter = PrenotazioneModulo.getFiltroOpzioniDaConfermare();
                 JPAContainer cont = getTable().getJPAContainer();
                 cont.removeAllContainerFilters();
                 cont.refresh(); // refresh container before applying new filters
@@ -71,7 +71,7 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addItem("Pagamenti da confermare...", FontAwesome.CLOCK_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Filter filter = PrenotazioneModulo.getFiltroPagamentiDaConfermare(Stagione.getStagioneCorrente());
+                Filter filter = PrenotazioneModulo.getFiltroPagamentiDaConfermare();
                 JPAContainer cont = getTable().getJPAContainer();
                 cont.removeAllContainerFilters();
                 cont.refresh(); // refresh container before applying new filters
@@ -79,9 +79,9 @@ public class PrenotazioneTablePortal extends TablePortal {
             }
         });// end of anonymous class
 
-        item.addItem("Pagamenti da ricevere...", FontAwesome.CLOCK_O, new MenuBar.Command() {
+        item.addItem("Pagamenti scaduti...", FontAwesome.CLOCK_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Filter filter = PrenotazioneModulo.getFiltroPagamentiDaRicevere();
+                Filter filter = PrenotazioneModulo.getFiltroPagamentiScaduti();
                 JPAContainer cont = getTable().getJPAContainer();
                 cont.removeAllContainerFilters();
                 cont.refresh(); // refresh container before applying new filters
