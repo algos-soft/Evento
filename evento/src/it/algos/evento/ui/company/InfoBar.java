@@ -28,10 +28,10 @@ public class InfoBar extends VerticalLayout {
         setWidth("100%");
         setSpacing(false);
 
-        segNonConf=new Segment("prenotazioni non confermate","infoBarSegment1",EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE);
-        segPagaNonConf=new Segment("pagamenti non confermati","infoBarSegment2",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO);
-        segPagaConf=new Segment("pagamenti confermati","infoBarSegment3",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO);
-        segPagaRic=new Segment("pagamenti ricevuti", "infoBarSegment4",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_RICEVUTO);
+        segNonConf=new Segment("prenotazioni non confermate","redGradientBg",EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE);
+        segPagaNonConf=new Segment("pagamenti non confermati","orangeGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO);
+        segPagaConf=new Segment("pagamenti confermati","goldenGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO);
+        segPagaRic=new Segment("pagamenti ricevuti", "greenGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_RICEVUTO);
 
         Label label = new Label(titolo);
         label.addStyleName("infoBarTitle");
@@ -104,7 +104,7 @@ public class InfoBar extends VerticalLayout {
                 s+="&euro;";
             }
             setCaption(s);
-            setDescription(title + ": " + s+"<br><strong>clicca sul grafico per vedere</strong>");
+            setDescription(title + ": " + s+"<br><strong>clicca per vedere</strong>");
         }
 
         /**

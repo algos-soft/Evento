@@ -280,23 +280,23 @@ public class EQuery {
     }
 
     /**
-     * Ritorna il numero totale di prenotazioni per l'azienda corrente in una data stagione.
+     * Ritorna il numero totale di prenotazioni per l'azienda
+     * corrente nella stagione corrente.
      *
-     * @param stagione la stagione
      * @return il numero totale di prenotazioni congelate
      */
-    public static int countPrenotazioni(Stagione stagione) {
-        return countPrenotazioni(stagione, -1);
+    public static int countPrenotazioni() {
+        return countPrenotazioni(Stagione.getStagioneCorrente().getStagioneCorrente(), -1);
     }
 
     /**
-     * Ritorna il numero di prenotazioni congelate per l'azienda corrente in una data stagione.
+     * Ritorna il numero di prenotazioni congelate per l'azienda
+     * corrente nela stagione corrente.
      *
-     * @param stagione la stagione
      * @return il numero di prenotazioni congelate
      */
-    public static int countPrenotazioniCongelate(Stagione stagione) {
-        return countPrenotazioni(stagione, 1);
+    public static int countPrenotazioniCongelate() {
+        return countPrenotazioni(Stagione.getStagioneCorrente(), 1);
     }
 
     /**
@@ -578,7 +578,6 @@ public class EQuery {
 
         return num;
     }
-
 
 
 

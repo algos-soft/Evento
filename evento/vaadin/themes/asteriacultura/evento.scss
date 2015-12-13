@@ -83,8 +83,6 @@ $v-font-weight: 400;
     color: darkblue;
   }
 
-
-
   .v-textfield-align-left {
     text-align: left;
   }
@@ -112,7 +110,6 @@ $v-font-weight: 400;
     background: #6282A3;
   }
 
-
   .loginbutton {
     font-size: 20px;
     font-weight: bold;
@@ -120,7 +117,7 @@ $v-font-weight: 400;
     min-width: 6em;
   }
 
-  .redbold{
+  .redbold {
     color: red;
     font-weight: bold;
   }
@@ -130,53 +127,55 @@ $v-font-weight: 400;
     max-height: 0;
   }
 
-
-
-  .infoBarTitle{
+  .infoBarTitle {
     font-size: 14px;
     font-weight: bold;
   }
 
-  .infoBarSegment{
+  .infoBarSegment {
     font-size: 18px;
     font-weight: bold;
   }
 
-  .infoBarSegment1{
+  .redGradientBg {
     background: red;
-    background: -webkit-linear-gradient(left, darkred, red);
-    background: -moz-linear-gradient(left, darkred, red);
-    background: -o-linear-gradient(left, darkred, red);
-    background: linear-gradient(left, darkred, red);
+    background: -webkit-linear-gradient(top, darkred, red);
+    background: -moz-linear-gradient(top, darkred, red);
+    background: -o-linear-gradient(top, darkred, red);
+    background: linear-gradient(top, darkred, red);
   }
 
-  .infoBarSegment2{
+  .orangeGradientBg {
     background: orange;
-    background: -webkit-linear-gradient(left, darkorange, orange);
-    background: -moz-linear-gradient(left, darkorange, orange);
-    background: -o-linear-gradient(left, darkorange, orange);
-    background: linear-gradient(left, darkorange, orange);
+    background: -webkit-linear-gradient(top, darkorange, orange);
+    background: -moz-linear-gradient(top, darkorange, orange);
+    background: -o-linear-gradient(top, darkorange, orange);
+    background: linear-gradient(top, darkorange, orange);
   }
 
-  .infoBarSegment3{
+  .goldenGradientBg {
     background: goldenrod;
-    background: -webkit-linear-gradient(left, darkgoldenrod, goldenrod);
-    background: -moz-linear-gradient(left, darkgoldenrod, goldenrod);
-    background: -o-linear-gradient(left, darkgoldenrod, goldenrod);
-    background: linear-gradient(left, darkgoldenrod, goldenrod);
+    background: -webkit-linear-gradient(top, darkgoldenrod, goldenrod);
+    background: -moz-linear-gradient(top, darkgoldenrod, goldenrod);
+    background: -o-linear-gradient(top, darkgoldenrod, goldenrod);
+    background: linear-gradient(top, darkgoldenrod, goldenrod);
   }
 
-  .infoBarSegment4{
+  .greenGradientBg {
     background: green;
-    background: -webkit-linear-gradient(left, darkgreen, green);
-    background: -moz-linear-gradient(left, darkgreen, green);
-    background: -o-linear-gradient(left, darkgreen, green);
-    background: linear-gradient(left, darkgreen, green);
+    background: -webkit-linear-gradient(top, darkgreen, green);
+    background: -moz-linear-gradient(top, darkgreen, green);
+    background: -o-linear-gradient(top, darkgreen, green);
+    background: linear-gradient(top, darkgreen, green);
   }
 
+  .label-middle {
+    font-size: 1.2em;
+  }
 
-
-
-
+  .label-big {
+    font-size: 1.6em;
+    font-weight: bold;
+  }
 
 }

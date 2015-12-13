@@ -2,7 +2,6 @@ package it.algos.evento.ui.company;
 
 import com.vaadin.data.util.converter.StringToBigDecimalConverter;
 import com.vaadin.data.util.converter.StringToIntegerConverter;
-import com.vaadin.server.Page;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import it.algos.evento.EventoApp;
@@ -23,10 +22,10 @@ public class CompanyDashboard extends VerticalLayout {
     private CompanyHome home;
 
     private HorizontalLayout titlePlaceholder = new HorizontalLayout();
-    private HorizontalLayout pScadPlaceholder = new HorizontalLayout();
+    private HorizontalLayout pPrenScadPlaceholder = new HorizontalLayout();
     private HorizontalLayout pConfPagScadPlaceholder = new HorizontalLayout();
     private HorizontalLayout pPagScadPlaceholder = new HorizontalLayout();
-    private HorizontalLayout eventiInProgrammaPlaceholder = new HorizontalLayout();
+    private HorizontalLayout pPrenCongPlaceholder = new HorizontalLayout();
     private HorizontalLayout rappresentazioniPlaceholder = new HorizontalLayout();
     private HorizontalLayout prenotazioniRicevutePlaceholder = new HorizontalLayout();
     private HorizontalLayout postiPrenotatiPlaceholder = new HorizontalLayout();
@@ -36,128 +35,90 @@ public class CompanyDashboard extends VerticalLayout {
     private InfoBar barImporti;
 
 
-    // classi per il CSS iniettato
-    private static final String CSS_MIDDLE = "middle";
-    private static final String CSS_BIG = "big";
-
     public CompanyDashboard(CompanyHome home) {
         this.home = home;
 
         //addStyleName("lightGrayBg");
 
         setWidthUndefined();
-        setHeight("100%");
+
         setMargin(false);
+        setSpacing(false);
 
-        injectCSS();
+        barNumeri = new InfoBar("Numero di prenotazioni", home, false);
+        barPosti = new InfoBar("Numero di posti", home, false);
+        barImporti = new InfoBar("Importo", home, true);
 
-        barNumeri = new InfoBar("Prenotazioni", home, false);
-        barPosti = new InfoBar("Posti", home, false);
-        barImporti = new InfoBar("Importi", home, true);
-
-        init();
-
-        //update();
+        createUI();
 
     }
 
     /**
-     * Crea e aggiunge i componenti
+     * Costruzione della UI
      */
-    private void init() {
+    private void createUI() {
+         Component spacer;
 
-        addComponent(titlePlaceholder);
-        addComponent(new Hr());
+        // titolo
+        VerticalLayout titlePanel=new VerticalLayout();
+        //titlePanel.addStyleName("redBg");
+        titlePanel.setHeightUndefined();
+        titlePanel.setWidthUndefined();
+        titlePanel.addComponent(titlePlaceholder);
+        addComponent(titlePanel);
+        setExpandRatio(titlePanel, 0);
+
+        //spacer
+        spacer = new VSpacer();
+        addComponent(spacer);
+        setExpandRatio(spacer, 1);
 
         // riga scaduti
-        HorizontalLayout layout = new HorizontalLayout();
-        layout.setWidthUndefined();
-        layout.setMargin(false);
-        layout.setSpacing(true);
-        layout.addComponent(pScadPlaceholder);
-        layout.addComponent(pConfPagScadPlaceholder);
-        layout.addComponent(pPagScadPlaceholder);
-        addComponent(layout);
+        HorizontalLayout scadPanel = new HorizontalLayout();
+        //scadPanel.addStyleName("pinkBg");
+        scadPanel.setHeightUndefined();
+        scadPanel.setWidthUndefined();
+        scadPanel.setSpacing(true);
+        scadPanel.addComponent(pPrenScadPlaceholder);
+        scadPanel.addComponent(pConfPagScadPlaceholder);
+        scadPanel.addComponent(pPagScadPlaceholder);
+        scadPanel.addComponent(pPrenCongPlaceholder);
+        addComponent(scadPanel);
+        setExpandRatio(scadPanel,0);
 
-        addComponent(new VSpacer());
+        //spacer
+        spacer = new VSpacer();
+        addComponent(spacer);
+        setExpandRatio(spacer, 1);
 
         // barre grafiche
-        addComponent(barNumeri);
-        addComponent(new VSpacer());
-        addComponent(barPosti);
-        addComponent(new VSpacer());
-        addComponent(barImporti);
-        addComponent(new VSpacer());
-        addComponent(new InfoBarLegend());
+        VerticalLayout graphPanel=new VerticalLayout();
+        graphPanel.setSpacing(true);
+        graphPanel.setHeightUndefined();
+        graphPanel.setWidth("100%");
+        //graphPanel.addStyleName("yellowBg");
+        graphPanel.addComponent(barNumeri);
+        graphPanel.addComponent(barPosti);
+        graphPanel.addComponent(barImporti);
+        graphPanel.addComponent(new InfoBarLegend(home));
+        addComponent(graphPanel);
+        setExpandRatio(graphPanel,0);
 
+        //spacer
+        spacer = new VSpacer();
+        addComponent(spacer);
+        setExpandRatio(spacer, 1);
 
-        addComponent(new Hr());
-        addComponent(eventiInProgrammaPlaceholder);
-        addComponent(rappresentazioniPlaceholder);
-        addComponent(prenotazioniRicevutePlaceholder);
-        addComponent(postiPrenotatiPlaceholder);
-
-//        String title="titolo";
-//
-//        DefaultPieDataset dataset = new DefaultPieDataset( );
-//        dataset.setValue( "IPhone 5s" , new Double( 20 ) );
-//        dataset.setValue( "SamSung Grand" , new Double( 20 ) );
-//        dataset.setValue( "MotoG" , new Double( 40 ) );
-//        dataset.setValue( "Nokia Lumia" , new Double( 10 ) );
-//
-//        JFreeChart chart = ChartFactory.createPieChart(
-//                "Mobile Sales",  // chart title
-//                dataset,        // data
-//                true,           // include legend
-//                true,
-//                false);
-//
-//        JFreeChartWrapper jFreeChartWrapper = new JFreeChartWrapper(chart) {
-//
-//            @Override
-//            public void attach() {
-//                super.attach();
-//                markAsDirty();
-//            }
-//
-//        };
-//
-//        addComponent(jFreeChartWrapper);
-
-
-//        addComponent(createBasicDemo());
-
-
-//
-//
-//        DataSeries dataSeries = new DataSeries()
-//                .add(2, 6, 7, 10);
-//
-//        SeriesDefaults seriesDefaults = new SeriesDefaults()
-//                .setRenderer(SeriesRenderers.BAR);
-//
-//        Axes axes = new Axes()
-//                .addAxis(
-//                        new XYaxis()
-//                                .setRenderer(AxisRenderers.CATEGORY)
-//                                .setTicks(
-//                                        new Ticks()
-//                                                .add("a", "b", "c", "d")));
-//
-//        Highlighter highlighter = new Highlighter()
-//                .setShow(false);
-//
-//        Options options = new Options()
-//                .setSeriesDefaults(seriesDefaults)
-//                .setAxes(axes)
-//                .setHighlighter(highlighter);
-//
-//        DCharts chart = new DCharts()
-//                .setDataSeries(dataSeries)
-//                .setOptions(options)
-//                .show();
-//
-//        addComponent(chart);
+        // altre info
+        VerticalLayout infoPanel = new VerticalLayout();
+        //infoPanel.addStyleName("greenBg");
+        infoPanel.setHeightUndefined();
+        infoPanel.setWidthUndefined();
+        infoPanel. addComponent(rappresentazioniPlaceholder);
+        infoPanel.addComponent(prenotazioniRicevutePlaceholder);
+        infoPanel.addComponent(postiPrenotatiPlaceholder);
+        addComponent(infoPanel);
+        setExpandRatio(infoPanel,0);
 
     }
 
@@ -171,6 +132,7 @@ public class CompanyDashboard extends VerticalLayout {
         createPrenScadute();
         createConfPagaScadute();
         createPagaScadute();
+        createPrenCongelate();
 
         // barra n. prenotazioni
         barNumeri.update(EQuery.countPrenotazioniNonConfermate(),
@@ -190,12 +152,9 @@ public class CompanyDashboard extends VerticalLayout {
                 EQuery.sumImportoPrenotazioniPagamentoConfermato().intValue(),
                 EQuery.sumImportoPrenotazioniPagamentoRicevuto().intValue());
 
-        createEventiInProgramma();
         createRappresentazioni();
         createPrenotazioniRicevute();
         createPostiPrenotati();
-
-        //updateBarNumeri();
 
     }
 
@@ -205,86 +164,33 @@ public class CompanyDashboard extends VerticalLayout {
     private void creaTitoloDashboard() {
         String s = "Andamento stagione " + Stagione.getStagioneCorrente().toString();
         HTMLLabel label = new HTMLLabel();
-        label.setValue(spanBig(s));
+        label.setValue(s);
+        label.addStyleName("label-big");
 
         titlePlaceholder.removeAllComponents();
         titlePlaceholder.addComponent(label);
     }
 
 
-
-
-
     /**
      * Crea il componente UI che rappresenta le conferme prenotazione scadute
      */
     private void createPrenScadute() {
-
-        HorizontalLayout hLayout = new HorizontalLayout();
-        hLayout.setSpacing(true);
-        HTMLLabel label = new HTMLLabel();
         int quante = EQuery.countPrenRitardoConferma();
-        String s = spanSmall("prenotazioni scadute:");
-        label.setValue(s);
-        Button button = new NumButton(""+quante,s, new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-
-                // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
-                LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_CONFERMA, true);
-
-                // clicca sul menu Prenotazioni
-                clickMenuPren();
-
-            }
-        });
-
-        hLayout.addComponent(label);
-        hLayout.addComponent(button);
-        hLayout.setComponentAlignment(label, Alignment.MIDDLE_LEFT);
-        hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
-
-        pScadPlaceholder.removeAllComponents();
-        pScadPlaceholder.addComponent(hLayout);
-
+        Component comp = new CompScadute(quante, "prenotazioni scadute", EventoApp.KEY_MOSTRA_PREN_RITARDO_CONFERMA);
+        pPrenScadPlaceholder.removeAllComponents();
+        pPrenScadPlaceholder.addComponent(comp);
     }
-
-
-
-
 
 
     /**
      * Crea il componente UI che rappresenta le conferme di pagamento scadute
      */
     private void createConfPagaScadute() {
-
-        HorizontalLayout hLayout = new HorizontalLayout();
-        hLayout.setSpacing(true);
-        HTMLLabel label = new HTMLLabel();
         int quante = EQuery.countPrenRitardoPagamento1();
-        String s = spanSmall("conferme pagamento scadute:");
-        label.setValue(s);
-        Button button = new NumButton(""+quante,s, new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-
-                // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
-                LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_PAGAMENTO_1, true);
-
-                // clicca sul menu Prenotazioni
-                clickMenuPren();
-
-            }
-        });
-
-        hLayout.addComponent(label);
-        hLayout.addComponent(button);
-        hLayout.setComponentAlignment(label, Alignment.MIDDLE_LEFT);
-        hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
-
+        Component comp = new CompScadute(quante, "conferme pagamento scadute", EventoApp.KEY_MOSTRA_PREN_RITARDO_PAGAMENTO_1);
         pConfPagScadPlaceholder.removeAllComponents();
-        pConfPagScadPlaceholder.addComponent(hLayout);
+        pConfPagScadPlaceholder.addComponent(comp);
 
     }
 
@@ -292,111 +198,59 @@ public class CompanyDashboard extends VerticalLayout {
      * Crea il componente UI che rappresenta le prenotazioni con pagamento scaduto
      */
     private void createPagaScadute() {
-
-        HorizontalLayout hLayout = new HorizontalLayout();
-        hLayout.setSpacing(true);
-        HTMLLabel label = new HTMLLabel();
         int quante = EQuery.countPrenPagamentoScaduto();
-        String s = spanSmall("pagamenti scaduti:");
-        label.setValue(s);
-        Button button = new NumButton(""+quante,s, new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-
-                // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
-                LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_SCADUTO, true);
-
-                // clicca sul menu Prenotazioni
-                clickMenuPren();
-
-            }
-        });
-
-        hLayout.addComponent(label);
-        hLayout.addComponent(button);
-        hLayout.setComponentAlignment(label, Alignment.MIDDLE_LEFT);
-        hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
-
+        Component comp = new CompScadute(quante, "pagamenti scaduti", EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_SCADUTO);
         pPagScadPlaceholder.removeAllComponents();
-        pPagScadPlaceholder.addComponent(hLayout);
-
+        pPagScadPlaceholder.addComponent(comp);
     }
-
-
 
 
     /**
-     * Crea il componente UI che rappresenta gli eventi in programma
+     * Crea il componente UI che rappresenta le prenotazioni con pagamento scaduto
      */
-    private void createEventiInProgramma() {
-        HTMLLabel label;
-        label = new HTMLLabel();
-        label.setValue(spanSmall("eventi in programma:\u2003") + spanBig(getString(EQuery.countEventi(getStagione()))));
-
-        eventiInProgrammaPlaceholder.removeAllComponents();
-        eventiInProgrammaPlaceholder.addComponent(label);
-
+    private void createPrenCongelate() {
+        int quante = EQuery.countPrenotazioniCongelate();
+        Component comp = new CompScadute(quante, "prenotazioni congelate", EventoApp.KEY_MOSTRA_PREN_CONGELATE);
+        pPrenCongPlaceholder.removeAllComponents();
+        pPrenCongPlaceholder.addComponent(comp);
     }
+
+
 
 
     /**
      * Crea il componente UI che rappresenta le rappresentazioni
      */
     private void createRappresentazioni() {
-        HTMLLabel label = new HTMLLabel();
+
         int totRapp = EQuery.countRappresentazioni(getStagione());
         int rappPassate = EQuery.countRappresentazioni(getStagione(), new Date());
         int percent = Math.round(rappPassate * 100 / totRapp);
-        label.setValue(spanSmall("rappresentazioni effettuate:\u2003") + spanBig(getString(rappPassate)) + spanSmall("\u2003su\u2003") + spanBig(getString(totRapp) + " (" + percent + "%)"));
+
+        HTMLLine line = new HTMLLine();
+        line.add("rappresentazioni effettuate:", HTMLLine.SMALL);
+        line.add(getString(rappPassate), HTMLLine.BIG);
+        line.add("su", HTMLLine.SMALL);
+        line.add(getString(totRapp), HTMLLine.BIG);
+        line.add("("+percent+"%)", HTMLLine.SMALL);
 
         rappresentazioniPlaceholder.removeAllComponents();
-        rappresentazioniPlaceholder.addComponent(label);
+        rappresentazioniPlaceholder.addComponent(line);
     }
+
 
 
     /**
      * Crea il componente UI che rappresenta le prenotazioni ricevute
      */
     private void createPrenotazioniRicevute() {
-        HorizontalLayout hLayout;
-        HTMLLabel label;
-        Button button;
-
-        hLayout = new HorizontalLayout();
-        label = new HTMLLabel();
-        int prenRicevute = EQuery.countPrenotazioni(getStagione());
-        int prenCongelate = EQuery.countPrenotazioniCongelate(getStagione());
-        String s = spanSmall("prenotazioni ricevute:\u2003") + spanBig(getString(prenRicevute));
-        button = null;
-        if (prenCongelate > 0) {
-            s += spanSmall("\u2003(di cui congelate:\u2003");
-            s += spanBig(getString(prenCongelate));
-            s += spanSmall(")");
-
-            button = new Button("Vedi", new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent clickEvent) {
-
-                    // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
-                    LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_CONGELATE, true);
-
-                    // clicca sul menu Prenotazioni
-                    clickMenuPren();
-
-                }
-            });
-
-        }
-        s += "\u2003";
-        label.setValue(s);
-        hLayout.addComponent(label);
-        if (prenCongelate > 0) {
-            hLayout.addComponent(button);
-            hLayout.setComponentAlignment(button, Alignment.MIDDLE_LEFT);
-        }
+        int prenRicevute = EQuery.countPrenotazioni();
+        HTMLLine line = new HTMLLine();
+        line.add("prenotazioni ricevute:", HTMLLine.SMALL);
+        line.add(getString(prenRicevute), HTMLLine.BIG);
 
         prenotazioniRicevutePlaceholder.removeAllComponents();
-        prenotazioniRicevutePlaceholder.addComponent(label);
+        prenotazioniRicevutePlaceholder.addComponent(line);
 
     }
 
@@ -404,39 +258,23 @@ public class CompanyDashboard extends VerticalLayout {
      * Crea il componente UI che rappresenta i posti prenotati
      */
     private void createPostiPrenotati() {
-        HTMLLabel label;
-        label = new HTMLLabel();
+
         int prenotati = EQuery.countPostiPrenotati(getStagione());
         int disponibili = EQuery.countCapienza(getStagione());
         int percent = Math.round(prenotati * 100 / disponibili);
-        label.setValue(spanSmall("posti prenotati:\u2003") + spanBig(getString(prenotati)) + spanSmall("\u2003su\u2003") + spanBig(getString(disponibili) + " (" + percent + "%)"));
+
+        HTMLLine line = new HTMLLine();
+        line.add("posti prenotati:", HTMLLine.SMALL);
+        line.add(getString(+prenotati), HTMLLine.BIG);
+        line.add("su", HTMLLine.SMALL);
+        line.add(getString(disponibili), HTMLLine.BIG);
+        line.add("("+percent+"%)", HTMLLine.SMALL);
 
         postiPrenotatiPlaceholder.removeAllComponents();
-        postiPrenotatiPlaceholder.addComponent(label);
+        postiPrenotatiPlaceholder.addComponent(line);
 
     }
 
-
-    private void injectCSS() {
-
-        Page.Styles styles = Page.getCurrent().getStyles();
-
-        styles.add("." + CSS_MIDDLE + " {   display: inline-block;" +
-                "  vertical-align: middle;" +
-                "  font-size:1.2em;" +
-                "  line-height: normal;}");
-
-        styles.add("." + CSS_BIG + " { font-weight:bold; font-size:2em;}");
-
-    }
-
-    private String spanSmall(String text) {
-        return "<span class='" + CSS_MIDDLE + "'>" + text + "</span>";
-    }
-
-    private String spanBig(String text) {
-        return "<span class='" + CSS_MIDDLE + " " + CSS_BIG + "'>" + text + "</span>";
-    }
 
     /**
      * Ritorna la stagione corrente
@@ -481,6 +319,66 @@ public class CompanyDashboard extends VerticalLayout {
         }
     }
 
+
+    /**
+     * HTML Label middle
+     */
+    private class HTMLLabelMiddle extends Label {
+
+        public HTMLLabelMiddle(String content) {
+            super(content, ContentMode.HTML);
+            addStyleName("label-middle");
+        }
+
+        public HTMLLabelMiddle() {
+            this("");
+        }
+    }
+
+    /**
+     * HTML Label big
+     */
+    private class HTMLLabelBig extends Label {
+
+        public HTMLLabelBig(String content) {
+            super(content, ContentMode.HTML);
+            addStyleName("label-big");
+        }
+
+        public HTMLLabelBig() {
+            this("");
+        }
+    }
+
+
+    // Linea con parti piccole e grandi
+    private class HTMLLine extends HorizontalLayout{
+        private static final int SMALL=1;
+        private static final int BIG=2;
+
+        public HTMLLine() {
+            setSpacing(true);
+        }
+
+        public void add(String s, int size){
+            Component comp=new HTMLLabel(s);
+            switch (size){
+                case SMALL:
+                    comp.addStyleName("label-middle");break;
+                case BIG:
+                    comp.addStyleName("label-big");break;
+            }
+
+            addComponent(comp);
+            setComponentAlignment(comp, Alignment.MIDDLE_CENTER);
+
+        }
+
+
+    }
+
+
+
     /**
      * Horizontal divider
      */
@@ -488,8 +386,11 @@ public class CompanyDashboard extends VerticalLayout {
         Hr() {
             super("<hr>", ContentMode.HTML);
             addStyleName("hrule");
+            setHeightUndefined();
         }
     }
+
+
 
 
     /**
@@ -497,27 +398,86 @@ public class CompanyDashboard extends VerticalLayout {
      */
     private class VSpacer extends Label {
 
-        VSpacer(double ems) {
-            String h = ems + "em";
-            setHeight(h);
+        VSpacer() {
+            setHeight("100%");
+            setWidth("2em");
+            //addStyleName("darkGrayBg");
         }
 
-        VSpacer() {
-            this(1);
+
+    }
+
+
+    /**
+     * Componente indicatore di prenotazioni scadute
+     */
+    private class CompScadute extends HorizontalLayout{
+
+        /**
+         * @param quanti  il numero di prenotazioni
+         * @param desc la descrizione
+         * @param costante la costante da registrare nella sessione
+         *                 prima di lanciare il modulo Prenotazioni
+         */
+        public CompScadute(int quanti, String desc, String costante) {
+            setSpacing(true);
+            HTMLLabel label = new HTMLLabel();
+            label.addStyleName("label-middle");
+            label.setValue(desc);
+            Button button = new NumButton(quanti, desc, costante);
+
+            addComponent(label);
+            addComponent(button);
+            setComponentAlignment(label, Alignment.MIDDLE_LEFT);
+            setComponentAlignment(button, Alignment.MIDDLE_LEFT);
+
+
         }
 
     }
 
 
-    private class NumButton extends Button{
+    /**
+     * Bottone indicatore di prenotazioni scadute
+     */
+    private class NumButton extends Button {
 
-        public NumButton(String caption, String tooltip, ClickListener listener) {
-            super(caption, listener);
+        /**
+         * @param quanti  il numero
+         * @param tooltip il testo per il tooltip
+         */
+        public NumButton(int quanti, String tooltip, String costante) {
+            super("" + quanti);
+
             addStyleName("infoBarSegment");
-            addStyleName("infoBarSegment1");
+
+            if (quanti > 0) {
+                addStyleName("redGradientBg");
+
+                addClickListener(new ClickListener() {
+                    @Override
+                    public void buttonClick(ClickEvent clickEvent) {
+                        // regola l'attributo che farà sì che il modulo Prenotazioni
+                        // esegua la query quando diventa visibile
+                        LibSession.setAttribute(costante, true);
+
+                        // clicca sul menu Prenotazioni
+                        clickMenuPren();
+
+                    }
+                });
+
+            } else {
+                addStyleName("greenGradientBg");
+            }
             setHeight("2em");
             setHtmlContentAllowed(true);
-            setDescription(tooltip+" "+caption);
+
+            String description=tooltip + " " + quanti;
+            if (quanti>0){
+                description+="<br><strong>clicca per vedere</strong>";
+            }
+            setDescription(description);
         }
     }
 
