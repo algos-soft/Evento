@@ -288,10 +288,6 @@ public class CompanyDashboard extends VerticalLayout {
         return intConverter.convertToPresentation(num, String.class, null);
     }
 
-    private String getString(BigDecimal num) {
-        return bdConverter.convertToPresentation(num, String.class, null);
-    }
-
     /**
      * Clicca sul menu Prenotazioni
      */
@@ -320,38 +316,10 @@ public class CompanyDashboard extends VerticalLayout {
     }
 
 
-    /**
-     * HTML Label middle
-     */
-    private class HTMLLabelMiddle extends Label {
-
-        public HTMLLabelMiddle(String content) {
-            super(content, ContentMode.HTML);
-            addStyleName("label-middle");
-        }
-
-        public HTMLLabelMiddle() {
-            this("");
-        }
-    }
 
     /**
-     * HTML Label big
+     * Scritta con parti piccole e grandi
      */
-    private class HTMLLabelBig extends Label {
-
-        public HTMLLabelBig(String content) {
-            super(content, ContentMode.HTML);
-            addStyleName("label-big");
-        }
-
-        public HTMLLabelBig() {
-            this("");
-        }
-    }
-
-
-    // Linea con parti piccole e grandi
     private class HTMLLine extends HorizontalLayout{
         private static final int SMALL=1;
         private static final int BIG=2;
@@ -375,19 +343,6 @@ public class CompanyDashboard extends VerticalLayout {
         }
 
 
-    }
-
-
-
-    /**
-     * Horizontal divider
-     */
-    private class Hr extends Label {
-        Hr() {
-            super("<hr>", ContentMode.HTML);
-            addStyleName("hrule");
-            setHeightUndefined();
-        }
     }
 
 
@@ -473,7 +428,7 @@ public class CompanyDashboard extends VerticalLayout {
             setHeight("2em");
             setHtmlContentAllowed(true);
 
-            String description=tooltip + " " + quanti;
+            String description=tooltip + ": " + quanti;
             if (quanti>0){
                 description+="<br><strong>clicca per vedere</strong>";
             }
