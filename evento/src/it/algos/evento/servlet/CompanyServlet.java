@@ -1,8 +1,7 @@
 package it.algos.evento.servlet;
 
 import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.server.ServiceException;
-import com.vaadin.server.SessionInitEvent;
+import com.vaadin.server.*;
 import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.ui.company.CompanyUI;
 import it.algos.webbase.domain.utente.Utente;
@@ -48,6 +47,28 @@ public class CompanyServlet extends AlgosServlet {
             }
 
         }
+
+
+
+//        event.getSession().addBootstrapListener(new BootstrapListener() {
+//
+//            @Override
+//            public void modifyBootstrapPage(BootstrapPageResponse response) {
+//                response.getDocument().head()
+//                        .getElementsByAttributeValue("rel", "shortcut icon")
+//                        .attr("href", "./VAADIN/themes/asteriacultura/img/favicon.ico");
+//                response.getDocument().head()
+//                        .getElementsByAttributeValue("rel", "icon")
+//                        .attr("href", "./VAADIN/themes/asteriacultura/img/favicon.ico");
+//            }
+//
+//            @Override
+//            public void modifyBootstrapFragment(BootstrapFragmentResponse response) {
+//            }
+//
+//        });
+
+
 
     }// end of method
 

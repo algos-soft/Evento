@@ -120,6 +120,12 @@ public class CompanyDashboard extends VerticalLayout {
         addComponent(infoPanel);
         setExpandRatio(infoPanel,0);
 
+        //spacer
+        spacer = new VSpacer();
+        addComponent(spacer);
+        setExpandRatio(spacer, 1);
+
+
     }
 
 
@@ -429,7 +435,7 @@ public class CompanyDashboard extends VerticalLayout {
             setHtmlContentAllowed(true);
 
             String description=tooltip + ": " + quanti;
-            if (quanti>0){
+            if (quanti>0) {
                 description+="<br><strong>clicca per vedere</strong>";
             }
             setDescription(description);

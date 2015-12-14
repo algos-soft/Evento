@@ -1,8 +1,7 @@
 package it.algos.evento.servlet;
 
 import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.server.ServiceException;
-import com.vaadin.server.SessionInitEvent;
+import com.vaadin.server.*;
 import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.ui.admin.AdminUI;
 import it.algos.webbase.domain.ruolo.Ruolo;
@@ -52,6 +51,7 @@ public class AdminServlet extends AlgosServlet {
                 String err="L'utente "+user+" (loggato dai cookies) non è abilitato all'accesso come admin. Login fallito.";
                 logger.log(Level.SEVERE, err);
             }
+
 
         }
 
