@@ -58,9 +58,10 @@ public class CompanyForm extends AForm {
 	}
 
 	protected Component createComponent() {
-		Layout layout = new AFormLayout();
+		AFormLayout layout = new AFormLayout();
+		layout.setMargin(true);
 		addComponents(layout);
-		return incapsulaPerMargine(layout);
+		return layout;
 	}// end of method
 
 

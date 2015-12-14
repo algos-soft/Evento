@@ -79,7 +79,8 @@ public class LetteraForm extends AForm {
 	 */
 	@Override
 	protected Component createComponent() {
-		Layout layout = new AFormLayout();
+		AFormLayout layout = new AFormLayout();
+		layout.setMargin(true);
 
 		layout.addComponent(getField(Lettera_.sigla));
 		layout.addComponent(getField(Lettera_.oggetto));
@@ -87,7 +88,7 @@ public class LetteraForm extends AForm {
 		layout.addComponent(getField(Lettera_.html));
 		layout.addComponent(createRigaAllegati());
 
-		return incapsulaPerMargine(layout);
+		return layout;
 	}// end of method
 
 	/**

@@ -132,17 +132,20 @@ public class RappresentazioneForm extends AForm {
 	}// end of method
 
 	private Component creaTabGenerale() {
-		Layout layout = new AFormLayout();
+		FormLayout layout = new AFormLayout();
+		layout.setMargin(true);
+
 		layout.addComponent(getField(Rappresentazione_.dataRappresentazione));
 		layout.addComponent(getField(Rappresentazione_.evento));
 		layout.addComponent(getField(Rappresentazione_.sala));
 		layout.addComponent(getField(Rappresentazione_.capienza));
 		layout.addComponent(getField(Rappresentazione_.note));
-		return incapsulaPerMargine(layout);
+		return layout;
 	}
 
 	private Component creaTabInsegnanti() {
 		VerticalLayout layout = new VerticalLayout();
+		layout.setMargin(true);
 
 		HorizontalLayout panComandi = new HorizontalLayout();
 		panComandi.setMargin(true);
@@ -196,7 +199,7 @@ public class RappresentazioneForm extends AForm {
 		tableInsegnanti.setWidth("100%");
 		layout.addComponent(tableInsegnanti);
 
-		return incapsulaPerMargine(layout);
+		return layout;
 	}
 
 	/**

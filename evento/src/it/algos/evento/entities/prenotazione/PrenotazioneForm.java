@@ -12,6 +12,7 @@ import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.server.Page;
+import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.TextArea;
@@ -58,7 +59,8 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class PrenotazioneForm extends AForm {
 
-    private static final String WF = "50px";
+    private static final String WF = "4em"; // larghezza dei campi numerici
+    private static final String WT = "6em"; // larghezza dei totali
     private IntegerField fieldNumTotale;
     private IntegerField fieldDisponibili;
     private DecimalField fieldImportoTotale;
@@ -71,7 +73,7 @@ public class PrenotazioneForm extends AForm {
     private EventoPrenTable eventsTable; // la table con gli eventi
     private Label dettaglioInsegnante;
 
-    private boolean inValueChange =false;   // flag per evitare di reagire ricorsivamente agli eventi di cambio valore di alcuni campi
+    private boolean inValueChange = false;   // flag per evitare di reagire ricorsivamente agli eventi di cambio valore di alcuni campi
 
 
     public PrenotazioneForm(ModulePop modulo) {
@@ -108,11 +110,6 @@ public class PrenotazioneForm extends AForm {
             dettaglioInsegnante.setValue(ins.getDettaglioPren());
         }
     }
-
-//	private void refreshDisplayPrivato(){
-//		boolean privato = (Boolean)getField(Prenotazione_.privato).getValue();
-//		getField(Prenotazione_.privato).setVisible(privato);
-//	}
 
     /**
      * Sincronizza i riferimenti in scheda (email, telefono, flag privato) con quelli dell'insegnante
@@ -175,7 +172,7 @@ public class PrenotazioneForm extends AForm {
         RelatedComboField rcField;
 
         field = new IntegerField("Numero prenotazione");
-        field.setWidth("80px");
+        field.setWidth("7em");
         addField(Prenotazione_.numPrenotazione, field);
 
         rcField = new ERelatedComboField(Rappresentazione.class, "Rappresentazione");
@@ -223,7 +220,6 @@ public class PrenotazioneForm extends AForm {
             public void save_(BeanItem bi, boolean newRecord) {
                 syncRiferimentiInsegnante();
                 refreshDettaglioInsegnante();
-//				refreshDisplayPrivato();
             }
         });
 
@@ -248,7 +244,7 @@ public class PrenotazioneForm extends AForm {
         addField(Prenotazione_.classe, fieldClasse);
 
         field = new TextField("Tel. referente");
-        field.setWidth("260px");
+        field.setWidth("20em");
         addField(Prenotazione_.telRiferimento, field);
 
         field = new EmailField("E-mail referente");
@@ -287,7 +283,7 @@ public class PrenotazioneForm extends AForm {
         addField(Prenotazione_.importoAccomp, field);
 
         field = new ERelatedComboField(ModoPagamento.class, "Modo");
-        field.setWidth("180px");
+        field.setWidth("14em");
         addField(Prenotazione_.modoPagamento, field);
 
         field = new DateField("Scadenza pagamento");
@@ -303,7 +299,7 @@ public class PrenotazioneForm extends AForm {
         addField(Prenotazione_.dataPagamentoConfermato, field);
 
         field = new ERelatedComboField(TipoRicevuta.class, "Tipo ricevuta");
-        field.setWidth("180px");
+        field.setWidth("14em");
         addField(Prenotazione_.tipoRicevuta, field);
 
         TextArea area = new TextArea();
@@ -336,12 +332,12 @@ public class PrenotazioneForm extends AForm {
         fieldConfermata = new CheckBoxField("Confermata");
         addField(Prenotazione_.confermata, fieldConfermata);
         fieldConfermata.addValueChangeListener(event -> {
-            if(!inValueChange){
+            if (!inValueChange) {
                 ConfirmDialog dialog = new ConfirmDialog(null, "Questo campo è gestito automaticamente.<br>Sei sicuro di volerlo modificare manualmente?", (dialog1, confirmed) -> {
-                    if(!confirmed){
-                        inValueChange =true;
+                    if (!confirmed) {
+                        inValueChange = true;
                         fieldConfermata.setValue(!fieldConfermata.getValue());
-                        inValueChange =false;
+                        inValueChange = false;
                     }
                 });
                 dialog.setConfirmButtonText("Modifica");
@@ -392,7 +388,7 @@ public class PrenotazioneForm extends AForm {
     protected Component createComponent() {
 
         TabSheet tabsheet = new TabSheet();
-        tabsheet.setWidth("700px");
+        tabsheet.setWidthUndefined();
         tabsheet.addTab(creaTabGenerale(), "Generale");
         tabsheet.addTab(creaTabPagamento(), "Pagamento");
         tabsheet.addTab(creaTabEventi(), "Eventi e note");
@@ -403,9 +399,11 @@ public class PrenotazioneForm extends AForm {
 
     private Component creaTabGenerale() {
 
+        Component comp;
+
         // campi esistenti solo nella Presentation
         fieldNumTotale = new IntegerField("Totale");
-        fieldNumTotale.setWidth("70px");
+        fieldNumTotale.setWidth(WT);
         fieldNumTotale.setReadOnly(true);
 
         fieldDisponibili = new IntegerField("Rimasti");
@@ -413,49 +411,58 @@ public class PrenotazioneForm extends AForm {
         fieldDisponibili.setReadOnly(true);
 
         fieldImportoTotale = new DecimalField("Importo");
-        fieldImportoTotale.setWidth("70px");
+        fieldImportoTotale.setWidth(WT);
         fieldImportoTotale.setReadOnly(true);
 
         dettaglioInsegnante = new Label("", ContentMode.HTML);
+        dettaglioInsegnante.addStyleName("text-85");
 
-        Layout layout = new AFormLayout();
+        AFormLayout layout = new AFormLayout();
+        layout.setMargin(true);
 
-        HorizontalLayout l1 = new HorizontalLayout();
-        l1.setSpacing(true);
-
-        Component comp;
+        // start riga numero e data
+        HorizontalLayout hl = new HorizontalLayout();
+        hl.setSpacing(true);
+        hl.setMargin(false);
         comp = getField(Prenotazione_.numPrenotazione);
-        l1.addComponent(comp);
-        l1.setComponentAlignment(comp, Alignment.BOTTOM_LEFT);
 
-        comp = getField(Prenotazione_.dataPrenotazione);
-        l1.addComponent(comp);
-        l1.setComponentAlignment(comp, Alignment.BOTTOM_LEFT);
+        // sposta la caption sul layout esterno
+        String str1 = comp.getCaption();
+        comp.setCaption(null);
+        hl.setCaption(str1);
 
-        layout.addComponent(l1);
+        hl.addComponent(comp);
+        FormLayout fl = new FormLayout();
+        fl.setMargin(false);
+        fl.addComponent(getField(Prenotazione_.dataPrenotazione));
+        hl.addComponent(fl);
+        layout.addComponent(hl);
+        // end riga numero e data
+
 
         layout.addComponent(getField(Prenotazione_.rappresentazione));
 
-        HorizontalLayout insPanel = new HorizontalLayout();
-        insPanel.setSpacing(true);
+        // start pannello insegnante
+        VerticalLayout panIns = new VerticalLayout();
+
+        HorizontalLayout rigaIns = new HorizontalLayout();
+        rigaIns.setSpacing(true);
         RelatedComboField comboInsegnante = (RelatedComboField) getField(Prenotazione_.insegnante);
         Component comboEdit = comboInsegnante.getEditComponent();
-        //Field fPrivato=getField(Prenotazione_.privato);
-        insPanel.addComponent(comboEdit);
-        insPanel.addComponent(fieldPrivato);
-        insPanel.setComponentAlignment(comboEdit, Alignment.BOTTOM_LEFT);
-        insPanel.setComponentAlignment(fieldPrivato, Alignment.BOTTOM_LEFT);
-        layout.addComponent(insPanel);
 
+        // sposta la caption del campo sul pannello esterno
+        // così il FormLayout allinea correttamente
+        panIns.setCaption(comboEdit.getCaption());
+        comboEdit.setCaption(null);
 
-        //HorizontalLayout dettPanel = new HorizontalLayout();
-        layout.addComponent(dettaglioInsegnante);
-//		fPrivato.setEnabled(false);
-//		fPrivato.setVisible((boolean) fPrivato.getValue());
-        //dettPanel.addComponent(new Spacer());
-        //dettPanel.addComponent(fPrivato);
-        //dettPanel.setComponentAlignment(fPrivato, Alignment.BOTTOM_RIGHT);
-        //layout.addComponent(dettPanel);
+        rigaIns.addComponent(comboEdit);
+        rigaIns.setComponentAlignment(comboEdit, Alignment.BOTTOM_LEFT);
+        rigaIns.addComponent(fieldPrivato);
+        rigaIns.setComponentAlignment(fieldPrivato, Alignment.MIDDLE_LEFT);
+        panIns.addComponent(rigaIns);
+        panIns.addComponent(dettaglioInsegnante);
+        layout.addComponent(panIns);
+        // end pannello insegnante
 
         //RelatedComboField comboScuola = (RelatedComboField)getField(Prenotazione_.scuola);
         layout.addComponent(comboScuola.getEditComponent());
@@ -466,7 +473,10 @@ public class PrenotazioneForm extends AForm {
 
 
         // grid persone e prezzi
-        layout.addComponent(creaGridPersonePrezzi());
+        //layout.addComponent(creaGridPersonePrezzi());
+        layout.addComponent(creaRigaPersone());
+        layout.addComponent(creaRigaPrezzi());
+
 
         // pannello conferma prenotazione
         HorizontalLayout confermaPanel = new HorizontalLayout();
@@ -485,38 +495,125 @@ public class PrenotazioneForm extends AForm {
 
         layout.addComponent(confermaPanel);
 
-
-        return incapsulaPerMargine(layout);
+        return layout;
     }
 
 
-    private GridLayout creaGridPersonePrezzi() {
+//    private GridLayout creaGridPersonePrezzi() {
+//
+//        // recupera i Fields
+//        Field fldNumInt = getField(Prenotazione_.numInteri);
+//        Label lblNumInt = new Label(fldNumInt.getCaption());
+//        lblNumInt.addStyleName("greenBg");
+//        fldNumInt.setCaption(null);
+//
+//        Field fldNumRid = getField(Prenotazione_.numRidotti);
+//        Label lblNumRid = new Label(fldNumRid.getCaption());
+//        fldNumRid.setCaption(null);
+//
+//        Field fldNumDis = getField(Prenotazione_.numDisabili);
+//        Label lblNumDis = new Label(fldNumDis.getCaption());
+//        fldNumDis.setCaption(null);
+//
+//        Field fldNumAcc = getField(Prenotazione_.numAccomp);
+//        Label lblNumAcc = new Label(fldNumAcc.getCaption());
+//        fldNumAcc.setCaption(null);
+//
+//        Field fldNumTot = fieldNumTotale;
+//        Label lblNumTot = new Label(fldNumTot.getCaption());
+//        fldNumTot.setCaption(null);
+//
+//        Field fldNumAvail = fieldDisponibili;
+//        Label lblNumAvail = new Label(fldNumAvail.getCaption());
+//        fldNumAvail.setCaption(null);
+//
+//        Field fldImpInt = getField(Prenotazione_.importoIntero);
+//        fldImpInt.setCaption(null);
+//
+//        Field fldImpRid = getField(Prenotazione_.importoRidotto);
+//        fldImpRid.setCaption(null);
+//
+//        Field fldImpDis = getField(Prenotazione_.importoDisabili);
+//        fldImpDis.setCaption(null);
+//
+//        Field fldImpAcc = getField(Prenotazione_.importoAccomp);
+//        fldImpAcc.setCaption(null);
+//
+//        Field fldImpTot = fieldImportoTotale;
+//        fldImpTot.setCaption(null);
+//
+//
+//        // grid persone e prezzi
+//        GridLayout grid = new GridLayout(7, 3);
+//        grid.setSpacing(false);
+//        int row;
+//
+//
+//        // Riga dei titoli
+//        row = 0;
+//        grid.addComponent(lblNumInt, 1, row);
+//        grid.addComponent(lblNumRid, 2, row);
+//        grid.addComponent(lblNumDis, 3, row);
+//        grid.addComponent(lblNumAcc, 4, row);
+//        grid.addComponent(lblNumTot, 5, row);
+//        grid.addComponent(lblNumAvail, 6, row);
+//
+//        // Riga degli spettatori
+//        row = 1;
+//        Label labelNum = new Label("quantità");
+//        grid.addComponent(labelNum, 0, row);
+//        grid.setComponentAlignment(labelNum, Alignment.MIDDLE_RIGHT);
+//        grid.addComponent(fldNumInt, 1, row);
+//        grid.addComponent(fldNumRid, 2, row);
+//        grid.addComponent(fldNumDis, 3, row);
+//        grid.addComponent(fldNumAcc, 4, row);
+//        grid.addComponent(fldNumTot, 5, row);
+//        grid.addComponent(fldNumAvail, 6, row);
+//
+//        // Riga dei prezzi
+//        row = 2;
+//        Label labelPrice = new Label("prezzo");
+//        grid.addComponent(labelPrice, 0, row);
+//        grid.setComponentAlignment(labelPrice, Alignment.MIDDLE_RIGHT);
+//        grid.addComponent(fldImpInt, 1, row);
+//        grid.addComponent(fldImpRid, 2, row);
+//        grid.addComponent(fldImpDis, 3, row);
+//        grid.addComponent(fldImpAcc, 4, row);
+//        grid.addComponent(fldImpTot, 5, row);
+//
+//        return grid;
+//    }
+
+
+
+
+    private Component creaRigaPersone() {
 
         // recupera i Fields
         Field fldNumInt = getField(Prenotazione_.numInteri);
-        Label lblNumInt = new Label(fldNumInt.getCaption());
-        fldNumInt.setCaption(null);
-
         Field fldNumRid = getField(Prenotazione_.numRidotti);
-        Label lblNumRid = new Label(fldNumRid.getCaption());
-        fldNumRid.setCaption(null);
-
         Field fldNumDis = getField(Prenotazione_.numDisabili);
-        Label lblNumDis = new Label(fldNumDis.getCaption());
-        fldNumDis.setCaption(null);
-
         Field fldNumAcc = getField(Prenotazione_.numAccomp);
-        Label lblNumAcc = new Label(fldNumAcc.getCaption());
-        fldNumAcc.setCaption(null);
-
         Field fldNumTot = fieldNumTotale;
-        Label lblNumTot = new Label(fldNumTot.getCaption());
-        fldNumTot.setCaption(null);
-
         Field fldNumAvail = fieldDisponibili;
-        Label lblNumAvail = new Label(fldNumAvail.getCaption());
-        fldNumAvail.setCaption(null);
 
+        GridLayout grid = new GridLayout(6, 1);
+        grid.setSpacing(true);
+        grid.setCaption("n. posti");
+        grid.addComponent(fldNumInt);
+        grid.addComponent(fldNumRid);
+        grid.addComponent(fldNumDis);
+        grid.addComponent(fldNumAcc);
+        grid.addComponent(fldNumTot);
+        grid.addComponent(fldNumAvail);
+
+        return grid;
+
+    }
+
+    private Component creaRigaPrezzi() {
+
+        // recupera i Fields
         Field fldImpInt = getField(Prenotazione_.importoIntero);
         fldImpInt.setCaption(null);
 
@@ -532,53 +629,27 @@ public class PrenotazioneForm extends AForm {
         Field fldImpTot = fieldImportoTotale;
         fldImpTot.setCaption(null);
 
-
-        // grid persone e prezzi
-        GridLayout grid = new GridLayout(7, 3);
+        GridLayout grid = new GridLayout(5, 1);
         grid.setSpacing(true);
-        int row;
-
-
-        // Riga dei titoli
-        row = 0;
-        grid.addComponent(lblNumInt, 1, row);
-        grid.addComponent(lblNumRid, 2, row);
-        grid.addComponent(lblNumDis, 3, row);
-        grid.addComponent(lblNumAcc, 4, row);
-        grid.addComponent(lblNumTot, 5, row);
-        grid.addComponent(lblNumAvail, 6, row);
-
-        // Riga degli spettatori
-        row = 1;
-        Label labelNum = new Label("quantità");
-        grid.addComponent(labelNum, 0, row);
-        grid.setComponentAlignment(labelNum, Alignment.MIDDLE_RIGHT);
-        grid.addComponent(fldNumInt, 1, row);
-        grid.addComponent(fldNumRid, 2, row);
-        grid.addComponent(fldNumDis, 3, row);
-        grid.addComponent(fldNumAcc, 4, row);
-        grid.addComponent(fldNumTot, 5, row);
-        grid.addComponent(fldNumAvail, 6, row);
-
-        // Riga dei prezzi
-        row = 2;
-        Label labelPrice = new Label("prezzo");
-        grid.addComponent(labelPrice, 0, row);
-        grid.setComponentAlignment(labelPrice, Alignment.MIDDLE_RIGHT);
-        grid.addComponent(fldImpInt, 1, row);
-        grid.addComponent(fldImpRid, 2, row);
-        grid.addComponent(fldImpDis, 3, row);
-        grid.addComponent(fldImpAcc, 4, row);
-        grid.addComponent(fldImpTot, 5, row);
+        grid.setCaption("prezzo");
+        grid.addComponent(fldImpInt);
+        grid.addComponent(fldImpRid);
+        grid.addComponent(fldImpDis);
+        grid.addComponent(fldImpAcc);
+        grid.addComponent(fldImpTot);
 
         return grid;
+
     }
 
+
+
     private Component creaTabPagamento() {
-        Layout layout = new AFormLayout();
+        AFormLayout layout = new AFormLayout();
+        layout.setMargin(true);
 
         fieldImportoTotale2 = new DecimalField("Importo");
-        fieldImportoTotale2.setWidth("80px");
+        fieldImportoTotale2.setWidth("6em");
         fieldImportoTotale2.setReadOnly(true);
 
 
@@ -622,7 +693,7 @@ public class PrenotazioneForm extends AForm {
         // tipo di tiporicevuta
         layout.addComponent(getField(Prenotazione_.tipoRicevuta));
 
-        return incapsulaPerMargine(layout);
+        return layout;
 
     }
 
@@ -632,10 +703,10 @@ public class PrenotazioneForm extends AForm {
         VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
         layout.setSpacing(true);
-        layout.setWidth("100%");
+        layout.setWidth("64em");
 
         eventsTable = new EventiInPrenTable();
-        eventsTable.setPageLength(10);
+        eventsTable.setPageLength(7);
         JPAContainer container = eventsTable.getJPAContainer();
 
         SingularAttribute attr = EventoPren_.prenotazione;
@@ -652,7 +723,7 @@ public class PrenotazioneForm extends AForm {
         comp.setWidth("100%");
         layout.addComponent(comp);
 
-        return incapsulaPerMargine(layout);
+        return layout;
     }
 
 //	/**
@@ -889,7 +960,7 @@ public class PrenotazioneForm extends AForm {
      * Per la prenotazione corrente, non considera i posti registrati sul db ma
      * considera quelli correntemente presenti nella scheda
      */
-    private int getPostiDisponibili(){
+    private int getPostiDisponibili() {
         int disponibili = 0;
         Rappresentazione questaRapp = null;
 
@@ -903,7 +974,7 @@ public class PrenotazioneForm extends AForm {
 
             // tolgo questa come risulta dal db
             Prenotazione prenDb = Prenotazione.read(getItemId());
-            if(prenDb!=null){
+            if (prenDb != null) {
                 if (!prenDb.isCongelata()) {
                     disponibili += prenDb.getNumTotali();
                 }
@@ -921,8 +992,6 @@ public class PrenotazioneForm extends AForm {
     }
 
 
-
-
     private boolean save() {
         boolean saved;
 
@@ -933,7 +1002,7 @@ public class PrenotazioneForm extends AForm {
             // avviso posti esauriti
             int disponibili = getPostiDisponibili();
             if (disponibili < 0) {
-                Notification.show("Attenzione", "\nPosti esauriti! ("+disponibili+")", Notification.Type.WARNING_MESSAGE);
+                Notification.show("Attenzione", "\nPosti esauriti! (" + disponibili + ")", Notification.Type.WARNING_MESSAGE);
             }
 
             // se si tratta di nuova prenotazione, eventualmente invia email di istruzioni
@@ -1027,13 +1096,13 @@ public class PrenotazioneForm extends AForm {
 
 
         // presenta il dialogo di conferma
-        if(cont){
-            Date dataConf=new Date();
-            final DialogoConfermaPrenotazione dialogoConferma=new DialogoConfermaPrenotazione(new ConfirmDialog.Listener() {
+        if (cont) {
+            Date dataConf = new Date();
+            final DialogoConfermaPrenotazione dialogoConferma = new DialogoConfermaPrenotazione(new ConfirmDialog.Listener() {
                 @Override
                 public void onClose(ConfirmDialog dialog, boolean confirmed) {
-                    if(confirmed){
-                        Date dataConferma=((DialogoConfermaPrenotazione)dialog).getDataConferma();
+                    if (confirmed) {
+                        Date dataConferma = ((DialogoConfermaPrenotazione) dialog).getDataConferma();
 
                         // invia la mail di istruzioni in un thread separato
                         // (usa una lambda al posto del runnable)

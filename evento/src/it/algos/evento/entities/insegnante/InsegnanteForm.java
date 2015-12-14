@@ -96,7 +96,8 @@ public class InsegnanteForm extends AForm {
 	}
 
 	protected Component createComponent() {
-		Layout layout = new AFormLayout();
+		AFormLayout layout = new AFormLayout();
+		layout.setMargin(true);
 		layout.addComponent(getField(Insegnante_.titolo));
 		layout.addComponent(getField(Insegnante_.cognome));
 		layout.addComponent(getField(Insegnante_.nome));
@@ -112,7 +113,7 @@ public class InsegnanteForm extends AForm {
 		// dopo aver creato i componenti simula un change di privato per sincronizzare la UI
 		onPrivatoChange();
 
-		return incapsulaPerMargine(layout);
+		return layout;
 	}// end of method
 
 	/**

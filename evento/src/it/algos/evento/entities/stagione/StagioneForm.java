@@ -3,6 +3,7 @@ package it.algos.evento.entities.stagione;
 import com.vaadin.data.Item;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Layout;
 import it.algos.webbase.web.field.DateField;
 import it.algos.webbase.web.field.TextField;
@@ -52,11 +53,13 @@ public class StagioneForm extends AForm {
 	}
 
 	protected Component createComponent() {
-		Layout layout = new AFormLayout();
+		FormLayout layout = new AFormLayout();
+		layout.setMargin(true);
+
 		layout.addComponent(getField(Stagione_.sigla));
 		layout.addComponent(getField(Stagione_.datainizio));
 		layout.addComponent(getField(Stagione_.datafine));
-		return incapsulaPerMargine(layout);
+		return layout;
 	}
 
 }

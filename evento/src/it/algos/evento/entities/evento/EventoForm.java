@@ -88,7 +88,8 @@ public class EventoForm extends AForm {
 	}
 
 	protected Component createComponent() {
-		Layout layout = new AFormLayout();
+		AFormLayout layout = new AFormLayout();
+		layout.setMargin(true);
 		layout.addComponent(getField(Evento_.sigla));
 		layout.addComponent(getField(Evento_.titolo));
 		layout.addComponent(getField(Evento_.progetto));
@@ -98,7 +99,7 @@ public class EventoForm extends AForm {
 		layout.addComponent(getField(Evento_.importoDisabili));
 		layout.addComponent(getField(Evento_.importoAccomp));
 
-		return incapsulaPerMargine(layout);
+		return layout;
 	}// end of method
 
 }

@@ -3,6 +3,7 @@ package it.algos.evento.entities.scuola;
 import com.vaadin.data.Item;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Layout;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
@@ -92,7 +93,9 @@ public class ScuolaForm extends AForm {
 	}
 
 	protected Component createComponent() {
-		Layout layout = new AFormLayout();
+		FormLayout layout = new AFormLayout();
+		layout.setMargin(true);
+
 		layout.addComponent(getField(Scuola_.sigla));
 		layout.addComponent(getField(Scuola_.nome));
 		layout.addComponent(getField(Scuola_.ordine));
@@ -105,7 +108,7 @@ public class ScuolaForm extends AForm {
 		layout.addComponent(getField(Scuola_.email));
 		layout.addComponent(getField(Scuola_.note));
 		
-		return incapsulaPerMargine(layout);
+		return layout;
 	}// end of method
 
 }
