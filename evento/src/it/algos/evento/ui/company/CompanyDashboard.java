@@ -2,14 +2,15 @@ package it.algos.evento.ui.company;
 
 import com.vaadin.data.util.converter.StringToBigDecimalConverter;
 import com.vaadin.data.util.converter.StringToIntegerConverter;
+import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import it.algos.evento.EventoApp;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.EQuery;
+import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.lib.LibSession;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -109,16 +110,38 @@ public class CompanyDashboard extends VerticalLayout {
         addComponent(spacer);
         setExpandRatio(spacer, 1);
 
-        // altre info
+
+        // inizio pannello inferiore
+        HorizontalLayout bottomPanel=new HorizontalLayout();
+        bottomPanel.setWidth("100%");
+        bottomPanel.setHeightUndefined();
+        bottomPanel.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        addComponent(bottomPanel);
+        setExpandRatio(bottomPanel, 0);
+
+        // pannello altre info
         VerticalLayout infoPanel = new VerticalLayout();
-        //infoPanel.addStyleName("greenBg");
         infoPanel.setHeightUndefined();
         infoPanel.setWidthUndefined();
-        infoPanel. addComponent(rappresentazioniPlaceholder);
+        infoPanel.addComponent(rappresentazioniPlaceholder);
         infoPanel.addComponent(prenotazioniRicevutePlaceholder);
         infoPanel.addComponent(postiPrenotatiPlaceholder);
-        addComponent(infoPanel);
-        setExpandRatio(infoPanel,0);
+        bottomPanel.addComponent(infoPanel);
+        bottomPanel.setExpandRatio(infoPanel, 0);
+
+        // spacer orizzontale
+        spacer = new HSpacer();
+        bottomPanel.addComponent(spacer);
+        bottomPanel.setExpandRatio(spacer, 1);
+
+        // logo
+        Resource res=CompanyPrefs.splashImage.getResource();
+        Image img = new Image(null, res);
+        img.setHeight(6, Unit.EM);
+        bottomPanel.addComponent(img);
+        bottomPanel.setExpandRatio(img, 0);
+        // fine pannello inferiore
+
 
         //spacer
         spacer = new VSpacer();
@@ -367,6 +390,22 @@ public class CompanyDashboard extends VerticalLayout {
 
 
     }
+
+
+    /**
+     * Vertical Spacer
+     */
+    private class HSpacer extends Label {
+
+        HSpacer() {
+            setWidth("100%");
+            setHeight("1em");
+            //addStyleName("darkGrayBg");
+        }
+
+
+    }
+
 
 
     /**

@@ -400,6 +400,8 @@ public class EQuery {
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(creaFiltroCompany(root, cb));
         predicates.add(cb.equal(joinEve.get(Evento_.stagione), stagione));
+        //predicates.add(cb.equal(root.get(Prenotazione_.stagione), stagione));
+
 
         cq.where(predicates.toArray(new Predicate[]{}));
 
