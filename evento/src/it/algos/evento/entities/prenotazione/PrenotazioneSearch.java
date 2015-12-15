@@ -94,6 +94,8 @@ public class PrenotazioneSearch extends StagioneSearchManager {
 		grid.addComponent(fLvlSollecitoPaga, 2, 1);
 		layout.addComponent(grid);
 
+		layout.addStyleName("yellowBg");
+
 	}
 
 	
