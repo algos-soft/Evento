@@ -2,6 +2,7 @@ package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.filter.Compare;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.GridLayout;
 import it.algos.evento.entities.evento.Evento;
@@ -54,7 +55,7 @@ public class PrenotazioneSearch extends StagioneSearchManager {
 	// può essere sovrascritto nelle sottoclassi specifiche
 	protected void createFields(FormLayout layout) {
 		fNumPren = new IntegerField("N. prenotazione");
-		fRangeDataPren = new DateRangeComponent("Data prenotazione");
+		fRangeDataPren = new DateRangeComponent("Data prenotazione", false, true);
 		fScuola = new ERelatedComboField(Scuola.class, "Scuola");
 		fInsegnante = new ERelatedComboField(Insegnante.class, "Insegnante");
 		fRappresentazione = new ERelatedComboField(Rappresentazione.class, "Rappresentazione");
@@ -73,6 +74,11 @@ public class PrenotazioneSearch extends StagioneSearchManager {
 
 	}// end of method
 
+
+	@Override
+	protected Component createDetailComponent() {
+		return super.createDetailComponent();
+	}
 
 	private void buildUI(FormLayout layout){
 		layout.addComponent(fNumPren);
@@ -94,7 +100,7 @@ public class PrenotazioneSearch extends StagioneSearchManager {
 		grid.addComponent(fLvlSollecitoPaga, 2, 1);
 		layout.addComponent(grid);
 
-		layout.addStyleName("yellowBg");
+		layout.setMargin(false);
 
 	}
 
