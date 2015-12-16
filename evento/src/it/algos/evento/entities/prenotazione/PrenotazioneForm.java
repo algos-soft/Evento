@@ -11,6 +11,7 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.data.validator.StringLengthValidator;
+import com.vaadin.server.ClientConnector;
 import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -88,6 +89,7 @@ public class PrenotazioneForm extends AForm {
 
     private void doInit() {
         //setMargin(true);
+
     }
 
 
@@ -96,6 +98,18 @@ public class PrenotazioneForm extends AForm {
         super.init();
 
         refreshDettaglioInsegnante();
+
+        // listener invocato quando il componente diventa visibile
+        addAttachListener(new AttachListener() {
+            @Override
+            public void attach(AttachEvent attachEvent) {
+                if (isNewRecord()) {
+                    getWindow().setCaption("Nuova prenotazione");
+                } else {
+                    getWindow().setCaption("Modifica prenotazione");
+                }
+            }
+        });
 
     }
 
@@ -386,16 +400,23 @@ public class PrenotazioneForm extends AForm {
     }
 
     protected Component createComponent() {
+        String width="64em";
+        TabSheet.Tab tab;
 
         TabSheet tabsheet = new TabSheet();
         tabsheet.setWidthUndefined();
-        tabsheet.addTab(creaTabGenerale(), "Generale");
-        tabsheet.addTab(creaTabPagamento(), "Pagamento");
-        tabsheet.addTab(creaTabEventi(), "Eventi e note");
+        tab = tabsheet.addTab(creaTabGenerale(), "Generale");
+        tab.getComponent().setWidth(width);
+        tab = tabsheet.addTab(creaTabPagamento(), "Pagamento");
+        tab.getComponent().setWidth(width);
+        tab = tabsheet.addTab(creaTabEventi(), "Eventi e note");
+        tab.getComponent().setWidth(width);
+
         postLayout();
         return tabsheet;
 
     }// end of method
+
 
     private Component creaTabGenerale() {
 
@@ -703,7 +724,6 @@ public class PrenotazioneForm extends AForm {
         VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
         layout.setSpacing(true);
-        layout.setWidth("64em");
 
         eventsTable = new EventiInPrenTable();
         eventsTable.setPageLength(7);
