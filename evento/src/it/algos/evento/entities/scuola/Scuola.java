@@ -4,6 +4,7 @@ import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.DefaultSort;
 import it.algos.webbase.web.query.AQuery;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -13,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@DefaultSort({"sigla"})
 public class Scuola extends EventoEntity {
 
 	private static final long serialVersionUID = 5063889291780182288L;

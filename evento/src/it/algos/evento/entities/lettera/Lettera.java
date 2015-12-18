@@ -9,6 +9,7 @@ import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.multiazienda.EventoEntityQuery;
 import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.DefaultSort;
 import it.algos.webbase.web.query.AQuery;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -23,6 +24,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 @Entity
+@DefaultSort({"sigla"})
 public class Lettera extends EventoEntity {
 
 	private static final long serialVersionUID = 5232130836430670798L;

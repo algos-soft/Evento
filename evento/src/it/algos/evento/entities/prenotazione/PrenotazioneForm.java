@@ -223,7 +223,7 @@ public class PrenotazioneForm extends AForm {
         addField(Prenotazione_.scuola, comboScuola);
 
         RelatedComboField comboInsegnante = new ERelatedComboField(Insegnante.class, "Insegnante");
-        comboInsegnante.sort(Insegnante_.cognome, Insegnante_.nome);
+        //comboInsegnante.sort(Insegnante_.cognome, Insegnante_.nome);
         comboInsegnante.setNewItemHandler(InsegnanteForm.class, Insegnante_.cognome);
         addField(Prenotazione_.insegnante, comboInsegnante);
 

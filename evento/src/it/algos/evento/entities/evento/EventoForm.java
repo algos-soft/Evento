@@ -63,7 +63,6 @@ public class EventoForm extends AForm {
 		addField(Evento_.titolo, tfield);
 
 		combo = new ERelatedComboField(Progetto.class, "Progetto");
-		combo.sort(Progetto_.descrizione);
 		combo.setWidth("220px");
 		combo.setNewItemHandler(ProgettoForm.class, Progetto_.descrizione);
 		addField(Evento_.progetto, combo);

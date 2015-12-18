@@ -4,6 +4,7 @@ import it.algos.evento.entities.progetto.Progetto;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.EventoEntity;
+import it.algos.webbase.web.entity.DefaultSort;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -17,6 +18,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
+@DefaultSort({"sigla"})
 public class Evento extends EventoEntity {
 
 	private static final long serialVersionUID = 4640617537726384074L;

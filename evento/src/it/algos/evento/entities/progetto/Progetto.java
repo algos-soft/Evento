@@ -1,12 +1,14 @@
 package it.algos.evento.entities.progetto;
 
 import it.algos.evento.multiazienda.EventoEntity;
+import it.algos.webbase.web.entity.DefaultSort;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.Size;
 
 @Entity
+@DefaultSort({"descrizione"})
 public class Progetto extends EventoEntity {
 
 	private static final long serialVersionUID = 7804801140870806369L;

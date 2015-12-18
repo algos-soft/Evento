@@ -24,6 +24,7 @@ import it.algos.webbase.domain.ruolo.Ruolo;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.domain.utenteruolo.UtenteRuolo;
 import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.DefaultSort;
 import it.algos.webbase.web.query.AQuery;
 import it.algos.webbase.web.query.EntityQuery;
 import it.algos.evento.entities.destinatario.Destinatario;
@@ -38,6 +39,7 @@ import java.util.List;
 
 
 @Entity
+@DefaultSort({"companyCode"})
 public class Company extends BaseEntity {
 
 	private static final long serialVersionUID = 8238775575826490450L;
