@@ -19,10 +19,10 @@ public class InfoBarLegend extends HorizontalLayout {
         this.home=home;
         setSizeUndefined();
         setSpacing(true);
-        addComponent(new Element("redGradientBg","Prenotazioni non confermate", EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE));
-        addComponent(new Element("orangeGradientBg","Pagamento non confermato", EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO));
-        addComponent(new Element("goldenGradientBg","Pagamento confermato", EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO));
-        addComponent(new Element("greenGradientBg","Pagamento ricevuto", EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_RICEVUTO));
+        addComponent(new Element("redGradientBg", InfoBar.TEXT_PREN_NOCONF, EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE));
+        addComponent(new Element("orangeGradientBg",InfoBar.TEXT_PAGA_NOCONF, EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO));
+        addComponent(new Element("goldenGradientBg",InfoBar.TEXT_PAGA_CONF, EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO));
+        addComponent(new Element("greenGradientBg",InfoBar.TEXT_PAGA_RIC, EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_RICEVUTO));
     }
 
     /**

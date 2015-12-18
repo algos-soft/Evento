@@ -11,6 +11,7 @@ import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.DefaultSort;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.query.AQuery;
@@ -39,7 +40,7 @@ import java.util.logging.Logger;
 //@Table(indexes = { @Index(name="pippo", columnList={"numPrenotazione"}) })
 
 
-
+@DefaultSort({"numPrenotazione"})
 public class Prenotazione extends EventoEntity {
 
     private static final long serialVersionUID = -6685175938276422883L;

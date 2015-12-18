@@ -236,16 +236,16 @@ public class PrenotazioneTable extends ETable {
     }// end of constructor
 
 
-    /**
-     * Initial sort order for the JPA container
-     * <p>
-     *
-     * @param cont the container to be sorted
-     */
-    protected void sortJPAContainer(JPAContainer cont) {
-        String sortField = Prenotazione_.numPrenotazione.getName();
-        cont.sort(new String[]{sortField}, new boolean[]{true});
-    }// end of method
+//    /**
+//     * Initial sort order for the JPA container
+//     * <p>
+//     *
+//     * @param cont the container to be sorted
+//     */
+//    protected void sortJPAContainer(JPAContainer cont) {
+//        String sortField = Prenotazione_.numPrenotazione.getName();
+//        cont.sort(new String[]{sortField}, new boolean[]{true});
+//    }// end of method
 
 
     public static void registraPagamento(Object id, ATable table) {

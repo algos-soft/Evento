@@ -31,17 +31,17 @@ public class InsegnanteTable extends ETable {
 		setColumnCollapsed(Insegnante_.titolo.getName(), true);
 	}// end of constructor
 
-	/**
-	 * Initial sort order for the JPA container
-	 * <p>
-	 * 
-	 * @param cont
-	 *            the container to be sorted
-	 */
-	protected void sortJPAContainer(JPAContainer cont) {
-		String sortField = Insegnante_.cognome.getName();
-		cont.sort(new String[]{sortField}, new boolean[]{true});
-	}// end of method
+//	/**
+//	 * Initial sort order for the JPA container
+//	 * <p>
+//	 *
+//	 * @param cont
+//	 *            the container to be sorted
+//	 */
+//	protected void sortJPAContainer(JPAContainer cont) {
+//		String sortField = Insegnante_.cognome.getName();
+//		cont.sort(new String[]{sortField}, new boolean[]{true});
+//	}// end of method
 
 	protected Object[] getDisplayColumns() {
 		return new Object[] {

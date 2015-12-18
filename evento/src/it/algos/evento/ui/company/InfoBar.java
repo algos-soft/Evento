@@ -20,6 +20,11 @@ public class InfoBar extends VerticalLayout {
     private Segment segPagaConf;
     private Segment segPagaRic;
 
+    // testi per tooltips, legenda ecc...
+    public static final String TEXT_PREN_NOCONF="prenotazioni non confermate";
+    public static final String TEXT_PAGA_NOCONF="prenotazioni confermate";
+    public static final String TEXT_PAGA_CONF="pagamenti confermati";
+    public static final String TEXT_PAGA_RIC="pagamenti ricevuti";
 
     public InfoBar(String titolo, CompanyHome home, boolean euro) {
         this.home=home;
@@ -28,10 +33,10 @@ public class InfoBar extends VerticalLayout {
         setWidth("100%");
         setSpacing(false);
 
-        segNonConf=new Segment("prenotazioni non confermate","redGradientBg",EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE);
-        segPagaNonConf=new Segment("pagamenti non confermati","orangeGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO);
-        segPagaConf=new Segment("pagamenti confermati","goldenGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO);
-        segPagaRic=new Segment("pagamenti ricevuti", "greenGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_RICEVUTO);
+        segNonConf=new Segment(TEXT_PREN_NOCONF,"redGradientBg",EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE);
+        segPagaNonConf=new Segment(TEXT_PAGA_NOCONF,"orangeGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO);
+        segPagaConf=new Segment(TEXT_PAGA_CONF,"goldenGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO);
+        segPagaRic=new Segment(TEXT_PAGA_RIC, "greenGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_RICEVUTO);
 
         Label label = new Label(titolo);
         label.addStyleName("infoBarTitle");
