@@ -5,6 +5,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import it.algos.evento.entities.prenotazione.MailDialog;
 import it.algos.evento.multiazienda.EModulePop;
+import it.algos.webbase.web.module.ModulePop;
 
 import javax.persistence.metamodel.Attribute;
 import java.util.ArrayList;
@@ -15,6 +16,15 @@ public class MailingModulo extends EModulePop {
     public MailingModulo() {
         super(Mailing.class);
     }// end of constructor
+
+    /**
+     * Crea una sola istanza di un modulo per sessione.
+     * Tutte le finestre e i tab di un browser sono nella stessa sessione.
+     */
+    public static MailingModulo getInstance(){
+        return (MailingModulo) ModulePop.getInstance(MailingModulo.class);
+    }
+
 
     /**
      * Gestione mailing integrata.

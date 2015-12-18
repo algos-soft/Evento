@@ -22,6 +22,7 @@ import it.algos.evento.multiazienda.EROContainer;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
@@ -39,6 +40,14 @@ public class RappresentazioneModulo extends EModulePop {
     public RappresentazioneModulo() {
         super(Rappresentazione.class);
     }// end of constructor
+
+    /**
+     * Crea una sola istanza di un modulo per sessione.
+     * Tutte le finestre e i tab di un browser sono nella stessa sessione.
+     */
+    public static RappresentazioneModulo getInstance(){
+        return (RappresentazioneModulo) ModulePop.getInstance(RappresentazioneModulo.class);
+    }
 
     /**
      * Ritorna i posti prenotati per una data rappresentazione.

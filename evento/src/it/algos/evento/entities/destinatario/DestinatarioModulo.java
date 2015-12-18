@@ -1,6 +1,7 @@
 package it.algos.evento.entities.destinatario;
 
 import it.algos.evento.multiazienda.EModulePop;
+import it.algos.webbase.web.module.ModulePop;
 
 import javax.persistence.metamodel.Attribute;
 
@@ -10,6 +11,14 @@ public class DestinatarioModulo extends EModulePop {
     public DestinatarioModulo() {
         super(Destinatario.class);
     }// end of constructor
+
+    /**
+     * Crea una sola istanza di un modulo per sessione.
+     * Tutte le finestre e i tab di un browser sono nella stessa sessione.
+     */
+    public static DestinatarioModulo getInstance(){
+        return (DestinatarioModulo) ModulePop.getInstance(DestinatarioModulo.class);
+    }
 
     /**
      * Titolo (caption) dei dialogo nuovo record. <br>

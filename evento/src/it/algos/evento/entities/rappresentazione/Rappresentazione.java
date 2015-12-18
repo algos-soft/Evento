@@ -8,6 +8,7 @@ import it.algos.evento.entities.sala.Sala;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.DefaultSort;
+import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.query.AQuery;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 
@@ -59,6 +60,7 @@ public class Rappresentazione extends EventoEntity {
     public Rappresentazione() {
         super();
     }// end of constructor
+
 
     public Rappresentazione(Evento evento, Sala sala, Date dataRappresentazione) {
         super();

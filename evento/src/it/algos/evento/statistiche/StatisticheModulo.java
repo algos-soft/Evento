@@ -9,6 +9,7 @@ import it.algos.evento.statistiche.ControlPanel.SelezioneStatisticaListener;
 import it.algos.evento.statistiche.StatToolbar.TableToolbarListener;
 import it.algos.evento.statistiche.StatisticaBase.ElaboraListener;
 import it.algos.webbase.web.module.Module;
+import it.algos.webbase.web.module.ModulePop;
 
 @SuppressWarnings("serial")
 public class StatisticheModulo extends Module implements SelezioneStatisticaListener, ElaboraListener {
@@ -23,6 +24,15 @@ public class StatisticheModulo extends Module implements SelezioneStatisticaList
 		super();
 		init();
 	}// end of constructor
+
+	/**
+	 * Crea una sola istanza di un modulo per sessione.
+	 * Tutte le finestre e i tab di un browser sono nella stessa sessione.
+	 */
+	public static StatisticheModulo getInstance(){
+		return (StatisticheModulo) ModulePop.getInstance(StatisticheModulo.class);
+	}
+
 
 	/**
 	 * Visualizza un ControlPanel in alto <br>

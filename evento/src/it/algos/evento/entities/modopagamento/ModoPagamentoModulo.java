@@ -8,6 +8,7 @@ import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
 
 import javax.persistence.metamodel.Attribute;
@@ -20,6 +21,14 @@ public class ModoPagamentoModulo extends EModulePop {
 	public ModoPagamentoModulo() {
 		super(ModoPagamento.class);
 	}// end of constructor
+
+	/**
+	 * Crea una sola istanza di un modulo per sessione.
+	 * Tutte le finestre e i tab di un browser sono nella stessa sessione.
+	 */
+	public static ModoPagamentoModulo getInstance(){
+		return (ModoPagamentoModulo) ModulePop.getInstance(ModoPagamentoModulo.class);
+	}
 
 	// come default spazzola tutti i campi della Entity
 	// non garantisce l'ordine con cui vengono presentati i campi

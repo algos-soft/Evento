@@ -8,6 +8,7 @@ import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.search.SearchManager;
 
 import javax.persistence.metamodel.Attribute;
@@ -19,6 +20,14 @@ public class ProgettoModulo extends EModulePop {
 	public ProgettoModulo() {
 		super(Progetto.class);
 	}// end of constructor
+
+	/**
+	 * Crea una sola istanza di un modulo per sessione.
+	 * Tutte le finestre e i tab di un browser sono nella stessa sessione.
+	 */
+	public static ProgettoModulo getInstance(){
+		return (ProgettoModulo) ModulePop.getInstance(ProgettoModulo.class);
+	}
 
 	// come default usa il titolo standard
 	// può essere sovrascritto nelle sottoclassi specifiche

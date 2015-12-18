@@ -6,6 +6,7 @@ import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.web.module.ModulePop;
 
 import javax.persistence.metamodel.Attribute;
 import java.util.List;
@@ -16,6 +17,14 @@ public class SalaModulo extends EModulePop {
 	public SalaModulo() {
 		super(Sala.class);
 	}// end of constructor
+
+	/**
+	 * Crea una sola istanza di un modulo per sessione.
+	 * Tutte le finestre e i tab di un browser sono nella stessa sessione.
+	 */
+	public static SalaModulo getInstance(){
+		return (SalaModulo) ModulePop.getInstance(SalaModulo.class);
+	}
 
 	// come default usa il titolo standard
 	// può essere sovrascritto nelle sottoclassi specifiche

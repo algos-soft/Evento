@@ -125,37 +125,37 @@ public class CompanyHome extends VerticalLayout {
         menubar.addItem("", CompanyPrefs.menubarIcon.getResource(), new MenuCommand(menubar, "splash", splashScreen));
 
         // Menu principali
-        menubar.addItem("Eventi", null, new MenuCommand(menubar, "eventi", new EventoModulo()));
+        menubar.addItem("Eventi", null, new MenuCommand(menubar, "eventi", EventoModulo.getInstance()));
         menubar.addItem("Rappresentazioni", null, new MenuCommand(menubar, "rappresentazioni",
-                new RappresentazioneModulo()));
+                RappresentazioneModulo.getInstance()));
         itemPrenotazioni=menubar.addItem("Prenotazioni", null, new MenuCommand(menubar, "prenotazioni", PrenotazioneModulo.getInstance()));
-        menubar.addItem("Scuole", null, new MenuCommand(menubar, "scuole", new ScuolaModulo()));
-        menubar.addItem("Referenti", null, new MenuCommand(menubar, "referenti", new InsegnanteModulo()));
-        menubar.addItem("Statistiche", null, new MenuCommand(menubar, "statistiche", new StatisticheModulo()));
+        menubar.addItem("Scuole", null, new MenuCommand(menubar, "scuole", ScuolaModulo.getInstance()));
+        menubar.addItem("Referenti", null, new MenuCommand(menubar, "referenti", InsegnanteModulo.getInstance()));
+        menubar.addItem("Statistiche", null, new MenuCommand(menubar, "statistiche", StatisticheModulo.getInstance()));
 
         // Menu tabelle
         item = menubar.addItem("Tabelle", null, null);
-        item.addItem("Progetti", null, new MenuCommand(menubar, "progetti", new ProgettoModulo()));
-        item.addItem("Stagioni", null, new MenuCommand(menubar, "stagioni", new StagioneModulo()));
-        item.addItem("Sale", null, new MenuCommand(menubar, "sale", new SalaModulo()));
-        item.addItem("Comuni", null, new MenuCommand(menubar, "comuni", new ComuneModulo()));
-        item.addItem("Modi di pagamento", null, new MenuCommand(menubar, "pagamenti", new ModoPagamentoModulo()));
-        item.addItem("Tipi di ricevuta", null, new MenuCommand(menubar, "tipiricevuta", new TipoRicevutaModulo()));
-        item.addItem("Ordini scuole", null, new MenuCommand(menubar, "ordiniscuola", new OrdineScuolaModulo()));
-        item.addItem("Lettere base", null, new MenuCommand(menubar, "letterebase", new LetteraModulo()));
-        item.addItem("Registro eventi prenotazioni", null, new MenuCommand(menubar, "registroeventipren", new EventoPrenModulo()));
-        item.addItem("Registro spedizioni", null, new MenuCommand(menubar, "registrospedizioni", new SpedizioneModulo()));
+        item.addItem("Progetti", null, new MenuCommand(menubar, "progetti", ProgettoModulo.getInstance()));
+        item.addItem("Stagioni", null, new MenuCommand(menubar, "stagioni", StagioneModulo.getInstance()));
+        item.addItem("Sale", null, new MenuCommand(menubar, "sale", SalaModulo.getInstance()));
+        item.addItem("Comuni", null, new MenuCommand(menubar, "comuni", ComuneModulo.getInstance()));
+        item.addItem("Modi di pagamento", null, new MenuCommand(menubar, "pagamenti", ModoPagamentoModulo.getInstance()));
+        item.addItem("Tipi di ricevuta", null, new MenuCommand(menubar, "tipiricevuta", TipoRicevutaModulo.getInstance()));
+        item.addItem("Ordini scuole", null, new MenuCommand(menubar, "ordiniscuola", OrdineScuolaModulo.getInstance()));
+        item.addItem("Lettere base", null, new MenuCommand(menubar, "letterebase", LetteraModulo.getInstance()));
+        item.addItem("Registro eventi prenotazioni", null, new MenuCommand(menubar, "registroeventipren", EventoPrenModulo.getInstance()));
+        item.addItem("Registro spedizioni", null, new MenuCommand(menubar, "registrospedizioni", SpedizioneModulo.getInstance()));
         item.addItem("Configurazione", null, new MenuCommand(menubar, "config", new ConfigScreen()));
         if (LibSession.isDeveloper()) { //@todo da fissare nella versione definitiva in cui si vende questa funzionalità
-            item.addItem("Mailing", null, new MenuCommand(menubar, "mailing", new MailingModulo()));
-            item.addItem("Destinatari", null, new MenuCommand(menubar, "destinatarimailing", new DestinatarioModulo()));
+            item.addItem("Mailing", null, new MenuCommand(menubar, "mailing", MailingModulo.getInstance()));
+            item.addItem("Destinatari", null, new MenuCommand(menubar, "destinatarimailing", DestinatarioModulo.getInstance()));
         }// fine del blocco if
 
 
         // Menu aiuto
         item = menubar.addItem("Aiuto", null, null);
-        item.addItem("Informazioni", null, new MenuCommand(menubar, "info", new InfoModulo()));
-        item.addItem("Manuale", null, new MenuCommand(menubar, "help", new HelpModulo()));
+        item.addItem("Informazioni", null, new MenuCommand(menubar, "info", InfoModulo.getInstance()));
+        item.addItem("Manuale", null, new MenuCommand(menubar, "help", HelpModulo.getInstance()));
 
         // Modo Programmatore
         if (LibSession.isDeveloper()) {

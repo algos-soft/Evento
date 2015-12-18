@@ -6,6 +6,7 @@ import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.scuola.Scuola_;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
 
@@ -19,6 +20,14 @@ public class ComuneModulo extends EModulePop {
 	public ComuneModulo() {
 		super(Comune.class);
 	}// end of constructor
+
+	/**
+	 * Crea una sola istanza di un modulo per sessione.
+	 * Tutte le finestre e i tab di un browser sono nella stessa sessione.
+	 */
+	public static ComuneModulo getInstance(){
+		return (ComuneModulo) ModulePop.getInstance(ComuneModulo.class);
+	}
 
 	// come default usa il titolo standard
 	// può essere sovrascritto nelle sottoclassi specifiche

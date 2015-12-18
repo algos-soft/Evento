@@ -13,6 +13,7 @@ import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.multiazienda.ERWContainer;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
@@ -32,6 +33,14 @@ public class StagioneModulo extends EModulePop {
 
     public StagioneModulo() {
         super(Stagione.class);
+    }
+
+    /**
+     * Crea una sola istanza di un modulo per sessione.
+     * Tutte le finestre e i tab di un browser sono nella stessa sessione.
+     */
+    public static StagioneModulo getInstance(){
+        return (StagioneModulo) ModulePop.getInstance(StagioneModulo.class);
     }
 
     public TablePortal createTablePortal() {

@@ -16,6 +16,7 @@ import it.algos.webbase.web.AlgosApp;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.lib.LibFile;
+import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.query.AQuery;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.updown.FileUploader;
@@ -82,6 +83,15 @@ public class AllegatoModulo extends EModulePop {
 	public AllegatoModulo() {
 		super(Allegato.class);
 	}// end of constructor
+
+	/**
+	 * Crea una sola istanza di un modulo per sessione.
+	 * Tutte le finestre e i tab di un browser sono nella stessa sessione.
+	 */
+	public static AllegatoModulo getInstance(){
+		return (AllegatoModulo) ModulePop.getInstance(AllegatoModulo.class);
+	}
+
 
 	protected Attribute<?, ?>[] creaFieldsAll() {
 		return new Attribute[] { Allegato_.name };
