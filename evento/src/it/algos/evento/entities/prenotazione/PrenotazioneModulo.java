@@ -7,8 +7,10 @@ import com.vaadin.data.Property;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.server.Page;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.Window;
 import it.algos.evento.EventoApp;
 import it.algos.evento.EventoBootStrap;
 import it.algos.evento.entities.company.Company;
@@ -34,9 +36,11 @@ import it.algos.webbase.web.field.EmailField;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.lib.LibSession;
+import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
+import it.algos.webbase.web.ui.AlgosUI;
 import org.joda.time.DateTime;
 
 import java.math.BigDecimal;
@@ -48,6 +52,7 @@ import java.util.logging.Logger;
 
 @SuppressWarnings("serial")
 public class PrenotazioneModulo extends EModulePop {
+
 
     public static final String PROP_PROGETTO = Rappresentazione.class.getSimpleName().toLowerCase() + "." + Rappresentazione_.evento.getName() + "." + Evento_.progetto.getName();
     public static final String PROP_EVENTO = Rappresentazione.class.getSimpleName().toLowerCase() + "." + Rappresentazione_.evento.getName();
@@ -131,6 +136,14 @@ public class PrenotazioneModulo extends EModulePop {
 
     }// end of constructor
 
+
+    /**
+     * Crea una sola istanza di un modulo per sessione.
+     * Tutte le finestre e i tab di un browser sono nella stessa sessione.
+     */
+    public static PrenotazioneModulo getInstance(){
+        return (PrenotazioneModulo)ModulePop.getInstance(PrenotazioneModulo.class);
+    }
 
     /**
      * Assegna un nuovo filtro alla table

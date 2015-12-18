@@ -11,11 +11,12 @@ import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.webbase.web.lib.LibUUID;
 import it.algos.webbase.web.query.AQuery;
+import it.algos.webbase.web.ui.AlgosUI;
 
 @SuppressWarnings("serial")
 @Theme("asteriacultura")
 @Title("eVento - conferma prenotazione")
-public class ConfermaPrenUI extends UI {
+public class ConfermaPrenUI extends AlgosUI {
 
 	@Override
 	protected void init(VaadinRequest request) {

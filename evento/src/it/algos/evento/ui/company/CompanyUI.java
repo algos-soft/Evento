@@ -13,6 +13,7 @@ import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
+import it.algos.webbase.web.ui.AlgosUI;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +24,7 @@ import java.util.logging.Logger;
 @Theme("asteriacultura")
 //@Theme("valo")
 @Title("eVento")
-public class CompanyUI extends UI {
+public class CompanyUI extends AlgosUI {
 
     private final static Logger logger = Logger.getLogger(CompanyUI.class.getName());
 

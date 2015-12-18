@@ -74,17 +74,17 @@ public class StagioneTable extends ETable {
 
 
 
-	/**
-	 * Initial sort order for the JPA container
-	 * <p>
-	 *
-	 * @param cont
-	 *            the container to be sorted
-	 */
-	protected void sortJPAContainer(JPAContainer cont) {
-		String sortField = Stagione_.datainizio.getName();
-		cont.sort(new String[] { sortField }, new boolean[] { true });
-	}
+//	/**
+//	 * Initial sort order for the JPA container
+//	 * <p>
+//	 *
+//	 * @param cont
+//	 *            the container to be sorted
+//	 */
+//	protected void sortJPAContainer(JPAContainer cont) {
+//		String sortField = Stagione_.datainizio.getName();
+//		cont.sort(new String[] { sortField }, new boolean[] { true });
+//	}
 
 	/**
 	 * Imposta la stagione corrente

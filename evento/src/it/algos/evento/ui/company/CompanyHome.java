@@ -32,12 +32,15 @@ import it.algos.evento.pref.EventoPrefs;
 import it.algos.evento.statistiche.StatisticheModulo;
 import it.algos.evento.ui.*;
 import it.algos.webbase.domain.vers.VersMod;
+import it.algos.webbase.web.Command.MenuCommand;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
 import it.algos.evento.entities.destinatario.DestinatarioModulo;
 import it.algos.evento.entities.mailing.MailingModulo;
 import it.algos.evento.test.StressTest;
+import it.algos.webbase.web.menu.AMenuBar;
+import it.algos.webbase.web.navigator.AlgosNavigator;
 
 import java.util.Collection;
 
@@ -96,7 +99,8 @@ public class CompanyHome extends VerticalLayout {
         setExpandRatio(placeholder, 1.0f);
 
         // crea un Navigator e lo configura in base ai contenuti della MenuBar
-        EventoNavigator navigator = new EventoNavigator(UI.getCurrent(), placeholder);
+        AlgosNavigator navigator = new AlgosNavigator(UI.getCurrent(), placeholder);
+
         navigator.configureFromMenubar(mainBar);
         navigator.navigateTo("splash");
 
@@ -124,7 +128,7 @@ public class CompanyHome extends VerticalLayout {
         menubar.addItem("Eventi", null, new MenuCommand(menubar, "eventi", new EventoModulo()));
         menubar.addItem("Rappresentazioni", null, new MenuCommand(menubar, "rappresentazioni",
                 new RappresentazioneModulo()));
-        itemPrenotazioni=menubar.addItem("Prenotazioni", null, new MenuCommand(menubar, "prenotazioni", new PrenotazioneModulo()));
+        itemPrenotazioni=menubar.addItem("Prenotazioni", null, new MenuCommand(menubar, "prenotazioni", PrenotazioneModulo.getInstance()));
         menubar.addItem("Scuole", null, new MenuCommand(menubar, "scuole", new ScuolaModulo()));
         menubar.addItem("Referenti", null, new MenuCommand(menubar, "referenti", new InsegnanteModulo()));
         menubar.addItem("Statistiche", null, new MenuCommand(menubar, "statistiche", new StatisticheModulo()));

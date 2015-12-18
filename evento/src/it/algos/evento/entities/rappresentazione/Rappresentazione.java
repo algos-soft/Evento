@@ -7,6 +7,7 @@ import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.sala.Sala;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.DefaultSort;
 import it.algos.webbase.web.query.AQuery;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 
@@ -18,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@DefaultSort({"dataRappresentazione"})
 public class Rappresentazione extends EventoEntity {
 
     private static final long serialVersionUID = -3267255652926186175L;

@@ -5,13 +5,14 @@ import com.vaadin.annotations.Title;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 import it.algos.webbase.web.lib.LibSession;
+import it.algos.webbase.web.ui.AlgosUI;
 
 /**
  * UI iniziale di Admin.
  */
 @Theme("asteriacultura")
 @Title("eVento - admin")
-public class AdminUI extends UI {
+public class AdminUI extends AlgosUI {
 
 
     @Override

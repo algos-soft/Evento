@@ -1,12 +1,14 @@
 package it.algos.evento.entities.modopagamento;
 
 import it.algos.evento.multiazienda.EventoEntity;
+import it.algos.webbase.web.entity.DefaultSort;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.Size;
 
 @Entity
+@DefaultSort({"sigla"})
 public class ModoPagamento extends EventoEntity {
 
 	private static final long serialVersionUID = 3897134530007559731L;

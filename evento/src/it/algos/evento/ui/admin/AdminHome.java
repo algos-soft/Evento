@@ -19,10 +19,12 @@ import it.algos.evento.ui.company.CompanySplash;
 import it.algos.webbase.domain.ruolo.RuoloModulo;
 import it.algos.webbase.domain.utente.UtenteModulo;
 import it.algos.webbase.domain.utenteruolo.UtenteRuoloModulo;
+import it.algos.webbase.web.Command.MenuCommand;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
+import it.algos.webbase.web.navigator.AlgosNavigator;
 
 import java.util.Collection;
 
@@ -76,7 +78,7 @@ public class AdminHome extends VerticalLayout {
         setExpandRatio(placeholder, 1.0f);
 
         // crea un Navigator e lo configura in base ai contenuti della MenuBar
-        EventoNavigator nav = new EventoNavigator(UI.getCurrent(), placeholder);
+        AlgosNavigator nav = new AlgosNavigator(UI.getCurrent(), placeholder);
         nav.configureFromMenubar(mainBar);
         nav.navigateTo("splash");
 

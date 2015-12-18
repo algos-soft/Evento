@@ -11,20 +11,20 @@ public class ComuneTable extends ETable{
 		super(modulo);
 	}
 
-
-
-	/**
-	 * Initial sort order for the JPA container
-	 * <p>
-	 * 
-	 * @param cont
-	 *            the container to be sorted
-	 */
-	protected void sortJPAContainer(JPAContainer cont) {
-		String sortField = Comune_.nome.getName();
-		cont.sort(new String[] { sortField }, new boolean[] { true });
-	}// end of method
-
-
+//
+//
+//	/**
+//	 * Initial sort order for the JPA container
+//	 * <p>
+//	 *
+//	 * @param cont
+//	 *            the container to be sorted
+//	 */
+//	protected void sortJPAContainer(JPAContainer cont) {
+//		String sortField = Comune_.nome.getName();
+//		cont.sort(new String[] { sortField }, new boolean[] { true });
+//	}// end of method
+//
+//
 
 }

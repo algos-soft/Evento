@@ -17,17 +17,17 @@ public class ScuolaTable extends ETable {
 
 	}// end of constructor
 
-	/**
-	 * Initial sort order for the JPA container
-	 * <p>
-	 * 
-	 * @param cont
-	 *            the container to be sorted
-	 */
-	protected void sortJPAContainer(JPAContainer cont) {
-		String sortField = Scuola_.sigla.getName();
-		cont.sort(new String[] { sortField }, new boolean[] { true });
-	}// end of method
+//	/**
+//	 * Initial sort order for the JPA container
+//	 * <p>
+//	 *
+//	 * @param cont
+//	 *            the container to be sorted
+//	 */
+//	protected void sortJPAContainer(JPAContainer cont) {
+//		String sortField = Scuola_.sigla.getName();
+//		cont.sort(new String[] { sortField }, new boolean[] { true });
+//	}// end of method
 
 	@Override
 	protected String formatPropertyValue(Object rowId, Object colId, Property property) {
