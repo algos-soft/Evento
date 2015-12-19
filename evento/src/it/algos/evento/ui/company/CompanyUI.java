@@ -1,5 +1,6 @@
 package it.algos.evento.ui.company;
 
+import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.server.VaadinRequest;
@@ -22,8 +23,8 @@ import java.util.logging.Logger;
  * UI iniziale di Company.
  */
 @Theme("asteriacultura")
-//@Theme("valo")
 @Title("eVento")
+//@PreserveOnRefresh
 public class CompanyUI extends AlgosUI {
 
     private final static Logger logger = Logger.getLogger(CompanyUI.class.getName());
