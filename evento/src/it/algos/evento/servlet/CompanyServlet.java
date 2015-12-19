@@ -35,6 +35,10 @@ public class CompanyServlet extends AlgosServlet {
     public void sessionInit(SessionInitEvent event) throws ServiceException {
         super.sessionInit(event);
 
+        int hb = VaadinService.getCurrent().getDeploymentConfiguration().getHeartbeatInterval();
+        logger.log(Level.INFO, "session started: "+event.getSession()+" heartbeat: "+hb);
+
+
         // attempt to login from the cookies
         if(Login.getLogin().loginFromCookies()){
 
@@ -49,27 +53,22 @@ public class CompanyServlet extends AlgosServlet {
         }
 
 
-
-//        event.getSession().addBootstrapListener(new BootstrapListener() {
-//
-//            @Override
-//            public void modifyBootstrapPage(BootstrapPageResponse response) {
-//                response.getDocument().head()
-//                        .getElementsByAttributeValue("rel", "shortcut icon")
-//                        .attr("href", "./VAADIN/themes/asteriacultura/img/favicon.ico");
-//                response.getDocument().head()
-//                        .getElementsByAttributeValue("rel", "icon")
-//                        .attr("href", "./VAADIN/themes/asteriacultura/img/favicon.ico");
-//            }
-//
-//            @Override
-//            public void modifyBootstrapFragment(BootstrapFragmentResponse response) {
-//            }
-//
-//        });
+    }// end of method
 
 
+
+    /**
+     * Called when a Vaadin service session is no longer used.
+     *
+     * @param event the event with details about the destroyed session
+     */
+    @Override
+    public void sessionDestroy(SessionDestroyEvent event) {
+        super.sessionDestroy(event);
+
+        logger.log(Level.INFO, "session terminated: "+event.getSession());
 
     }// end of method
+
 
 }// end of class

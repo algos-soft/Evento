@@ -3,6 +3,7 @@ package it.algos.evento.ui.company;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
+import com.vaadin.server.ClientConnector;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 import it.algos.evento.entities.company.Company;
@@ -28,6 +29,16 @@ import java.util.logging.Logger;
 public class CompanyUI extends AlgosUI {
 
     private final static Logger logger = Logger.getLogger(CompanyUI.class.getName());
+
+    @Override
+    public void attach() {
+        super.attach();
+    }
+
+    @Override
+    public void detach() {
+        super.detach();
+    }
 
     @Override
     protected void init(VaadinRequest request) {
@@ -59,6 +70,39 @@ public class CompanyUI extends AlgosUI {
                 setContent(new CompanyHome());
             }
         }
+
+
+
+        addAttachListener(new AttachListener() {
+            @Override
+            public void attach(AttachEvent attachEvent) {
+                logger.log(Level.INFO, "UI attached: "+CompanyUI.this);
+            }
+        });
+
+
+        addDetachListener(new DetachListener() {
+            @Override
+            public void detach(DetachEvent detachEvent) {
+                logger.log(Level.INFO, "UI detached: "+CompanyUI.this);
+            }
+        });
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while(true){
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    logger.log(Level.INFO, "Last Heartbeat: "+CompanyUI.this.getLastHeartbeatTimestamp());
+//                    logger.log(Level.INFO, "is closing: "+CompanyUI.this.isClosing());
+//                }
+//
+//            }
+//        }).start();
 
     }
 
@@ -100,7 +144,6 @@ public class CompanyUI extends AlgosUI {
                 }
             }
         }
-
 
 
     }
