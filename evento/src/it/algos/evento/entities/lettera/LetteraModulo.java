@@ -24,6 +24,16 @@ public class LetteraModulo extends EModulePop {
 
     private static final String ATTACHMENTS_PREFIX = "[ATTACHMENTS]";
 
+    /**
+     * Costruttore senza parametri
+     * La classe implementa il pattern Singleton.
+     * Per una nuova istanza, usare il metodo statico getInstance.
+     * Usare questo costruttore SOLO con la Reflection dal metodo Module.getInstance
+     * Questo costruttore è pubblico SOLO per l'usa con la Reflection.
+     * Per il pattern Singleton dovrebbe essere privato.
+     *
+     * @deprecated
+     */
     public LetteraModulo() {
         super(Lettera.class);
     }// end of constructor
@@ -34,7 +44,7 @@ public class LetteraModulo extends EModulePop {
      */
     public static LetteraModulo getInstance(){
         return (LetteraModulo) ModulePop.getInstance(LetteraModulo.class);
-    }
+    }// end of singleton constructor
 
     // come default usa il titolo standard
     // può essere sovrascritto nelle sottoclassi specifiche

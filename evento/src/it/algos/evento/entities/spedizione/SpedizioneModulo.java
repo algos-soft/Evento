@@ -11,6 +11,16 @@ import it.algos.webbase.web.table.ATable;
 @SuppressWarnings("serial")
 public class SpedizioneModulo extends EModulePop {
 
+	/**
+	 * Costruttore senza parametri
+	 * La classe implementa il pattern Singleton.
+	 * Per una nuova istanza, usare il metodo statico getInstance.
+	 * Usare questo costruttore SOLO con la Reflection dal metodo Module.getInstance
+	 * Questo costruttore è pubblico SOLO per l'usa con la Reflection.
+	 * Per il pattern Singleton dovrebbe essere privato.
+	 *
+	 * @deprecated
+	 */
 	public SpedizioneModulo() {
 		super(Spedizione.class);
 	}// end of constructor
@@ -21,7 +31,7 @@ public class SpedizioneModulo extends EModulePop {
 	 */
 	public static SpedizioneModulo getInstance(){
 		return (SpedizioneModulo) ModulePop.getInstance(SpedizioneModulo.class);
-	}
+	}// end of singleton constructor
 
 	@Override
 	public AForm createForm(Item item) {

@@ -80,6 +80,16 @@ public class AllegatoModulo extends EModulePop {
 		added, deleted, renamed;
 	}// end of enumeration
 
+	/**
+	 * Costruttore senza parametri
+	 * La classe implementa il pattern Singleton.
+	 * Per una nuova istanza, usare il metodo statico getInstance.
+	 * Usare questo costruttore SOLO con la Reflection dal metodo Module.getInstance
+	 * Questo costruttore è pubblico SOLO per l'usa con la Reflection.
+	 * Per il pattern Singleton dovrebbe essere privato.
+	 *
+	 * @deprecated
+	 */
 	public AllegatoModulo() {
 		super(Allegato.class);
 	}// end of constructor
@@ -90,7 +100,7 @@ public class AllegatoModulo extends EModulePop {
 	 */
 	public static AllegatoModulo getInstance(){
 		return (AllegatoModulo) ModulePop.getInstance(AllegatoModulo.class);
-	}
+	}// end of singleton constructor
 
 
 	protected Attribute<?, ?>[] creaFieldsAll() {
@@ -322,4 +332,4 @@ public class AllegatoModulo extends EModulePop {
 		return allegato;
 	}
 
-}
+}// end of class

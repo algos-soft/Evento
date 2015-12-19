@@ -14,6 +14,16 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class SalaModulo extends EModulePop {
 
+	/**
+	 * Costruttore senza parametri
+	 * La classe implementa il pattern Singleton.
+	 * Per una nuova istanza, usare il metodo statico getInstance.
+	 * Usare questo costruttore SOLO con la Reflection dal metodo Module.getInstance
+	 * Questo costruttore è pubblico SOLO per l'usa con la Reflection.
+	 * Per il pattern Singleton dovrebbe essere privato.
+	 *
+	 * @deprecated
+	 */
 	public SalaModulo() {
 		super(Sala.class);
 	}// end of constructor
@@ -24,7 +34,7 @@ public class SalaModulo extends EModulePop {
 	 */
 	public static SalaModulo getInstance(){
 		return (SalaModulo) ModulePop.getInstance(SalaModulo.class);
-	}
+	}// end of singleton constructor
 
 	// come default usa il titolo standard
 	// può essere sovrascritto nelle sottoclassi specifiche

@@ -13,6 +13,16 @@ import java.util.ArrayList;
 @SuppressWarnings("serial")
 public class MailingModulo extends EModulePop {
 
+    /**
+     * Costruttore senza parametri
+     * La classe implementa il pattern Singleton.
+     * Per una nuova istanza, usare il metodo statico getInstance.
+     * Usare questo costruttore SOLO con la Reflection dal metodo Module.getInstance
+     * Questo costruttore è pubblico SOLO per l'usa con la Reflection.
+     * Per il pattern Singleton dovrebbe essere privato.
+     *
+     * @deprecated
+     */
     public MailingModulo() {
         super(Mailing.class);
     }// end of constructor
@@ -23,7 +33,7 @@ public class MailingModulo extends EModulePop {
      */
     public static MailingModulo getInstance(){
         return (MailingModulo) ModulePop.getInstance(MailingModulo.class);
-    }
+    }// end of singleton constructor
 
 
     /**
