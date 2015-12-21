@@ -19,10 +19,10 @@
         <param-value>false</param-value>
     </context-param>
 
-    <!--<context-param>-->
-        <!--<param-name>heartbeatInterval</param-name>-->
-        <!--<param-value>3</param-value>-->
-    <!--</context-param>-->
+    <context-param>
+        <param-name>heartbeatInterval</param-name>
+        <param-value>3</param-value>
+    </context-param>
 
     <!--<session-config>-->
         <!--<session-timeout>1</session-timeout>-->

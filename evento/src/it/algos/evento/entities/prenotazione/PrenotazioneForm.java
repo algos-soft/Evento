@@ -29,6 +29,7 @@ import it.algos.evento.entities.prenotazione.PrenotazioneFormToolbar.Prenotazion
 import it.algos.evento.entities.prenotazione.eventi.EventiInPrenTable;
 import it.algos.evento.entities.prenotazione.eventi.EventoPrenTable;
 import it.algos.evento.entities.prenotazione.eventi.EventoPren_;
+import it.algos.evento.entities.prenotazione.eventi.TipoEventoPren;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.rappresentazione.RappresentazioneModulo;
 import it.algos.evento.entities.rappresentazione.Rappresentazione_;
@@ -47,6 +48,7 @@ import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.AFormLayout;
 import it.algos.webbase.web.lib.Lib;
+import it.algos.webbase.web.module.Module;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.toolbar.FormToolbar;
 import it.algos.webbase.web.toolbar.FormToolbar.FormToolbarListener;
@@ -1040,7 +1042,7 @@ public class PrenotazioneForm extends AForm {
                                 String detail = pren.toStringNumDataInsegnante();
 
                                 try {
-                                    PrenotazioneModulo.doInvioIstruzioni(pren, getUsername());
+                                    getPrenotazioneModulo().doInvioIstruzioniModulo(pren, getUsername());
                                     notification1 = new Notification("Inviata email di istruzioni", detail, Notification.Type.HUMANIZED_MESSAGE);
                                 } catch (EmailFailedException e) {
                                     notification1 = new Notification("Invio email istruzioni fallito: " + e.getMessage(), detail, Notification.Type.ERROR_MESSAGE);
@@ -1137,7 +1139,7 @@ public class PrenotazioneForm extends AForm {
 
                                         // questo comando scrive i campi e salva la prenotazione
                                         // ed eventualmente invia la mail
-                                        PrenotazioneModulo.doConfermaPrenotazione(pren, dataConferma, user);
+                                        getPrenotazioneModulo().doConfermaPrenotazioneModulo(pren, dataConferma, user);
 
                                         String inviata = "";
                                         if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
@@ -1174,6 +1176,13 @@ public class PrenotazioneForm extends AForm {
         return EventoBootStrap.getUsername();
     }
 
-    // hello
+    private PrenotazioneModulo getPrenotazioneModulo(){
+        PrenotazioneModulo pm=null;
+        Module mod = getModule();
+        if(mod!=null && mod instanceof PrenotazioneModulo){
+            pm=(PrenotazioneModulo)mod;
+        }
+        return  pm;
+    }
 
 }

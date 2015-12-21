@@ -14,6 +14,7 @@ import it.algos.webbase.web.importexport.ExportManager;
 import it.algos.webbase.web.importexport.ExportProvider;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
 import it.algos.webbase.web.toolbar.Toolbar;
 import it.algos.evento.entities.mailing.MailingModulo;
@@ -98,7 +99,7 @@ public class PrenotazioneTablePortal extends TablePortal {
 
                 // controllo selezione
                 if (id != null) {
-                    PrenotazioneTable.registraPagamento(id, getTable());
+                    getPrenotazioneTable().registraPagamento(id, getTable());
                 } else {
                     msgNoSelection();
                 }
@@ -239,6 +240,19 @@ public class PrenotazioneTablePortal extends TablePortal {
 
 
     }// end of method
+
+
+    /**
+     * Ritorna la table specifica
+     */
+    private PrenotazioneTable getPrenotazioneTable(){
+        PrenotazioneTable pTable=null;
+        ATable table = getTable();
+        if(table!=null && table instanceof PrenotazioneTable){
+            pTable=(PrenotazioneTable)table;
+        }
+        return  pTable;
+    }
 
     /**
      * Gli oggetti selezionati sono SEMPRE dei valori Long

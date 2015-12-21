@@ -50,7 +50,11 @@ public class CompanyDashboard extends VerticalLayout {
         barPosti = new InfoBar("Numero di posti", home, false);
         barImporti = new InfoBar("Importo", home, true);
 
+        // create the UI
         createUI();
+
+        // read the data and update the UI
+        update();
 
     }
 

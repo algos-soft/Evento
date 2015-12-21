@@ -1,18 +1,21 @@
 package it.algos.evento.config;
 
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Accordion;
 
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class ConfigScreen extends Accordion {
+public class ConfigScreen extends Accordion implements View {
 
     private ArrayList<ConfigComponent> configComponents;
 
     public ConfigScreen() {
         super();
+        setSizeFull();
 
-        configComponents = new ArrayList<ConfigComponent>();
+        configComponents = new ArrayList<>();
         configComponents.add(new CompanyDaemonConfigComponent());
         configComponents.add(new EmailConfigComponent());
         configComponents.add(new PrenConfigComponent());
@@ -37,5 +40,9 @@ public class ConfigScreen extends Accordion {
 
     }
 
+
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+    }
 
 }

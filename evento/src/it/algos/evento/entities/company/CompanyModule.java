@@ -25,13 +25,6 @@ public class CompanyModule extends ModulePop implements View {
 		super(Company.class);
 	}// end of constructor
 
-	/**
-	 * Crea una sola istanza di un modulo per sessione.
-	 * Tutte le finestre e i tab di un browser sono nella stessa sessione.
-	 */
-	public static CompanyModule getInstance(){
-		return (CompanyModule)ModulePop.getInstance(CompanyModule.class);
-	}
 
 	// come default spazzola tutti i campi della Entity
 	// non garantisce l'ordine con cui vengono presentati i campi

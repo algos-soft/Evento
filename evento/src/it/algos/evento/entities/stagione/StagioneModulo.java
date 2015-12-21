@@ -34,25 +34,10 @@ public class StagioneModulo extends EModulePop {
 
     /**
      * Costruttore senza parametri
-     * La classe implementa il pattern Singleton.
-     * Per una nuova istanza, usare il metodo statico getInstance.
-     * Usare questo costruttore SOLO con la Reflection dal metodo Module.getInstance
-     * Questo costruttore è pubblico SOLO per l'uso con la Reflection.
-     * Per il pattern Singleton dovrebbe essere privato.
-     *
-     * @deprecated
      */
     public StagioneModulo() {
         super(Stagione.class);
     }// end of constructor
-
-    /**
-     * Crea una sola istanza di un modulo per sessione.
-     * Tutte le finestre e i tab di un browser sono nella stessa sessione.
-     */
-    public static StagioneModulo getInstance(){
-        return (StagioneModulo) ModulePop.getInstance(StagioneModulo.class);
-    }// end of singleton constructor
 
     public TablePortal createTablePortal() {
         return new StagioneTablePortal(this);

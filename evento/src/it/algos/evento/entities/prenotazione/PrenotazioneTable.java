@@ -25,6 +25,7 @@ import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibResource;
+import it.algos.webbase.web.module.Module;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
 
@@ -158,22 +159,22 @@ public class PrenotazioneTable extends ETable {
             }
 
             public void handleAction(Action action, Object sender, Object target) {
-                Item rowItem = getTable().getItem(target);
+                Item rowItem = PrenotazioneTable.this.getItem(target);
                 if (rowItem != null) {
                     Object value = rowItem.getItemProperty("id").getValue();
                     long id = Lib.getLong(value);
                     if (id > 0) {
 
                         if (action.equals(actRegistraPagamento)) {
-                            registraPagamento(id, getTable());
+                            registraPagamento(id, PrenotazioneTable.this);
                         }
 
                         if (action.equals(actIstruzioni)) {
-                            PrenotazioneModulo.cmdInviaRiepilogoOpzione(id, getTable());
+                            PrenotazioneModulo.cmdInviaRiepilogoOpzione(id, PrenotazioneTable.this);
                         }
 
                         if (action.equals(actMemoInvioSchedaPren)) {
-                            PrenotazioneModulo.cmdPromemoriaInvioSchedaPrenotazione(id, getTable());
+                            PrenotazioneModulo.cmdPromemoriaInvioSchedaPrenotazione(id, PrenotazioneTable.this);
                         }
 
                         // if (action.equals(actConfPren)) {
@@ -189,16 +190,16 @@ public class PrenotazioneTable extends ETable {
                         }
 
                         if (action.equals(actSpostaAdAltraData)) {
-                            BeanItem[] beans = getTable().getSelectedBeans();
+                            BeanItem[] beans = PrenotazioneTable.this.getSelectedBeans();
                             Prenotazione[] aPren = new Prenotazione[beans.length];
                             for (int i=0;i<aPren.length;i++){
                                 aPren[i]=(Prenotazione)beans[i].getBean();
                             }
-                            PrenotazioneModulo.cmdSpostaPrenotazioni(aPren, getTable());
+                            PrenotazioneModulo.cmdSpostaPrenotazioni(aPren, PrenotazioneTable.this);
                         }
 
                         if (action.equals(actMemoScadPag)) {
-                            PrenotazioneModulo.cmdPromemoriaScadenzaPagamento(id, getTable());
+                            PrenotazioneModulo.cmdPromemoriaScadenzaPagamento(id, PrenotazioneTable.this);
                         }
 
                         if (action.equals(actAttestatoPartecipazione)) {
@@ -212,7 +213,8 @@ public class PrenotazioneTable extends ETable {
             }
         });
 
-        PrenotazioneModulo.addStatusChangeListener(new StatusChangeListener() {
+
+        getPrenotazioneModulo().addStatusChangeListener(new StatusChangeListener() {
 
             @Override
             public void statusChanged(TipoEventoPren tipoEvento) {
@@ -236,19 +238,18 @@ public class PrenotazioneTable extends ETable {
     }// end of constructor
 
 
-//    /**
-//     * Initial sort order for the JPA container
-//     * <p>
-//     *
-//     * @param cont the container to be sorted
-//     */
-//    protected void sortJPAContainer(JPAContainer cont) {
-//        String sortField = Prenotazione_.numPrenotazione.getName();
-//        cont.sort(new String[]{sortField}, new boolean[]{true});
-//    }// end of method
+    private PrenotazioneModulo getPrenotazioneModulo(){
+        PrenotazioneModulo pm=null;
+        Module mod = getModule();
+        if(mod!=null && mod instanceof PrenotazioneModulo){
+            pm=(PrenotazioneModulo)mod;
+        }
+        return  pm;
+    }
 
 
-    public static void registraPagamento(Object id, ATable table) {
+
+    public void registraPagamento(Object id, ATable table) {
 
         boolean cont = true;
         Prenotazione pren = null;
@@ -278,9 +279,6 @@ public class PrenotazioneTable extends ETable {
 
     }
 
-    private PrenotazioneTable getTable() {
-        return this;
-    }
 
 
     @Override

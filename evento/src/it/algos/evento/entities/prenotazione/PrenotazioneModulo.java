@@ -1,6 +1,7 @@
 package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
@@ -57,35 +58,17 @@ public class PrenotazioneModulo extends EModulePop {
     public static final String PROP_PROGETTO = Rappresentazione.class.getSimpleName().toLowerCase() + "." + Rappresentazione_.evento.getName() + "." + Evento_.progetto.getName();
     public static final String PROP_EVENTO = Rappresentazione.class.getSimpleName().toLowerCase() + "." + Rappresentazione_.evento.getName();
     public static final String PROP_STAGIONE = Rappresentazione.class.getSimpleName().toLowerCase() + "." + Rappresentazione_.evento.getName() + "." + Evento_.stagione.getName();
-    private static ArrayList<StatusChangeListener> statusChangeListeners = new ArrayList<StatusChangeListener>();
     private final static Logger logger = Logger.getLogger(PrenotazioneModulo.class.getName());
+    private ArrayList<StatusChangeListener> statusChangeListeners;
 
-    public static void addStatusChangeListener(StatusChangeListener l) {
-        statusChangeListeners.add(l);
-    }
-
-    public interface StatusChangeListener {
-        public void statusChanged(TipoEventoPren tipoEvento);
-    }
-
-    private static void fireStatusChanged(TipoEventoPren tipoEvento) {
-        for (StatusChangeListener l : statusChangeListeners) {
-            l.statusChanged(tipoEvento);
-        }
-    }
 
     /**
      * Costruttore senza parametri
-     * La classe implementa il pattern Singleton.
-     * Per una nuova istanza, usare il metodo statico getInstance.
-     * Usare questo costruttore SOLO con la Reflection dal metodo Module.getInstance
-     * Questo costruttore è pubblico SOLO per l'uso con la Reflection.
-     * Per il pattern Singleton dovrebbe essere privato.
-     *
-     * @deprecated
      */
     public PrenotazioneModulo() {
+
         super(Prenotazione.class);
+
 
         // listener invocato quando il modulo diventa visibile
         addAttachListener(new AttachListener() {
@@ -93,50 +76,50 @@ public class PrenotazioneModulo extends EModulePop {
             public void attach(AttachEvent attachEvent) {
 
                 // prenotazioni in ritardo di conferma prenotazione
-                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_CONFERMA)!=null){
+                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_CONFERMA) != null) {
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_CONFERMA, null);
                     changeFilter(PrenotazioneModulo.getFiltroOpzioniDaConfermare());
                 }
 
                 // prenotazioni in ritardo di conferma pagamento
-                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_PAGAMENTO_1)!=null){
+                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_PAGAMENTO_1) != null) {
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_PAGAMENTO_1, null);
                     changeFilter(PrenotazioneModulo.getFiltroPagamentiDaConfermare());
                 }
 
                 // prenotazioni con pagamento scaduto
-                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_SCADUTO)!=null){
+                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_SCADUTO) != null) {
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_SCADUTO, null);
                     changeFilter(PrenotazioneModulo.getFiltroPagamentiScaduti());
                 }
 
 
                 // prenotazioni non confermate
-                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE)!=null){
+                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE) != null) {
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE, null);
                     changeFilter(PrenotazioneModulo.getFiltroPren(false, null, null));
                 }
 
                 // prenotazioni confermate con pagamento non confermato
-                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO)!=null){
+                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO) != null) {
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO, null);
                     changeFilter(PrenotazioneModulo.getFiltroPren(true, false, false));
                 }
 
                 // prenotazioni confermate con pagamento confermato ma non ricevuto
-                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO)!=null){
+                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO) != null) {
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO, null);
                     changeFilter(PrenotazioneModulo.getFiltroPren(true, true, false));
                 }
 
                 // prenotazioni confermate con pagamento ricevuto
-                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_RICEVUTO)!=null){
+                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_RICEVUTO) != null) {
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_RICEVUTO, null);
                     changeFilter(PrenotazioneModulo.getFiltroPren(true, null, true));
                 }
 
                 // prenotazioni congelate
-                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_CONGELATE)!=null){
+                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_CONGELATE) != null) {
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_CONGELATE, null);
                     changeFilter(PrenotazioneModulo.getFiltroPrenCongelate(Stagione.getStagioneCorrente()));
                 }
@@ -146,19 +129,30 @@ public class PrenotazioneModulo extends EModulePop {
 
     }// end of constructor
 
+    @Override
+    protected void init() {
+        super.init();
+        this.statusChangeListeners=new ArrayList<>();
+    }
 
-    /**
-     * Crea una sola istanza di un modulo per sessione.
-     * Tutte le finestre e i tab di un browser sono nella stessa sessione.
-     */
-    public static PrenotazioneModulo getInstance(){
-        return (PrenotazioneModulo)ModulePop.getInstance(PrenotazioneModulo.class);
+    public void addStatusChangeListener(StatusChangeListener l) {
+        statusChangeListeners.add(l);
+    }
+
+    public interface StatusChangeListener {
+        public void statusChanged(TipoEventoPren tipoEvento);
+    }
+
+    private void fireStatusChanged(TipoEventoPren tipoEvento) {
+        for (StatusChangeListener l : statusChangeListeners) {
+            l.statusChanged(tipoEvento);
+        }
     }
 
     /**
      * Assegna un nuovo filtro alla table
      */
-    private void changeFilter(Filter filter){
+    private void changeFilter(Filter filter) {
         JPAContainer cont = getTable().getJPAContainer();
         cont.removeAllContainerFilters();
         cont.refresh(); // refresh container before applying new filters!
@@ -203,8 +197,8 @@ public class PrenotazioneModulo extends EModulePop {
      */
     public static void cmdInviaRiepilogoOpzione(Object id, ATable table) {
         Prenotazione pren = Prenotazione.read(id);
-        ConfirmDialog dialog = new DialogoInviaRiepilogoOpzione(pren, table);
-        dialog.show(UI.getCurrent());
+        //ConfirmDialog dialog = new DialogoInviaRiepilogoOpzione(pren, table);
+        //dialog.show(UI.getCurrent());
     }
 
     /**
@@ -325,9 +319,11 @@ public class PrenotazioneModulo extends EModulePop {
      */
     private static class DialogoInviaRiepilogoOpzione extends ConfirmDialog {
         private Prenotazione pren;
+        PrenotazioneModulo modulo;
 
-        public DialogoInviaRiepilogoOpzione(Prenotazione pren, ATable table) {
+        public DialogoInviaRiepilogoOpzione(PrenotazioneModulo modulo, Prenotazione pren, ATable table) {
             super(null);
+            this.modulo=modulo;
             this.pren = pren;
             setTitle("Invio riepilogo opzione con istruzioni");
             setMessage("Vuoi inviare il riepilogo opzione?");
@@ -337,7 +333,7 @@ public class PrenotazioneModulo extends EModulePop {
         @Override
         protected void onConfirm() {
             try {
-                doInvioIstruzioni(pren, getUsername());
+                modulo.doInvioIstruzioniModulo(pren, getUsername());
                 Notification notification = new Notification("Riepilogo inviato", Notification.Type.HUMANIZED_MESSAGE);
                 notification.setDelayMsec(-1);
                 notification.show(Page.getCurrent());
@@ -425,7 +421,7 @@ public class PrenotazioneModulo extends EModulePop {
             super(null);
             this.pren = pren;
             setTitle("Congelamento opzione");
-            String msg="Il congelamento di una opzione libera i posti impegnati e blocca " +
+            String msg = "Il congelamento di una opzione libera i posti impegnati e blocca " +
                     "l'invio di ulteriori solleciti.<br>Una email di notifica viene inviata " +
                     "al referente.<br>";
             setMessage(msg);
@@ -523,13 +519,13 @@ public class PrenotazioneModulo extends EModulePop {
      * Invocato dai menu
      */
     public static void cmdSpostaPrenotazioni(final Prenotazione[] aPren, final ATable table) {
-        if (aPren.length>0){
+        if (aPren.length > 0) {
             Evento e = aPren[0].getRappresentazione().getEvento();
             try {
                 DialogoSpostaPrenotazioni dialogo = new DialogoSpostaPrenotazioni(e, aPren, new DialogoSpostaPrenotazioni.OnMoveDoneListener() {
                     @Override
                     public void moveDone(int quante, Rappresentazione dest) {
-                        Notification.show(quante+" prenotazioni spostate.");
+                        Notification.show(quante + " prenotazioni spostate.");
                         table.refreshRowCache();
                     }
                 });
@@ -626,9 +622,17 @@ public class PrenotazioneModulo extends EModulePop {
     public static void doInvioIstruzioni(Prenotazione pren, String user) throws EmailFailedException {
         TipoEventoPren tipoEvento = TipoEventoPren.invioIstruzioni;
         sendEmailEvento(pren, tipoEvento, user);
-        fireStatusChanged(tipoEvento);
         logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
     }
+
+    /**
+     * Invio email istruzioni (no UI) e fire status changed modulo
+     */
+    public void doInvioIstruzioniModulo(Prenotazione pren, String user) throws EmailFailedException {
+        PrenotazioneModulo.doInvioIstruzioni(pren, user);
+        fireStatusChanged(TipoEventoPren.invioIstruzioni);
+    }
+
 
     /**
      * Esecuzione conferma prenotazione (no UI)
@@ -642,7 +646,6 @@ public class PrenotazioneModulo extends EModulePop {
 
         PrenotazioneModulo.creaEvento(pren, tipoEvento, "", getUsername());
 
-        fireStatusChanged(tipoEvento);
         logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
         if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
             sendEmailEvento(pren, tipoEvento, user);
@@ -650,7 +653,16 @@ public class PrenotazioneModulo extends EModulePop {
     }
 
     /**
+     * Esecuzione conferma prenotazione (no UI) e fire status changed modulo
+     */
+    public void doConfermaPrenotazioneModulo(Prenotazione pren, Date dataConferma, String user) throws EmailFailedException {
+        doConfermaPrenotazione(pren, dataConferma, user);
+        fireStatusChanged(TipoEventoPren.confermaPrenotazione);
+    }
+
+    /**
      * Invio promemoria invio scheda prenotazione (no UI)
+     *
      * @param pren la prenotazione
      * @param user l'utente che genera l'evento
      */
@@ -664,12 +676,24 @@ public class PrenotazioneModulo extends EModulePop {
             Date date = new DateTime(LibDate.today()).plusDays(numDays).toDate();
             pren.setScadenzaConferma(date);
             pren.save();
-            fireStatusChanged(tipoEvento);
             logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
             sendEmailEvento(pren, tipoEvento, user);
         }
 
     }
+
+
+    /**
+     * Invio promemoria invio scheda prenotazione (no UI) e fire status changed modulo
+     *
+     * @param pren la prenotazione
+     * @param user l'utente che genera l'evento
+     */
+    public void doPromemoriaInvioSchedaPrenotazioneModulo(Prenotazione pren, String user) throws EmailFailedException {
+        doPromemoriaInvioSchedaPrenotazione(pren, user);
+        fireStatusChanged(TipoEventoPren.promemoriaInvioSchedaPrenotazione);
+    }
+
 
     /**
      * Congelamento opzione (no UI)
@@ -688,29 +712,41 @@ public class PrenotazioneModulo extends EModulePop {
         logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
 
         // invia la mail se previsto, e incrementa il livello di sollecito
-        if(ModelliLettere.congelamentoOpzione.isSend(pren)){
+        if (ModelliLettere.congelamentoOpzione.isSend(pren)) {
             int level = pren.getLivelloSollecitoConferma();
             pren.setLivelloSollecitoConferma(level + 1);
             pren.save();
-            fireStatusChanged(tipoEvento);
             sendEmailEvento(pren, tipoEvento, user);
             emailInviata = true;
         }
-
-        fireStatusChanged(tipoEvento);
 
         return emailInviata;
 
     }
 
+
     /**
-     * Controlli scadenza pagamento (no UI)
+     * Congelamento opzione (no UI)  e fire status changed modulo
+     * <p>
+     *
+     * @return true se ha inviato l'email
      */
-    public static void doPromemoriaScadenzaPagamento(Prenotazione pren, String user) throws EmailFailedException {
+    public boolean doCongelamentoOpzioneModulo(Prenotazione pren, String user) throws EmailFailedException {
+        boolean emailInviata=doCongelamentoOpzione(pren, user);
+        fireStatusChanged(TipoEventoPren.congelamentoOpzione);
+        return  emailInviata;
+    }
+
+        /**
+         * Controlli scadenza pagamento (no UI).
+         * @return true se ha inviato la mail di sollecito e spostato la scadenza
+         */
+    public static boolean doPromemoriaScadenzaPagamento(Prenotazione pren, String user) throws EmailFailedException {
+        boolean eseguito=false;
         TipoEventoPren tipoEvento = TipoEventoPren.promemoriaScadenzaPagamento;
 
         // controlla se la prenotazione è soggetta a invio mail
-        if (ModelliLettere.memoScadPagamento.isSend(pren)){
+        if (ModelliLettere.memoScadPagamento.isSend(pren)) {
 
             // invia la mail, pone il livello di sollecito a 1
             // e prolunga la scadenza a X giorni da oggi
@@ -720,21 +756,37 @@ public class PrenotazioneModulo extends EModulePop {
                 Date date = new DateTime(LibDate.today()).plusDays(numDays).toDate();
                 pren.setScadenzaPagamento(date);
                 pren.save();
-                fireStatusChanged(tipoEvento);
                 logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
                 sendEmailEvento(pren, tipoEvento, user);
+                eseguito=true;
             }
 
         }
 
+        return eseguito;
+
     }
 
+
     /**
-     * Conferma registrazione pagamento (no UI)
-     * <p>
-     *
-     * @return true se ha inviato una o più mail
+     * Controlli scadenza pagamento (no UI) e fire status changed modulo
+     * @return true se ha inviato la mail di sollecito e spostato la scadenza
      */
+    public boolean doPromemoriaScadenzaPagamentoModulo(Prenotazione pren, String user) throws EmailFailedException {
+        boolean eseguito=false;
+        eseguito=doPromemoriaScadenzaPagamento(pren, user);
+        if(eseguito){
+            fireStatusChanged(TipoEventoPren.promemoriaScadenzaPagamento);
+        }
+        return eseguito;
+    }
+
+
+        /**
+         * Conferma registrazione pagamento (no UI)
+         * <p>
+         * @return true se ha inviato una o più mail
+         */
     public static boolean doConfermaRegistrazionePagamento(Prenotazione pren, int numInteri, int numRidotti,
                                                            int numDisabili, int numAccomp, BigDecimal importoPrevisto, BigDecimal importoPagato, ModoPagamento mezzo,
                                                            boolean checkConfermato, boolean checkRicevuto, String user) throws EmailFailedException {
@@ -778,10 +830,9 @@ public class PrenotazioneModulo extends EModulePop {
         // - invio la mail se previsto
         if (accesoConfermato) {
             TipoEventoPren tipo = TipoEventoPren.confermaPagamento;
-            fireStatusChanged(tipo);
             PrenotazioneModulo.creaEvento(pren, tipo, importoPagato.toString(), user);
 
-            if(ModelliLettere.confermaPagamento.isSend(pren)){
+            if (ModelliLettere.confermaPagamento.isSend(pren)) {
                 sendEmailEvento(pren, tipo, user);
                 mailInviata = true;
             }
@@ -793,7 +844,6 @@ public class PrenotazioneModulo extends EModulePop {
         // - invio la mail se previsto
         if (accesoRicevuto) {
             TipoEventoPren tipo = TipoEventoPren.registrazionePagamento;
-            fireStatusChanged(tipo);
             PrenotazioneModulo.creaEvento(pren, tipo, importoPagato.toString(), user);
 
             if (ModelliLettere.registrazionePagamento.isSend(pren)) {
@@ -809,12 +859,35 @@ public class PrenotazioneModulo extends EModulePop {
 
 
     /**
+     * Conferma registrazione pagamento (no UI)e fire status changed modulo
+     * <p>
+     *
+     * @return true se ha inviato una o più mail
+     */
+    public boolean doConfermaRegistrazionePagamentoModulo(Prenotazione pren, int numInteri, int numRidotti,
+                                                           int numDisabili, int numAccomp, BigDecimal importoPrevisto, BigDecimal importoPagato, ModoPagamento mezzo,
+                                                           boolean checkConfermato, boolean checkRicevuto, String user) throws EmailFailedException {
+
+        boolean mailInviata = false;
+        mailInviata=doConfermaRegistrazionePagamento(pren, numInteri, numRidotti, numDisabili, numAccomp, importoPrevisto, importoPagato, mezzo, checkConfermato, checkRicevuto, user);
+
+        // per ora lancio entrambi gli eventi
+        fireStatusChanged(TipoEventoPren.confermaPagamento);
+        fireStatusChanged(TipoEventoPren.registrazionePagamento);
+
+        return mailInviata;
+
+    }
+
+
+
+
+    /**
      * Esecuzione invio attestato di partecipazione (no UI)
      */
     public static void doAttestatoPartecipazione(Prenotazione pren, String user) throws EmailFailedException {
         TipoEventoPren tipoEvento = TipoEventoPren.attestatoPartecipazione;
         PrenotazioneModulo.creaEvento(pren, tipoEvento, "", getUsername());
-        fireStatusChanged(tipoEvento);
         logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
         String addr = pren.getEmailRiferimento();
         if (!addr.equals("")) {
@@ -824,17 +897,25 @@ public class PrenotazioneModulo extends EModulePop {
         }
     }
 
-
     /**
-     * Invia una email per una dato evento di prenotazione.
-     * <p>
-     * I destinatari vengono recuperati dalla prenotazione in base al tipo di lettera
-     * Crea un evento di spedizione mail (anche se l'invio fallisce)
-     *
-     * @param pren       la prenotazione
-     * @param tipoEvento il tipo di evento
-     * @param user       l'utente che genera l'evento
+     * Esecuzione invio attestato di partecipazione (no UI) e fire status changed modulo
      */
+    public void doAttestatoPartecipazioneModulo(Prenotazione pren, String user) throws EmailFailedException {
+        doAttestatoPartecipazione(pren, user);
+        fireStatusChanged(TipoEventoPren.attestatoPartecipazione);
+    }
+
+
+        /**
+         * Invia una email per una dato evento di prenotazione.
+         * <p>
+         * I destinatari vengono recuperati dalla prenotazione in base al tipo di lettera
+         * Crea un evento di spedizione mail (anche se l'invio fallisce)
+         *
+         * @param pren       la prenotazione
+         * @param tipoEvento il tipo di evento
+         * @param user       l'utente che genera l'evento
+         */
     public static void sendEmailEvento(Prenotazione pren, TipoEventoPren tipoEvento, String user)
             throws EmailFailedException {
         sendEmailEvento(pren, tipoEvento, user, null);
@@ -890,7 +971,7 @@ public class PrenotazioneModulo extends EModulePop {
     }
 
     private static void notifyEmailFailed(EmailFailedException e) {
-        Notification notification = new Notification("Invio email fallito", "\n"+e.getMessage(), Notification.Type.ERROR_MESSAGE);
+        Notification notification = new Notification("Invio email fallito", "\n" + e.getMessage(), Notification.Type.ERROR_MESSAGE);
         notification.setDelayMsec(-1);
         notification.show(Page.getCurrent());
     }
@@ -919,7 +1000,7 @@ public class PrenotazioneModulo extends EModulePop {
             throws EmailInfoMissingException {
         HashMap<String, Object> map = new HashMap<String, Object>();
 
-        if(addr==null){
+        if (addr == null) {
             addr = modello.getEmailDestinatari(pren);
         }
 
@@ -1141,7 +1222,6 @@ public class PrenotazioneModulo extends EModulePop {
     }// end of method
 
 
-
     /**
      * Ritorna un filtro che seleziona tutti i pagamenti scaduti e
      * non confermati per la stagione corrente
@@ -1195,21 +1275,21 @@ public class PrenotazioneModulo extends EModulePop {
     /**
      * Ritorna un filtro che seleziona tutte le prenotazioni della stagione corrente
      * secondo i flag Prenotazione Confermata, Pagamento Confermato, Pagamento Ricevuto.
+     *
      * @param prenConf flag per prenotazione confermata (null per non selezionare)
      * @param pagaConf flag per pagamento confermato (null per non selezionare)
-     * @param pagaRic flag per pagamento ricevuto (null per non selezionare)
-     *
+     * @param pagaRic  flag per pagamento ricevuto (null per non selezionare)
      */
     public static Filter getFiltroPren(Boolean prenConf, Boolean pagaConf, Boolean pagaRic) {
         ArrayList<Filter> filters = new ArrayList<Filter>();
         filters.add(new Compare.Equal(PROP_STAGIONE, Stagione.getStagioneCorrente()));
-        if (prenConf!=null){
+        if (prenConf != null) {
             filters.add(new Compare.Equal(Prenotazione_.confermata.getName(), prenConf));
         }
-        if (pagaConf!=null){
+        if (pagaConf != null) {
             filters.add(new Compare.Equal(Prenotazione_.pagamentoConfermato.getName(), pagaConf));
         }
-        if (pagaRic!=null){
+        if (pagaRic != null) {
             filters.add(new Compare.Equal(Prenotazione_.pagamentoRicevuto.getName(), pagaRic));
         }
         Filter outFilter = new And(filters.toArray(new Filter[0]));
@@ -1227,9 +1307,6 @@ public class PrenotazioneModulo extends EModulePop {
         Filter outFilter = new And(filters.toArray(new Filter[0]));
         return outFilter;
     }// end of method
-
-
-
 
 
     private static String getUsername() {
@@ -1300,7 +1377,7 @@ public class PrenotazioneModulo extends EModulePop {
                         Notification.show("Email spedita");
                         super.onConfirm();
                     } else {
-                        Notification notification = new Notification("Invio email fallito", "\n"+sped.getErrore(), Notification.Type.ERROR_MESSAGE);
+                        Notification notification = new Notification("Invio email fallito", "\n" + sped.getErrore(), Notification.Type.ERROR_MESSAGE);
                         notification.setDelayMsec(-1);
                         notification.show(Page.getCurrent());
                     }
@@ -1318,8 +1395,6 @@ public class PrenotazioneModulo extends EModulePop {
 
 
     }
-
-
 
 
 }// end of class

@@ -1,10 +1,7 @@
 package it.algos.evento.ui.company;
 
 import com.vaadin.server.*;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import it.algos.evento.*;
 import it.algos.evento.config.ConfigScreen;
 import it.algos.evento.debug.DialogoCheckPrenScadute;
@@ -27,7 +24,6 @@ import it.algos.evento.entities.tiporicevuta.TipoRicevutaModulo;
 import it.algos.evento.help.HelpModulo;
 import it.algos.evento.info.InfoModulo;
 import it.algos.evento.lib.EventoSessionLib;
-import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.pref.EventoPrefs;
 import it.algos.evento.statistiche.StatisticheModulo;
 import it.algos.evento.ui.*;
@@ -39,7 +35,6 @@ import it.algos.webbase.web.login.Login;
 import it.algos.evento.entities.destinatario.DestinatarioModulo;
 import it.algos.evento.entities.mailing.MailingModulo;
 import it.algos.evento.test.StressTest;
-import it.algos.webbase.web.menu.AMenuBar;
 import it.algos.webbase.web.navigator.AlgosNavigator;
 
 import java.util.Collection;
@@ -52,6 +47,8 @@ public class CompanyHome extends VerticalLayout {
     private CompanySplash splashScreen;
     private MenuBar.MenuItem loginItem; // il menuItem di login
     private MenuBar.MenuItem itemPrenotazioni; // il menuItem di Prenotazioni
+
+
 
     public CompanyHome() {
 
@@ -69,8 +66,8 @@ public class CompanyHome extends VerticalLayout {
         menuLayout.setHeight("32px");
         menuLayout.setWidth("100%");
         menuLayout.addComponent(mainBar);
-        mainBar.setHeight("100%");
         menuLayout.setExpandRatio(mainBar, 1.0f);
+        mainBar.setHeight("100%");
 
         // crea e aggiunge la login bar (se il login utente è abilitato)
         if(EventoPrefs.autoLoginCompany.getInt()==0) {
@@ -92,15 +89,12 @@ public class CompanyHome extends VerticalLayout {
         // a seconda delle selezioni di menu
         NavigatorPlaceholder placeholder = new NavigatorPlaceholder(null);
         placeholder.setSizeFull();
-//        if (DEBUG_GUI) {
-//            placeholder.addStyleName("yellowBg");
-//        }
         addComponent(placeholder);
         setExpandRatio(placeholder, 1.0f);
 
         // crea un Navigator e lo configura in base ai contenuti della MenuBar
-        AlgosNavigator navigator = new AlgosNavigator(UI.getCurrent(), placeholder);
-
+        //AlgosNavigator navigator = new AlgosNavigator(UI.getCurrent(), placeholder);
+        AlgosNavigator navigator = new EventoNavigator(UI.getCurrent(), placeholder);
         navigator.configureFromMenubar(mainBar);
         navigator.navigateTo("splash");
 
@@ -116,46 +110,45 @@ public class CompanyHome extends VerticalLayout {
      */
     private MenuBar createMainMenuBar() {
 
-        splashScreen = new CompanySplash(this, CompanyPrefs.splashImage.getResource());
-
         MenuBar.MenuItem item;
         MenuBar menubar = new MenuBar();
 
-        // Menu Home
-        menubar.addItem("", CompanyPrefs.menubarIcon.getResource(), new MenuCommand(menubar, "splash", splashScreen));
+        // Home menu
+        // no caching, crea nuovo ogni volta che è visualizzata
+        menubar.addItem("Home", FontAwesome.HOME, new MenuCommand(menubar, "splash", CompanySplash.class, false));
 
         // Menu principali
-        menubar.addItem("Eventi", null, new MenuCommand(menubar, "eventi", EventoModulo.getInstance()));
-        menubar.addItem("Rappresentazioni", null, new MenuCommand(menubar, "rappresentazioni",
-                RappresentazioneModulo.getInstance()));
-        itemPrenotazioni=menubar.addItem("Prenotazioni", null, new MenuCommand(menubar, "prenotazioni", PrenotazioneModulo.getInstance()));
-        menubar.addItem("Scuole", null, new MenuCommand(menubar, "scuole", ScuolaModulo.getInstance()));
-        menubar.addItem("Referenti", null, new MenuCommand(menubar, "referenti", InsegnanteModulo.getInstance()));
-        menubar.addItem("Statistiche", null, new MenuCommand(menubar, "statistiche", StatisticheModulo.getInstance()));
+        menubar.addItem("Eventi", null, new MenuCommand(menubar, "eventi",EventoModulo.class));
+        menubar.addItem("Rappresentazioni", null, new MenuCommand(menubar, "rappresentazioni",RappresentazioneModulo.class));
+        itemPrenotazioni=menubar.addItem("Prenotazioni", null, new MenuCommand(menubar, "prenotazioni", PrenotazioneModulo.class));
+        menubar.addItem("Scuole", null, new MenuCommand(menubar, "scuole", ScuolaModulo.class));
+        menubar.addItem("Referenti", null, new MenuCommand(menubar, "referenti", InsegnanteModulo.class));
+        menubar.addItem("Statistiche", null, new MenuCommand(menubar, "statistiche", StatisticheModulo.class));
 
         // Menu tabelle
         item = menubar.addItem("Tabelle", null, null);
-        item.addItem("Progetti", null, new MenuCommand(menubar, "progetti", ProgettoModulo.getInstance()));
-        item.addItem("Stagioni", null, new MenuCommand(menubar, "stagioni", StagioneModulo.getInstance()));
-        item.addItem("Sale", null, new MenuCommand(menubar, "sale", SalaModulo.getInstance()));
-        item.addItem("Comuni", null, new MenuCommand(menubar, "comuni", ComuneModulo.getInstance()));
-        item.addItem("Modi di pagamento", null, new MenuCommand(menubar, "pagamenti", ModoPagamentoModulo.getInstance()));
-        item.addItem("Tipi di ricevuta", null, new MenuCommand(menubar, "tipiricevuta", TipoRicevutaModulo.getInstance()));
-        item.addItem("Ordini scuole", null, new MenuCommand(menubar, "ordiniscuola", OrdineScuolaModulo.getInstance()));
-        item.addItem("Lettere base", null, new MenuCommand(menubar, "letterebase", LetteraModulo.getInstance()));
-        item.addItem("Registro eventi prenotazioni", null, new MenuCommand(menubar, "registroeventipren", EventoPrenModulo.getInstance()));
-        item.addItem("Registro spedizioni", null, new MenuCommand(menubar, "registrospedizioni", SpedizioneModulo.getInstance()));
-        item.addItem("Configurazione", null, new MenuCommand(menubar, "config", new ConfigScreen()));
+        item.addItem("Progetti", null, new MenuCommand(menubar, "progetti", ProgettoModulo.class));
+        item.addItem("Stagioni", null, new MenuCommand(menubar, "stagioni", StagioneModulo.class));
+        item.addItem("Sale", null, new MenuCommand(menubar, "sale", SalaModulo.class));
+        item.addItem("Comuni", null, new MenuCommand(menubar, "comuni", ComuneModulo.class));
+        item.addItem("Modi di pagamento", null, new MenuCommand(menubar, "pagamenti", ModoPagamentoModulo.class));
+        item.addItem("Tipi di ricevuta", null, new MenuCommand(menubar, "tipiricevuta", TipoRicevutaModulo.class));
+        item.addItem("Ordini scuole", null, new MenuCommand(menubar, "ordiniscuola", OrdineScuolaModulo.class));
+        item.addItem("Lettere base", null, new MenuCommand(menubar, "letterebase", LetteraModulo.class));
+        item.addItem("Registro eventi prenotazioni", null, new MenuCommand(menubar, "registroeventipren", EventoPrenModulo.class));
+        item.addItem("Registro spedizioni", null, new MenuCommand(menubar, "registrospedizioni", SpedizioneModulo.class));
+        item.addItem("Configurazione", null, new MenuCommand(menubar, "config", ConfigScreen.class));
+
         if (LibSession.isDeveloper()) { //@todo da fissare nella versione definitiva in cui si vende questa funzionalità
-            item.addItem("Mailing", null, new MenuCommand(menubar, "mailing", MailingModulo.getInstance()));
-            item.addItem("Destinatari", null, new MenuCommand(menubar, "destinatarimailing", DestinatarioModulo.getInstance()));
+            item.addItem("Mailing", null, new MenuCommand(menubar, "mailing", MailingModulo.class));
+            item.addItem("Destinatari", null, new MenuCommand(menubar, "destinatarimailing", DestinatarioModulo.class));
         }// fine del blocco if
 
 
         // Menu aiuto
         item = menubar.addItem("Aiuto", null, null);
-        item.addItem("Informazioni", null, new MenuCommand(menubar, "info", InfoModulo.getInstance()));
-        item.addItem("Manuale", null, new MenuCommand(menubar, "help", HelpModulo.getInstance()));
+        item.addItem("Informazioni", null, new MenuCommand(menubar, "info", InfoModulo.class));
+        item.addItem("Manuale", null, new MenuCommand(menubar, "help", HelpModulo.class));
 
         // Modo Programmatore
         if (LibSession.isDeveloper()) {
