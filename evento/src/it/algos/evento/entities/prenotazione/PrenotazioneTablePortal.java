@@ -94,16 +94,7 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addItem("Registra pagamento...", ICON_REGISTRA_PAGAMENTO, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-
-                Object id = getTable().getSelectedId();
-
-                // controllo selezione
-                if (id != null) {
-                    getPrenotazioneTable().registraPagamento(id, getTable());
-                } else {
-                    msgNoSelection();
-                }
-
+                getPrenotazioneTable().registraPagamento();
             }
         });// end of anonymous class
 

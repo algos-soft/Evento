@@ -8,10 +8,8 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.converter.StringToIntegerConverter;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.event.Action;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Table;
+import com.vaadin.server.Page;
+import com.vaadin.ui.*;
 import it.algos.evento.EventoApp;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.insegnante.Insegnante;
@@ -23,6 +21,7 @@ import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
 import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
+import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.module.Module;
@@ -159,14 +158,18 @@ public class PrenotazioneTable extends ETable {
             }
 
             public void handleAction(Action action, Object sender, Object target) {
+
+                //Prenotazione pren=(Prenotazione)getSelectedBean();
+
                 Item rowItem = PrenotazioneTable.this.getItem(target);
                 if (rowItem != null) {
                     Object value = rowItem.getItemProperty("id").getValue();
+
                     long id = Lib.getLong(value);
                     if (id > 0) {
 
                         if (action.equals(actRegistraPagamento)) {
-                            registraPagamento(id, PrenotazioneTable.this);
+                            registraPagamento();
                         }
 
                         if (action.equals(actIstruzioni)) {
@@ -249,16 +252,23 @@ public class PrenotazioneTable extends ETable {
 
 
 
-    public void registraPagamento(Object id, ATable table) {
+    /**
+     * Lancia la procedura di registrazione pagamento per la prenotazione
+     * correntemente selezionata nella lista
+     */
+    public void registraPagamento() {
 
         boolean cont = true;
-        Prenotazione pren = null;
+
+        // controllo una e una sola selezionata
+        Prenotazione pren=(Prenotazione)getSelectedBean();
+        if(pren==null){
+            cont = false;
+            Notification.show("Seleziona prima una prenotazione.");
+        }
 
         // controllo che sia confermata
         if (cont) {
-
-            pren = Prenotazione.read(id);
-
             if (!pren.isConfermata()) {
                 cont = false;
                 Notification.show("Questa prenotazione non è confermata.");
@@ -273,8 +283,37 @@ public class PrenotazioneTable extends ETable {
             }
         }
 
+        // delega al dialogo
         if (cont) {
-            PrenotazioneModulo.cmdRegistraPagamento(pren, table);
+            DialogoRegistraPagamento dialogo = new DialogoRegistraPagamento(pren);
+            dialogo.setPagamentoRegistratoListener(new DialogoRegistraPagamento.PagamentoRegistratoListener() {
+                @Override
+                public void pagamentoRegistrato(boolean confermato, boolean ricevuto, boolean mailInviata, boolean emailFailed) {
+                    refreshRowCache();
+
+                    String msg="";
+                    if(confermato){
+                        msg="Pagamento confermato";
+                    }
+                    if(ricevuto){
+                        msg="Pagamento ricevuto";
+                    }
+
+                    String strEmail = "";
+                    if (mailInviata) {
+                        strEmail = "e-mail inviata";
+                    }
+                    if (emailFailed) {
+                        strEmail = "Invio e-mail fallito";
+                    }
+
+                    Notification notification = new Notification(msg, strEmail, Notification.Type.HUMANIZED_MESSAGE);
+                    notification.setDelayMsec(-1);
+                    notification.show(Page.getCurrent());
+
+                }
+            });
+            dialogo.show();
         }
 
     }
@@ -528,5 +567,7 @@ public class PrenotazioneTable extends ETable {
             return img;
         }
     }
+
+
 
 }

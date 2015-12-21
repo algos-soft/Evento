@@ -6,6 +6,7 @@ import com.vaadin.data.Validator;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import it.algos.evento.EventoBootStrap;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.modopagamento.ModoPagamento;
@@ -22,6 +23,8 @@ import java.util.Collection;
 
 @SuppressWarnings("serial")
 public class DialogoRegistraPagamento extends ConfirmDialog {
+
+	private PagamentoRegistratoListener prListener;
 
 	private Prenotazione pren;
 	private VerticalLayout placeholderLayout;
@@ -51,8 +54,19 @@ public class DialogoRegistraPagamento extends ConfirmDialog {
 	// list of fields subject to validation
 	ArrayList<Field> validatableFields = new ArrayList<Field>();
 
-	public DialogoRegistraPagamento(Prenotazione pren, Listener closeListener) {
-		super(closeListener);
+	public void setPagamentoRegistratoListener(PagamentoRegistratoListener l){
+		prListener = l;
+	}
+
+	public interface PagamentoRegistratoListener{
+		void pagamentoRegistrato(boolean confermato, boolean ricevuto, boolean emailSent, boolean emailFailed);
+	}
+
+	/**
+	 * @param pren  la prenotazione da registrare pagamento
+	 */
+	public DialogoRegistraPagamento(Prenotazione pren) {
+		super(null);
 		this.pren = pren;
 		setTitle("Registrazione pagamento");
 
@@ -443,13 +457,51 @@ public class DialogoRegistraPagamento extends ConfirmDialog {
 		super.onConfirm();
 		dialogoConfermato();
 	}
-	
-	/**
-	 * Invocato dopo che tutti i controlli sono passati e il dialogo è stato chiuso
-	 */
-	protected void dialogoConfermato(){
+
+	protected void dialogoConfermato() {
+
+		int numInteri = getNumInteri();
+		int numRidotti = getNumRidotti();
+		int numDisabili = getNumDisabili();
+		int numAccomp = getNumAccomp();
+		BigDecimal importoPrevisto = getImportoPrevisto();
+		BigDecimal importoPagato = getImportoPagato();
+		ModoPagamento mezzo = getModoPagamento();
+		boolean confermato = isConfermato();
+		boolean ricevuto = isRicevuto();
+		String user = EventoBootStrap.getUsername();
+
+		// esegue l'operazione di conferma e l'invio mail in un thread separato
+		// al termine dell'operazione viene visualizzata una notifica
+		new Thread(
+				() -> {
+
+					boolean emailSent=false;
+					boolean emailFailed=false;
+					try {
+
+						emailSent = PrenotazioneModulo.doConfermaRegistrazionePagamento(getPren(), numInteri, numRidotti, numDisabili, numAccomp,
+								importoPrevisto, importoPagato, mezzo, confermato, ricevuto, user);
+
+
+					} catch (EmailFailedException e) {
+						PrenotazioneModulo.notifyEmailFailed(e);
+						emailFailed=true;
+					}
+
+					// notifica il listener se registrato
+					if(prListener!=null){
+						prListener.pagamentoRegistrato(confermato, ricevuto, emailSent, emailFailed);
+					}
+
+
+				}
+
+		).start();
+
 	}
 	
+
 	public Prenotazione getPren() {
 		return pren;
 	}
@@ -494,6 +546,7 @@ public class DialogoRegistraPagamento extends ConfirmDialog {
 	public boolean isRicevuto(){
 		return checkRicevuto.getValue();
 	}
+
 
 
 }

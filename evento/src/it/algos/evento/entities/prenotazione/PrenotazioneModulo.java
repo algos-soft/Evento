@@ -452,66 +452,6 @@ public class PrenotazioneModulo extends EModulePop {
         }
     }
 
-    /**
-     * Effettua la registrazione di un pagamento
-     * <p>
-     * Invocato dai menu
-     */
-    public static void cmdRegistraPagamento(final Prenotazione pren, final ATable table) {
-        new DialogoRegistraPagamentoPren(pren, table).show(UI.getCurrent());
-    }
-
-    /**
-     * Dialogo registrazione pagamento prenotazione
-     */
-    private static class DialogoRegistraPagamentoPren extends DialogoRegistraPagamento {
-        private ATable table;
-
-        public DialogoRegistraPagamentoPren(Prenotazione pren, ATable table) {
-            super(pren, null);
-            this.table = table;
-        }
-
-        protected void dialogoConfermato() {
-
-            int numInteri = getNumInteri();
-            int numRidotti = getNumRidotti();
-            int numDisabili = getNumDisabili();
-            int numAccomp = getNumAccomp();
-            BigDecimal importoPrevisto = getImportoPrevisto();
-            BigDecimal importoPagato = getImportoPagato();
-            ModoPagamento mezzo = getModoPagamento();
-            boolean confermato = isConfermato();
-            boolean ricevuto = isRicevuto();
-            String user = getUsername();
-
-            // esegue l'operazione di conferma e l'invio mail in un thread separato
-            // al termine dell'operazione viene visualizzata una notifica
-            new Thread(
-                    () -> {
-                        try {
-
-                            boolean mailInviata = doConfermaRegistrazionePagamento(getPren(), numInteri, numRidotti, numDisabili, numAccomp,
-                                    importoPrevisto, importoPagato, mezzo, confermato, ricevuto, user);
-
-                            String strEmail = "";
-                            if (mailInviata) {
-                                strEmail = "Email inviata";
-                            }
-                            Notification notification = new Notification("Pagamento registrato", strEmail, Notification.Type.HUMANIZED_MESSAGE);
-                            notification.setDelayMsec(-1);
-                            notification.show(Page.getCurrent());
-                        } catch (EmailFailedException e) {
-                            notifyEmailFailed(e);
-                        }
-                        table.refreshRowCache();
-                    }
-
-            ).start();
-
-        }
-
-    }
 
     /**
      * Sposta delle prenotazioni ad altra rappresentazione
@@ -970,7 +910,7 @@ public class PrenotazioneModulo extends EModulePop {
 
     }
 
-    private static void notifyEmailFailed(EmailFailedException e) {
+    public static void notifyEmailFailed(EmailFailedException e) {
         Notification notification = new Notification("Invio email fallito", "\n" + e.getMessage(), Notification.Type.ERROR_MESSAGE);
         notification.setDelayMsec(-1);
         notification.show(Page.getCurrent());
