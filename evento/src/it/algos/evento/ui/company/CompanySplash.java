@@ -53,17 +53,6 @@ public class CompanySplash extends VerticalLayout implements View {
         }
         addComponent(comp);
 
-//        // listener invocato quando il modulo diventa visibile
-//        addAttachListener(new AttachListener() {
-//            @Override
-//            public void attach(AttachEvent attachEvent) {
-//                if (dashboard != null) {
-//                    dashboard.update();
-//                }
-//            }
-//        });
-
-
     }
 
     private Component createUI() {
@@ -124,9 +113,9 @@ public class CompanySplash extends VerticalLayout implements View {
         return main;
     }
 
-
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
         dashboard.update();
     }
+
 }

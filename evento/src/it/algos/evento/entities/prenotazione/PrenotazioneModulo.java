@@ -287,73 +287,6 @@ public class PrenotazioneModulo extends EModulePop {
 
     }
 
-    /**
-     * Invio email promemoria invio scheda prenotazione
-     * <p>
-     * Invocato dai menu
-     */
-    public static void cmdPromemoriaInvioSchedaPrenotazione(Object id, ATable table) {
-        boolean cont = true;
-
-        Prenotazione pren = Prenotazione.read(id);
-
-        // controllo che la prenotazione non sia già confermata
-        if (cont) {
-            if (pren.isConfermata()) {
-                cont = false;
-                Notification.show("Questa prenotazione è già confermata.");
-            }
-        }
-
-        // controllo che il livello sollecito sia < 1
-        if (cont) {
-            if (pren.getLivelloSollecitoConferma() > 0) {
-                cont = false;
-                Notification notification = new Notification("Il promemoria è gia stato inviato",
-                        "\nSe vuoi puoi reinviarlo dagli Eventi Prenotazione.", Notification.Type.HUMANIZED_MESSAGE);
-                notification.setDelayMsec(-1);
-                notification.show(Page.getCurrent());
-            }
-        }
-
-        if (cont) {
-            ConfirmDialog dialog = new DialogoPromemoriaInvioSchedaPrenotazione(pren, table);
-            dialog.show(UI.getCurrent());
-        }
-
-    }
-
-
-    /**
-     * Dialogo conferma invio mail di "promemoria invio scheda prenotazione"
-     */
-    private static class DialogoPromemoriaInvioSchedaPrenotazione extends ConfirmDialog {
-        private Prenotazione pren;
-        private ATable table;
-
-        public DialogoPromemoriaInvioSchedaPrenotazione(Prenotazione pren, ATable table) {
-            super(null);
-            this.pren = pren;
-            this.table = table;
-            setTitle("Invio promemoria scheda prenotazione");
-            setMessage("Vuoi inviare il promemoria di invio scheda prenotazione?");
-            setConfirmButtonText("Invia");
-        }
-
-        @Override
-        protected void onConfirm() {
-            try {
-                doPromemoriaInvioSchedaPrenotazione(pren, getUsername());
-                Notification notification = new Notification("Promemoria inviato", Notification.Type.HUMANIZED_MESSAGE);
-                notification.setDelayMsec(-1);
-                notification.show(Page.getCurrent());
-            } catch (EmailFailedException e) {
-                notifyEmailFailed(e);
-            }
-            table.refreshRowCache();// per il numero di solleciti che è incrementato
-            super.onConfirm();
-        }
-    }
 
     /**
      * Invio email "avviso congelamento opzione"
@@ -503,14 +436,20 @@ public class PrenotazioneModulo extends EModulePop {
 //    }
 
     /**
-     * Invio promemoria invio scheda prenotazione (no UI)
+     * Invio e-mail promemoria invio scheda prenotazione (no UI)
+     * aumenta il livello di sollecito e prolunga la scadenza
      *
      * @param pren la prenotazione
      * @param user l'utente che genera l'evento
      */
     public static void doPromemoriaInvioSchedaPrenotazione(Prenotazione pren, String user) throws EmailFailedException {
+
         TipoEventoPren tipoEvento = TipoEventoPren.promemoriaInvioSchedaPrenotazione;
 
+        // manda l'e-mail
+        sendEmailEvento(pren, tipoEvento, user);
+
+        // solo se e' riuscito a inviare l'email esegue il blocco seguente:
         // pone il livello di sollecito a 1 e prolunga la scadenza a X giorni da oggi
         if (pren.getLivelloSollecitoConferma() < 1) {
             pren.setLivelloSollecitoConferma(1);
@@ -519,7 +458,6 @@ public class PrenotazioneModulo extends EModulePop {
             pren.setScadenzaConferma(date);
             pren.save();
             logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
-            sendEmailEvento(pren, tipoEvento, user);
         }
 
     }

@@ -25,25 +25,25 @@ import java.util.ArrayList;
 public class PrenotazioneTablePortal extends TablePortal {
 
     public static final String CMD_REGISTRA_PAGAMENTO = "Registra pagamento...";
-    public static final Resource ICON_REGISTRA_PAGAMENTO = FontAwesome.MONEY;
+    public static final Resource ICON_REGISTRA_PAGAMENTO = FontAwesome.EURO;
 
-    public static final String CMD_RIEPILOGO_OPZIONE = "Invia riepilogo opzione...";
+    public static final String CMD_RIEPILOGO_OPZIONE = "Invia riepilogo prenotazione...";
     public static final Resource ICON_RIEPILOGO_OPZIONE = FontAwesome.ENVELOPE_O;
 
-    public static final String CMD_MEMO_INVIO_SCHEDA_PREN = "Promemoria invio scheda prenotazione...";
+    public static final String CMD_MEMO_INVIO_SCHEDA_PREN = "Invia promemoria conferma prenotazione...";
     public static final Resource ICON_MEMO_INVIO_SCHEDA_PREN = FontAwesome.ENVELOPE_O;
 
     public static final String CMD_CONGELA_OPZIONE = "Congela opzione...";
     public static final Resource ICON_CONGELA_OPZIONE = FontAwesome.LOCK;
 
     public static final String CMD_SPOSTA_AD_ALTRA_DATA = "Sposta ad altra data...";
-    public static final Resource ICON_SPOSTA_AD_ALTRA_DATA = FontAwesome.CARET_SQUARE_O_RIGHT;
+    public static final Resource ICON_SPOSTA_AD_ALTRA_DATA = FontAwesome.ARROW_RIGHT;
 
-    public static final String CMD_MEMO_SCAD_PAGA = "Promemoria scadenza pagamento...";
+    public static final String CMD_MEMO_SCAD_PAGA = "Invia promemoria scadenza pagamento...";
     public static final Resource ICON_MEMO_SCAD_PAGA = FontAwesome.ENVELOPE_O;
 
-    public static final String CMD_ATTESTATO_PARTECIPAZIONE = "Attestato di partecipazione...";
-    public static final Resource ICON_ATTESTATO_PARTECIPAZIONE = FontAwesome.FILE_TEXT_O;
+    public static final String CMD_ATTESTATO_PARTECIPAZIONE = "Invia attestato di partecipazione...";
+    public static final Resource ICON_ATTESTATO_PARTECIPAZIONE = FontAwesome.ENVELOPE_O;
 
     public static final String CMD_GESTIONE_MAILING = "Crea mailing...";
     public static final Resource ICON_GESTIONE_MAILING = FontAwesome.ENVELOPE_O;
@@ -110,9 +110,8 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addItem(CMD_MEMO_INVIO_SCHEDA_PREN, ICON_MEMO_INVIO_SCHEDA_PREN, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Object id = getTable().getSelectedId();
-                if (id != null) {
-                    PrenotazioneModulo.cmdPromemoriaInvioSchedaPrenotazione(id, getTable());
+                if (getTable().getSelectedBean() != null) {
+                    getPrenotazioneTable().inviaMemoSchedaPren();
                 } else {
                     msgNoSelection();
                 }
@@ -129,6 +128,17 @@ public class PrenotazioneTablePortal extends TablePortal {
                 }
             }
         });// end of anonymous class
+
+        item.addItem(CMD_ATTESTATO_PARTECIPAZIONE, ICON_ATTESTATO_PARTECIPAZIONE, new MenuBar.Command() {
+            public void menuSelected(MenuItem selectedItem) {
+                if (getTable().getSelectedBean() != null) {
+                    getPrenotazioneTable().inviaAttestatoPartecipazione();
+                } else {
+                    msgNoSelection();
+                }
+            }
+        });// end of anonymous class
+
 
         item.addItem(CMD_CONGELA_OPZIONE, ICON_CONGELA_OPZIONE, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
@@ -160,15 +170,6 @@ public class PrenotazioneTablePortal extends TablePortal {
         });// end of anonymous class
 
 
-        item.addItem(CMD_ATTESTATO_PARTECIPAZIONE, ICON_ATTESTATO_PARTECIPAZIONE, new MenuBar.Command() {
-            public void menuSelected(MenuItem selectedItem) {
-                if (getTable().getSelectedBean() != null) {
-                    getPrenotazioneTable().inviaAttestatoPartecipazione();
-                } else {
-                    msgNoSelection();
-                }
-            }
-        });// end of anonymous class
 
 
         item.addSeparator();

@@ -112,8 +112,10 @@ public class CompanyHome extends VerticalLayout {
         MenuBar menubar = new MenuBar();
 
         // Home menu
-        // no caching, crea nuovo ogni volta che è visualizzata
-        menubar.addItem("Home", FontAwesome.HOME, new MenuCommand(menubar, CompanySplash.class));
+        // CompanySplash è creata staticamente anziché lazy, così le posso assegnare il riferimento alla home.
+        // Da questo riferimento è in grado di estrarre la menubar per navigare agli
+        // altri moduli quando si premono le varie cifre.
+        menubar.addItem("Home", FontAwesome.HOME, new MenuCommand(menubar, new CompanySplash(this)));
 
         // Menu principali
         menubar.addItem("Eventi", null, new MenuCommand(menubar, EventoModulo.class));

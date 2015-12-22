@@ -177,7 +177,7 @@ public class PrenotazioneTable extends ETable {
                         }
 
                         if (action.equals(actMemoInvioSchedaPren)) {
-                            PrenotazioneModulo.cmdPromemoriaInvioSchedaPrenotazione(id, PrenotazioneTable.this);
+                            inviaMemoSchedaPren();
                         }
 
                         // if (action.equals(actConfPren)) {
@@ -428,6 +428,63 @@ public class PrenotazioneTable extends ETable {
         }
     }
 
+
+    /**
+     * Invio email promemoria invio scheda prenotazione
+     * <p>
+     * Invocato dai menu
+     */
+    public void inviaMemoSchedaPren() {
+        boolean cont = true;
+
+        // controllo una e una sola selezionata
+        Prenotazione pren=(Prenotazione)getSelectedBean();
+        if(pren==null){
+            cont = false;
+            Notification.show("Seleziona prima una prenotazione.");
+        }
+
+        // controllo che la prenotazione non sia già confermata
+        if (cont) {
+            if (pren.isConfermata()) {
+                cont = false;
+                Notification.show("Questa prenotazione è già confermata.");
+            }
+        }
+
+        // controllo che il livello sollecito sia < 1
+        if (cont) {
+            if (pren.getLivelloSollecitoConferma() > 0) {
+                cont = false;
+                Notification notification = new Notification("Il promemoria è gia stato inviato",
+                        "\nSe vuoi puoi reinviarlo dagli Eventi Prenotazione.", Notification.Type.HUMANIZED_MESSAGE);
+                notification.setDelayMsec(-1);
+                notification.show(Page.getCurrent());
+            }
+        }
+
+        if (cont) {
+
+            DialogoPromemoriaInvioSchedaPrenotazione dialog = new DialogoPromemoriaInvioSchedaPrenotazione(pren);
+
+            dialog.setSuccessListener(new DialogoPromemoriaInvioSchedaPrenotazione.SuccessListener() {
+                @Override
+                public void success() {
+
+                    refreshRowCache();  // deve aggiornare il livello di sollecito visualizzato
+
+                    Notification notification = new Notification("Promemoria conferma prenotazione inviato", Notification.Type.HUMANIZED_MESSAGE);
+                    notification.setDelayMsec(-1);
+                    notification.show(Page.getCurrent());
+
+                }
+            });
+
+            dialog.show();
+
+        }
+
+    }
 
 
 
