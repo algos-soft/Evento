@@ -21,7 +21,7 @@
 
     <context-param>
         <param-name>heartbeatInterval</param-name>
-        <param-value>3</param-value>
+        <param-value>30</param-value>
     </context-param>
 
     <!--<session-config>-->

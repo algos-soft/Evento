@@ -33,7 +33,6 @@ import java.util.Collection;
  */
 public class AdminHome extends VerticalLayout {
 
-    private AdminSplash splashScreen;
     private MenuBar.MenuItem loginItem; // il menuItem di login
 
     public AdminHome() {
@@ -80,7 +79,7 @@ public class AdminHome extends VerticalLayout {
         // crea un Navigator e lo configura in base ai contenuti della MenuBar
         AlgosNavigator nav = new AlgosNavigator(UI.getCurrent(), placeholder);
         nav.configureFromMenubar(mainBar);
-        nav.navigateTo("splash");
+        nav.navigateTo(AdminSplash.class.getName());
 
         // set browser window title
         Page.getCurrent().setTitle(EventoApp.APP_NAME+" - admin");

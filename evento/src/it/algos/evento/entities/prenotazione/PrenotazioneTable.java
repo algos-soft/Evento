@@ -206,7 +206,7 @@ public class PrenotazioneTable extends ETable {
                         }
 
                         if (action.equals(actAttestatoPartecipazione)) {
-                            PrenotazioneModulo.cmdAttestatoPartecipazione(id);
+                            inviaAttestatoPartecipazione();
                         }
 
 
@@ -343,9 +343,9 @@ public class PrenotazioneTable extends ETable {
                 public void success() {
                     refreshRowCache();  // per ora non serve ma in futuro forse?
 
-                    String dest = pren.getInsegnante().getCognomeNome()+" ("+pren.getEmailRiferimento()+")";
+                    String dest = pren.getInsegnante().getCognomeNome() + " (" + pren.getEmailRiferimento() + ")";
 
-                    Notification notification = new Notification("Riepilogo prenotazione n. "+pren.getNumPrenotazione()+" inviato a "+dest, "", Notification.Type.HUMANIZED_MESSAGE);
+                    Notification notification = new Notification("Riepilogo prenotazione n. " + pren.getNumPrenotazione() + " inviato a " + dest, "", Notification.Type.HUMANIZED_MESSAGE);
                     notification.setDelayMsec(-1);
                     notification.show(Page.getCurrent());
 
@@ -357,6 +357,75 @@ public class PrenotazioneTable extends ETable {
             dialog.show();
         }
 
+    }
+
+
+
+    /**
+     * Invia l'attestato di partecipazione
+     * <p>
+     * Invocato dai menu
+     */
+    public void inviaAttestatoPartecipazione() {
+        boolean cont = true;
+
+        // controllo una e una sola selezionata
+        Prenotazione pren=(Prenotazione)getSelectedBean();
+        if(pren==null){
+            cont = false;
+            Notification.show("Seleziona prima una prenotazione.");
+        }
+
+        // controllo che la prenotazione sia confermata
+        if (cont) {
+            if (!pren.isConfermata()) {
+                cont = false;
+                Notification notification = new Notification("Questa prenotazione non è confermata", Notification.Type.HUMANIZED_MESSAGE);
+                notification.setDelayMsec(-1);
+                notification.show(Page.getCurrent());
+            }
+        }
+
+        // controllo che il pagamento sia stato effettivamente ricevuto
+        if (cont) {
+            if (!pren.isPagamentoRicevuto()) {
+                cont = false;
+                Notification notification = new Notification("Il pagamento non è ancora stato ricevuto", Notification.Type.HUMANIZED_MESSAGE);
+                notification.setDelayMsec(-1);
+                notification.show(Page.getCurrent());
+            }
+        }
+
+        // controllo che la prenotazione non sia congelata
+        if (cont) {
+            if (pren.isCongelata()) {
+                cont = false;
+                Notification notification = new Notification("Questa prenotazione è già congelata", "\nSe vuoi puoi reinviare la email dagli Eventi Prenotazione.", Notification.Type.HUMANIZED_MESSAGE);
+                notification.setDelayMsec(-1);
+                notification.show(Page.getCurrent());
+            }
+        }
+
+        // mostra il dialogo
+        if (cont) {
+            DialogoAttestatoPartecipazione dialog=new DialogoAttestatoPartecipazione(pren);
+
+            dialog.setSuccessListener(new DialogoAttestatoPartecipazione.SuccessListener() {
+                @Override
+                public void success() {
+
+                    refreshRowCache();  // per ora non serve ma in futuro forse?
+
+                    Notification notification = new Notification("Attestato inviato", Notification.Type.HUMANIZED_MESSAGE);
+                    notification.setDelayMsec(-1);
+                    notification.show(Page.getCurrent());
+
+                }
+            });
+
+            dialog.show();
+
+        }
     }
 
 

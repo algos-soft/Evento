@@ -162,9 +162,8 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addItem(CMD_ATTESTATO_PARTECIPAZIONE, ICON_ATTESTATO_PARTECIPAZIONE, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Object id = getTable().getSelectedId();
-                if (id != null) {
-                    PrenotazioneModulo.cmdAttestatoPartecipazione(id);
+                if (getTable().getSelectedBean() != null) {
+                    getPrenotazioneTable().inviaAttestatoPartecipazione();
                 } else {
                     msgNoSelection();
                 }

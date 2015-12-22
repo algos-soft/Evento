@@ -8,10 +8,7 @@ import com.vaadin.data.Property;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.server.Page;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.Window;
+import com.vaadin.ui.*;
 import it.algos.evento.EventoApp;
 import it.algos.evento.EventoBootStrap;
 import it.algos.evento.entities.company.Company;
@@ -170,7 +167,29 @@ public class PrenotazioneModulo extends EModulePop {
 
     @Override
     public AForm createForm(Item item) {
-        return (new PrenotazioneForm(this, item));
+        PrenotazioneForm form = new PrenotazioneForm(this, item);
+
+        // refresh table dopo conferma prenotazione
+        form.setPrenotazioneConfermataListener(new PrenotazioneForm.PrenotazioneConfermataListener() {
+            @Override
+            public void prenotazioneConfermata(Prenotazione pren, boolean emailInviata) {
+
+                getTable().refreshRowCache();
+
+                String detail = pren.toStringNumDataInsegnante();
+                String mailDetail="";
+                if(emailInviata){
+                    mailDetail="e-mail inviata.";
+                }
+
+                Notification notif = new Notification("Prenotazione confermata: "+detail, mailDetail, Notification.Type.HUMANIZED_MESSAGE);
+                notif.setDelayMsec(-1);
+                notif.show(Page.getCurrent());
+
+            }
+        });
+
+        return form;
     }// end of method
 
     @Override
@@ -436,83 +455,6 @@ public class PrenotazioneModulo extends EModulePop {
                 Notification.show(null, e1.getMessage(), Notification.Type.ERROR_MESSAGE);
             }
         }
-    }
-
-
-    /**
-     * Invia l'attestato di partecipazione
-     * <p>
-     * Invocato dai menu
-     */
-    public static void cmdAttestatoPartecipazione(Object id) {
-        boolean cont = true;
-
-        Prenotazione pren = Prenotazione.read(id);
-
-        // controllo che la prenotazione sia confermata
-        if (cont) {
-            if (!pren.isConfermata()) {
-                cont = false;
-                Notification notification = new Notification("Questa prenotazione non è confermata", Notification.Type.HUMANIZED_MESSAGE);
-                notification.setDelayMsec(-1);
-                notification.show(Page.getCurrent());
-            }
-        }
-
-        // controllo che il pagamento sia stato effettivamente ricevuto
-        if (cont) {
-            if (!pren.isPagamentoRicevuto()) {
-                cont = false;
-                Notification notification = new Notification("Il pagamento non è ancora stato ricevuto", Notification.Type.HUMANIZED_MESSAGE);
-                notification.setDelayMsec(-1);
-                notification.show(Page.getCurrent());
-            }
-        }
-
-        // controllo che la prenotazione non sia congelata
-        if (cont) {
-            if (pren.isCongelata()) {
-                cont = false;
-                Notification notification = new Notification("Questa prenotazione è già congelata", "\nSe vuoi puoi reinviare la email dagli Eventi Prenotazione.", Notification.Type.HUMANIZED_MESSAGE);
-                notification.setDelayMsec(-1);
-                notification.show(Page.getCurrent());
-            }
-        }
-
-
-        if (cont) {
-            new DialogoAttestatoPartecipazione(pren).show(UI.getCurrent());
-        }
-    }
-
-    /**
-     * Dialogo attestato di partecipazione
-     */
-    private static class DialogoAttestatoPartecipazione extends ConfirmDialog {
-        private Prenotazione pren;
-
-        public DialogoAttestatoPartecipazione(Prenotazione pren) {
-            super(null);
-            this.pren = pren;
-            setTitle("Attestato di partecipazione");
-            setMessage("Vuoi inviare l'attestato di partecipazione?");
-            setConfirmButtonText("Invia");
-        }
-
-        @Override
-        protected void onConfirm() {
-            try {
-                doAttestatoPartecipazione(pren, getUsername());
-                Notification notification = new Notification("Attestato inviato", Notification.Type.HUMANIZED_MESSAGE);
-                notification.setDelayMsec(-1);
-                notification.show(Page.getCurrent());
-            } catch (EmailFailedException e) {
-                notifyEmailFailed(e);
-            }
-            super.onConfirm();
-        }
-
-
     }
 
 

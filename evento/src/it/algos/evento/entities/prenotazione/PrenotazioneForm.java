@@ -78,6 +78,16 @@ public class PrenotazioneForm extends AForm {
 
     private boolean inValueChange = false;   // flag per evitare di reagire ricorsivamente agli eventi di cambio valore di alcuni campi
 
+    // listener e relativi metodi per ascoltare la prenotazione confermata
+    private PrenotazioneConfermataListener pcListener;
+
+    public interface PrenotazioneConfermataListener{
+        void prenotazioneConfermata(Prenotazione pren, boolean mailInviata);
+    }
+    public void setPrenotazioneConfermataListener(PrenotazioneConfermataListener l){
+        this.pcListener=l;
+    }
+
 
     public PrenotazioneForm(ModulePop modulo) {
         this(modulo, null);
@@ -1128,35 +1138,33 @@ public class PrenotazioneForm extends AForm {
                 @Override
                 public void onClose(ConfirmDialog dialog, boolean confirmed) {
                     if (confirmed) {
+
                         Date dataConferma = ((DialogoConfermaPrenotazione) dialog).getDataConferma();
 
                         // invia la mail di istruzioni in un thread separato
                         // (usa una lambda al posto del runnable)
                         new Thread(
                                 () -> {
-                                    // todo riattivare
 
-//                                    Prenotazione pren = getPrenotazione();
-//                                    String detail = pren.toStringNumDataInsegnante();
-//                                    Notification notif;
-//                                    try {
-//                                        String user = EventoBootStrap.getUsername();
-//
-//                                        // questo comando scrive i campi e salva la prenotazione
-//                                        // ed eventualmente invia la mail
-//                                        getPrenotazioneModulo().doConfermaPrenotazioneModulo(pren, dataConferma, user);
-//
-//                                        String inviata = "";
-//                                        if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
-//                                            inviata = "Inviata e-mail di conferma";
-//                                        }
-//                                        notif = new Notification("Prenotazione confermata", inviata + " " + detail, Notification.Type.HUMANIZED_MESSAGE);
-//                                    } catch (EmailFailedException e) {
-//                                        notif = new Notification("Invio email fallito: " + e.getMessage(), detail, Notification.Type.ERROR_MESSAGE);
-//                                    }
-//
-//                                    notif.setDelayMsec(-1);
-//                                    notif.show(Page.getCurrent());
+
+                                    Prenotazione pren = getPrenotazione();
+                                    boolean mailInviata=false;
+                                    try {
+                                        String user = EventoBootStrap.getUsername();
+
+                                        // questo comando scrive i campi e salva la prenotazione
+                                        // ed eventualmente invia la mail
+                                        getPrenotazioneModulo().doConfermaPrenotazione(pren, dataConferma, user);
+
+                                        if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
+                                            mailInviata=true;
+                                        }
+                                    } catch (EmailFailedException e) {
+                                        PrenotazioneModulo.notifyEmailFailed(e);
+                                    }
+
+                                    pcListener.prenotazioneConfermata(pren, mailInviata);
+
 
                                 }
                         ).start();
