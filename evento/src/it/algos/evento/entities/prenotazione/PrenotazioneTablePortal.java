@@ -100,9 +100,8 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addItem(CMD_RIEPILOGO_OPZIONE, ICON_RIEPILOGO_OPZIONE, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Object id = getTable().getSelectedId();
-                if (id != null) {
-                    PrenotazioneModulo.cmdInviaRiepilogoOpzione(id, getTable());
+                if (getTable().getSelectedBean() != null) {
+                    getPrenotazioneTable().inviaRiepilogoOpzione();
                 } else {
                     msgNoSelection();
                 }

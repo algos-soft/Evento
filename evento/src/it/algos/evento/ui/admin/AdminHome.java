@@ -19,12 +19,12 @@ import it.algos.evento.ui.company.CompanySplash;
 import it.algos.webbase.domain.ruolo.RuoloModulo;
 import it.algos.webbase.domain.utente.UtenteModulo;
 import it.algos.webbase.domain.utenteruolo.UtenteRuoloModulo;
-import it.algos.webbase.web.Command.MenuCommand;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
 import it.algos.webbase.web.navigator.AlgosNavigator;
+import it.algos.webbase.web.navigator.MenuCommand;
 
 import java.util.Collection;
 
@@ -101,28 +101,28 @@ public class AdminHome extends VerticalLayout {
 
         // Menu Home
 //        menubar.addItem("", LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME, "manager_menubar_icon.png"), new MenuCommand(menubar, "splash", AdminSplash.class));
-        menubar.addItem("", FontAwesome.HOME, new MenuCommand(menubar, "splash", AdminSplash.class));
+        menubar.addItem("", FontAwesome.HOME, new MenuCommand(menubar, AdminSplash.class));
 
         // Menu principali
-        menubar.addItem("Aziende", null, new MenuCommand(menubar, "aziende", CompanyModule.class));
+        menubar.addItem("Aziende", null, new MenuCommand(menubar, CompanyModule.class));
 
         // Menu Utenti e ruoli
         item = menubar.addItem("Utenti e ruoli", null, null);
-        item.addItem("Utenti", null, new MenuCommand(menubar, "utenti", UtenteModulo.class));
-        item.addItem("Ruoli", null, new MenuCommand(menubar, "ruoli", RuoloModulo.class));
-        item.addItem("Utenti-Ruoli", null, new MenuCommand(menubar, "utenteruolo", UtenteRuoloModulo.class));
+        item.addItem("Utenti", null, new MenuCommand(menubar, UtenteModulo.class));
+        item.addItem("Ruoli", null, new MenuCommand(menubar, RuoloModulo.class));
+        item.addItem("Utenti-Ruoli", null, new MenuCommand(menubar, UtenteRuoloModulo.class));
 
         // Menu Configurazione
         item = menubar.addItem("Configurazione", null, null);
 
         // submenu controllo accessi
-        item.addItem("Controllo accessi", null, new MenuCommand(menubar, "accesscontrol", AccessControlConfigComponent.class));
+        item.addItem("Controllo accessi", null, new MenuCommand(menubar,  AccessControlConfigComponent.class));
 
         // submenu smtp server
-        item.addItem("SMTP Server", null, new MenuCommand(menubar, "smtpserver", SMTPServerConfigComponent.class));
+        item.addItem("SMTP Server", null, new MenuCommand(menubar, SMTPServerConfigComponent.class));
 
         // submenu daemon controlli automatici
-        item.addItem("Daemon controlli automatici", null, new MenuCommand(menubar, "daemon", GeneralDaemonConfigComponent.class));
+        item.addItem("Daemon controlli automatici", null, new MenuCommand(menubar, GeneralDaemonConfigComponent.class));
 
         // Modo Programmatore
         if (LibSession.isDeveloper()) {

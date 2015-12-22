@@ -1042,7 +1042,11 @@ public class PrenotazioneForm extends AForm {
                                 String detail = pren.toStringNumDataInsegnante();
 
                                 try {
-                                    getPrenotazioneModulo().doInvioIstruzioniModulo(pren, getUsername());
+                                    PrenotazioneModulo.doInvioIstruzioni(pren, getUsername());
+
+                                    // todo riattivare
+                                    // getPrenotazioneModulo().doInvioIstruzioniModulo(pren, getUsername());
+
                                     notification1 = new Notification("Inviata email di istruzioni", detail, Notification.Type.HUMANIZED_MESSAGE);
                                 } catch (EmailFailedException e) {
                                     notification1 = new Notification("Invio email istruzioni fallito: " + e.getMessage(), detail, Notification.Type.ERROR_MESSAGE);
@@ -1130,28 +1134,29 @@ public class PrenotazioneForm extends AForm {
                         // (usa una lambda al posto del runnable)
                         new Thread(
                                 () -> {
+                                    // todo riattivare
 
-                                    Prenotazione pren = getPrenotazione();
-                                    String detail = pren.toStringNumDataInsegnante();
-                                    Notification notif;
-                                    try {
-                                        String user = EventoBootStrap.getUsername();
-
-                                        // questo comando scrive i campi e salva la prenotazione
-                                        // ed eventualmente invia la mail
-                                        getPrenotazioneModulo().doConfermaPrenotazioneModulo(pren, dataConferma, user);
-
-                                        String inviata = "";
-                                        if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
-                                            inviata = "Inviata e-mail di conferma";
-                                        }
-                                        notif = new Notification("Prenotazione confermata", inviata + " " + detail, Notification.Type.HUMANIZED_MESSAGE);
-                                    } catch (EmailFailedException e) {
-                                        notif = new Notification("Invio email fallito: " + e.getMessage(), detail, Notification.Type.ERROR_MESSAGE);
-                                    }
-
-                                    notif.setDelayMsec(-1);
-                                    notif.show(Page.getCurrent());
+//                                    Prenotazione pren = getPrenotazione();
+//                                    String detail = pren.toStringNumDataInsegnante();
+//                                    Notification notif;
+//                                    try {
+//                                        String user = EventoBootStrap.getUsername();
+//
+//                                        // questo comando scrive i campi e salva la prenotazione
+//                                        // ed eventualmente invia la mail
+//                                        getPrenotazioneModulo().doConfermaPrenotazioneModulo(pren, dataConferma, user);
+//
+//                                        String inviata = "";
+//                                        if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
+//                                            inviata = "Inviata e-mail di conferma";
+//                                        }
+//                                        notif = new Notification("Prenotazione confermata", inviata + " " + detail, Notification.Type.HUMANIZED_MESSAGE);
+//                                    } catch (EmailFailedException e) {
+//                                        notif = new Notification("Invio email fallito: " + e.getMessage(), detail, Notification.Type.ERROR_MESSAGE);
+//                                    }
+//
+//                                    notif.setDelayMsec(-1);
+//                                    notif.show(Page.getCurrent());
 
                                 }
                         ).start();

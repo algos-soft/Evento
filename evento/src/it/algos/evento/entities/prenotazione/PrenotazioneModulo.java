@@ -143,11 +143,11 @@ public class PrenotazioneModulo extends EModulePop {
         public void statusChanged(TipoEventoPren tipoEvento);
     }
 
-    private void fireStatusChanged(TipoEventoPren tipoEvento) {
-        for (StatusChangeListener l : statusChangeListeners) {
-            l.statusChanged(tipoEvento);
-        }
-    }
+//    public void fireStatusChanged(TipoEventoPren tipoEvento) {
+//        for (StatusChangeListener l : statusChangeListeners) {
+//            l.statusChanged(tipoEvento);
+//        }
+//    }
 
     /**
      * Assegna un nuovo filtro alla table
@@ -190,16 +190,6 @@ public class PrenotazioneModulo extends EModulePop {
     }// end of method
 
 
-    /**
-     * Invio email riepilogo opzione e istruzioni
-     * <p>
-     * Invocato dai menu
-     */
-    public static void cmdInviaRiepilogoOpzione(Object id, ATable table) {
-        Prenotazione pren = Prenotazione.read(id);
-        //ConfirmDialog dialog = new DialogoInviaRiepilogoOpzione(pren, table);
-        //dialog.show(UI.getCurrent());
-    }
 
     /**
      * Invio email promemoria scadenza pagamento (da rimuovere?)
@@ -312,36 +302,6 @@ public class PrenotazioneModulo extends EModulePop {
             dialog.show(UI.getCurrent());
         }
 
-    }
-
-    /**
-     * Dialogo conferma invio riepilogo opzione
-     */
-    private static class DialogoInviaRiepilogoOpzione extends ConfirmDialog {
-        private Prenotazione pren;
-        PrenotazioneModulo modulo;
-
-        public DialogoInviaRiepilogoOpzione(PrenotazioneModulo modulo, Prenotazione pren, ATable table) {
-            super(null);
-            this.modulo=modulo;
-            this.pren = pren;
-            setTitle("Invio riepilogo opzione con istruzioni");
-            setMessage("Vuoi inviare il riepilogo opzione?");
-            setConfirmButtonText("Invia");
-        }
-
-        @Override
-        protected void onConfirm() {
-            try {
-                modulo.doInvioIstruzioniModulo(pren, getUsername());
-                Notification notification = new Notification("Riepilogo inviato", Notification.Type.HUMANIZED_MESSAGE);
-                notification.setDelayMsec(-1);
-                notification.show(Page.getCurrent());
-            } catch (EmailFailedException e) {
-                notifyEmailFailed(e);
-            }
-            super.onConfirm();
-        }
     }
 
 
@@ -565,13 +525,13 @@ public class PrenotazioneModulo extends EModulePop {
         logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
     }
 
-    /**
-     * Invio email istruzioni (no UI) e fire status changed modulo
-     */
-    public void doInvioIstruzioniModulo(Prenotazione pren, String user) throws EmailFailedException {
-        PrenotazioneModulo.doInvioIstruzioni(pren, user);
-        fireStatusChanged(TipoEventoPren.invioIstruzioni);
-    }
+//    /**
+//     * Invio email istruzioni (no UI) e fire status changed modulo
+//     */
+//    public void doInvioIstruzioniModulo(Prenotazione pren, String user) throws EmailFailedException {
+//        PrenotazioneModulo.doInvioIstruzioni(pren, user);
+//        fireStatusChanged(TipoEventoPren.invioIstruzioni);
+//    }
 
 
     /**
@@ -592,13 +552,13 @@ public class PrenotazioneModulo extends EModulePop {
         }
     }
 
-    /**
-     * Esecuzione conferma prenotazione (no UI) e fire status changed modulo
-     */
-    public void doConfermaPrenotazioneModulo(Prenotazione pren, Date dataConferma, String user) throws EmailFailedException {
-        doConfermaPrenotazione(pren, dataConferma, user);
-        fireStatusChanged(TipoEventoPren.confermaPrenotazione);
-    }
+//    /**
+//     * Esecuzione conferma prenotazione (no UI) e fire status changed modulo
+//     */
+//    public void doConfermaPrenotazioneModulo(Prenotazione pren, Date dataConferma, String user) throws EmailFailedException {
+//        doConfermaPrenotazione(pren, dataConferma, user);
+//        fireStatusChanged(TipoEventoPren.confermaPrenotazione);
+//    }
 
     /**
      * Invio promemoria invio scheda prenotazione (no UI)
@@ -623,16 +583,16 @@ public class PrenotazioneModulo extends EModulePop {
     }
 
 
-    /**
-     * Invio promemoria invio scheda prenotazione (no UI) e fire status changed modulo
-     *
-     * @param pren la prenotazione
-     * @param user l'utente che genera l'evento
-     */
-    public void doPromemoriaInvioSchedaPrenotazioneModulo(Prenotazione pren, String user) throws EmailFailedException {
-        doPromemoriaInvioSchedaPrenotazione(pren, user);
-        fireStatusChanged(TipoEventoPren.promemoriaInvioSchedaPrenotazione);
-    }
+//    /**
+//     * Invio promemoria invio scheda prenotazione (no UI) e fire status changed modulo
+//     *
+//     * @param pren la prenotazione
+//     * @param user l'utente che genera l'evento
+//     */
+//    public void doPromemoriaInvioSchedaPrenotazioneModulo(Prenotazione pren, String user) throws EmailFailedException {
+//        doPromemoriaInvioSchedaPrenotazione(pren, user);
+//        fireStatusChanged(TipoEventoPren.promemoriaInvioSchedaPrenotazione);
+//    }
 
 
     /**
@@ -665,17 +625,17 @@ public class PrenotazioneModulo extends EModulePop {
     }
 
 
-    /**
-     * Congelamento opzione (no UI)  e fire status changed modulo
-     * <p>
-     *
-     * @return true se ha inviato l'email
-     */
-    public boolean doCongelamentoOpzioneModulo(Prenotazione pren, String user) throws EmailFailedException {
-        boolean emailInviata=doCongelamentoOpzione(pren, user);
-        fireStatusChanged(TipoEventoPren.congelamentoOpzione);
-        return  emailInviata;
-    }
+//    /**
+//     * Congelamento opzione (no UI)  e fire status changed modulo
+//     * <p>
+//     *
+//     * @return true se ha inviato l'email
+//     */
+//    public boolean doCongelamentoOpzioneModulo(Prenotazione pren, String user) throws EmailFailedException {
+//        boolean emailInviata=doCongelamentoOpzione(pren, user);
+//        fireStatusChanged(TipoEventoPren.congelamentoOpzione);
+//        return  emailInviata;
+//    }
 
         /**
          * Controlli scadenza pagamento (no UI).
@@ -708,18 +668,18 @@ public class PrenotazioneModulo extends EModulePop {
     }
 
 
-    /**
-     * Controlli scadenza pagamento (no UI) e fire status changed modulo
-     * @return true se ha inviato la mail di sollecito e spostato la scadenza
-     */
-    public boolean doPromemoriaScadenzaPagamentoModulo(Prenotazione pren, String user) throws EmailFailedException {
-        boolean eseguito=false;
-        eseguito=doPromemoriaScadenzaPagamento(pren, user);
-        if(eseguito){
-            fireStatusChanged(TipoEventoPren.promemoriaScadenzaPagamento);
-        }
-        return eseguito;
-    }
+//    /**
+//     * Controlli scadenza pagamento (no UI) e fire status changed modulo
+//     * @return true se ha inviato la mail di sollecito e spostato la scadenza
+//     */
+//    public boolean doPromemoriaScadenzaPagamentoModulo(Prenotazione pren, String user) throws EmailFailedException {
+//        boolean eseguito=false;
+//        eseguito=doPromemoriaScadenzaPagamento(pren, user);
+//        if(eseguito){
+//            fireStatusChanged(TipoEventoPren.promemoriaScadenzaPagamento);
+//        }
+//        return eseguito;
+//    }
 
 
         /**
@@ -798,26 +758,26 @@ public class PrenotazioneModulo extends EModulePop {
     }
 
 
-    /**
-     * Conferma registrazione pagamento (no UI)e fire status changed modulo
-     * <p>
-     *
-     * @return true se ha inviato una o più mail
-     */
-    public boolean doConfermaRegistrazionePagamentoModulo(Prenotazione pren, int numInteri, int numRidotti,
-                                                           int numDisabili, int numAccomp, BigDecimal importoPrevisto, BigDecimal importoPagato, ModoPagamento mezzo,
-                                                           boolean checkConfermato, boolean checkRicevuto, String user) throws EmailFailedException {
-
-        boolean mailInviata = false;
-        mailInviata=doConfermaRegistrazionePagamento(pren, numInteri, numRidotti, numDisabili, numAccomp, importoPrevisto, importoPagato, mezzo, checkConfermato, checkRicevuto, user);
-
-        // per ora lancio entrambi gli eventi
-        fireStatusChanged(TipoEventoPren.confermaPagamento);
-        fireStatusChanged(TipoEventoPren.registrazionePagamento);
-
-        return mailInviata;
-
-    }
+//    /**
+//     * Conferma registrazione pagamento (no UI)e fire status changed modulo
+//     * <p>
+//     *
+//     * @return true se ha inviato una o più mail
+//     */
+//    public boolean doConfermaRegistrazionePagamentoModulo(Prenotazione pren, int numInteri, int numRidotti,
+//                                                           int numDisabili, int numAccomp, BigDecimal importoPrevisto, BigDecimal importoPagato, ModoPagamento mezzo,
+//                                                           boolean checkConfermato, boolean checkRicevuto, String user) throws EmailFailedException {
+//
+//        boolean mailInviata = false;
+//        mailInviata=doConfermaRegistrazionePagamento(pren, numInteri, numRidotti, numDisabili, numAccomp, importoPrevisto, importoPagato, mezzo, checkConfermato, checkRicevuto, user);
+//
+////        // per ora lancio entrambi gli eventi
+////        fireStatusChanged(TipoEventoPren.confermaPagamento);
+////        fireStatusChanged(TipoEventoPren.registrazionePagamento);
+//
+//        return mailInviata;
+//
+//    }
 
 
 
@@ -837,13 +797,13 @@ public class PrenotazioneModulo extends EModulePop {
         }
     }
 
-    /**
-     * Esecuzione invio attestato di partecipazione (no UI) e fire status changed modulo
-     */
-    public void doAttestatoPartecipazioneModulo(Prenotazione pren, String user) throws EmailFailedException {
-        doAttestatoPartecipazione(pren, user);
-        fireStatusChanged(TipoEventoPren.attestatoPartecipazione);
-    }
+//    /**
+//     * Esecuzione invio attestato di partecipazione (no UI) e fire status changed modulo
+//     */
+//    public void doAttestatoPartecipazioneModulo(Prenotazione pren, String user) throws EmailFailedException {
+//        doAttestatoPartecipazione(pren, user);
+//        fireStatusChanged(TipoEventoPren.attestatoPartecipazione);
+//    }
 
 
         /**

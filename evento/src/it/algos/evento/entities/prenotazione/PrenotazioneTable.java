@@ -173,7 +173,7 @@ public class PrenotazioneTable extends ETable {
                         }
 
                         if (action.equals(actIstruzioni)) {
-                            PrenotazioneModulo.cmdInviaRiepilogoOpzione(id, PrenotazioneTable.this);
+                            inviaRiepilogoOpzione();
                         }
 
                         if (action.equals(actMemoInvioSchedaPren)) {
@@ -217,13 +217,13 @@ public class PrenotazioneTable extends ETable {
         });
 
 
-        getPrenotazioneModulo().addStatusChangeListener(new StatusChangeListener() {
-
-            @Override
-            public void statusChanged(TipoEventoPren tipoEvento) {
-                refreshRowCache();
-            }
-        });
+//        getPrenotazioneModulo().addStatusChangeListener(new StatusChangeListener() {
+//
+//            @Override
+//            public void statusChanged(TipoEventoPren tipoEvento) {
+//                refreshRowCache();
+//            }
+//        });
 
 
         // colonne collapsed di default
@@ -317,6 +317,48 @@ public class PrenotazioneTable extends ETable {
         }
 
     }
+
+
+    /**
+     * Invio email riepilogo opzione e istruzioni
+     * <p>
+     * Invocato dai menu
+     */
+    public void inviaRiepilogoOpzione() {
+
+        boolean cont = true;
+
+        // controllo una e una sola selezionata
+        Prenotazione pren=(Prenotazione)getSelectedBean();
+        if(pren==null){
+            cont = false;
+            Notification.show("Seleziona prima una prenotazione.");
+        }
+
+
+        if (cont){
+            DialogoInviaRiepilogoOpzione dialog = new DialogoInviaRiepilogoOpzione(pren);
+            dialog.setSuccessListener(new DialogoInviaRiepilogoOpzione.SuccessListener() {
+                @Override
+                public void success() {
+                    refreshRowCache();  // per ora non serve ma in futuro forse?
+
+                    String dest = pren.getInsegnante().getCognomeNome()+" ("+pren.getEmailRiferimento()+")";
+
+                    Notification notification = new Notification("Riepilogo prenotazione n. "+pren.getNumPrenotazione()+" inviato a "+dest, "", Notification.Type.HUMANIZED_MESSAGE);
+                    notification.setDelayMsec(-1);
+                    notification.show(Page.getCurrent());
+
+//                    getPrenotazioneModulo().fireStatusChanged(TipoEventoPren.invioIstruzioni);
+
+                }
+            });
+
+            dialog.show();
+        }
+
+    }
+
 
 
 
