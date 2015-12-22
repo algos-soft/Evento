@@ -2,6 +2,8 @@ package it.algos.evento.config;
 
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
 import it.algos.evento.pref.EventoPrefs;
 import it.algos.webbase.web.field.CheckBoxField;
@@ -10,7 +12,7 @@ import it.algos.webbase.web.field.PasswordField;
 import it.algos.webbase.web.field.TextField;
 
 @SuppressWarnings("serial")
-public class SMTPServerConfigComponent extends BaseConfigPanel {
+public class SMTPServerConfigComponent extends BaseConfigPanel implements View {
 
 	private static final String KEY_HOST = "smtp";
 	private static final String KEY_USER = "user";
@@ -78,6 +80,11 @@ public class SMTPServerConfigComponent extends BaseConfigPanel {
 	
 	public PrefSetItem createItem() {
 		return new SMTPSetItem();
+	}
+
+	@Override
+	public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+
 	}
 
 	/**

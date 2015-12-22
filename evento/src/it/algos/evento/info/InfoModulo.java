@@ -22,13 +22,6 @@ public class InfoModulo extends Module {
 		setCompositionRoot(comp);
 	}
 
-	/**
-	 * Crea una sola istanza di un modulo per sessione.
-	 * Tutte le finestre e i tab di un browser sono nella stessa sessione.
-	 */
-	public static InfoModulo getInstance(){
-		return (InfoModulo) ModulePop.getInstance(InfoModulo.class);
-	}
 
 
 }

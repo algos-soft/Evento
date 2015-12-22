@@ -53,9 +53,6 @@ public class CompanyDashboard extends VerticalLayout {
         // create the UI
         createUI();
 
-        // read the data and update the UI
-        update();
-
     }
 
     /**

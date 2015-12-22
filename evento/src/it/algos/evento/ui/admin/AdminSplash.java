@@ -1,5 +1,7 @@
 package it.algos.evento.ui.admin;
 
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -12,7 +14,7 @@ import it.algos.webbase.web.lib.LibResource;
 
 
 @SuppressWarnings("serial")
-public class AdminSplash extends VerticalLayout {
+public class AdminSplash extends VerticalLayout implements View {
 
 
     private Resource res;
@@ -66,4 +68,8 @@ public class AdminSplash extends VerticalLayout {
         return main;
     }
 
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+
+    }
 }

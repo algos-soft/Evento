@@ -93,8 +93,7 @@ public class CompanyHome extends VerticalLayout {
         setExpandRatio(placeholder, 1.0f);
 
         // crea un Navigator e lo configura in base ai contenuti della MenuBar
-        //AlgosNavigator navigator = new AlgosNavigator(UI.getCurrent(), placeholder);
-        AlgosNavigator navigator = new EventoNavigator(UI.getCurrent(), placeholder);
+        AlgosNavigator navigator = new AlgosNavigator(UI.getCurrent(), placeholder);
         navigator.configureFromMenubar(mainBar);
         navigator.navigateTo("splash");
 
@@ -115,10 +114,10 @@ public class CompanyHome extends VerticalLayout {
 
         // Home menu
         // no caching, crea nuovo ogni volta che è visualizzata
-        menubar.addItem("Home", FontAwesome.HOME, new MenuCommand(menubar, "splash", CompanySplash.class, false));
+        menubar.addItem("Home", FontAwesome.HOME, new MenuCommand(menubar, "splash", CompanySplash.class));
 
         // Menu principali
-        menubar.addItem("Eventi", null, new MenuCommand(menubar, "eventi",EventoModulo.class));
+        menubar.addItem("Eventi", null, new MenuCommand(menubar, "eventi",new EventoModulo()));
         menubar.addItem("Rappresentazioni", null, new MenuCommand(menubar, "rappresentazioni",RappresentazioneModulo.class));
         itemPrenotazioni=menubar.addItem("Prenotazioni", null, new MenuCommand(menubar, "prenotazioni", PrenotazioneModulo.class));
         menubar.addItem("Scuole", null, new MenuCommand(menubar, "scuole", ScuolaModulo.class));

@@ -2,6 +2,8 @@ package it.algos.evento.config;
 
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
@@ -15,7 +17,7 @@ import it.algos.webbase.web.lib.Lib;
  * Component for access control configuration
  */
 @SuppressWarnings("serial")
-public class AccessControlConfigComponent extends BaseConfigPanel {
+public class AccessControlConfigComponent extends BaseConfigPanel implements View {
 
     private static final String KEY_AUTO_LOGIN = "userlogin";
 
@@ -74,6 +76,11 @@ public class AccessControlConfigComponent extends BaseConfigPanel {
 
     public PrefSetItem createItem() {
         return new AccessControlSetItem();
+    }
+
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+
     }
 
     /**

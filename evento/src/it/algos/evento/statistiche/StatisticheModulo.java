@@ -25,14 +25,6 @@ public class StatisticheModulo extends Module implements SelezioneStatisticaList
 		init();
 	}// end of constructor
 
-	/**
-	 * Crea una sola istanza di un modulo per sessione.
-	 * Tutte le finestre e i tab di un browser sono nella stessa sessione.
-	 */
-	public static StatisticheModulo getInstance(){
-		return (StatisticheModulo) ModulePop.getInstance(StatisticheModulo.class);
-	}
-
 
 	/**
 	 * Visualizza un ControlPanel in alto <br>

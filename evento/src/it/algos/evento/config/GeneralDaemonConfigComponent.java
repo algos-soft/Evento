@@ -2,6 +2,8 @@ package it.algos.evento.config;
 
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -17,7 +19,7 @@ import it.algos.webbase.web.field.CheckBoxField;
 import javax.servlet.ServletContext;
 
 @SuppressWarnings("serial")
-public class GeneralDaemonConfigComponent extends BaseConfigPanel {
+public class GeneralDaemonConfigComponent extends BaseConfigPanel implements View {
 
 	private static final String KEY_SERVICE_START = "servicestart";
 
@@ -128,6 +130,11 @@ public class GeneralDaemonConfigComponent extends BaseConfigPanel {
 	
 	public PrefSetItem createItem() {
 		return new DaemonSetItem();
+	}
+
+	@Override
+	public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+
 	}
 
 	/**
