@@ -80,7 +80,7 @@ public class AccessControlConfigComponent extends BaseConfigPanel implements Vie
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-
+        loadContent();
     }
 
     /**

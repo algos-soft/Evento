@@ -84,7 +84,7 @@ public class SMTPServerConfigComponent extends BaseConfigPanel implements View {
 
 	@Override
 	public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-
+		loadContent();
 	}
 
 	/**

@@ -94,40 +94,35 @@ public class AdminHome extends VerticalLayout {
      */
     private MenuBar createMainMenuBar() {
 
-        splashScreen = new AdminSplash();
+        //splashScreen = new AdminSplash();
 
         MenuBar.MenuItem item;
         MenuBar menubar = new MenuBar();
 
         // Menu Home
-        menubar.addItem("", LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME, "manager_menubar_icon.png"), new MenuCommand(menubar, "splash", splashScreen));
+//        menubar.addItem("", LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME, "manager_menubar_icon.png"), new MenuCommand(menubar, "splash", AdminSplash.class));
+        menubar.addItem("", FontAwesome.HOME, new MenuCommand(menubar, "splash", AdminSplash.class));
 
         // Menu principali
-        menubar.addItem("Aziende", null, new MenuCommand(menubar, "aziende", new CompanyModule()));
+        menubar.addItem("Aziende", null, new MenuCommand(menubar, "aziende", CompanyModule.class));
 
         // Menu Utenti e ruoli
         item = menubar.addItem("Utenti e ruoli", null, null);
-        item.addItem("Utenti", null, new MenuCommand(menubar, "utenti", new UtenteModulo()));
-        item.addItem("Ruoli", null, new MenuCommand(menubar, "ruoli", new RuoloModulo()));
-        item.addItem("Utenti-Ruoli", null, new MenuCommand(menubar, "utenteruolo", new UtenteRuoloModulo()));
+        item.addItem("Utenti", null, new MenuCommand(menubar, "utenti", UtenteModulo.class));
+        item.addItem("Ruoli", null, new MenuCommand(menubar, "ruoli", RuoloModulo.class));
+        item.addItem("Utenti-Ruoli", null, new MenuCommand(menubar, "utenteruolo", UtenteRuoloModulo.class));
 
         // Menu Configurazione
         item = menubar.addItem("Configurazione", null, null);
 
         // submenu controllo accessi
-        AccessControlConfigComponent accessComp = new AccessControlConfigComponent();
-        accessComp.loadContent();
-        item.addItem("Controllo accessi", null, new MenuCommand(menubar, "accesscontrol", accessComp));
+        item.addItem("Controllo accessi", null, new MenuCommand(menubar, "accesscontrol", AccessControlConfigComponent.class));
 
         // submenu smtp server
-        SMTPServerConfigComponent smtpComp = new SMTPServerConfigComponent();
-        smtpComp.loadContent();
-        item.addItem("SMTP Server", null, new MenuCommand(menubar, "smtpserver", smtpComp));
+        item.addItem("SMTP Server", null, new MenuCommand(menubar, "smtpserver", SMTPServerConfigComponent.class));
 
         // submenu daemon controlli automatici
-        GeneralDaemonConfigComponent daemonComp = new GeneralDaemonConfigComponent();
-        daemonComp.loadContent();
-        item.addItem("Daemon controlli automatici", null, new MenuCommand(menubar, "daemon", daemonComp));
+        item.addItem("Daemon controlli automatici", null, new MenuCommand(menubar, "daemon", GeneralDaemonConfigComponent.class));
 
         // Modo Programmatore
         if (LibSession.isDeveloper()) {

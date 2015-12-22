@@ -37,8 +37,6 @@ public class CompanyModule extends ModulePop implements View {
 	}// end of method
 
 	
-
-	
 	@Override
 	protected Attribute<?, ?>[] creaFieldsList() {
 		return new Attribute[] { Company_.name, Company_.companyCode, Company_.contractType,  Company_.contractEnd};
