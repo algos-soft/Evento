@@ -1,15 +1,12 @@
 package it.algos.evento.demo;
 
-import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.provider.LocalEntityProvider;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
+import it.algos.evento.CQuery;
 import it.algos.evento.EventoApp;
 import it.algos.evento.EventoBootStrap;
 import it.algos.evento.entities.company.Company;
-import it.algos.evento.entities.company.Company_;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.comune.ComuneImport;
 import it.algos.evento.entities.evento.Evento;
@@ -33,12 +30,9 @@ import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.stagione.Stagione_;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
-import it.algos.evento.lib.EventoSessionLib;
-import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.multiazienda.EventoEntity_;
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.evento.pref.EventoPrefs;
 import it.algos.webbase.web.AlgosApp;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
@@ -311,17 +305,23 @@ public class DemoDataGenerator {
     public static void creaScuole(Company company, EntityManager manager) {
         Scuola scuola;
 
+//        // cerca l'ordine "SUP"
+//        Class clazz = OrdineScuola.class;
+//        CriteriaBuilder cb = manager.getCriteriaBuilder();
+//        CriteriaQuery<OrdineScuola> cq = cb.createQuery(clazz);
+//        Root<OrdineScuola> root = (Root<OrdineScuola>) cq.from(clazz);
+//        Predicate[] preds = new Predicate[2];
+//        preds[0] = cb.equal(root.get(EventoEntity_.company), company);
+//        preds[1] = cb.equal(root.get(OrdineScuola_.sigla), "SUP");
+//        cq.where(preds);
+//        TypedQuery<OrdineScuola> query = manager.createQuery(cq);
+//        List<OrdineScuola> entities = query.getResultList();
+
         // cerca l'ordine "SUP"
-        Class clazz = OrdineScuola.class;
-        CriteriaBuilder cb = manager.getCriteriaBuilder();
-        CriteriaQuery<OrdineScuola> cq = cb.createQuery(clazz);
-        Root<OrdineScuola> root = (Root<OrdineScuola>) cq.from(clazz);
-        Predicate[] preds = new Predicate[2];
-        preds[0] = cb.equal(root.get(EventoEntity_.company), company);
-        preds[1] = cb.equal(root.get(OrdineScuola_.sigla), "SUP");
-        cq.where(preds);
-        TypedQuery<OrdineScuola> query = manager.createQuery(cq);
-        List<OrdineScuola> entities = query.getResultList();
+        CQuery<OrdineScuola> q = new CQuery<>(manager, OrdineScuola.class);
+        q.addFilter(EventoEntity_.company, company);
+        q.addFilter(OrdineScuola_.sigla, "SUP");
+        List<OrdineScuola> entities = q.getResultList();
 
         OrdineScuola ordine = null;
         if (entities.size() > 0) {
@@ -398,19 +398,27 @@ public class DemoDataGenerator {
 
     private static BaseEntity getEntityRandom(Class clazz, Company company, EntityManager manager) {
 
-        CriteriaBuilder cb = manager.getCriteriaBuilder();
-        CriteriaQuery<? extends BaseEntity> cq = cb.createQuery(clazz);
-        Root<EventoEntity> root = (Root<EventoEntity>) cq.from(clazz);
-        Predicate pred;
-        pred = cb.equal(root.get(EventoEntity_.company), company);
-        cq.where(pred);
-        TypedQuery<? extends BaseEntity> query = manager.createQuery(cq);
-        List<EventoEntity> entities = (List<EventoEntity>) query.getResultList();
+//        CriteriaBuilder cb = manager.getCriteriaBuilder();
+//        CriteriaQuery<? extends BaseEntity> cq = cb.createQuery(clazz);
+//        Root<EventoEntity> root = (Root<EventoEntity>) cq.from(clazz);
+//        Predicate pred;
+//        pred = cb.equal(root.get(EventoEntity_.company), company);
+//        cq.where(pred);
+//        TypedQuery<? extends BaseEntity> query = manager.createQuery(cq);
+//        List<EventoEntity> entities = (List<EventoEntity>) query.getResultList();
 
-        int min = 0;
-        int max = entities.size() - 1;
-        int randomNum = new Random().nextInt((max - min) + 1) + min;
-        return entities.get(randomNum);
+        CQuery q = new CQuery(manager, clazz);
+        q.addFilter(EventoEntity_.company, company);
+        List entities = q.getResultList();
+
+        BaseEntity entity=null;
+        if(entities.size()>0){
+            int min = 0;
+            int max = entities.size() - 1;
+            int randomNum = new Random().nextInt((max - min) + 1) + min;
+            entity=(BaseEntity)entities.get(randomNum);
+        }
+        return entity;
     }
 
     /**
@@ -496,17 +504,23 @@ public class DemoDataGenerator {
     private static void saveEvento(Evento evento, Company company, EntityManager manager) {
 
 
+//        // recupera la stagione corrente
+//        Class clazz = Stagione.class;
+//        CriteriaBuilder cb = manager.getCriteriaBuilder();
+//        CriteriaQuery<Stagione> cq = cb.createQuery(clazz);
+//        Root<Stagione> root = (Root<Stagione>) cq.from(clazz);
+//        Predicate[] preds = new Predicate[2];
+//        preds[0] = cb.equal(root.get(EventoEntity_.company), company);
+//        preds[1] = cb.equal(root.get(Stagione_.corrente), true);
+//        cq.where(preds);
+//        TypedQuery<Stagione> query = manager.createQuery(cq);
+//        List<Stagione> entities = query.getResultList();
+
         // recupera la stagione corrente
-        Class clazz = Stagione.class;
-        CriteriaBuilder cb = manager.getCriteriaBuilder();
-        CriteriaQuery<Stagione> cq = cb.createQuery(clazz);
-        Root<Stagione> root = (Root<Stagione>) cq.from(clazz);
-        Predicate[] preds = new Predicate[2];
-        preds[0] = cb.equal(root.get(EventoEntity_.company), company);
-        preds[1] = cb.equal(root.get(Stagione_.corrente), true);
-        cq.where(preds);
-        TypedQuery<Stagione> query = manager.createQuery(cq);
-        List<Stagione> entities = query.getResultList();
+        CQuery<Stagione> q = new CQuery<>(manager, Stagione.class);
+        q.addFilter(EventoEntity_.company, company);
+        q.addFilter(Stagione_.corrente, true);
+        List<Stagione> entities = q.getResultList();
 
         Stagione stagione = null;
         if (entities.size() > 0) {
@@ -655,16 +669,23 @@ public class DemoDataGenerator {
         Rappresentazione rapp = null;
         DateTime dt = new DateTime(date).plusDays(30);
 
-        Class clazz = Rappresentazione.class;
-        CriteriaBuilder cb = manager.getCriteriaBuilder();
-        CriteriaQuery<Rappresentazione> cq = cb.createQuery(clazz);
-        Root<Rappresentazione> root = (Root<Rappresentazione>) cq.from(clazz);
-        Predicate[] preds = new Predicate[2];
-        preds[0] = cb.equal(root.get(EventoEntity_.company), company);
-        preds[1] = cb.greaterThan(root.get(Rappresentazione_.dataRappresentazione), dt.toDate());
-        cq.where(preds);
-        TypedQuery<Rappresentazione> query = manager.createQuery(cq);
-        List<Rappresentazione> entities = query.getResultList();
+//        Class clazz = Rappresentazione.class;
+//        CriteriaBuilder cb = manager.getCriteriaBuilder();
+//        CriteriaQuery<Rappresentazione> cq = cb.createQuery(clazz);
+//        Root<Rappresentazione> root = (Root<Rappresentazione>) cq.from(clazz);
+//        Predicate[] preds = new Predicate[2];
+//        preds[0] = cb.equal(root.get(EventoEntity_.company), company);
+//        preds[1] = cb.greaterThan(root.get(Rappresentazione_.dataRappresentazione), dt.toDate());
+//        cq.where(preds);
+//        TypedQuery<Rappresentazione> query = manager.createQuery(cq);
+//        List<Rappresentazione> entities = query.getResultList();
+
+        // tutte le rappresentazioni dopo la data spedificata
+        CQuery<Rappresentazione> q = new CQuery<>(manager, Rappresentazione.class);
+        q.addFilter(EventoEntity_.company, company);
+        Predicate p = q.getCB().greaterThan(q.getPath(Rappresentazione_.dataRappresentazione), dt.toDate());
+        q.addFilter(p);
+        List<Rappresentazione> entities=q.getResultList();
 
         int max = entities.size();
         if (max > 0) {

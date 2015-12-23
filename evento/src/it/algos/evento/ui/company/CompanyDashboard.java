@@ -262,7 +262,10 @@ public class CompanyDashboard extends VerticalLayout {
 
         int totRapp = EQuery.countRappresentazioni(getStagione());
         int rappPassate = EQuery.countRappresentazioni(getStagione(), new Date());
-        int percent = Math.round(rappPassate * 100 / totRapp);
+        int percent =0;
+        if(totRapp!=0){
+            percent=Math.round(rappPassate * 100 / totRapp);
+        }
 
         HTMLLine line = new HTMLLine();
         line.add("rappresentazioni effettuate:", HTMLLine.SMALL);
@@ -298,7 +301,10 @@ public class CompanyDashboard extends VerticalLayout {
 
         int prenotati = EQuery.countPostiPrenotati(getStagione());
         int disponibili = EQuery.countCapienza(getStagione());
-        int percent = Math.round(prenotati * 100 / disponibili);
+        int percent=0;
+        if(disponibili!=0){
+            percent = Math.round(prenotati * 100 / disponibili);
+        }
 
         HTMLLine line = new HTMLLine();
         line.add("posti prenotati:", HTMLLine.SMALL);
