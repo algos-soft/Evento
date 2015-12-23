@@ -232,11 +232,18 @@ public class PrenChecker implements Runnable {
 		for (Object id : ids) {
 			EntityItem<?> item = cont.getItem(id);
 			Prenotazione pren = (Prenotazione) item.getEntity();
-			try {
-				PrenotazioneModulo.doPromemoriaScadenzaPagamento(pren, EventoApp.BOT_USER);
-			} catch (EmailFailedException e) {
-				logger.log(Level.WARNING, "Invio promemoria scadenza pagamento fallito: "+pren+": "+e.getMessage());
+
+			// invia solo se previsto nei settings, altrimenti logga soltanto
+			if (ModelliLettere.memoScadPagamento.isSend(pren)) {
+				try {
+					PrenotazioneModulo.doPromemoriaScadenzaPagamento(pren, EventoApp.BOT_USER);
+				} catch (EmailFailedException e) {
+					logger.log(Level.WARNING, "Invio promemoria scadenza pagamento fallito: "+pren+": "+e.getMessage());
+				}
+			}else{
+				logger.log(Level.WARNING, "Skip invio promemoria scadenza pagamento (vedi config): "+pren);
 			}
+
 		}
 		manager.close();
 		

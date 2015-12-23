@@ -1,7 +1,6 @@
 package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
@@ -34,11 +33,9 @@ import it.algos.webbase.web.field.EmailField;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.lib.LibSession;
-import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
-import it.algos.webbase.web.ui.AlgosUI;
 import org.joda.time.DateTime;
 
 import java.math.BigDecimal;
@@ -129,7 +126,7 @@ public class PrenotazioneModulo extends EModulePop {
     @Override
     protected void init() {
         super.init();
-        this.statusChangeListeners=new ArrayList<>();
+        this.statusChangeListeners = new ArrayList<>();
     }
 
     public void addStatusChangeListener(StatusChangeListener l) {
@@ -177,12 +174,12 @@ public class PrenotazioneModulo extends EModulePop {
                 getTable().refreshRowCache();
 
                 String detail = pren.toStringNumDataInsegnante();
-                String mailDetail="";
-                if(emailInviata){
-                    mailDetail="e-mail inviata.";
+                String mailDetail = "";
+                if (emailInviata) {
+                    mailDetail = "e-mail inviata.";
                 }
 
-                Notification notif = new Notification("Prenotazione confermata: "+detail, mailDetail, Notification.Type.HUMANIZED_MESSAGE);
+                Notification notif = new Notification("Prenotazione confermata: " + detail, mailDetail, Notification.Type.HUMANIZED_MESSAGE);
                 notif.setDelayMsec(-1);
                 notif.show(Page.getCurrent());
 
@@ -207,85 +204,6 @@ public class PrenotazioneModulo extends EModulePop {
         prop.setValue(nextnum);
         CompanyPrefs.nextNumPren.put(nextnum + 1);
     }// end of method
-
-
-
-    /**
-     * Invio email promemoria scadenza pagamento (da rimuovere?)
-     * <p>
-     * Invocato dai menu
-     */
-    public static void cmdPromemoriaScadenzaPagamento(Object id, ATable table) {
-        boolean cont = true;
-        Prenotazione pren = null;
-
-        // controllo che il pagamento non sia già confermato
-        if (cont) {
-            pren = Prenotazione.read(id);
-            if (pren.isPagamentoConfermato()) {
-                cont = false;
-                Notification.show("Questo pagamento è già confermato.");
-            }
-        }
-
-        // controllo che la prenotazione sia confermata
-        if (cont) {
-            if (!pren.isConfermata()) {
-                cont = false;
-                Notification.show("Questa prenotazione non è ancora confermata.");
-            }
-        }
-
-        // controllo che il livello di sollecito sia < 1
-        if (cont) {
-            if (pren.getLivelloSollecitoPagamento() > 0) {
-                cont = false;
-                Notification notification = new Notification("Il promemoria è gia stato inviato",
-                        "\nSe vuoi puoi reinviarlo dagli Eventi Prenotazione.", Notification.Type.HUMANIZED_MESSAGE);
-                notification.setDelayMsec(-1);
-                notification.show(Page.getCurrent());
-            }
-        }
-
-        // presento il dialogo di conferma (se confermato manda mail)
-        if (cont) {
-            ConfirmDialog dialog = new DialogoPromemoriaScadenzaPagamento(pren, table);
-            dialog.show(UI.getCurrent());
-        }
-
-    }
-
-    /**
-     * Dialogo conferma invio promemoria scadenza pagamento (da rimuovere?)
-     */
-    private static class DialogoPromemoriaScadenzaPagamento extends ConfirmDialog {
-        private Prenotazione pren;
-        private ATable table;
-
-        public DialogoPromemoriaScadenzaPagamento(Prenotazione pren, ATable table) {
-            super(null);
-            this.pren = pren;
-            this.table = table;
-            setTitle("Invio promemoria scadenza pagamento");
-            setMessage("Vuoi inviare un promemoria scadenza pagamento?");
-            setConfirmButtonText("Invia");
-        }
-
-        @Override
-        protected void onConfirm() {
-            try {
-                PrenotazioneModulo.doPromemoriaScadenzaPagamento(pren, getUsername());
-                Notification notification = new Notification("Promemoria inviato", Notification.Type.HUMANIZED_MESSAGE);
-                notification.setDelayMsec(-1);
-                notification.show(Page.getCurrent());
-            } catch (EmailFailedException e) {
-                notifyEmailFailed(e);
-            }
-            table.refreshRowCache();// per il livello di sollecito che può essere incrementato
-            super.onConfirm();
-        }
-
-    }
 
 
     /**
@@ -365,30 +283,6 @@ public class PrenotazioneModulo extends EModulePop {
     }
 
 
-    /**
-     * Sposta delle prenotazioni ad altra rappresentazione
-     * <p>
-     * Invocato dai menu
-     */
-    public static void cmdSpostaPrenotazioni(final Prenotazione[] aPren, final ATable table) {
-        if (aPren.length > 0) {
-            Evento e = aPren[0].getRappresentazione().getEvento();
-            try {
-                DialogoSpostaPrenotazioni dialogo = new DialogoSpostaPrenotazioni(e, aPren, new DialogoSpostaPrenotazioni.OnMoveDoneListener() {
-                    @Override
-                    public void moveDone(int quante, Rappresentazione dest) {
-                        Notification.show(quante + " prenotazioni spostate.");
-                        table.refreshRowCache();
-                    }
-                });
-
-                dialogo.show(UI.getCurrent());
-
-            } catch (DialogoSpostaPrenotazioni.EventiDiversiException e1) {
-                Notification.show(null, e1.getMessage(), Notification.Type.ERROR_MESSAGE);
-            }
-        }
-    }
 
 
     /**
@@ -517,30 +411,28 @@ public class PrenotazioneModulo extends EModulePop {
 //        return  emailInviata;
 //    }
 
-        /**
-         * Controlli scadenza pagamento (no UI).
-         * @return true se ha inviato la mail di sollecito e spostato la scadenza
-         */
+    /**
+     * Controlli scadenza pagamento (no UI).
+     *
+     * @param pren   la prenotazione di riferimento
+     * @param user   l'utente che effettua questa operazione
+     * @return true se ha inviato la mail di sollecito e spostato la scadenza
+     */
     public static boolean doPromemoriaScadenzaPagamento(Prenotazione pren, String user) throws EmailFailedException {
-        boolean eseguito=false;
+        boolean eseguito = false;
         TipoEventoPren tipoEvento = TipoEventoPren.promemoriaScadenzaPagamento;
 
-        // controlla se la prenotazione è soggetta a invio mail
-        if (ModelliLettere.memoScadPagamento.isSend(pren)) {
-
-            // invia la mail, pone il livello di sollecito a 1
-            // e prolunga la scadenza a X giorni da oggi
-            if (pren.getLivelloSollecitoPagamento() < 1) {
-                pren.setLivelloSollecitoPagamento(1);
-                int numDays = CompanyPrefs.ggProlungamentoPagamDopoSollecito.getInt(pren.getCompany());
-                Date date = new DateTime(LibDate.today()).plusDays(numDays).toDate();
-                pren.setScadenzaPagamento(date);
-                pren.save();
-                logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
-                sendEmailEvento(pren, tipoEvento, user);
-                eseguito=true;
-            }
-
+        // invia la mail, pone il livello di sollecito a 1
+        // e prolunga la scadenza a X giorni da oggi
+        if (pren.getLivelloSollecitoPagamento() < 1) {
+            pren.setLivelloSollecitoPagamento(1);
+            int numDays = CompanyPrefs.ggProlungamentoPagamDopoSollecito.getInt(pren.getCompany());
+            Date date = new DateTime(LibDate.today()).plusDays(numDays).toDate();
+            pren.setScadenzaPagamento(date);
+            pren.save();
+            logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
+            sendEmailEvento(pren, tipoEvento, user);
+            eseguito = true;
         }
 
         return eseguito;
@@ -562,11 +454,12 @@ public class PrenotazioneModulo extends EModulePop {
 //    }
 
 
-        /**
-         * Conferma registrazione pagamento (no UI)
-         * <p>
-         * @return true se ha inviato una o più mail
-         */
+    /**
+     * Conferma registrazione pagamento (no UI)
+     * <p>
+     *
+     * @return true se ha inviato una o più mail
+     */
     public static boolean doConfermaRegistrazionePagamento(Prenotazione pren, int numInteri, int numRidotti,
                                                            int numDisabili, int numAccomp, BigDecimal importoPrevisto, BigDecimal importoPagato, ModoPagamento mezzo,
                                                            boolean checkConfermato, boolean checkRicevuto, String user) throws EmailFailedException {
@@ -660,8 +553,6 @@ public class PrenotazioneModulo extends EModulePop {
 //    }
 
 
-
-
     /**
      * Esecuzione invio attestato di partecipazione (no UI)
      */
@@ -686,16 +577,16 @@ public class PrenotazioneModulo extends EModulePop {
 //    }
 
 
-        /**
-         * Invia una email per una dato evento di prenotazione.
-         * <p>
-         * I destinatari vengono recuperati dalla prenotazione in base al tipo di lettera
-         * Crea un evento di spedizione mail (anche se l'invio fallisce)
-         *
-         * @param pren       la prenotazione
-         * @param tipoEvento il tipo di evento
-         * @param user       l'utente che genera l'evento
-         */
+    /**
+     * Invia una email per una dato evento di prenotazione.
+     * <p>
+     * I destinatari vengono recuperati dalla prenotazione in base al tipo di lettera
+     * Crea un evento di spedizione mail (anche se l'invio fallisce)
+     *
+     * @param pren       la prenotazione
+     * @param tipoEvento il tipo di evento
+     * @param user       l'utente che genera l'evento
+     */
     public static void sendEmailEvento(Prenotazione pren, TipoEventoPren tipoEvento, String user)
             throws EmailFailedException {
         sendEmailEvento(pren, tipoEvento, user, null);

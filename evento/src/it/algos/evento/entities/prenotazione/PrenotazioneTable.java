@@ -12,10 +12,12 @@ import com.vaadin.server.Page;
 import com.vaadin.ui.*;
 import it.algos.evento.EventoApp;
 import it.algos.evento.entities.comune.Comune;
+import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.modopagamento.ModoPagamento;
 import it.algos.evento.entities.prenotazione.PrenotazioneModulo.StatusChangeListener;
 import it.algos.evento.entities.prenotazione.eventi.TipoEventoPren;
+import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
@@ -126,33 +128,33 @@ public class PrenotazioneTable extends ETable {
         // comandi contestuali aggiuntivi specifici
         addActionHandler(new Action.Handler() {
 
-            private final Action actIstruzioni = new Action(PrenotazioneTablePortal.CMD_RIEPILOGO_OPZIONE,
-                    PrenotazioneTablePortal.ICON_RIEPILOGO_OPZIONE);
             private final Action actRegistraPagamento = new Action(PrenotazioneTablePortal.CMD_REGISTRA_PAGAMENTO,
                     PrenotazioneTablePortal.ICON_REGISTRA_PAGAMENTO);
-            private final Action actMemoScadPag = new Action(PrenotazioneTablePortal.CMD_MEMO_SCAD_PAGA,
-                    PrenotazioneTablePortal.ICON_MEMO_SCAD_PAGA);
+            private final Action actIstruzioni = new Action(PrenotazioneTablePortal.CMD_RIEPILOGO_OPZIONE,
+                    PrenotazioneTablePortal.ICON_RIEPILOGO_OPZIONE);
             private final Action actMemoInvioSchedaPren = new Action(
                     PrenotazioneTablePortal.CMD_MEMO_INVIO_SCHEDA_PREN,
                     PrenotazioneTablePortal.ICON_MEMO_INVIO_SCHEDA_PREN);
+            private final Action actMemoScadPag = new Action(PrenotazioneTablePortal.CMD_MEMO_SCAD_PAGA,
+                    PrenotazioneTablePortal.ICON_MEMO_SCAD_PAGA);
+            private final Action actAttestatoPartecipazione = new Action(PrenotazioneTablePortal.CMD_ATTESTATO_PARTECIPAZIONE,
+                    PrenotazioneTablePortal.ICON_ATTESTATO_PARTECIPAZIONE);
             private final Action actAvvisoCongOpz = new Action(PrenotazioneTablePortal.CMD_CONGELA_OPZIONE,
                     PrenotazioneTablePortal.ICON_CONGELA_OPZIONE);
             private final Action actSpostaAdAltraData = new Action(PrenotazioneTablePortal.CMD_SPOSTA_AD_ALTRA_DATA,
                     PrenotazioneTablePortal.ICON_SPOSTA_AD_ALTRA_DATA);
-            private final Action actAttestatoPartecipazione = new Action(PrenotazioneTablePortal.CMD_ATTESTATO_PARTECIPAZIONE,
-                    PrenotazioneTablePortal.ICON_ATTESTATO_PARTECIPAZIONE);
 
 
             public Action[] getActions(Object target, Object sender) {
                 Action[] actions = null;
                 actions = new Action[7];
-                actions[0] = actIstruzioni;
-                actions[1] = actRegistraPagamento;
+                actions[0] = actRegistraPagamento;
+                actions[1] = actIstruzioni;
                 actions[2] = actMemoInvioSchedaPren;
-                actions[3] = actAvvisoCongOpz;
-                actions[4] = actSpostaAdAltraData;
-                actions[5] = actMemoScadPag;
-                actions[6] = actAttestatoPartecipazione;
+                actions[3] = actMemoScadPag;
+                actions[4] = actAttestatoPartecipazione;
+                actions[5] = actAvvisoCongOpz;
+                actions[6] = actSpostaAdAltraData;
 
                 return actions;
             }
@@ -193,16 +195,11 @@ public class PrenotazioneTable extends ETable {
                         }
 
                         if (action.equals(actSpostaAdAltraData)) {
-                            BeanItem[] beans = PrenotazioneTable.this.getSelectedBeans();
-                            Prenotazione[] aPren = new Prenotazione[beans.length];
-                            for (int i=0;i<aPren.length;i++){
-                                aPren[i]=(Prenotazione)beans[i].getBean();
-                            }
-                            PrenotazioneModulo.cmdSpostaPrenotazioni(aPren, PrenotazioneTable.this);
+                            spostaAdAltraData();
                         }
 
                         if (action.equals(actMemoScadPag)) {
-                            PrenotazioneModulo.cmdPromemoriaScadenzaPagamento(id, PrenotazioneTable.this);
+                            inviaPromemoriaScadenzaPagamento();
                         }
 
                         if (action.equals(actAttestatoPartecipazione)) {
@@ -484,6 +481,109 @@ public class PrenotazioneTable extends ETable {
 
         }
 
+    }
+
+
+
+    /**
+     * Invio email promemoria scadenza pagamento
+     * <p>
+     * Invocato dai menu
+     */
+    public void inviaPromemoriaScadenzaPagamento() {
+        boolean cont = true;
+
+        // controllo una e una sola selezionata
+        Prenotazione pren=(Prenotazione)getSelectedBean();
+        if(pren==null){
+            cont = false;
+            Notification.show("Seleziona prima una prenotazione.");
+        }
+
+        // controllo che il pagamento non sia già confermato
+        if (cont) {
+            if (pren.isPagamentoConfermato()) {
+                cont = false;
+                Notification.show("Questo pagamento è già confermato.");
+            }
+        }
+
+        // controllo che la prenotazione sia confermata
+        if (cont) {
+            if (!pren.isConfermata()) {
+                cont = false;
+                Notification.show("Questa prenotazione non è ancora confermata.");
+            }
+        }
+
+        // controllo che il livello di sollecito sia < 1
+        if (cont) {
+            if (pren.getLivelloSollecitoPagamento() > 0) {
+                cont = false;
+                Notification notification = new Notification("Il promemoria è gia stato inviato",
+                        "\nSe vuoi puoi reinviarlo dagli Eventi Prenotazione.", Notification.Type.HUMANIZED_MESSAGE);
+                notification.setDelayMsec(-1);
+                notification.show(Page.getCurrent());
+            }
+        }
+
+        // presento il dialogo di conferma (se confermato manda mail)
+        if (cont) {
+            DialogoPromemoriaScadenzaPagamento dialog = new DialogoPromemoriaScadenzaPagamento(pren);
+            dialog.setSuccessListener(new DialogoPromemoriaScadenzaPagamento.SuccessListener() {
+                @Override
+                public void success() {
+
+                    refreshRowCache();  // deve aggiornare il livello di sollecito visualizzato
+
+                    Notification notification = new Notification("Promemoria scadenza pagamento inviato", Notification.Type.HUMANIZED_MESSAGE);
+                    notification.setDelayMsec(-1);
+                    notification.show(Page.getCurrent());
+
+                }
+            });
+
+            dialog.show();
+
+        }
+
+    }
+
+
+    /**
+     * Sposta delle prenotazioni ad altra rappresentazione
+     * <p>
+     * Invocato dai menu
+     */
+    public void spostaAdAltraData() {
+
+        BeanItem[] beans = PrenotazioneTable.this.getSelectedBeans();
+        Prenotazione[] aPren = new Prenotazione[beans.length];
+        for (int i=0;i<aPren.length;i++){
+            aPren[i]=(Prenotazione)beans[i].getBean();
+        }
+
+        if (aPren.length > 0) {
+            Evento e = aPren[0].getRappresentazione().getEvento();
+            try {
+                DialogoSpostaPrenotazioni dialogo = new DialogoSpostaPrenotazioni(e, aPren, new DialogoSpostaPrenotazioni.OnMoveDoneListener() {
+                    @Override
+                    public void moveDone(int quante, Rappresentazione dest) {
+                        refreshRowCache();
+
+                        Notification notification = new Notification(quante + " prenotazioni spostate.", Notification.Type.HUMANIZED_MESSAGE);
+                        notification.setDelayMsec(-1);
+                        notification.show(Page.getCurrent());
+
+                    }
+                });
+
+                dialogo.show();
+
+            } catch (DialogoSpostaPrenotazioni.EventiDiversiException e1) {
+                Notification.show(null, e1.getMessage(), Notification.Type.ERROR_MESSAGE);
+            }
+        }
     }
 
 

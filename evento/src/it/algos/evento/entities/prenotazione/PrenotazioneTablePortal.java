@@ -120,9 +120,8 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addItem(CMD_MEMO_SCAD_PAGA, ICON_MEMO_SCAD_PAGA, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Object id = getTable().getSelectedId();
-                if (id != null) {
-                    PrenotazioneModulo.cmdPromemoriaScadenzaPagamento(id, getTable());
+                if (getTable().getSelectedBean() != null) {
+                    getPrenotazioneTable().inviaPromemoriaScadenzaPagamento();
                 } else {
                     msgNoSelection();
                 }
@@ -156,13 +155,7 @@ public class PrenotazioneTablePortal extends TablePortal {
             public void menuSelected(MenuItem selectedItem) {
                 BeanItem[] beans = getTable().getSelectedBeans();
                 if ((beans != null) && (beans.length>0)) {
-                    ArrayList<Prenotazione> lPren = new ArrayList<Prenotazione>();
-                    for (BeanItem bean : beans){
-                        Prenotazione p = (Prenotazione)bean.getBean();
-                        lPren.add(p);
-                    }
-                    Prenotazione[] aPren=lPren.toArray(new Prenotazione[0]);
-                    PrenotazioneModulo.cmdSpostaPrenotazioni(aPren, table);
+                    getPrenotazioneTable().spostaAdAltraData();
                 } else {
                     Notification.show("Seleziona prima le prenotazioni da spostare.");
                 }

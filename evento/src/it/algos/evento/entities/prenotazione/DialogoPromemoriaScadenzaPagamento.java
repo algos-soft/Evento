@@ -7,9 +7,9 @@ import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.table.ATable;
 
 /**
- * Dialogo conferma invio mail di "promemoria invio scheda prenotazione"
+ * Dialogo conferma invio promemoria scadenza pagamento (da rimuovere?)
  */
-class DialogoPromemoriaInvioSchedaPrenotazione extends ConfirmDialog {
+class DialogoPromemoriaScadenzaPagamento extends ConfirmDialog {
     private Prenotazione pren;
 
     private SuccessListener successListener;
@@ -22,11 +22,11 @@ class DialogoPromemoriaInvioSchedaPrenotazione extends ConfirmDialog {
         successListener=l;
     }
 
-    public DialogoPromemoriaInvioSchedaPrenotazione(Prenotazione pren) {
+    public DialogoPromemoriaScadenzaPagamento(Prenotazione pren) {
         super(null);
         this.pren = pren;
-        setTitle("Invio promemoria conferma prenotazione");
-        setMessage("Vuoi inviare il promemoria conferma prenotazione?");
+        setTitle("Invio promemoria scadenza pagamento");
+        setMessage("Vuoi inviare un promemoria scadenza pagamento?");
         setConfirmButtonText("Invia");
     }
 
@@ -39,25 +39,22 @@ class DialogoPromemoriaInvioSchedaPrenotazione extends ConfirmDialog {
 
                     try {
 
-                        PrenotazioneModulo.doPromemoriaInvioSchedaPrenotazione(pren, EventoBootStrap.getUsername());
+                        PrenotazioneModulo.doPromemoriaScadenzaPagamento(pren, EventoBootStrap.getUsername());
 
                         // notifica il listener se registrato
                         if(successListener!=null){
                             successListener.success();
                         }
 
-
                     } catch (EmailFailedException e) {
                         PrenotazioneModulo.notifyEmailFailed(e);
                     }
-
 
                 }
 
         ).start();
 
-
-
         super.onConfirm();
     }
+
 }
