@@ -139,34 +139,34 @@ $v-font-weight: 400;
 
   .redGradientBg {
     background: red;
-    background: -webkit-linear-gradient(top, darkred, red);
-    background: -moz-linear-gradient(top, darkred, red);
-    background: -o-linear-gradient(top, darkred, red);
-    background: linear-gradient(top, darkred, red);
+    background: -webkit-linear-gradient(top, red, coral, red);
+    background: -moz-linear-gradient(top, red, coral, red);
+    background: -o-linear-gradient(top, red, coral, red);
+    background: linear-gradient(top, red, coral, red);
   }
 
   .orangeGradientBg {
     background: orange;
-    background: -webkit-linear-gradient(top, darkorange, orange);
-    background: -moz-linear-gradient(top, darkorange, orange);
-    background: -o-linear-gradient(top, darkorange, orange);
-    background: linear-gradient(top, darkorange, orange);
+    background: -webkit-linear-gradient(top, darkorange, orange, darkorange);
+    background: -moz-linear-gradient(top, darkorange, orange, darkorange);
+    background: -o-linear-gradient(top, darkorange, orange, darkorange);
+    background: linear-gradient(top, darkorange, orange, darkorange);
   }
 
   .goldenGradientBg {
     background: goldenrod;
-    background: -webkit-linear-gradient(top, darkgoldenrod, goldenrod);
-    background: -moz-linear-gradient(top, darkgoldenrod, goldenrod);
-    background: -o-linear-gradient(top, darkgoldenrod, goldenrod);
-    background: linear-gradient(top, darkgoldenrod, goldenrod);
+    background: -webkit-linear-gradient(top, darkgoldenrod, goldenrod, darkgoldenrod);
+    background: -moz-linear-gradient(top, darkgoldenrod, goldenrod, darkgoldenrod);
+    background: -o-linear-gradient(top, darkgoldenrod, goldenrod, darkgoldenrod);
+    background: linear-gradient(top, darkgoldenrod, goldenrod, darkgoldenrod);
   }
 
   .greenGradientBg {
     background: green;
-    background: -webkit-linear-gradient(top, darkgreen, green);
-    background: -moz-linear-gradient(top, darkgreen, green);
-    background: -o-linear-gradient(top, darkgreen, green);
-    background: linear-gradient(top, darkgreen, green);
+    background: -webkit-linear-gradient(top, green, lightgreen, green);
+    background: -moz-linear-gradient(top, green, lightgreen, green);
+    background: -o-linear-gradient(top, green, lightgreen, green);
+    background: linear-gradient(top, green, lightgreen, green);
   }
 
   .label-middle {
