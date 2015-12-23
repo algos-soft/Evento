@@ -3,7 +3,6 @@ package it.algos.evento.demo;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
-import it.algos.evento.CQuery;
 import it.algos.evento.EventoApp;
 import it.algos.evento.EventoBootStrap;
 import it.algos.evento.entities.company.Company;
@@ -37,15 +36,12 @@ import it.algos.webbase.web.AlgosApp;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.query.AQuery;
+import it.algos.webbase.web.query.CQuery;
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.servlet.ServletContext;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -503,19 +499,6 @@ public class DemoDataGenerator {
 
     private static void saveEvento(Evento evento, Company company, EntityManager manager) {
 
-
-//        // recupera la stagione corrente
-//        Class clazz = Stagione.class;
-//        CriteriaBuilder cb = manager.getCriteriaBuilder();
-//        CriteriaQuery<Stagione> cq = cb.createQuery(clazz);
-//        Root<Stagione> root = (Root<Stagione>) cq.from(clazz);
-//        Predicate[] preds = new Predicate[2];
-//        preds[0] = cb.equal(root.get(EventoEntity_.company), company);
-//        preds[1] = cb.equal(root.get(Stagione_.corrente), true);
-//        cq.where(preds);
-//        TypedQuery<Stagione> query = manager.createQuery(cq);
-//        List<Stagione> entities = query.getResultList();
-
         // recupera la stagione corrente
         CQuery<Stagione> q = new CQuery<>(manager, Stagione.class);
         q.addFilter(EventoEntity_.company, company);
@@ -668,17 +651,6 @@ public class DemoDataGenerator {
     private static Rappresentazione getRappresentazionePost(Date date, Company company, EntityManager manager) {
         Rappresentazione rapp = null;
         DateTime dt = new DateTime(date).plusDays(30);
-
-//        Class clazz = Rappresentazione.class;
-//        CriteriaBuilder cb = manager.getCriteriaBuilder();
-//        CriteriaQuery<Rappresentazione> cq = cb.createQuery(clazz);
-//        Root<Rappresentazione> root = (Root<Rappresentazione>) cq.from(clazz);
-//        Predicate[] preds = new Predicate[2];
-//        preds[0] = cb.equal(root.get(EventoEntity_.company), company);
-//        preds[1] = cb.greaterThan(root.get(Rappresentazione_.dataRappresentazione), dt.toDate());
-//        cq.where(preds);
-//        TypedQuery<Rappresentazione> query = manager.createQuery(cq);
-//        List<Rappresentazione> entities = query.getResultList();
 
         // tutte le rappresentazioni dopo la data spedificata
         CQuery<Rappresentazione> q = new CQuery<>(manager, Rappresentazione.class);
