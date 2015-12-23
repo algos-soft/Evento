@@ -340,14 +340,14 @@ public class Company extends BaseEntity {
 		AQuery.delete(Destinatario.class,  EventoEntity_.company, this);
 		AQuery.delete(Mailing.class,  EventoEntity_.company, this);
 		AQuery.delete(PrefEventoEntity.class, EventoEntity_.company, this);
+
+		// elimina gli utenti
 		AQuery.delete(UtenteRuolo.class, EventoEntity_.company, this);
 		AQuery.delete(Ruolo.class, EventoEntity_.company, this);
 		AQuery.delete(Utente.class, EventoEntity_.company, this);
 
 		// elimina le preferenze
 		AQuery.delete(PrefEventoEntity.class, EventoEntity_.company, this);
-
-
 
 	}
 

@@ -76,15 +76,15 @@ public class DemoDataGenerator {
      * @param company - l'azienda di riferimento Attenzione! <br>
      *                L'ordine di creazione delle varie tavole deve rispettare le
      *                relazioni che esistono tra di esse. <br>
+     * @return true se la company è stata creata correttamente
      */
-    public static void createDemoData(Company company) {
-
+    public static boolean createDemoData(Company company) {
+        boolean success=false;
 
         EntityManager manager = EM.createEntityManager();
         manager.getTransaction().begin();
 
         try {
-
 
 
             // In questa classe devo sempre registrare la company nei record prima di salvare
@@ -148,6 +148,7 @@ public class DemoDataGenerator {
             // dopo la creazione della nuova company.
             EventoBootStrap.doForCompany(company);
 
+            success=true;
 
         } catch (Exception e) {
             manager.getTransaction().rollback();
@@ -156,18 +157,10 @@ public class DemoDataGenerator {
 
         manager.close();
 
-
-
-
+        return success;
 
     }// end of method
 
-    // /**
-    // * Create all data of Enumeration
-    // */
-    // public static void creaPreferenzeGenerali() {
-    // Pref.init();
-    // }// end of method
 
     /**
      * Create some demo data only if the table is empty
@@ -178,12 +171,10 @@ public class DemoDataGenerator {
         sala = new Sala("Auditorium", 430);
         sala.setCompany(company);
         manager.persist(sala);
-        //sala.save();
 
         sala = new Sala("Odeon", 220);
         sala.setCompany(company);
         manager.persist(sala);
-        //sala.save();
 
     }// end of method
 
@@ -196,17 +187,14 @@ public class DemoDataGenerator {
         p = new Progetto("La scienza della vita");
         p.setCompany(company);
         manager.persist(p);
-//        p.save();
 
         p = new Progetto("Storia e memoria");
         p.setCompany(company);
         manager.persist(p);
-//        p.save();
 
         p = new Progetto("Popoli nel tempo");
         p.setCompany(company);
         manager.persist(p);
-//        p.save();
 
     }// end of method
 
@@ -219,17 +207,14 @@ public class DemoDataGenerator {
         m = new ModoPagamento("BB", "Bonifico bancario");
         m.setCompany(company);
         manager.persist(m);
-//        m.save();
 
         m = new ModoPagamento("VP", "Vaglia postale");
         m.setCompany(company);
         manager.persist(m);
-//        m.save();
 
         m = new ModoPagamento("CONT", "Contanti");
         m.setCompany(company);
         manager.persist(m);
-//        m.save();
 
     }// end of method
 
@@ -269,7 +254,6 @@ public class DemoDataGenerator {
         ins.setIndirizzo2("20154 Ferrara");
         ins.setCompany(company);
         manager.persist(ins);
-//        ins.save();
 
         ins = new Insegnante("Ferrari", "Sara", "Prof.ssa",
                 "ferrari.sara@gmail.com", "lettere");
@@ -279,7 +263,6 @@ public class DemoDataGenerator {
         ins.setIndirizzo2("50145 Rovigo");
         ins.setCompany(company);
         manager.persist(ins);
-//        ins.save();
 
         ins = new Insegnante("Sarfatti", "Lucia", "Prof.ssa",
                 "lsarfatti@ymail.com", "disegno");
@@ -289,7 +272,6 @@ public class DemoDataGenerator {
         ins.setIndirizzo2("56445 Mantova");
         ins.setCompany(company);
         manager.persist(ins);
-//        ins.save();
 
         ins = new Insegnante("Gasparotti", "Antonella", "Prof.ssa",
                 "agasparotti@tin.it", "storia, filosofia");
@@ -299,7 +281,6 @@ public class DemoDataGenerator {
         ins.setIndirizzo2("20100 Milano");
         ins.setCompany(company);
         manager.persist(ins);
-//        ins.save();
 
         ins = new Insegnante("Marinelli", "Laura", "Prof.ssa",
                 "lmarinelli@hotmail.it", "lettere, storia");
@@ -309,7 +290,6 @@ public class DemoDataGenerator {
         ins.setIndirizzo2("25556 Castelnuovo Val Tidone (PC)");
         ins.setCompany(company);
         manager.persist(ins);
-//        ins.save();
 
     }// end of method
 
@@ -336,7 +316,7 @@ public class DemoDataGenerator {
         CriteriaBuilder cb = manager.getCriteriaBuilder();
         CriteriaQuery<OrdineScuola> cq = cb.createQuery(clazz);
         Root<OrdineScuola> root = (Root<OrdineScuola>) cq.from(clazz);
-        Predicate[] preds=new Predicate[2];
+        Predicate[] preds = new Predicate[2];
         preds[0] = cb.equal(root.get(EventoEntity_.company), company);
         preds[1] = cb.equal(root.get(OrdineScuola_.sigla), "SUP");
         cq.where(preds);
@@ -356,7 +336,6 @@ public class DemoDataGenerator {
         scuola.setEmail("liceobeccaria@yahoo.com");
         scuola.setCompany(company);
         manager.persist(scuola);
-//        scuola.save();
 
         scuola = new Scuola("Rampaldi", "Istituto Tecnico Rampaldi",
                 getComuneRandom(company, manager), ordine);
@@ -366,7 +345,6 @@ public class DemoDataGenerator {
         scuola.setEmail("istrampaldi@yahoo.com");
         scuola.setCompany(company);
         manager.persist(scuola);
-//        scuola.save();
 
         scuola = new Scuola("Leonardo", "Liceo Scientifico Leonardo da Vinci",
                 getComuneRandom(company, manager), ordine);
@@ -376,7 +354,6 @@ public class DemoDataGenerator {
         scuola.setEmail("liceoleonardo@yahoo.com");
         scuola.setCompany(company);
         manager.persist(scuola);
-//        scuola.save();
 
         scuola = new Scuola("Falcone", "Istituto Magistrale Giovanni Falcone", ordine);
         scuola.setIndirizzo("Via Dunant, 1");
@@ -385,7 +362,6 @@ public class DemoDataGenerator {
         scuola.setEmail("istfalcone@yahoo.com");
         scuola.setCompany(company);
         manager.persist(scuola);
-//        scuola.save();
 
         scuola = new Scuola("Rota", "Istituto Superiore Lorenzo Rota",
                 getComuneRandom(company, manager), ordine);
@@ -395,7 +371,6 @@ public class DemoDataGenerator {
         scuola.setEmail("istitutorota@yahoo.com");
         scuola.setCompany(company);
         manager.persist(scuola);
-//        scuola.save();
 
     }// end of method
 
@@ -405,7 +380,6 @@ public class DemoDataGenerator {
     private static void save(EventoEntity entity, Company company, EntityManager manager) {
         entity.setCompany(company);
         manager.persist(entity);
-//        entity.save();
     }
 
 
@@ -478,7 +452,6 @@ public class DemoDataGenerator {
         stagione.setCorrente(true);
         stagione.setCompany(company);
         manager.persist(stagione);
-//        stagione.save();
 
     }
 
@@ -528,18 +501,12 @@ public class DemoDataGenerator {
         CriteriaBuilder cb = manager.getCriteriaBuilder();
         CriteriaQuery<Stagione> cq = cb.createQuery(clazz);
         Root<Stagione> root = (Root<Stagione>) cq.from(clazz);
-        Predicate[] preds=new Predicate[2];
+        Predicate[] preds = new Predicate[2];
         preds[0] = cb.equal(root.get(EventoEntity_.company), company);
         preds[1] = cb.equal(root.get(Stagione_.corrente), true);
         cq.where(preds);
         TypedQuery<Stagione> query = manager.createQuery(cq);
         List<Stagione> entities = query.getResultList();
-
-
-//        Filter f1 = new Compare.Equal(Evento_.company.getName(), company);
-//        Filter f2 = new Compare.Equal(Stagione_.corrente.getName(), true);
-//        Filter f3 = new And(f1, f2);
-//        ArrayList<BaseEntity> lista = AQuery.getList(Stagione.class, f3);
 
         Stagione stagione = null;
         if (entities.size() > 0) {
@@ -550,7 +517,6 @@ public class DemoDataGenerator {
         evento.setStagione(stagione);
         evento.setCompany(company);
         manager.persist(evento);
-//        evento.save();
     }
 
 
@@ -582,7 +548,6 @@ public class DemoDataGenerator {
             rapp.setCapienza(sala.getCapienza());
             rapp.setCompany(company);
             manager.persist(rapp);
-//            rapp.save();
 
         }
     }
@@ -598,9 +563,6 @@ public class DemoDataGenerator {
         int quante = 50;
         Prenotazione pren;
 
-//        EntityManager manager = EM.createEntityManager();
-//        manager.getTransaction().begin();
-
         MutableDateTime dt = new MutableDateTime(2014, 9, 1, 0, 0, 0, 0);
 
         for (int i = 0; i < quante; i++) {
@@ -609,7 +571,7 @@ public class DemoDataGenerator {
 
             // una rappresentazione che sia almeno 1 mese più avanti delle
             // prenotazione
-            Rappresentazione rapp = getRappresentazionePost(dt.toDate(), company);
+            Rappresentazione rapp = getRappresentazionePost(dt.toDate(), company, manager);
 
             if (rapp != null) {
 
@@ -649,25 +611,14 @@ public class DemoDataGenerator {
 
                 // importi
                 Evento e = pren.getRappresentazione().getEvento();
-                BigDecimal iIntero=e.getImportoIntero();
-                BigDecimal iRidotto=e.getImportoRidotto();
-                BigDecimal iDisabili=e.getImportoDisabili();
-                BigDecimal iAccomp=e.getImportoAccomp();
+                BigDecimal iIntero = e.getImportoIntero();
+                BigDecimal iRidotto = e.getImportoRidotto();
+                BigDecimal iDisabili = e.getImportoDisabili();
+                BigDecimal iAccomp = e.getImportoAccomp();
                 pren.setImportoIntero(iIntero);
                 pren.setImportoRidotto(iRidotto);
                 pren.setImportoDisabili(iDisabili);
                 pren.setImportoAccomp(iAccomp);
-                //BigDecimal totPren = Prenotazione.getTotImporto(nInteri, nRidotti, nDisabili, nAccomp, iIntero, iRidotto, iDisabili, iAccomp);
-                //pren.setImportoDaPagare(totPren);
-
-                //BigDecimal totPren = Rappresentazione.getTotImporto(rapp, nInteri, nRidotti);
-//					BigDecimal iIntero=pren.getImportoIntero();
-//					BigDecimal iRidotto=pren.getImportoRidotto();
-//					BigDecimal iDisabili=pren.getImportoDisabili();
-//					BigDecimal iAccomp=pren.getImportoAccomp();
-//					BigDecimal totPren = Prenotazione.getTotImporto(nInteri, nRidotti, nDisabili, nAccomp, iIntero, iRidotto, iDisabili, iAccomp);
-
-//					pren.setImportoDaPagare(totPren);
 
                 // copertura dati obbligatori mancanti
                 if ((pren.getEmailRiferimento() == null)
@@ -678,8 +629,6 @@ public class DemoDataGenerator {
                         || (pren.getTelRiferimento().equals(""))) {
                     pren.setTelRiferimento("99999999");
                 }
-
-                // pren.save();
 
                 pren.setCompany(company);
 
@@ -700,30 +649,28 @@ public class DemoDataGenerator {
 
     }
 
-    // una rappresentazione che sia almeno 1 mese più avanti della prenotazione
-    private static Rappresentazione getRappresentazionePost(Date date, Company company) {
+    // Recupera una rappresentazione a caso tra quelle che sono
+    // almeno 1 mese più avanti della data fornita
+    private static Rappresentazione getRappresentazionePost(Date date, Company company, EntityManager manager) {
         Rappresentazione rapp = null;
         DateTime dt = new DateTime(date).plusDays(30);
-        Filter f1 = new Compare.Equal(Evento_.company.getName(), company);
-        Filter f2 = new Compare.Greater(Rappresentazione_.dataRappresentazione.getName(), dt.toDate());
-        Filter filter = new And(f1, f2);
 
-        EntityManager manager = EM.createEntityManager();
-        JPAContainer container = new JPAContainer(Rappresentazione.class);
-        LocalEntityProvider provider = new LocalEntityProvider(Rappresentazione.class, manager);
-        container.setEntityProvider(provider);
-        container.addContainerFilter(filter);
+        Class clazz = Rappresentazione.class;
+        CriteriaBuilder cb = manager.getCriteriaBuilder();
+        CriteriaQuery<Rappresentazione> cq = cb.createQuery(clazz);
+        Root<Rappresentazione> root = (Root<Rappresentazione>) cq.from(clazz);
+        Predicate[] preds = new Predicate[2];
+        preds[0] = cb.equal(root.get(EventoEntity_.company), company);
+        preds[1] = cb.greaterThan(root.get(Rappresentazione_.dataRappresentazione), dt.toDate());
+        cq.where(preds);
+        TypedQuery<Rappresentazione> query = manager.createQuery(cq);
+        List<Rappresentazione> entities = query.getResultList();
 
-        int max = container.size();
+        int max = entities.size();
         if (max > 0) {
-            int random = getRandom(max);
-            Object itemId = container.getIdByIndex(random);
-            EntityItem<EventoEntity> rappEntity = container.getItem(itemId);
-            if (rappEntity != null) {
-                rapp = (Rappresentazione) rappEntity.getEntity();
-            }
+            int random = getRandom(max) - 1;
+            rapp = entities.get(random);
         }
-        manager.close();
         return rapp;
     }
 
@@ -735,7 +682,6 @@ public class DemoDataGenerator {
         for (Allegato allegato : lista) {
             allegato.setCompany(company);
             manager.persist(allegato);
-            //allegato.save();
         }
     }// end of method
 
@@ -757,7 +703,6 @@ public class DemoDataGenerator {
                 lettera = LetteraModulo.getLetteraDemo(modello);
                 lettera.setCompany(company);
                 manager.persist(lettera);
-                //lettera.save();
             }
         }
 
@@ -766,7 +711,7 @@ public class DemoDataGenerator {
     /**
      * Crea le preferenze
      */
-    private static void creaPreferenze(Company company, EntityManager manager){
+    private static void creaPreferenze(Company company, EntityManager manager) {
         // registra l'indirizzo della company come mittente delle email
         CompanyPrefs.senderEmailAddress.put(company, company.getEmail(), manager);
     }

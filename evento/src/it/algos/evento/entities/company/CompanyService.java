@@ -37,8 +37,12 @@ public class CompanyService {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    DemoDataGenerator.createDemoData(company);
-                    Notification.show("Creazione dati demo completata per " + company + ".");
+                    boolean success=DemoDataGenerator.createDemoData(company);
+                    if(success){
+                        Notification.show("Creazione dati demo completata correttamente per l'azienda " + company + ".");
+                    }else{
+                        Notification.show("Errore nella creazione dati demo della azienda " + company + ".", Notification.Type.ERROR_MESSAGE);
+                    }
                 }
             }).start();
         }

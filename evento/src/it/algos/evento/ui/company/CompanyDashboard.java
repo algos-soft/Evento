@@ -192,7 +192,14 @@ public class CompanyDashboard extends VerticalLayout {
      * Crea il componente UI che rappresenta il titolo della dashboard
      */
     private void creaTitoloDashboard() {
-        String s = "Andamento stagione " + Stagione.getStagioneCorrente().toString();
+        Stagione stag = Stagione.getStagioneCorrente();
+        String sName="";
+        if (stag!=null) {
+            sName=stag.toString();
+        }else{
+            sName="stagione corrente non definita!";
+        }
+        String s = "Andamento stagione " + sName;
         HTMLLabel label = new HTMLLabel();
         label.setValue(s);
         label.addStyleName("label-big");
