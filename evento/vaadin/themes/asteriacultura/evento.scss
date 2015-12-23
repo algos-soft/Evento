@@ -137,36 +137,48 @@ $v-font-weight: 400;
     font-weight: bold;
   }
 
+  // colore barra rossa (non confermate)
+  $darkred: rgba(217, 11, 0, 1);
+  $lightred: rgba(217, 11, 0, 0.6);
   .redGradientBg {
-    background: red;
-    background: -webkit-linear-gradient(top, red, coral, red);
-    background: -moz-linear-gradient(top, red, coral, red);
-    background: -o-linear-gradient(top, red, coral, red);
-    background: linear-gradient(top, red, coral, red);
+    background: $darkred;
+    background: -webkit-linear-gradient(top, $darkred,  $lightred,  $darkred);
+    background: -moz-linear-gradient(top,   $darkred,  $lightred,  $darkred);
+    background: -o-linear-gradient(top,  $darkred,  $lightred,  $darkred);
+    background: linear-gradient(top,  $darkred,  $lightred,  $darkred);
   }
 
+  // colore barra arancione (confermate)
+  $darkorange: rgba(218, 115, 0, 1);
+  $lightorange: rgba(218, 115, 0, 0.6);
   .orangeGradientBg {
-    background: orange;
-    background: -webkit-linear-gradient(top, darkorange, orange, darkorange);
-    background: -moz-linear-gradient(top, darkorange, orange, darkorange);
-    background: -o-linear-gradient(top, darkorange, orange, darkorange);
-    background: linear-gradient(top, darkorange, orange, darkorange);
+    background: $darkorange;
+    background: -webkit-linear-gradient(top, $darkorange, $lightorange, $darkorange);
+    background: -moz-linear-gradient(top, $darkorange, $lightorange, $darkorange);
+    background: -o-linear-gradient(top, $darkorange, $lightorange, $darkorange);
+    background: linear-gradient(top, $darkorange, $lightorange, $darkorange);
   }
 
+  // colore barra marrone (pagamento confermato)
+  $darkgolden: rgba(184, 134, 11, 1);
+  $lightgolden: rgba(184, 134, 11, 0.6);
   .goldenGradientBg {
-    background: goldenrod;
-    background: -webkit-linear-gradient(top, darkgoldenrod, goldenrod, darkgoldenrod);
-    background: -moz-linear-gradient(top, darkgoldenrod, goldenrod, darkgoldenrod);
-    background: -o-linear-gradient(top, darkgoldenrod, goldenrod, darkgoldenrod);
-    background: linear-gradient(top, darkgoldenrod, goldenrod, darkgoldenrod);
+    background: $darkgolden;
+    background: -webkit-linear-gradient(top, $darkgolden, $lightgolden, $darkgolden);
+    background: -moz-linear-gradient(top, $darkgolden, $lightgolden, $darkgolden);
+    background: -o-linear-gradient(top, $darkgolden, $lightgolden, $darkgolden);
+    background: linear-gradient(top, $darkgolden, $lightgolden, $darkgolden);
   }
 
+  // colore barra verde (pagamento ricevuto)
+  $darkgreen: rgba(0, 139, 7, 1);
+  $lightgreen: rgba(0, 139, 7, 0.6);
   .greenGradientBg {
-    background: green;
-    background: -webkit-linear-gradient(top, green, lightgreen, green);
-    background: -moz-linear-gradient(top, green, lightgreen, green);
-    background: -o-linear-gradient(top, green, lightgreen, green);
-    background: linear-gradient(top, green, lightgreen, green);
+    background: $darkgreen;
+    background: -webkit-linear-gradient(top, $darkgreen, $lightgreen, $darkgreen);
+    background: -moz-linear-gradient(top, $darkgreen, $lightgreen, $darkgreen);
+    background: -o-linear-gradient(top, $darkgreen, $lightgreen, $darkgreen);
+    background: linear-gradient(top, $darkgreen, $lightgreen, $darkgreen);
   }
 
   .label-middle {
