@@ -76,14 +76,14 @@ public class ComuneImport {
 	 * <p>
 	 * Nessuna GUI visualizzata (esegue su server)
 	 */
-	public static void doImport(String fullPath, Company company) {
+	public static void doImport(String fullPath, Company company, EntityManager manager) {
 		final ComuneImport imp = new ComuneImport(company);
 		
 		Path file = Paths.get(fullPath);
 		imp.setFile(file);
 		
-		EntityManager manager = EM.createEntityManager();
-		manager.getTransaction().begin();
+//		EntityManager manager = EM.createEntityManager();
+//		manager.getTransaction().begin();
 
 		
 		ExcelImportProcessor processor=new ExcelImportProcessor(file, Columns.getColumnNames(), new ExcelImportListener() {
@@ -95,8 +95,8 @@ public class ComuneImport {
 
 			@Override
 			public void importTerminated(ImportReport report) {
-				manager.getTransaction().commit();
-				manager.close();
+//				manager.getTransaction().commit();
+//				manager.close();
 			}
 
 		});

@@ -246,6 +246,35 @@ public enum CompanyPrefs implements PrefIF {
 
     }
 
+
+    /**
+     * Scrive un valore nello storage per questa preferenza per una data
+     * azienda.
+     * <p>
+     * Se la preferenza non esiste nello storage la crea ora.
+     *
+     * @param company l'azienda di riferimento
+     * @param value   il valore da scrivere
+     */
+    public void put(Company company, Object value, EntityManager manager) {
+        PrefEventoEntity entity = getPreference(company);
+        if (entity == null) {
+            entity = new PrefEventoEntity();
+            entity.setCode(getCode());
+            entity.setCompany(company);
+        }
+        entity.setValue(objectToBytes(value));
+
+        if (entity.getId() != null) {
+            manager.merge(entity);
+        } else {
+            manager.persist(entity);
+        }
+
+
+    }
+
+
     /**
      * Scrive un valore nello storage per l'azienda corrente.
      * <p>

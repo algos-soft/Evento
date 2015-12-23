@@ -12,6 +12,7 @@ import it.algos.evento.entities.insegnante.InsegnanteModulo;
 import it.algos.evento.entities.lettera.LetteraModulo;
 import it.algos.evento.entities.modopagamento.ModoPagamentoModulo;
 import it.algos.evento.entities.ordinescuola.OrdineScuolaModulo;
+import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.PrenotazioneModulo;
 import it.algos.evento.entities.prenotazione.eventi.EventoPrenModulo;
 import it.algos.evento.entities.progetto.ProgettoModulo;
@@ -29,6 +30,7 @@ import it.algos.evento.statistiche.StatisticheModulo;
 import it.algos.evento.ui.*;
 import it.algos.webbase.domain.vers.VersMod;
 import it.algos.webbase.web.dialog.ConfirmDialog;
+import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
 import it.algos.evento.entities.destinatario.DestinatarioModulo;
@@ -37,6 +39,8 @@ import it.algos.evento.test.StressTest;
 import it.algos.webbase.web.navigator.AlgosNavigator;
 import it.algos.webbase.web.navigator.MenuCommand;
 
+import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -185,7 +189,17 @@ public class CompanyHome extends VerticalLayout {
 
             @Override
             public void menuSelected(MenuBar.MenuItem selectedItem) {
-                DemoDataGenerator.creaComuni(null);
+
+                EntityManager manager = EM.createEntityManager();
+                manager.getTransaction().begin();
+                try {
+                    DemoDataGenerator.creaComuni(null, manager);
+                    manager.getTransaction().commit();
+                }catch (Exception e){
+                    manager.getTransaction().rollback();
+                }
+                manager.close();
+
             }
         });
 

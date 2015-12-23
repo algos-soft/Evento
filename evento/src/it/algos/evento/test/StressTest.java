@@ -7,7 +7,9 @@ import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.EM;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -31,7 +33,15 @@ public class StressTest implements Runnable {
 	// test create
 	private ArrayList<Prenotazione> testCreate(){
 		ArrayList<Prenotazione> prenotazioni = new ArrayList<Prenotazione>();
-		prenotazioni.addAll(DemoDataGenerator.creaPrenotazioni(null));
+		EntityManager manager = EM.createEntityManager();
+		manager.getTransaction().begin();
+		try {
+			prenotazioni.addAll(DemoDataGenerator.creaPrenotazioni(null, manager));
+			manager.getTransaction().commit();
+		}catch (Exception e){
+			manager.getTransaction().rollback();
+		}
+		manager.close();
 		return prenotazioni;
 	}
 	

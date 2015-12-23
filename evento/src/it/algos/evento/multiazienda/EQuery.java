@@ -65,12 +65,12 @@ public class EQuery {
      * @param clazz the entity class
      * @param attr  the searched attribute
      * @param value the value to search for
+     * @param manager the EntityManager to use
      * @return a list of entities corresponding to the specified criteria
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static List<? extends EventoEntity> queryList(Class<? extends EventoEntity> clazz, SingularAttribute attr,
-                                                         Object value) {
-        EntityManager manager = EM.createEntityManager();
+                                                         Object value, EntityManager manager) {
         CriteriaBuilder cb = manager.getCriteriaBuilder();
         CriteriaQuery<? extends BaseEntity> cq = cb.createQuery(clazz);
         Root<EventoEntity> root = (Root<EventoEntity>) cq.from(clazz);
@@ -89,10 +89,31 @@ public class EQuery {
 
         TypedQuery<? extends BaseEntity> query = manager.createQuery(cq);
         List<EventoEntity> entities = (List<EventoEntity>) query.getResultList();
+
+        return entities;
+    }
+
+    /**
+     * Search for all entities with a specified attribute value.
+     * Filtrato sulla azienda corrente.
+     * Crea un EntityManager al volo
+     * <p>
+     *
+     * @param clazz the entity class
+     * @param attr  the searched attribute
+     * @param value the value to search for
+     * @return a list of entities corresponding to the specified criteria
+     */
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public static List<? extends EventoEntity> queryList(Class<? extends EventoEntity> clazz, SingularAttribute attr,
+                                                         Object value) {
+        EntityManager manager = EM.createEntityManager();
+        List<? extends EventoEntity> entities = queryList(clazz, attr, value, manager);
         manager.close();
 
         return entities;
     }
+
 
 
     /**

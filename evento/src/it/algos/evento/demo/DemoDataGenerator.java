@@ -33,7 +33,10 @@ import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.stagione.Stagione_;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
+import it.algos.evento.lib.EventoSessionLib;
+import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.multiazienda.EventoEntity;
+import it.algos.evento.multiazienda.EventoEntity_;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.pref.EventoPrefs;
 import it.algos.webbase.web.AlgosApp;
@@ -44,6 +47,11 @@ import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.servlet.ServletContext;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -72,7 +80,12 @@ public class DemoDataGenerator {
     public static void createDemoData(Company company) {
 
 
+        EntityManager manager = EM.createEntityManager();
+        manager.getTransaction().begin();
+
         try {
+
+
 
             // In questa classe devo sempre registrare la company nei record prima di salvare
             // perché questo codice può essere eseguito dal server prima che sia avviata
@@ -84,57 +97,67 @@ public class DemoDataGenerator {
             // Anche nell'uso delle preferenze la company va sempre esplicitata
 
             if (getCount(Allegato.class, company) == 0) {
-                creaAllegati(company);
+                creaAllegati(company, manager);
             }
             if (getCount(Lettera.class, company) == 0) {
-                creaLettere(company);
+                creaLettere(company, manager);
             }
             if (getCount(Sala.class, company) == 0) {
-                creaSale(company);
+                creaSale(company, manager);
             }
             if (getCount(Progetto.class, company) == 0) {
-                creaProgetti(company);
+                creaProgetti(company, manager);
             }
             if (getCount(ModoPagamento.class, company) == 0) {
-                creaPagamenti(company);
+                creaPagamenti(company, manager);
             }
             if (getCount(TipoRicevuta.class, company) == 0) {
-                creaTipiRicevuta(company);
+                creaTipiRicevuta(company, manager);
             }
             if (getCount(OrdineScuola.class, company) == 0) {
-                creaOrdiniScuola(company);
+                creaOrdiniScuola(company, manager);
             }
             if (getCount(Insegnante.class, company) == 0) {
-                creaInsegnanti(company);
+                creaInsegnanti(company, manager);
             }
             if (getCount(Comune.class, company) == 0) {
-                creaComuni(company);
+                creaComuni(company, manager);
             }
             if (getCount(Scuola.class, company) == 0) {
-                creaScuole(company);
+                creaScuole(company, manager);
             }
             if (getCount(Stagione.class, company) == 0) {
-                creaStagioni(company);
+                creaStagioni(company, manager);
             }
             if (getCount(Evento.class, company) == 0) {
-                creaEventi(company);
+                creaEventi(company, manager);
             }
             if (getCount(Rappresentazione.class, company) == 0) {
-                creaRappresentazioni(company);
+                creaRappresentazioni(company, manager);
             }
             if (getCount(Prenotazione.class, company) == 0) {
-                creaPrenotazioni(company);
+                creaPrenotazioni(company, manager);
             }
             // personalizza le preferenze per questa azienda
-            creaPreferenze(company);
+            creaPreferenze(company, manager);
+
+            manager.getTransaction().commit();
+
 
             // cose eseguite per ogni company ad ogi avvio del server - le devo fare anche qui
             // dopo la creazione della nuova company.
             EventoBootStrap.doForCompany(company);
 
+
         } catch (Exception e) {
+            manager.getTransaction().rollback();
             e.printStackTrace();
         }
+
+        manager.close();
+
+
+
 
 
     }// end of method
@@ -149,190 +172,211 @@ public class DemoDataGenerator {
     /**
      * Create some demo data only if the table is empty
      */
-    private static void creaSale(Company company) {
+    private static void creaSale(Company company, EntityManager manager) {
         Sala sala;
 
         sala = new Sala("Auditorium", 430);
         sala.setCompany(company);
-        sala.save();
+        manager.persist(sala);
+        //sala.save();
 
         sala = new Sala("Odeon", 220);
         sala.setCompany(company);
-        sala.save();
+        manager.persist(sala);
+        //sala.save();
 
     }// end of method
 
     /**
      * Create some demo data only if the table is empty
      */
-    private static void creaProgetti(Company company) {
+    private static void creaProgetti(Company company, EntityManager manager) {
         Progetto p;
 
         p = new Progetto("La scienza della vita");
         p.setCompany(company);
-        p.save();
+        manager.persist(p);
+//        p.save();
 
         p = new Progetto("Storia e memoria");
         p.setCompany(company);
-        p.save();
+        manager.persist(p);
+//        p.save();
 
         p = new Progetto("Popoli nel tempo");
         p.setCompany(company);
-        p.save();
+        manager.persist(p);
+//        p.save();
 
     }// end of method
 
     /**
      * Create some demo data only if the table is empty
      */
-    public static void creaPagamenti(Company company) {
+    public static void creaPagamenti(Company company, EntityManager manager) {
         ModoPagamento m;
 
         m = new ModoPagamento("BB", "Bonifico bancario");
         m.setCompany(company);
-        m.save();
+        manager.persist(m);
+//        m.save();
 
         m = new ModoPagamento("VP", "Vaglia postale");
         m.setCompany(company);
-        m.save();
+        manager.persist(m);
+//        m.save();
 
         m = new ModoPagamento("CONT", "Contanti");
         m.setCompany(company);
-        m.save();
+        manager.persist(m);
+//        m.save();
 
     }// end of method
 
     /**
      * Create some demo data only if the table is empty
      */
-    public static void creaTipiRicevuta(Company company) {
-        save(new TipoRicevuta("RIC", "Ricevuta"), company);
-        save(new TipoRicevuta("FATT", "Fattura"), company);
-        save(new TipoRicevuta("FE", "Fattura Elettronica"), company);
+    public static void creaTipiRicevuta(Company company, EntityManager manager) {
+        save(new TipoRicevuta("RIC", "Ricevuta"), company, manager);
+        save(new TipoRicevuta("FATT", "Fattura"), company, manager);
+        save(new TipoRicevuta("FE", "Fattura Elettronica"), company, manager);
     }// end of method
 
 
     /**
      * Create some demo data only if the table is empty
      */
-    public static void creaOrdiniScuola(Company company) {
-        save(new OrdineScuola("INF", "Scuola dell'Infanzia"), company);
-        save(new OrdineScuola("PRI", "Primaria"), company);
-        save(new OrdineScuola("MED", "Secondaria I grado (medie)"), company);
-        save(new OrdineScuola("SUP", "Secondaria II grado (superiori)"), company);
-        save(new OrdineScuola("UNI", "Università"), company);
+    public static void creaOrdiniScuola(Company company, EntityManager manager) {
+        save(new OrdineScuola("INF", "Scuola dell'Infanzia"), company, manager);
+        save(new OrdineScuola("PRI", "Primaria"), company, manager);
+        save(new OrdineScuola("MED", "Secondaria I grado (medie)"), company, manager);
+        save(new OrdineScuola("SUP", "Secondaria II grado (superiori)"), company, manager);
+        save(new OrdineScuola("UNI", "Università"), company, manager);
     }// end of method
 
 
     /**
      * Create some demo data only if the table is empty
      */
-    public static void creaInsegnanti(Company company) {
+    public static void creaInsegnanti(Company company, EntityManager manager) {
         Insegnante ins;
 
         ins = new Insegnante("Lovecchio", "Luigi", "Prof.",
                 "lovecchio.luigi@gmail.com", "matematica, scienze");
-        ins.setOrdineScuola(getOrdineScuolaRandom(company));
+        ins.setOrdineScuola(getOrdineScuolaRandom(company, manager));
         ins.setTelefono("348-784565");
         ins.setIndirizzo1("Via dei Gelsomini, 8");
         ins.setIndirizzo2("20154 Ferrara");
         ins.setCompany(company);
-        ins.save();
+        manager.persist(ins);
+//        ins.save();
 
         ins = new Insegnante("Ferrari", "Sara", "Prof.ssa",
                 "ferrari.sara@gmail.com", "lettere");
-        ins.setOrdineScuola(getOrdineScuolaRandom(company));
+        ins.setOrdineScuola(getOrdineScuolaRandom(company, manager));
         ins.setTelefono("885-4455778");
         ins.setIndirizzo1("Via Garibaldi, 26");
         ins.setIndirizzo2("50145 Rovigo");
         ins.setCompany(company);
-        ins.save();
+        manager.persist(ins);
+//        ins.save();
 
         ins = new Insegnante("Sarfatti", "Lucia", "Prof.ssa",
                 "lsarfatti@ymail.com", "disegno");
-        ins.setOrdineScuola(getOrdineScuolaRandom(company));
+        ins.setOrdineScuola(getOrdineScuolaRandom(company, manager));
         ins.setTelefono("999-5462335");
         ins.setIndirizzo1("Piazza Po, 12");
         ins.setIndirizzo2("56445 Mantova");
         ins.setCompany(company);
-        ins.save();
+        manager.persist(ins);
+//        ins.save();
 
         ins = new Insegnante("Gasparotti", "Antonella", "Prof.ssa",
                 "agasparotti@tin.it", "storia, filosofia");
-        ins.setOrdineScuola(getOrdineScuolaRandom(company));
+        ins.setOrdineScuola(getOrdineScuolaRandom(company, manager));
         ins.setTelefono("884-6589998");
         ins.setIndirizzo1("Largo Brasilia, 22");
         ins.setIndirizzo2("20100 Milano");
         ins.setCompany(company);
-        ins.save();
+        manager.persist(ins);
+//        ins.save();
 
         ins = new Insegnante("Marinelli", "Laura", "Prof.ssa",
                 "lmarinelli@hotmail.it", "lettere, storia");
-        ins.setOrdineScuola(getOrdineScuolaRandom(company));
+        ins.setOrdineScuola(getOrdineScuolaRandom(company, manager));
         ins.setTelefono("556-4456658");
         ins.setIndirizzo1("Via Vasco de Gama, 22");
         ins.setIndirizzo2("25556 Castelnuovo Val Tidone (PC)");
         ins.setCompany(company);
-        ins.save();
+        manager.persist(ins);
+//        ins.save();
+
     }// end of method
 
     /**
      * Crea i comuni
      */
-    public static void creaComuni(Company company) {
+    public static void creaComuni(Company company, EntityManager manager) {
         ServletContext svlContext = EventoApp.getServletContext();
         String path = "/" + AlgosApp.DEMODATA_FOLDER_NAME + "comuni/comuni.xls";
         String fullPath = svlContext.getRealPath(path);
         if (fullPath != null) {
-            ComuneImport.doImport(fullPath, company);
+            ComuneImport.doImport(fullPath, company, manager);
         }
     }// end of method
 
     /**
      * Create some demo data only if the table is empty
      */
-    public static void creaScuole(Company company) {
+    public static void creaScuole(Company company, EntityManager manager) {
         Scuola scuola;
 
-
-//		OrdineScuola ordine = (OrdineScuola)EQuery.queryFirst(OrdineScuola.class, OrdineScuola_.sigla, "SUP");
-
         // cerca l'ordine "SUP"
-        Filter f1 = new Compare.Equal(Evento_.company.getName(), company);
-        Filter f2 = new Compare.Equal(OrdineScuola_.sigla.getName(), "SUP");
-        Filter f3 = new And(f1, f2);
-        List<BaseEntity> entities = AQuery.getList(OrdineScuola.class, f3);
+        Class clazz = OrdineScuola.class;
+        CriteriaBuilder cb = manager.getCriteriaBuilder();
+        CriteriaQuery<OrdineScuola> cq = cb.createQuery(clazz);
+        Root<OrdineScuola> root = (Root<OrdineScuola>) cq.from(clazz);
+        Predicate[] preds=new Predicate[2];
+        preds[0] = cb.equal(root.get(EventoEntity_.company), company);
+        preds[1] = cb.equal(root.get(OrdineScuola_.sigla), "SUP");
+        cq.where(preds);
+        TypedQuery<OrdineScuola> query = manager.createQuery(cq);
+        List<OrdineScuola> entities = query.getResultList();
+
         OrdineScuola ordine = null;
         if (entities.size() > 0) {
-            ordine = (OrdineScuola) entities.get(0);
+            ordine = entities.get(0);
         }
 
         scuola = new Scuola("Beccaria", "Liceo Classico Beccaria",
-                getComuneRandom(company), ordine);
+                getComuneRandom(company, manager), ordine);
         scuola.setIndirizzo("Via Carlo Linneo,5");
         scuola.setCap("20145");
         scuola.setTelefono("025-365487");
         scuola.setEmail("liceobeccaria@yahoo.com");
         scuola.setCompany(company);
-        scuola.save();
+        manager.persist(scuola);
+//        scuola.save();
 
         scuola = new Scuola("Rampaldi", "Istituto Tecnico Rampaldi",
-                getComuneRandom(company), ordine);
+                getComuneRandom(company, manager), ordine);
         scuola.setIndirizzo("Via Varzi N. 16");
         scuola.setCap("56554");
         scuola.setTelefono("125-2356487");
         scuola.setEmail("istrampaldi@yahoo.com");
         scuola.setCompany(company);
-        scuola.save();
+        manager.persist(scuola);
+//        scuola.save();
 
         scuola = new Scuola("Leonardo", "Liceo Scientifico Leonardo da Vinci",
-                getComuneRandom(company), ordine);
+                getComuneRandom(company, manager), ordine);
         scuola.setIndirizzo("Via Stazione 1");
         scuola.setCap("36665");
         scuola.setTelefono("035-564789");
         scuola.setEmail("liceoleonardo@yahoo.com");
         scuola.setCompany(company);
-        scuola.save();
+        manager.persist(scuola);
+//        scuola.save();
 
         scuola = new Scuola("Falcone", "Istituto Magistrale Giovanni Falcone", ordine);
         scuola.setIndirizzo("Via Dunant, 1");
@@ -340,45 +384,55 @@ public class DemoDataGenerator {
         scuola.setTelefono("035-6598745");
         scuola.setEmail("istfalcone@yahoo.com");
         scuola.setCompany(company);
-        scuola.save();
+        manager.persist(scuola);
+//        scuola.save();
 
         scuola = new Scuola("Rota", "Istituto Superiore Lorenzo Rota",
-                getComuneRandom(company), ordine);
+                getComuneRandom(company, manager), ordine);
         scuola.setIndirizzo("Via Lavello, 17");
         scuola.setCap("55664");
         scuola.setTelefono("023-564789");
         scuola.setEmail("istitutorota@yahoo.com");
         scuola.setCompany(company);
-        scuola.save();
+        manager.persist(scuola);
+//        scuola.save();
 
     }// end of method
 
     /**
      * Assegna la company e salva
      */
-    private static void save(EventoEntity entity, Company company) {
+    private static void save(EventoEntity entity, Company company, EntityManager manager) {
         entity.setCompany(company);
-        entity.save();
+        manager.persist(entity);
+//        entity.save();
     }
 
 
-    private static Comune getComuneRandom(Company company) {
-        return (Comune) getEntityRandom(Comune.class, company);
+    private static Comune getComuneRandom(Company company, EntityManager manager) {
+        return (Comune) getEntityRandom(Comune.class, company, manager);
     }
 
-    private static OrdineScuola getOrdineScuolaRandom(Company company) {
-        return (OrdineScuola) getEntityRandom(OrdineScuola.class, company);
+    private static OrdineScuola getOrdineScuolaRandom(Company company, EntityManager manager) {
+        return (OrdineScuola) getEntityRandom(OrdineScuola.class, company, manager);
     }
 
 
-    private static Progetto getProgettoRandom(Company company) {
-        return (Progetto) getEntityRandom(Progetto.class, company);
+    private static Progetto getProgettoRandom(Company company, EntityManager manager) {
+        return (Progetto) getEntityRandom(Progetto.class, company, manager);
     }
 
-    private static BaseEntity getEntityRandom(Class clazz, Company company) {
-        Filter filter = new Compare.Equal(Evento_.company.getName(), company);
-        List<BaseEntity> entities = AQuery.getList(clazz, filter);
-        //List<EventoEntity> entities = (List<EventoEntity>) EQuery.getList(clazz);
+    private static BaseEntity getEntityRandom(Class clazz, Company company, EntityManager manager) {
+
+        CriteriaBuilder cb = manager.getCriteriaBuilder();
+        CriteriaQuery<? extends BaseEntity> cq = cb.createQuery(clazz);
+        Root<EventoEntity> root = (Root<EventoEntity>) cq.from(clazz);
+        Predicate pred;
+        pred = cb.equal(root.get(EventoEntity_.company), company);
+        cq.where(pred);
+        TypedQuery<? extends BaseEntity> query = manager.createQuery(cq);
+        List<EventoEntity> entities = (List<EventoEntity>) query.getResultList();
+
         int min = 0;
         int max = entities.size() - 1;
         int randomNum = new Random().nextInt((max - min) + 1) + min;
@@ -399,7 +453,7 @@ public class DemoDataGenerator {
      * Crea stagioni demo
      * Crea la stagione corrente
      */
-    public static void creaStagioni(Company company) {
+    public static void creaStagioni(Company company, EntityManager manager) {
 
         // fino a fine maggio crea la stagione iniziata l'anno precedente
         // da giugno crea la stagione che inizia quest'anno
@@ -423,63 +477,80 @@ public class DemoDataGenerator {
         stagione.setDatafine(dEnd.toDate());
         stagione.setCorrente(true);
         stagione.setCompany(company);
-        stagione.save();
+        manager.persist(stagione);
+//        stagione.save();
 
     }
 
     /**
      * Create some demo data only if the table is empty
      */
-    public static void creaEventi(Company company) {
+    public static void creaEventi(Company company, EntityManager manager) {
 
         Evento evento;
         evento = new Evento("Vivarelli", "Un ricordo di Roberto Vivarelli", 16,
                 9, 0, 5);
-        saveEvento(evento, company);
+        saveEvento(evento, company, manager);
 
         evento = new Evento("Accademia", "Accademia Bizantina", 16, 9, 0, 5);
-        saveEvento(evento, company);
+        saveEvento(evento, company, manager);
 
         evento = new Evento("Gentile", "L'assassinio di Giovanni Gentile", 12,
                 7, 0, 5);
-        saveEvento(evento, company);
+        saveEvento(evento, company, manager);
 
         evento = new Evento("Chimica", "Le Frontiere della Chimica", 12, 7, 0, 5);
-        saveEvento(evento, company);
+        saveEvento(evento, company, manager);
 
         evento = new Evento("Big Bang",
                 "Big Bang: l'inizio e la fine nelle stelle", 18, 10, 0, 8);
-        saveEvento(evento, company);
+        saveEvento(evento, company, manager);
 
         evento = new Evento("Auschwitz", "Auschwitz - parla un testimone", 15,
                 8, 0, 5);
-        saveEvento(evento, company);
+        saveEvento(evento, company, manager);
 
         evento = new Evento("Mafia",
                 "Cercando la verità nel labirinto della mafia", 10, 8, 0, 5);
-        saveEvento(evento, company);
+        saveEvento(evento, company, manager);
 
         evento = new Evento("Shackleton", "Sulle orme di Ernest Shackleton",
                 16, 8, 0, 5);
-        saveEvento(evento, company);
+        saveEvento(evento, company, manager);
 
     }// end of method
 
-    private static void saveEvento(Evento evento, Company company) {
+    private static void saveEvento(Evento evento, Company company, EntityManager manager) {
 
-        Filter f1 = new Compare.Equal(Evento_.company.getName(), company);
-        Filter f2 = new Compare.Equal(Stagione_.corrente.getName(), true);
-        Filter f3 = new And(f1, f2);
-        ArrayList<BaseEntity> lista = AQuery.getList(Stagione.class, f3);
+
+        // recupera la stagione corrente
+        Class clazz = Stagione.class;
+        CriteriaBuilder cb = manager.getCriteriaBuilder();
+        CriteriaQuery<Stagione> cq = cb.createQuery(clazz);
+        Root<Stagione> root = (Root<Stagione>) cq.from(clazz);
+        Predicate[] preds=new Predicate[2];
+        preds[0] = cb.equal(root.get(EventoEntity_.company), company);
+        preds[1] = cb.equal(root.get(Stagione_.corrente), true);
+        cq.where(preds);
+        TypedQuery<Stagione> query = manager.createQuery(cq);
+        List<Stagione> entities = query.getResultList();
+
+
+//        Filter f1 = new Compare.Equal(Evento_.company.getName(), company);
+//        Filter f2 = new Compare.Equal(Stagione_.corrente.getName(), true);
+//        Filter f3 = new And(f1, f2);
+//        ArrayList<BaseEntity> lista = AQuery.getList(Stagione.class, f3);
+
         Stagione stagione = null;
-        if (lista.size() > 0) {
-            stagione = (Stagione) lista.get(0);
+        if (entities.size() > 0) {
+            stagione = entities.get(0);
         }
-//		Stagione stagione = (Stagione)EQuery.getEntity(Stagione.class, filter);
-        evento.setProgetto(getProgettoRandom(company));
+
+        evento.setProgetto(getProgettoRandom(company, manager));
         evento.setStagione(stagione);
         evento.setCompany(company);
-        evento.save();
+        manager.persist(evento);
+//        evento.save();
     }
 
 
@@ -488,7 +559,7 @@ public class DemoDataGenerator {
         return (int) num;
     }
 
-    private static void creaRappresentazioni(Company company) {
+    private static void creaRappresentazioni(Company company, EntityManager manager) {
         Rappresentazione rapp;
 
         MutableDateTime dt = new MutableDateTime(2014, 11, 1, 0, 0, 0, 0);
@@ -501,8 +572,8 @@ public class DemoDataGenerator {
             } else {
                 dt.setTime(15, 0, 0, 0);
             }
-            Evento evento = (Evento) getEntityRandom(Evento.class, company);
-            Sala sala = (Sala) getEntityRandom(Sala.class, company);
+            Evento evento = (Evento) getEntityRandom(Evento.class, company, manager);
+            Sala sala = (Sala) getEntityRandom(Sala.class, company, manager);
 
             rapp = new Rappresentazione();
             rapp.setEvento(evento);
@@ -510,7 +581,8 @@ public class DemoDataGenerator {
             rapp.setSala(sala);
             rapp.setCapienza(sala.getCapienza());
             rapp.setCompany(company);
-            rapp.save();
+            manager.persist(rapp);
+//            rapp.save();
 
         }
     }
@@ -521,76 +593,74 @@ public class DemoDataGenerator {
      *
      * @return una lista delle prenotazioni create
      */
-    public static ArrayList<Prenotazione> creaPrenotazioni(Company company) {
+    public static ArrayList<Prenotazione> creaPrenotazioni(Company company, EntityManager manager) {
         ArrayList<Prenotazione> prenotazioni = new ArrayList<Prenotazione>();
         int quante = 50;
         Prenotazione pren;
 
-        EntityManager manager = EM.createEntityManager();
-        manager.getTransaction().begin();
+//        EntityManager manager = EM.createEntityManager();
+//        manager.getTransaction().begin();
 
         MutableDateTime dt = new MutableDateTime(2014, 9, 1, 0, 0, 0, 0);
 
-        try {
+        for (int i = 0; i < quante; i++) {
 
-            for (int i = 0; i < quante; i++) {
+            dt.addDays(getRandom(3) - 1); // da 0 a 2 gg
 
-                dt.addDays(getRandom(3) - 1); // da 0 a 2 gg
+            // una rappresentazione che sia almeno 1 mese più avanti delle
+            // prenotazione
+            Rappresentazione rapp = getRappresentazionePost(dt.toDate(), company);
 
-                // una rappresentazione che sia almeno 1 mese più avanti delle
-                // prenotazione
-                Rappresentazione rapp = getRappresentazionePost(dt.toDate(), company);
+            if (rapp != null) {
 
-                if (rapp != null) {
-
-                    int nInteri = getRandom(80);
-                    int nRidotti = getRandom(3);
-                    int nDisabili = getRandom(4);
-                    int nAccomp = getRandom(4);
+                int nInteri = getRandom(80);
+                int nRidotti = getRandom(3);
+                int nDisabili = getRandom(4);
+                int nAccomp = getRandom(4);
 
 
-                    pren = new Prenotazione();
-                    int numpren = CompanyPrefs.nextNumPren.getInt(company);
-                    pren.setNumPrenotazione(numpren);
-                    pren.setDataPrenotazione(dt.toDate());
-                    pren.setRappresentazione(rapp);
-                    pren.setScuola((Scuola) getEntityRandom(Scuola.class, company));
-                    pren.setInsegnante((Insegnante) getEntityRandom(Insegnante.class, company));
-                    pren.setEmailRiferimento(pren.getInsegnante().getEmail());
-                    pren.setTelRiferimento(pren.getInsegnante().getTelefono());
-                    pren.setClasse("4D");
+                pren = new Prenotazione();
+                int numpren = CompanyPrefs.nextNumPren.getInt(company);
+                pren.setNumPrenotazione(numpren);
+                pren.setDataPrenotazione(dt.toDate());
+                pren.setRappresentazione(rapp);
+                pren.setScuola((Scuola) getEntityRandom(Scuola.class, company, manager));
+                pren.setInsegnante((Insegnante) getEntityRandom(Insegnante.class, company, manager));
+                pren.setEmailRiferimento(pren.getInsegnante().getEmail());
+                pren.setTelRiferimento(pren.getInsegnante().getTelefono());
+                pren.setClasse("4D");
 
-                    pren.setNumInteri(nInteri);
-                    pren.setNumRidotti(nRidotti);
-                    pren.setNumDisabili(nDisabili);
-                    pren.setNumAccomp(nAccomp);
+                pren.setNumInteri(nInteri);
+                pren.setNumRidotti(nRidotti);
+                pren.setNumDisabili(nDisabili);
+                pren.setNumAccomp(nAccomp);
 
-                    pren.setModoPagamento((ModoPagamento) getEntityRandom(ModoPagamento.class, company));
+                pren.setModoPagamento((ModoPagamento) getEntityRandom(ModoPagamento.class, company, manager));
 
-                    DateTime scadConf = new DateTime(pren.getDataPrenotazione())
-                            .plusDays(CompanyPrefs.ggScadConfermaPrenotazione.getInt(company));
-                    pren.setScadenzaConferma(scadConf.toDate());
+                DateTime scadConf = new DateTime(pren.getDataPrenotazione())
+                        .plusDays(CompanyPrefs.ggScadConfermaPrenotazione.getInt(company));
+                pren.setScadenzaConferma(scadConf.toDate());
 
-                    DateTime dataRapp = new DateTime(pren.getRappresentazione()
-                            .getDataRappresentazione());
-                    DateTime scadPaga = dataRapp
-                            .minusDays(CompanyPrefs.ggScadConfermaPagamento.getInt(company));
-                    pren.setScadenzaPagamento(scadPaga.toDate());
+                DateTime dataRapp = new DateTime(pren.getRappresentazione()
+                        .getDataRappresentazione());
+                DateTime scadPaga = dataRapp
+                        .minusDays(CompanyPrefs.ggScadConfermaPagamento.getInt(company));
+                pren.setScadenzaPagamento(scadPaga.toDate());
 
-                    // importi
-                    Evento e = pren.getRappresentazione().getEvento();
-                    BigDecimal iIntero=e.getImportoIntero();
-                    BigDecimal iRidotto=e.getImportoRidotto();
-                    BigDecimal iDisabili=e.getImportoDisabili();
-                    BigDecimal iAccomp=e.getImportoAccomp();
-					pren.setImportoIntero(iIntero);
-                    pren.setImportoRidotto(iRidotto);
-                    pren.setImportoDisabili(iDisabili);
-                    pren.setImportoAccomp(iAccomp);
-                    //BigDecimal totPren = Prenotazione.getTotImporto(nInteri, nRidotti, nDisabili, nAccomp, iIntero, iRidotto, iDisabili, iAccomp);
-					//pren.setImportoDaPagare(totPren);
+                // importi
+                Evento e = pren.getRappresentazione().getEvento();
+                BigDecimal iIntero=e.getImportoIntero();
+                BigDecimal iRidotto=e.getImportoRidotto();
+                BigDecimal iDisabili=e.getImportoDisabili();
+                BigDecimal iAccomp=e.getImportoAccomp();
+                pren.setImportoIntero(iIntero);
+                pren.setImportoRidotto(iRidotto);
+                pren.setImportoDisabili(iDisabili);
+                pren.setImportoAccomp(iAccomp);
+                //BigDecimal totPren = Prenotazione.getTotImporto(nInteri, nRidotti, nDisabili, nAccomp, iIntero, iRidotto, iDisabili, iAccomp);
+                //pren.setImportoDaPagare(totPren);
 
-                    //BigDecimal totPren = Rappresentazione.getTotImporto(rapp, nInteri, nRidotti);
+                //BigDecimal totPren = Rappresentazione.getTotImporto(rapp, nInteri, nRidotti);
 //					BigDecimal iIntero=pren.getImportoIntero();
 //					BigDecimal iRidotto=pren.getImportoRidotto();
 //					BigDecimal iDisabili=pren.getImportoDisabili();
@@ -599,40 +669,32 @@ public class DemoDataGenerator {
 
 //					pren.setImportoDaPagare(totPren);
 
-                    // copertura dati obbligatori mancanti
-                    if ((pren.getEmailRiferimento() == null)
-                            || (pren.getEmailRiferimento().equals(""))) {
-                        pren.setEmailRiferimento("unamail@test.it");
-                    }
-                    if ((pren.getTelRiferimento() == null)
-                            || (pren.getTelRiferimento().equals(""))) {
-                        pren.setTelRiferimento("99999999");
-                    }
-
-                    // pren.save();
-
-                    pren.setCompany(company);
-
-                    manager.persist(pren);
-
-                    prenotazioni.add(pren);
-
-                    System.out.println("create " + i + " -> " + pren);
-
-                    int nextnum = CompanyPrefs.nextNumPren.getInt(company) + 1;
-                    CompanyPrefs.nextNumPren.put(company, nextnum);
-
+                // copertura dati obbligatori mancanti
+                if ((pren.getEmailRiferimento() == null)
+                        || (pren.getEmailRiferimento().equals(""))) {
+                    pren.setEmailRiferimento("unamail@test.it");
                 }
+                if ((pren.getTelRiferimento() == null)
+                        || (pren.getTelRiferimento().equals(""))) {
+                    pren.setTelRiferimento("99999999");
+                }
+
+                // pren.save();
+
+                pren.setCompany(company);
+
+                manager.persist(pren);
+
+                prenotazioni.add(pren);
+
+                System.out.println("create " + i + " -> " + pren);
+
+                int nextnum = CompanyPrefs.nextNumPren.getInt(company) + 1;
+                CompanyPrefs.nextNumPren.put(company, nextnum);
 
             }
 
-            manager.getTransaction().commit();
-
-        } catch (Exception e) {
-            manager.getTransaction().rollback();
         }
-
-        manager.close();
 
         return prenotazioni;
 
@@ -668,11 +730,12 @@ public class DemoDataGenerator {
     /**
      * Crea gli allegati
      */
-    public static void creaAllegati(Company company) {
+    public static void creaAllegati(Company company, EntityManager manager) {
         ArrayList<Allegato> lista = AllegatoModulo.getDemoData();
         for (Allegato allegato : lista) {
             allegato.setCompany(company);
-            allegato.save();
+            manager.persist(allegato);
+            //allegato.save();
         }
     }// end of method
 
@@ -680,7 +743,7 @@ public class DemoDataGenerator {
     /**
      * Crea le lettere mancanti
      */
-    public static void creaLettere(Company company) {
+    public static void creaLettere(Company company, EntityManager manager) {
         Lettera lettera;
 
         // controlla che esistano tutti i modelli previsti, se non esistono li crea
@@ -693,7 +756,8 @@ public class DemoDataGenerator {
             if (entities.size() == 0) {
                 lettera = LetteraModulo.getLetteraDemo(modello);
                 lettera.setCompany(company);
-                lettera.save();
+                manager.persist(lettera);
+                //lettera.save();
             }
         }
 
@@ -702,9 +766,9 @@ public class DemoDataGenerator {
     /**
      * Crea le preferenze
      */
-    private static void creaPreferenze(Company company){
+    private static void creaPreferenze(Company company, EntityManager manager){
         // registra l'indirizzo della company come mittente delle email
-        CompanyPrefs.senderEmailAddress.put(company, company.getEmail());
+        CompanyPrefs.senderEmailAddress.put(company, company.getEmail(), manager);
     }
 
 
