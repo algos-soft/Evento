@@ -91,12 +91,6 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addSeparator();
 
-        item.addItem("Registra pagamento...", ICON_REGISTRA_PAGAMENTO, new MenuBar.Command() {
-            public void menuSelected(MenuItem selectedItem) {
-                getPrenotazioneTable().registraPagamento();
-            }
-        });// end of anonymous class
-
         item.addItem(CMD_RIEPILOGO_OPZIONE, ICON_RIEPILOGO_OPZIONE, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 if (getTable().getSelectedBean() != null) {
@@ -136,6 +130,14 @@ public class PrenotazioneTablePortal extends TablePortal {
                 }
             }
         });// end of anonymous class
+
+
+        item.addItem(CMD_REGISTRA_PAGAMENTO, ICON_REGISTRA_PAGAMENTO, new MenuBar.Command() {
+            public void menuSelected(MenuItem selectedItem) {
+                getPrenotazioneTable().registraPagamento();
+            }
+        });// end of anonymous class
+
 
 
         item.addItem(CMD_CONGELA_OPZIONE, ICON_CONGELA_OPZIONE, new MenuBar.Command() {
@@ -190,19 +192,6 @@ public class PrenotazioneTablePortal extends TablePortal {
                 }
             });// end of anonymous class
         }// fine del blocco if
-
-
-//		item.addItem("Test pren checker", null, new MenuBar.Command() {
-//			public void menuSelected(MenuItem selectedItem) {
-//				
-//				Date checkDate = LibDate.today();
-//				PrenChecker checker = new PrenChecker(checkDate);
-//				checker.run();
-//
-//			}
-//		});// end of anonymous class
-
-
 
 
         item.addItem("Test lettera", null, new MenuBar.Command() {

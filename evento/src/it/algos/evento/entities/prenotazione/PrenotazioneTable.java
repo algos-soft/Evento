@@ -147,11 +147,11 @@ public class PrenotazioneTable extends ETable {
             public Action[] getActions(Object target, Object sender) {
                 Action[] actions = null;
                 actions = new Action[7];
-                actions[0] = actRegistraPagamento;
-                actions[1] = actIstruzioni;
-                actions[2] = actMemoInvioSchedaPren;
-                actions[3] = actMemoScadPag;
-                actions[4] = actAttestatoPartecipazione;
+                actions[0] = actIstruzioni;
+                actions[1] = actMemoInvioSchedaPren;
+                actions[2] = actMemoScadPag;
+                actions[3] = actAttestatoPartecipazione;
+                actions[4] = actRegistraPagamento;
                 actions[5] = actAvvisoCongOpz;
                 actions[6] = actSpostaAdAltraData;
 
