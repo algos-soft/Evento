@@ -196,7 +196,7 @@ public class PrenChecker implements Runnable {
 			EntityItem<?> item = cont.getItem(id);
 			Prenotazione pren = (Prenotazione) item.getEntity();
 			try {
-				PrenotazioneModulo.doCongelamentoOpzione(pren, EventoApp.BOT_USER);
+				PrenotazioneModulo.doCongelamentoOpzione(pren, EventoApp.BOT_USER, null);
 			} catch (EmailFailedException e) {
 				logger.log(Level.WARNING, "Invio avviso congelamento fallito: "+pren+": "+e.getMessage());
 			}

@@ -207,91 +207,11 @@ public class PrenotazioneModulo extends EModulePop {
 
 
     /**
-     * Invio email "avviso congelamento opzione"
-     * <p>
-     * Invocato dalla UI
-     */
-    public static void cmdCongelamentoOpzione(Object id) {
-        boolean cont = true;
-
-        Prenotazione pren = Prenotazione.read(id);
-
-        // controllo che la prenotazione non sia già confermata
-        if (cont) {
-            if (pren.isConfermata()) {
-                cont = false;
-                Notification.show("Questa prenotazione è già confermata.");
-            }
-        }
-
-        // controllo che la prenotazione non sia congelata
-        if (cont) {
-            if (pren.isCongelata()) {
-                cont = false;
-                Notification notification = new Notification("Questa prenotazione è già congelata", "\nSe vuoi puoi reinviare la email dagli Eventi Prenotazione.", Notification.Type.HUMANIZED_MESSAGE);
-                notification.setDelayMsec(-1);
-                notification.show(Page.getCurrent());
-            }
-        }
-
-        // mostra il dialogo
-        if (cont) {
-            ConfirmDialog dialog = new DialogoCongelamentoOpzione(pren);
-            dialog.show(UI.getCurrent());
-        }
-    }
-
-    /**
-     * Dialogo conferma invio avviso congelamento opzione (da rimuovere?)
-     */
-    private static class DialogoCongelamentoOpzione extends ConfirmDialog {
-        private Prenotazione pren;
-
-        public DialogoCongelamentoOpzione(Prenotazione pren) {
-            super(null);
-            this.pren = pren;
-            setTitle("Congelamento opzione");
-            String msg = "Il congelamento di una opzione libera i posti impegnati e blocca " +
-                    "l'invio di ulteriori solleciti.<br>Una email di notifica viene inviata " +
-                    "al referente.<br>";
-            setMessage(msg);
-            setConfirmButtonText("Congela");
-        }
-
-        @Override
-        protected void onConfirm() {
-            new Thread(
-                    () -> {
-                        try {
-                            boolean emailInviata = doCongelamentoOpzione(pren, getUsername());
-                            String strEmail = "";
-                            if (emailInviata) {
-                                strEmail = "Email inviata";
-                            }
-                            Notification notification = new Notification("Opzione congelata", strEmail, Notification.Type.HUMANIZED_MESSAGE);
-                            notification.setDelayMsec(-1);
-                            notification.show(Page.getCurrent());
-                        } catch (EmailFailedException e) {
-                            notifyEmailFailed(e);
-                        }
-
-                    }
-            ).start();
-
-            super.onConfirm();
-        }
-    }
-
-
-
-
-    /**
      * Invio email istruzioni (no UI)
      */
     public static void doInvioIstruzioni(Prenotazione pren, String user) throws EmailFailedException {
         TipoEventoPren tipoEvento = TipoEventoPren.invioIstruzioni;
         sendEmailEvento(pren, tipoEvento, user);
-        logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
     }
 
 //    /**
@@ -370,13 +290,18 @@ public class PrenotazioneModulo extends EModulePop {
 
 
     /**
-     * Congelamento opzione (no UI)
+     * Congelamento opzione con eventuale invio di email di avviso (no UI)
      * <p>
      *
-     * @return true se ha inviato l'email
+     * @param pren la prenotazione da congelare
+     * @param user l'utente che ha effettuato l'operazione
+     * @param destinatari indirizzi email separati da virgola, destinatari
+     *                    della email di avviso (stringa vuota = non manda avviso,
+     *                    null = agisce in base alle preferenze)
+     * @return le info della eventuale spedizione
      */
-    public static boolean doCongelamentoOpzione(Prenotazione pren, String user) throws EmailFailedException {
-        boolean emailInviata = false;
+    public static Spedizione doCongelamentoOpzione(Prenotazione pren, String user, String destinatari) throws EmailFailedException {
+        Spedizione sped=null;
         TipoEventoPren tipoEvento = TipoEventoPren.congelamentoOpzione;
 
         // attiva il flag congelata, toglie la eventuale conferma, logga l'operazione
@@ -385,18 +310,49 @@ public class PrenotazioneModulo extends EModulePop {
         pren.save();
         logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
 
-        // invia la mail se previsto, e incrementa il livello di sollecito
-        if (ModelliLettere.congelamentoOpzione.isSend(pren)) {
+
+        // eventualmente invia le e-mail
+        if(destinatari==null) { // decide in base alle preferenze
+            if (ModelliLettere.congelamentoOpzione.isSend(pren)) {
+                sped = sendEmailEvento(pren, tipoEvento, user);
+            }
+        }else{  // usa gli indirizzi forniti
+            if(!destinatari.equals("")){
+                sped=sendEmailEvento(pren, tipoEvento, user, destinatari);
+            }
+        }
+
+        // se ha effettuato la spedizione aumenta di 1 il livello di sollecito conferma
+        if(sped!=null && sped.isSpedita()){
             int level = pren.getLivelloSollecitoConferma();
             pren.setLivelloSollecitoConferma(level + 1);
             pren.save();
-            sendEmailEvento(pren, tipoEvento, user);
-            emailInviata = true;
         }
 
-        return emailInviata;
+        return sped;
 
     }
+
+//    /**
+//     * Wrapper per le info di ritorno dalla operazione di congelamento
+//     */
+//    public class EsitoCongelamento{
+//        private boolean success=false;
+//        private Spedizione sped;
+//
+//        public EsitoCongelamento(boolean success, Spedizione sped) {
+//            this.success = success;
+//            this.sped = sped;
+//        }
+//
+//        public boolean isSuccess() {
+//            return success;
+//        }
+//
+//        public Spedizione getSped() {
+//            return sped;
+//        }
+//    }
 
 
 //    /**
@@ -414,8 +370,8 @@ public class PrenotazioneModulo extends EModulePop {
     /**
      * Controlli scadenza pagamento (no UI).
      *
-     * @param pren   la prenotazione di riferimento
-     * @param user   l'utente che effettua questa operazione
+     * @param pren la prenotazione di riferimento
+     * @param user l'utente che effettua questa operazione
      * @return true se ha inviato la mail di sollecito e spostato la scadenza
      */
     public static boolean doPromemoriaScadenzaPagamento(Prenotazione pren, String user) throws EmailFailedException {
@@ -587,9 +543,9 @@ public class PrenotazioneModulo extends EModulePop {
      * @param tipoEvento il tipo di evento
      * @param user       l'utente che genera l'evento
      */
-    public static void sendEmailEvento(Prenotazione pren, TipoEventoPren tipoEvento, String user)
+    public static Spedizione sendEmailEvento(Prenotazione pren, TipoEventoPren tipoEvento, String user)
             throws EmailFailedException {
-        sendEmailEvento(pren, tipoEvento, user, null);
+        return sendEmailEvento(pren, tipoEvento, user, null);
     }
 
 
@@ -602,10 +558,12 @@ public class PrenotazioneModulo extends EModulePop {
      * @param tipoEvento il tipo di evento
      * @param user       l'utente che genera l'evento
      * @param addr       elenco indirizzi destinatari - se nullo li recupera dalla prenotazione in base al tipo di lettera
+     * @return l'eisto della spedizione
      */
-    public static void sendEmailEvento(Prenotazione pren, TipoEventoPren tipoEvento, String user, String addr)
+    public static Spedizione sendEmailEvento(Prenotazione pren, TipoEventoPren tipoEvento, String user, String addr)
             throws EmailFailedException {
 
+        Spedizione sped = null;
 
         // prepara una mappa di informazioni email
         ModelliLettere modelloLettera = tipoEvento.getModelloLettera();
@@ -628,16 +586,19 @@ public class PrenotazioneModulo extends EModulePop {
             Lettera lettera = Lettera.getLettera(modelloLettera, pren.getCompany());
 
             // spedisce la mail
-            Spedizione sped = LetteraService.spedisci(lettera, escapeMap, mailMap);
+            sped = LetteraService.spedisci(lettera, escapeMap, mailMap);
 
             // crea un nuovo evento di spedizione email
             creaEventoMail(pren, tipoEvento, user, mailMap, sped.isSpedita());
 
-            if (!sped.isSpedita()) {
+            if (sped.isSpedita()) {
+                logger.log(Level.INFO, "Invio e-mail " + tipoEvento.getDescrizione() + " " + pren);
+            } else {
                 throw new EmailFailedException(sped.getErrore());
             }
         }
 
+        return sped;
 
     }
 

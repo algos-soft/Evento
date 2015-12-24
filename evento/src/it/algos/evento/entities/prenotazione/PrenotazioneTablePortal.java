@@ -8,7 +8,6 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
-import it.algos.evento.entities.stagione.Stagione;
 import it.algos.webbase.web.importexport.ExportConfiguration;
 import it.algos.webbase.web.importexport.ExportManager;
 import it.algos.webbase.web.importexport.ExportProvider;
@@ -101,7 +100,7 @@ public class PrenotazioneTablePortal extends TablePortal {
         item.addItem(CMD_RIEPILOGO_OPZIONE, ICON_RIEPILOGO_OPZIONE, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 if (getTable().getSelectedBean() != null) {
-                    getPrenotazioneTable().inviaRiepilogoOpzione();
+                    getPrenotazioneTable().inviaRiepilogoPrenotazione();
                 } else {
                     msgNoSelection();
                 }
@@ -111,7 +110,7 @@ public class PrenotazioneTablePortal extends TablePortal {
         item.addItem(CMD_MEMO_INVIO_SCHEDA_PREN, ICON_MEMO_INVIO_SCHEDA_PREN, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 if (getTable().getSelectedBean() != null) {
-                    getPrenotazioneTable().inviaMemoSchedaPren();
+                    getPrenotazioneTable().inviaMemoConfermaPren();
                 } else {
                     msgNoSelection();
                 }
@@ -141,9 +140,8 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addItem(CMD_CONGELA_OPZIONE, ICON_CONGELA_OPZIONE, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Object id = getTable().getSelectedId();
-                if (id != null) {
-                    PrenotazioneModulo.cmdCongelamentoOpzione(id);
+                if (getTable().getSelectedBean() != null) {
+                    getPrenotazioneTable().congelaPrenotazione();
                 } else {
                     msgNoSelection();
                 }
