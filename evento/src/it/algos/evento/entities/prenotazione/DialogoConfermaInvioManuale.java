@@ -16,10 +16,10 @@ import it.algos.webbase.web.field.EmailField;
 class DialogoConfermaInvioManuale extends ConfirmDialog {
     private Prenotazione pren;
 
-    private CheckBoxField sendRef;
-    private CheckBoxField sendScuola;
-    private EmailField mailRef;
-    private EmailField mailScuola;
+    protected CheckBoxField sendRef;
+    protected CheckBoxField sendScuola;
+    protected EmailField mailRef;
+    protected EmailField mailScuola;
 
     public DialogoConfermaInvioManuale(Prenotazione pren, String titolo, String messaggio) {
         super(null);
@@ -72,7 +72,7 @@ class DialogoConfermaInvioManuale extends ConfirmDialog {
     }
 
 
-    private void populateUI(){
+    protected void populateUI(){
         String s;
         s=pren.getEmailRiferimento();
         if (s!=null && !s.equals("")){
@@ -153,6 +153,11 @@ class DialogoConfermaInvioManuale extends ConfirmDialog {
         }
 
         return str;
+    }
+
+
+    public Prenotazione getPrenotazione() {
+        return pren;
     }
 
 }

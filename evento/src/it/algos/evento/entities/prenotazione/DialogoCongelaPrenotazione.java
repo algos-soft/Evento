@@ -2,6 +2,7 @@ package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
+import it.algos.evento.pref.CompanyPrefs;
 
 /**
  * Created by alex on 24-12-2015.
@@ -27,6 +28,33 @@ public class DialogoCongelaPrenotazione extends DialogoConfermaInvioManuale{
         }
 
     }
+
+    @Override
+    // se la spedizione mail al congelamento non è abilitata nelle preferenze spegne le spunte
+    protected void populateUI(){
+
+        super.populateUI();
+
+        if(!CompanyPrefs.sendMailCongOpzione.getBool()) {
+            sendRef.setValue(false);
+            sendScuola.setValue(false);
+        }else{
+
+            // qui l'opzione generale è attiva, copia i flag per Referente e Scuola
+            sendRef.setValue(CompanyPrefs.sendMailCongOpzioneRef.getBool());
+            sendScuola.setValue(CompanyPrefs.sendMailCongOpzioneScuola.getBool());
+
+            // controllo opzione No Privati
+            if(getPrenotazione().isPrivato()){
+                if(CompanyPrefs.sendMailCongOpzioneNP.getBool()){
+                    sendRef.setValue(false);
+                }
+            }
+
+        }
+
+    }
+
 
 
 

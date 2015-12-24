@@ -697,12 +697,6 @@ public class PrenotazioneTable extends ETable {
 
         }
 
-//
-//        // mostra il dialogo
-//        if (cont) {
-//            ConfirmDialog dialog = new DialogoCongelamentoOpzione(pren);
-//            dialog.show(UI.getCurrent());
-//        }
     }
 
 
