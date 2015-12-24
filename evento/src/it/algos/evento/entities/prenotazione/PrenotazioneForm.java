@@ -36,6 +36,7 @@ import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.scuola.ScuolaForm;
 import it.algos.evento.entities.scuola.Scuola_;
+import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
 import it.algos.evento.multiazienda.ERelatedComboField;
@@ -82,7 +83,11 @@ public class PrenotazioneForm extends AForm {
     private PrenotazioneConfermataListener pcListener;
 
     public interface PrenotazioneConfermataListener{
-        void prenotazioneConfermata(Prenotazione pren, boolean mailInviata);
+        /**
+         * @param pren la prenotazione
+         * @param sped l'esito della spedizione (se effettuata)
+         */
+        void prenotazioneConfermata(Prenotazione pren, Spedizione sped);
     }
     public void setPrenotazioneConfermataListener(PrenotazioneConfermataListener l){
         this.pcListener=l;
@@ -530,92 +535,6 @@ public class PrenotazioneForm extends AForm {
 
         return layout;
     }
-
-
-//    private GridLayout creaGridPersonePrezzi() {
-//
-//        // recupera i Fields
-//        Field fldNumInt = getField(Prenotazione_.numInteri);
-//        Label lblNumInt = new Label(fldNumInt.getCaption());
-//        lblNumInt.addStyleName("greenBg");
-//        fldNumInt.setCaption(null);
-//
-//        Field fldNumRid = getField(Prenotazione_.numRidotti);
-//        Label lblNumRid = new Label(fldNumRid.getCaption());
-//        fldNumRid.setCaption(null);
-//
-//        Field fldNumDis = getField(Prenotazione_.numDisabili);
-//        Label lblNumDis = new Label(fldNumDis.getCaption());
-//        fldNumDis.setCaption(null);
-//
-//        Field fldNumAcc = getField(Prenotazione_.numAccomp);
-//        Label lblNumAcc = new Label(fldNumAcc.getCaption());
-//        fldNumAcc.setCaption(null);
-//
-//        Field fldNumTot = fieldNumTotale;
-//        Label lblNumTot = new Label(fldNumTot.getCaption());
-//        fldNumTot.setCaption(null);
-//
-//        Field fldNumAvail = fieldDisponibili;
-//        Label lblNumAvail = new Label(fldNumAvail.getCaption());
-//        fldNumAvail.setCaption(null);
-//
-//        Field fldImpInt = getField(Prenotazione_.importoIntero);
-//        fldImpInt.setCaption(null);
-//
-//        Field fldImpRid = getField(Prenotazione_.importoRidotto);
-//        fldImpRid.setCaption(null);
-//
-//        Field fldImpDis = getField(Prenotazione_.importoDisabili);
-//        fldImpDis.setCaption(null);
-//
-//        Field fldImpAcc = getField(Prenotazione_.importoAccomp);
-//        fldImpAcc.setCaption(null);
-//
-//        Field fldImpTot = fieldImportoTotale;
-//        fldImpTot.setCaption(null);
-//
-//
-//        // grid persone e prezzi
-//        GridLayout grid = new GridLayout(7, 3);
-//        grid.setSpacing(false);
-//        int row;
-//
-//
-//        // Riga dei titoli
-//        row = 0;
-//        grid.addComponent(lblNumInt, 1, row);
-//        grid.addComponent(lblNumRid, 2, row);
-//        grid.addComponent(lblNumDis, 3, row);
-//        grid.addComponent(lblNumAcc, 4, row);
-//        grid.addComponent(lblNumTot, 5, row);
-//        grid.addComponent(lblNumAvail, 6, row);
-//
-//        // Riga degli spettatori
-//        row = 1;
-//        Label labelNum = new Label("quantità");
-//        grid.addComponent(labelNum, 0, row);
-//        grid.setComponentAlignment(labelNum, Alignment.MIDDLE_RIGHT);
-//        grid.addComponent(fldNumInt, 1, row);
-//        grid.addComponent(fldNumRid, 2, row);
-//        grid.addComponent(fldNumDis, 3, row);
-//        grid.addComponent(fldNumAcc, 4, row);
-//        grid.addComponent(fldNumTot, 5, row);
-//        grid.addComponent(fldNumAvail, 6, row);
-//
-//        // Riga dei prezzi
-//        row = 2;
-//        Label labelPrice = new Label("prezzo");
-//        grid.addComponent(labelPrice, 0, row);
-//        grid.setComponentAlignment(labelPrice, Alignment.MIDDLE_RIGHT);
-//        grid.addComponent(fldImpInt, 1, row);
-//        grid.addComponent(fldImpRid, 2, row);
-//        grid.addComponent(fldImpDis, 3, row);
-//        grid.addComponent(fldImpAcc, 4, row);
-//        grid.addComponent(fldImpTot, 5, row);
-//
-//        return grid;
-//    }
 
 
 
@@ -1133,52 +1052,100 @@ public class PrenotazioneForm extends AForm {
 
         // presenta il dialogo di conferma
         if (cont) {
-            Date dataConf = new Date();
-            final DialogoConfermaPrenotazione dialogoConferma = new DialogoConfermaPrenotazione(new ConfirmDialog.Listener() {
+
+            final DialogoConfermaPrenotazione dialogoConferma = new DialogoConfermaPrenotazione(getPrenotazione(), new Date());
+
+            dialogoConferma.setConfirmListener(new ConfirmDialog.ConfirmListener() {
                 @Override
-                public void onClose(ConfirmDialog dialog, boolean confirmed) {
-                    if (confirmed) {
+                public void confirmed(ConfirmDialog dialog) {
 
-                        Date dataConferma = ((DialogoConfermaPrenotazione) dialog).getDataConferma();
+                    Date dataConferma = dialogoConferma.getDataConferma();
 
-                        // invia la mail di istruzioni in un thread separato
-                        // (usa una lambda al posto del runnable)
-                        new Thread(
-                                () -> {
+                    // invia la mail di istruzioni in un thread separato
+                    // (usa una lambda al posto del runnable)
+                    new Thread(
+                            () -> {
 
+                                Spedizione sped=null;
+                                Prenotazione pren = getPrenotazione();
+                                boolean mailInviata=false;
+                                try {
+                                    String user = EventoBootStrap.getUsername();
 
-                                    Prenotazione pren = getPrenotazione();
-                                    boolean mailInviata=false;
-                                    try {
-                                        String user = EventoBootStrap.getUsername();
+                                    // questo comando scrive i campi e salva la prenotazione
+                                    // ed eventualmente invia la mail
+                                    String dests=dialogoConferma.getDestinatari();
+                                    sped=getPrenotazioneModulo().doConfermaPrenotazione(pren, dataConferma, user, dests);
 
-                                        // questo comando scrive i campi e salva la prenotazione
-                                        // ed eventualmente invia la mail
-                                        getPrenotazioneModulo().doConfermaPrenotazione(pren, dataConferma, user);
-
-                                        if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
-                                            mailInviata=true;
-                                        }
-                                    } catch (EmailFailedException e) {
-                                        PrenotazioneModulo.notifyEmailFailed(e);
+                                    if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
+                                        mailInviata=true;
                                     }
-
-                                    pcListener.prenotazioneConfermata(pren, mailInviata);
-
-
+                                } catch (EmailFailedException e) {
+                                    PrenotazioneModulo.notifyEmailFailed(e);
                                 }
-                        ).start();
 
-                        // chiude la finestra
-                        Window w = getWindow();
-                        if (w != null) {
-                            w.close();
-                        }
+                                pcListener.prenotazioneConfermata(pren, sped);
 
+
+                            }
+                    ).start();
+
+                    // chiude la finestra
+                    Window w = getWindow();
+                    if (w != null) {
+                        w.close();
                     }
                 }
-            }, dataConf);
-            dialogoConferma.show(getUI());
+            });
+
+//            final DialogoConfermaPrenotazione dialogoConferma = new DialogoConfermaPrenotazione(new ConfirmDialog.Listener() {
+//
+//                @Override
+//                public void onClose(ConfirmDialog dialog, boolean confirmed) {
+//                    if (confirmed) {
+//
+//                        Date dataConferma = ((DialogoConfermaPrenotazione) dialog).getDataConferma();
+//
+//                        // invia la mail di istruzioni in un thread separato
+//                        // (usa una lambda al posto del runnable)
+//                        new Thread(
+//                                () -> {
+//
+//
+//                                    Prenotazione pren = getPrenotazione();
+//                                    boolean mailInviata=false;
+//                                    try {
+//                                        String user = EventoBootStrap.getUsername();
+//
+//                                        // questo comando scrive i campi e salva la prenotazione
+//                                        // ed eventualmente invia la mail
+//                                        getPrenotazioneModulo().doConfermaPrenotazione(pren, dataConferma, user);
+//
+//                                        if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
+//                                            mailInviata=true;
+//                                        }
+//                                    } catch (EmailFailedException e) {
+//                                        PrenotazioneModulo.notifyEmailFailed(e);
+//                                    }
+//
+//                                    pcListener.prenotazioneConfermata(pren, mailInviata);
+//
+//
+//                                }
+//                        ).start();
+//
+//                        // chiude la finestra
+//                        Window w = getWindow();
+//                        if (w != null) {
+//                            w.close();
+//                        }
+//
+//                    }
+//                }
+//            }, dataConf);
+
+
+            dialogoConferma.show();
 
         }
 

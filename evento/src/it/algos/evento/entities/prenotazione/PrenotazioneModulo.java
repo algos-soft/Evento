@@ -169,14 +169,14 @@ public class PrenotazioneModulo extends EModulePop {
         // refresh table dopo conferma prenotazione
         form.setPrenotazioneConfermataListener(new PrenotazioneForm.PrenotazioneConfermataListener() {
             @Override
-            public void prenotazioneConfermata(Prenotazione pren, boolean emailInviata) {
+            public void prenotazioneConfermata(Prenotazione pren, Spedizione sped) {
 
                 getTable().refreshRowCache();
 
                 String detail = pren.toStringNumDataInsegnante();
                 String mailDetail = "";
-                if (emailInviata) {
-                    mailDetail = "e-mail inviata.";
+                if (sped!=null) {
+                    mailDetail = "e-mail inviata a "+sped.getDestinatario();
                 }
 
                 Notification notif = new Notification("Prenotazione confermata: " + detail, mailDetail, Notification.Type.HUMANIZED_MESSAGE);
@@ -225,8 +225,15 @@ public class PrenotazioneModulo extends EModulePop {
 
     /**
      * Esecuzione conferma prenotazione (no UI)
+     *
+     * @param pren         la prenotazione
+     * @param dataConferma la data di conferma da registrare
+     * @param user         l'utente che effettua questa operazione
+     * @param destinatari  eventuali destinatari della mail (stringa separata da virgole)
+     * @return la spedizione effettuata (null se non ha spedito nulla)
      */
-    public static void doConfermaPrenotazione(Prenotazione pren, Date dataConferma, String user) throws EmailFailedException {
+    public static Spedizione doConfermaPrenotazione(Prenotazione pren, Date dataConferma, String user, String destinatari) throws EmailFailedException {
+        Spedizione sped = null;
         TipoEventoPren tipoEvento = TipoEventoPren.confermaPrenotazione;
         pren.setConfermata(true);
         pren.setDataConferma(dataConferma);
@@ -237,17 +244,14 @@ public class PrenotazioneModulo extends EModulePop {
 
         logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
         if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
-            sendEmailEvento(pren, tipoEvento, user);
+            if(destinatari!=null && !destinatari.equals("")){
+                sped = sendEmailEvento(pren, tipoEvento, user, destinatari);
+            }
         }
+
+        return sped;
     }
 
-//    /**
-//     * Esecuzione conferma prenotazione (no UI) e fire status changed modulo
-//     */
-//    public void doConfermaPrenotazioneModulo(Prenotazione pren, Date dataConferma, String user) throws EmailFailedException {
-//        doConfermaPrenotazione(pren, dataConferma, user);
-//        fireStatusChanged(TipoEventoPren.confermaPrenotazione);
-//    }
 
     /**
      * Invio e-mail promemoria invio scheda prenotazione (no UI)
@@ -293,15 +297,15 @@ public class PrenotazioneModulo extends EModulePop {
      * Congelamento opzione con eventuale invio di email di avviso (no UI)
      * <p>
      *
-     * @param pren la prenotazione da congelare
-     * @param user l'utente che ha effettuato l'operazione
+     * @param pren        la prenotazione da congelare
+     * @param user        l'utente che ha effettuato l'operazione
      * @param destinatari indirizzi email separati da virgola, destinatari
      *                    della email di avviso (stringa vuota = non manda avviso,
      *                    null = agisce in base alle preferenze)
      * @return le info della eventuale spedizione
      */
     public static Spedizione doCongelamentoOpzione(Prenotazione pren, String user, String destinatari) throws EmailFailedException {
-        Spedizione sped=null;
+        Spedizione sped = null;
         TipoEventoPren tipoEvento = TipoEventoPren.congelamentoOpzione;
 
         // attiva il flag congelata, toglie la eventuale conferma, logga l'operazione
@@ -312,18 +316,18 @@ public class PrenotazioneModulo extends EModulePop {
 
 
         // eventualmente invia le e-mail
-        if(destinatari==null) { // decide in base alle preferenze
+        if (destinatari == null) { // decide in base alle preferenze
             if (ModelliLettere.congelamentoOpzione.isSend(pren)) {
                 sped = sendEmailEvento(pren, tipoEvento, user);
             }
-        }else{  // usa gli indirizzi forniti
-            if(!destinatari.equals("")){
-                sped=sendEmailEvento(pren, tipoEvento, user, destinatari);
+        } else {  // usa gli indirizzi forniti
+            if (!destinatari.equals("")) {
+                sped = sendEmailEvento(pren, tipoEvento, user, destinatari);
             }
         }
 
         // se ha effettuato la spedizione aumenta di 1 il livello di sollecito conferma
-        if(sped!=null && sped.isSpedita()){
+        if (sped != null && sped.isSpedita()) {
             int level = pren.getLivelloSollecitoConferma();
             pren.setLivelloSollecitoConferma(level + 1);
             pren.save();
@@ -626,13 +630,14 @@ public class PrenotazioneModulo extends EModulePop {
     /**
      * Crea una mappa di informazioni generale per la stampa/invio delle lettere
      *
-     * @param addr elenco indirizzi destinatari - se nullo li recupera dalla prenotazione in base al tipo di lettera
+     * @param addr elenco indirizzi destinatari - se vuoto o nullo
+     *             li recupera dalla prenotazione in base al tipo di lettera
      */
     private static HashMap<String, Object> createMailMap(Prenotazione pren, ModelliLettere modello, String oggetto, String addr)
             throws EmailInfoMissingException {
         HashMap<String, Object> map = new HashMap<String, Object>();
 
-        if (addr == null) {
+        if (addr == null || addr.equals(""))  {
             addr = modello.getEmailDestinatari(pren);
         }
 

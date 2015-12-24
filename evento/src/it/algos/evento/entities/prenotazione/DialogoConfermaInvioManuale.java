@@ -20,6 +20,7 @@ class DialogoConfermaInvioManuale extends ConfirmDialog {
     protected CheckBoxField sendScuola;
     protected EmailField mailRef;
     protected EmailField mailScuola;
+    private GridLayout gridLayout;
 
     public DialogoConfermaInvioManuale(Prenotazione pren, String titolo, String messaggio) {
         super(null);
@@ -56,19 +57,19 @@ class DialogoConfermaInvioManuale extends ConfirmDialog {
     }
 
 
-    private Component createUI() {
-        GridLayout layout = new GridLayout(2, 2);
-        layout.setMargin(false);
-        layout.setSpacing(true);
-        layout.addComponent(sendRef, 0, 0);
-        layout.setComponentAlignment(sendRef, Alignment.MIDDLE_LEFT);
-        layout.addComponent(mailRef, 1, 0);
-        layout.setComponentAlignment(mailRef, Alignment.MIDDLE_LEFT);
-        layout.addComponent(sendScuola, 0, 1);
-        layout.setComponentAlignment(sendScuola, Alignment.MIDDLE_LEFT);
-        layout.addComponent(mailScuola, 1, 1);
-        layout.setComponentAlignment(mailScuola, Alignment.MIDDLE_LEFT);
-        return layout;
+    protected Component createUI() {
+        gridLayout = new GridLayout(2, 2);
+        gridLayout.setMargin(false);
+        gridLayout.setSpacing(true);
+        gridLayout.addComponent(sendRef, 0, 0);
+        gridLayout.setComponentAlignment(sendRef, Alignment.MIDDLE_LEFT);
+        gridLayout.addComponent(mailRef, 1, 0);
+        gridLayout.setComponentAlignment(mailRef, Alignment.MIDDLE_LEFT);
+        gridLayout.addComponent(sendScuola, 0, 1);
+        gridLayout.setComponentAlignment(sendScuola, Alignment.MIDDLE_LEFT);
+        gridLayout.addComponent(mailScuola, 1, 1);
+        gridLayout.setComponentAlignment(mailScuola, Alignment.MIDDLE_LEFT);
+        return gridLayout;
     }
 
 
@@ -160,4 +161,7 @@ class DialogoConfermaInvioManuale extends ConfirmDialog {
         return pren;
     }
 
+    public GridLayout getGridLayout() {
+        return gridLayout;
+    }
 }
