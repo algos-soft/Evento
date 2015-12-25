@@ -29,7 +29,7 @@ public class PrenotazioneTablePortal extends TablePortal {
     public static final String CMD_RIEPILOGO_OPZIONE = "Invia riepilogo prenotazione...";
     public static final Resource ICON_RIEPILOGO_OPZIONE = FontAwesome.ENVELOPE_O;
 
-    public static final String CMD_MEMO_INVIO_SCHEDA_PREN = "Invia promemoria conferma prenotazione...";
+    public static final String CMD_MEMO_INVIO_SCHEDA_PREN = "Invia sollecito conferma prenotazione...";
     public static final Resource ICON_MEMO_INVIO_SCHEDA_PREN = FontAwesome.ENVELOPE_O;
 
     public static final String CMD_CONGELA_OPZIONE = "Congela opzione...";
@@ -38,7 +38,7 @@ public class PrenotazioneTablePortal extends TablePortal {
     public static final String CMD_SPOSTA_AD_ALTRA_DATA = "Sposta ad altra data...";
     public static final Resource ICON_SPOSTA_AD_ALTRA_DATA = FontAwesome.ARROW_RIGHT;
 
-    public static final String CMD_MEMO_SCAD_PAGA = "Invia promemoria scadenza pagamento...";
+    public static final String CMD_MEMO_SCAD_PAGA = "Invia sollecito conferma pagamento...";
     public static final Resource ICON_MEMO_SCAD_PAGA = FontAwesome.ENVELOPE_O;
 
     public static final String CMD_ATTESTATO_PARTECIPAZIONE = "Invia attestato di partecipazione...";

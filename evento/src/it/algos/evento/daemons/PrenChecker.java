@@ -151,7 +151,7 @@ public class PrenChecker implements Runnable {
 			// controlla se va inviata per questa specifica prenotazione e la invia
 			if(ModelliLettere.memoScadPrenotazione.isSend(pren)){
 				try {
-					PrenotazioneModulo.doPromemoriaInvioSchedaPrenotazione(pren, EventoApp.BOT_USER);
+					PrenotazioneModulo.doPromemoriaInvioSchedaPrenotazione(pren, EventoApp.BOT_USER, null);
 				} catch (EmailFailedException e) {
 					logger.log(Level.WARNING, "Azienda "+company+": invio promemoria scheda prenotazione fallito: ");
 					logger.log(Level.WARNING, "Prenotazione: "+pren);
@@ -236,7 +236,7 @@ public class PrenChecker implements Runnable {
 			// invia solo se previsto nei settings, altrimenti logga soltanto
 			if (ModelliLettere.memoScadPagamento.isSend(pren)) {
 				try {
-					PrenotazioneModulo.doPromemoriaScadenzaPagamento(pren, EventoApp.BOT_USER);
+					PrenotazioneModulo.doPromemoriaScadenzaPagamento(pren, EventoApp.BOT_USER, null);
 				} catch (EmailFailedException e) {
 					logger.log(Level.WARNING, "Invio promemoria scadenza pagamento fallito: "+pren+": "+e.getMessage());
 				}

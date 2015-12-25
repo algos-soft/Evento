@@ -23,6 +23,7 @@ import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
 import it.algos.evento.multiazienda.ETable;
+import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.Lib;
@@ -316,7 +317,6 @@ public class PrenotazioneTable extends ETable {
     }
 
 
-
     /**
      * Invio email riepilogo opzione (primo invio delle istruzioni)
      * <p>
@@ -485,20 +485,10 @@ public class PrenotazioneTable extends ETable {
             }
         }
 
-        // controllo che il livello sollecito sia < 1
-        if (cont) {
-            if (pren.getLivelloSollecitoConferma() > 0) {
-                cont = false;
-                Notification notification = new Notification("Il promemoria è gia stato inviato",
-                        "\nSe vuoi puoi reinviarlo dagli Eventi Prenotazione.", Notification.Type.HUMANIZED_MESSAGE);
-                notification.setDelayMsec(-1);
-                notification.show(Page.getCurrent());
-            }
-        }
-
         // esegue
         if (cont) {
-            DialogoConfermaInvioManuale dialog = new DialogoConfermaInvioManuale(pren, "Invio promemoria conferma prenotazione", "Vuoi inviare il promemoria conferma prenotazione?");
+            String testo = "Invia una e-mail di sollecito e proroga la scadenza a " + CompanyPrefs.ggProlungamentoConfDopoSollecito.getInt() + " giorni da oggi.";
+            DialogoConfermaInvioManuale dialog = new DialogoConfermaInvioManuale(pren, "Sollecito conferma prenotazione", testo);
             dialog.setConfirmListener(new ConfirmDialog.ConfirmListener() {
                 @Override
                 public void confirmed(ConfirmDialog d) {
@@ -512,11 +502,11 @@ public class PrenotazioneTable extends ETable {
 
                                 try {
 
-                                    Spedizione sped = PrenotazioneModulo.sendEmailEvento(pren, TipoEventoPren.promemoriaInvioSchedaPrenotazione, EventoBootStrap.getUsername(), dests);
+                                    Spedizione sped = PrenotazioneModulo.doPromemoriaInvioSchedaPrenotazione(pren, EventoBootStrap.getUsername(), dests);
 
                                     refreshRowCache();
 
-                                    Notification notification = new Notification("Promemoria conferma prenotazione n. " + pren.getNumPrenotazione() + " inviato a " + sped.getDestinatario(), "", Notification.Type.HUMANIZED_MESSAGE);
+                                    Notification notification = new Notification("Sollecito conferma prenotazione n. " + pren.getNumPrenotazione() + " inviato a " + sped.getDestinatario(), "", Notification.Type.HUMANIZED_MESSAGE);
                                     notification.setDelayMsec(-1);
                                     notification.show(Page.getCurrent());
 
@@ -566,24 +556,14 @@ public class PrenotazioneTable extends ETable {
         if (cont) {
             if (!pren.isConfermata()) {
                 cont = false;
-                Notification.show("Questa prenotazione non è ancora confermata.");
-            }
-        }
-
-        // controllo che il livello di sollecito sia < 1
-        if (cont) {
-            if (pren.getLivelloSollecitoPagamento() > 0) {
-                cont = false;
-                Notification notification = new Notification("Il promemoria è gia stato inviato",
-                        "\nSe vuoi puoi reinviarlo dagli Eventi Prenotazione.", Notification.Type.HUMANIZED_MESSAGE);
-                notification.setDelayMsec(-1);
-                notification.show(Page.getCurrent());
+                Notification.show("Questa prenotazione non è confermata.");
             }
         }
 
         // esegue
         if (cont) {
-            DialogoConfermaInvioManuale dialog = new DialogoConfermaInvioManuale(pren, "Invio promemoria scadenza pagamento", "Vuoi inviare un promemoria scadenza pagamento?");
+            String testo = "Invia una e-mail di sollecito e proroga la scadenza pagamento a " + CompanyPrefs.ggProlungamentoPagamDopoSollecito.getInt() + " giorni da oggi.";
+            DialogoConfermaInvioManuale dialog = new DialogoConfermaInvioManuale(pren, "Sollecito conferma pagamento", testo);
             dialog.setConfirmListener(new ConfirmDialog.ConfirmListener() {
                 @Override
                 public void confirmed(ConfirmDialog d) {
@@ -597,11 +577,11 @@ public class PrenotazioneTable extends ETable {
 
                                 try {
 
-                                    Spedizione sped = PrenotazioneModulo.sendEmailEvento(pren, TipoEventoPren.promemoriaScadenzaPagamento, EventoBootStrap.getUsername(), dests);
+                                    Spedizione sped = PrenotazioneModulo.doPromemoriaScadenzaPagamento(pren, EventoBootStrap.getUsername(), dests);
 
                                     refreshRowCache();
 
-                                    Notification notification = new Notification("Promemoria scadenza pagamento prenotazione n. " + pren.getNumPrenotazione() + " inviato a " + sped.getDestinatario(), "", Notification.Type.HUMANIZED_MESSAGE);
+                                    Notification notification = new Notification("Sollecito conferma pagamento prenotazione n. " + pren.getNumPrenotazione() + " inviato a " + sped.getDestinatario(), "", Notification.Type.HUMANIZED_MESSAGE);
                                     notification.setDelayMsec(-1);
                                     notification.show(Page.getCurrent());
 
@@ -659,7 +639,7 @@ public class PrenotazioneTable extends ETable {
 
         // esegue
         if (cont) {
-            String title="Il congelamento di una prenotazione libera i posti impegnati e blocca l'invio di ulteriori solleciti";
+            String title = "Il congelamento di una prenotazione libera i posti impegnati e blocca l'invio di ulteriori solleciti";
             DialogoCongelaPrenotazione dialog = new DialogoCongelaPrenotazione(pren, "Congelamento prenotazione", title);
             dialog.setConfirmListener(new ConfirmDialog.ConfirmListener() {
                 @Override
@@ -678,7 +658,7 @@ public class PrenotazioneTable extends ETable {
 
                                     refreshRowCache();
 
-                                    if(sped!=null){
+                                    if (sped != null) {
                                         Notification notification = new Notification("Avviso congelamento prenotazione n. " + pren.getNumPrenotazione() + " inviato a " + sped.getDestinatario(), "", Notification.Type.HUMANIZED_MESSAGE);
                                         notification.setDelayMsec(-1);
                                         notification.show(Page.getCurrent());
@@ -886,11 +866,11 @@ public class PrenotazioneTable extends ETable {
             Object obj = (getContainerProperty(itemId, Prenotazione_.scadenzaConferma.getName()).getValue());
 
             // check se scaduta
-            boolean scaduta=false;
-            if(obj!=null && obj instanceof  Date){
-                Date dataScadPren=(Date)obj;
-                if(!conf && (LibDate.isPrecedente(dataScadPren, LibDate.today()))){
-                    scaduta=true;
+            boolean scaduta = false;
+            if (obj != null && obj instanceof Date) {
+                Date dataScadPren = (Date) obj;
+                if (!conf && (LibDate.isPrecedente(dataScadPren, LibDate.today()))) {
+                    scaduta = true;
                 }
             }
 
@@ -903,29 +883,32 @@ public class PrenotazioneTable extends ETable {
                 if (cong) {
                     imgName = "frozen_20px.png";
                     description = "La prenotazione è stata congelata";
-                } else {
-                    if(scaduta) {
-                        switch (levelSC) {
-                            case 0:
+                } else {    // non congelata
+
+                    switch (levelSC) {
+                        case 0: // non sollecitata
+                            if (scaduta) {
                                 imgName = "exclam_red_20px.png";
                                 description = "Prenotazione scaduta";
-                                break;
-                            case 1:
-                                imgName = "bell_num_1_20px.png";
-                                description = "E' stato inviato un sollecito di conferma prenotazione";
-                                break;
-                            case 2:
-                                imgName = "bell_num_2_20px.png";
-                                description = "Sono stati inviati due solleciti di conferma prenotazione";
-                                break;
-                            default:
-                                imgName = "bell_num_other_20px.png";
-                                description = "Sono stati inviati "+levelSC+" solleciti di conferma prenotazione";
-                                break;
-                        }
-                    }else{
-                        imgName = null;
+                            } else {
+                                imgName = null;
+                            }
+                            break;
+                        case 1: // sollecitata livello 1
+                            imgName = "bell_num_1_20px.png";
+                            description = "E' stato inviato un sollecito di conferma prenotazione";
+                            break;
+                        case 2: // sollecitata livello 2
+                            imgName = "bell_num_2_20px.png";
+                            description = "Sono stati inviati due solleciti di conferma prenotazione";
+                            break;
+                        default: // sollecitata livello ulteriore
+                            imgName = "bell_num_other_20px.png";
+                            description = "Sono stati inviati " + levelSC + " solleciti di conferma prenotazione";
+                            break;
                     }
+
+
                 }
             }
 
@@ -946,38 +929,66 @@ public class PrenotazioneTable extends ETable {
 
         @SuppressWarnings("unchecked")
         public Component generateCell(Table source, Object itemId, Object columnId) {
-            boolean conf = Lib.getBool(getContainerProperty(itemId, Prenotazione_.pagamentoConfermato.getName()).getValue());
-            boolean regis = Lib.getBool(getContainerProperty(itemId, Prenotazione_.pagamentoRicevuto.getName()).getValue());
-            int levelSC = Lib.getInt(getContainerProperty(itemId, Prenotazione_.livelloSollecitoPagamento.getName()).getValue());
-            String imgName;
+            boolean prenConf = Lib.getBool(getContainerProperty(itemId, Prenotazione_.confermata.getName()).getValue());
+
+            String imgName=null;
             String description = "";
-            if (regis) {
-                imgName = "confirmed_20px.png";
-                description = "Il pagamento è stato confermato e registrato";
-            } else {
-                if (conf) {
-                    imgName = "confirmed_half_20px.png";
-                    description = "Il pagamento è stato confermato dal referente ma non ancora registrato";
-                } else {
-                    switch (levelSC) {
-                        case 0:
-                            imgName = null;
-                            break;
-                        case 1:
-                            imgName = "bell_num_1_20px.png";
-                            description = "E' stato inviato un sollecito di conferma pagamento";
-                            break;
-                        case 2:
-                            imgName = "bell_num_2_20px.png";
-                            description = "Sono stati inviati due solleciti di conferma pagamento";
-                            break;
-                        default:
-                            imgName = "bell_num_other_20px.png";
-                            description = "Sono stati inviati "+levelSC+" solleciti di conferma pagamento";
-                            break;
+
+            if (prenConf) { // se la prenotazione non è confermata è inutile ragionare sui pagamenti
+
+                boolean pagConf = Lib.getBool(getContainerProperty(itemId, Prenotazione_.pagamentoConfermato.getName()).getValue());
+                boolean pagRegis = Lib.getBool(getContainerProperty(itemId, Prenotazione_.pagamentoRicevuto.getName()).getValue());
+                int levelSC = Lib.getInt(getContainerProperty(itemId, Prenotazione_.livelloSollecitoPagamento.getName()).getValue());
+                Object obj = (getContainerProperty(itemId, Prenotazione_.scadenzaPagamento.getName()).getValue());
+
+                // check se conferma pagamento scaduta
+                boolean scaduta = false;
+                if (obj != null && obj instanceof Date) {
+                    Date dataScadPaga = (Date) obj;
+                    if (!pagConf && (LibDate.isPrecedente(dataScadPaga, LibDate.today()))) {
+                        scaduta = true;
                     }
                 }
+
+
+                if(pagRegis){
+                    imgName = "confirmed_20px.png";
+                    description = "Pagamento registrato";
+                }else{  // pagamento non registrato
+                    if(pagConf){
+                        imgName = "confirmed_half_20px.png";
+                        description = "Pagamento confermato";
+                    }else{
+
+                        switch (levelSC) {
+                            case 0: // mai sollecitata
+                                if (scaduta) {
+                                    imgName = "exclam_red_20px.png";
+                                    description = "Conferma pagamento scaduta";
+                                } else {    // non scaduto
+                                    imgName = null;
+                                }
+                                break;
+                            case 1: // sollecitata livello 1
+                                imgName = "bell_num_1_20px.png";
+                                description = "E' stato inviato un sollecito di conferma pagamento";
+                                break;
+                            case 2: // sollecitata livello 2
+                                imgName = "bell_num_2_20px.png";
+                                description = "Sono stati inviati due solleciti di conferma pagamento";
+                                break;
+                            default: // sollecitata livello ulteriore
+                                imgName = "bell_num_other_20px.png";
+                                description = "Sono stati inviati " + levelSC + " solleciti di conferma pagamento";
+                                break;
+                        }
+
+                    }
+
+                }
+
             }
+
             Image img = null;
             if (imgName != null) {
                 img = new Image(null, LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME, imgName));

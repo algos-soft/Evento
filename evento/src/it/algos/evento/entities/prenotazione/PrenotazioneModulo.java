@@ -175,8 +175,8 @@ public class PrenotazioneModulo extends EModulePop {
 
                 String detail = pren.toStringNumDataInsegnante();
                 String mailDetail = "";
-                if (sped!=null) {
-                    mailDetail = "e-mail inviata a "+sped.getDestinatario();
+                if (sped != null) {
+                    mailDetail = "e-mail inviata a " + sped.getDestinatario();
                 }
 
                 Notification notif = new Notification("Prenotazione confermata: " + detail, mailDetail, Notification.Type.HUMANIZED_MESSAGE);
@@ -244,7 +244,7 @@ public class PrenotazioneModulo extends EModulePop {
 
         logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
         if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
-            if(destinatari!=null && !destinatari.equals("")){
+            if (destinatari != null && !destinatari.equals("")) {
                 sped = sendEmailEvento(pren, tipoEvento, user, destinatari);
             }
         }
@@ -257,26 +257,29 @@ public class PrenotazioneModulo extends EModulePop {
      * Invio e-mail promemoria invio scheda prenotazione (no UI)
      * aumenta il livello di sollecito e prolunga la scadenza
      *
-     * @param pren la prenotazione
-     * @param user l'utente che genera l'evento
+     * @param pren        la prenotazione
+     * @param user        l'utente che genera l'evento
+     * @param destinatari destinatari email - stringa separata da virgole,
+     *                    null per usare i default dalle preferenze
+     * @return il rapporto di spedizione e-mail (se eseguita)
      */
-    public static void doPromemoriaInvioSchedaPrenotazione(Prenotazione pren, String user) throws EmailFailedException {
+    public static Spedizione doPromemoriaInvioSchedaPrenotazione(Prenotazione pren, String user, String destinatari) throws EmailFailedException {
 
         TipoEventoPren tipoEvento = TipoEventoPren.promemoriaInvioSchedaPrenotazione;
 
         // manda l'e-mail
-        sendEmailEvento(pren, tipoEvento, user);
+        Spedizione sped=sendEmailEvento(pren, tipoEvento, user, destinatari);
 
         // solo se e' riuscito a inviare l'email esegue il blocco seguente:
-        // pone il livello di sollecito a 1 e prolunga la scadenza a X giorni da oggi
-        if (pren.getLivelloSollecitoConferma() < 1) {
-            pren.setLivelloSollecitoConferma(1);
-            int numDays = CompanyPrefs.ggProlungamentoConfDopoSollecito.getInt(pren.getCompany());
-            Date date = new DateTime(LibDate.today()).plusDays(numDays).toDate();
-            pren.setScadenzaConferma(date);
-            pren.save();
-            logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
-        }
+        // aumenta di 1 il livello di sollecito e prolunga la scadenza a X giorni da oggi
+        pren.setLivelloSollecitoConferma(pren.getLivelloSollecitoConferma()+1);
+        int numDays = CompanyPrefs.ggProlungamentoConfDopoSollecito.getInt(pren.getCompany());
+        Date date = new DateTime(LibDate.today()).plusDays(numDays).toDate();
+        pren.setScadenzaConferma(date);
+        pren.save();
+        logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
+
+        return sped;
 
     }
 
@@ -376,26 +379,24 @@ public class PrenotazioneModulo extends EModulePop {
      *
      * @param pren la prenotazione di riferimento
      * @param user l'utente che effettua questa operazione
-     * @return true se ha inviato la mail di sollecito e spostato la scadenza
+     * @param destinatari destinatari email - stringa separata da virgole,
+     *                    null per usare i default dalle preferenze
+     * @return il rapporto di spedizione e-mail (se eseguita)
      */
-    public static boolean doPromemoriaScadenzaPagamento(Prenotazione pren, String user) throws EmailFailedException {
-        boolean eseguito = false;
+    public static Spedizione doPromemoriaScadenzaPagamento(Prenotazione pren, String user, String destinatari) throws EmailFailedException {
         TipoEventoPren tipoEvento = TipoEventoPren.promemoriaScadenzaPagamento;
 
-        // invia la mail, pone il livello di sollecito a 1
+        // invia la mail, incrementa il livello di sollecito
         // e prolunga la scadenza a X giorni da oggi
-        if (pren.getLivelloSollecitoPagamento() < 1) {
-            pren.setLivelloSollecitoPagamento(1);
-            int numDays = CompanyPrefs.ggProlungamentoPagamDopoSollecito.getInt(pren.getCompany());
-            Date date = new DateTime(LibDate.today()).plusDays(numDays).toDate();
-            pren.setScadenzaPagamento(date);
-            pren.save();
-            logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
-            sendEmailEvento(pren, tipoEvento, user);
-            eseguito = true;
-        }
+        pren.setLivelloSollecitoPagamento(pren.getLivelloSollecitoPagamento()+1);
+        int numDays = CompanyPrefs.ggProlungamentoPagamDopoSollecito.getInt(pren.getCompany());
+        Date date = new DateTime(LibDate.today()).plusDays(numDays).toDate();
+        pren.setScadenzaPagamento(date);
+        pren.save();
+        logger.log(Level.INFO, tipoEvento.getDescrizione() + " " + pren);
+        Spedizione sped = sendEmailEvento(pren, tipoEvento, user, destinatari);
 
-        return eseguito;
+        return sped;
 
     }
 
@@ -637,7 +638,7 @@ public class PrenotazioneModulo extends EModulePop {
             throws EmailInfoMissingException {
         HashMap<String, Object> map = new HashMap<String, Object>();
 
-        if (addr == null || addr.equals(""))  {
+        if (addr == null || addr.equals("")) {
             addr = modello.getEmailDestinatari(pren);
         }
 
