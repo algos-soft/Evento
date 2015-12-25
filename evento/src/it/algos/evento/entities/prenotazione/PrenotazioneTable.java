@@ -26,11 +26,13 @@ import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.Lib;
+import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.module.Module;
 import it.algos.webbase.web.module.ModulePop;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Locale;
 
 @SuppressWarnings("serial")
@@ -881,6 +883,17 @@ public class PrenotazioneTable extends ETable {
             boolean conf = Lib.getBool(getContainerProperty(itemId, Prenotazione_.confermata.getName()).getValue());
             boolean cong = Lib.getBool(getContainerProperty(itemId, Prenotazione_.congelata.getName()).getValue());
             int levelSC = Lib.getInt(getContainerProperty(itemId, Prenotazione_.livelloSollecitoConferma.getName()).getValue());
+            Object obj = (getContainerProperty(itemId, Prenotazione_.scadenzaConferma.getName()).getValue());
+
+            // check se scaduta
+            boolean scaduta=false;
+            if(obj!=null && obj instanceof  Date){
+                Date dataScadPren=(Date)obj;
+                if(!conf && (LibDate.isPrecedente(dataScadPren, LibDate.today()))){
+                    scaduta=true;
+                }
+            }
+
             String imgName;
             String description = "";
             if (conf) {
@@ -891,25 +904,31 @@ public class PrenotazioneTable extends ETable {
                     imgName = "frozen_20px.png";
                     description = "La prenotazione è stata congelata";
                 } else {
-                    switch (levelSC) {
-                        case 0:
-                            imgName = null;
-                            break;
-                        case 1:
-                            imgName = "bell_num_1_20px.png";
-                            description = "E' stato inviato un sollecito di conferma prenotazione";
-                            break;
-                        case 2:
-                            imgName = "bell_num_2_20px.png";
-                            description = "Sono stati inviati due solleciti di conferma prenotazione";
-                            break;
-                        default:
-                            imgName = "bell_num_other_20px.png";
-                            description = "Sono stati inviati "+levelSC+" solleciti di conferma prenotazione";
-                            break;
+                    if(scaduta) {
+                        switch (levelSC) {
+                            case 0:
+                                imgName = "exclam_red_20px.png";
+                                description = "Prenotazione scaduta";
+                                break;
+                            case 1:
+                                imgName = "bell_num_1_20px.png";
+                                description = "E' stato inviato un sollecito di conferma prenotazione";
+                                break;
+                            case 2:
+                                imgName = "bell_num_2_20px.png";
+                                description = "Sono stati inviati due solleciti di conferma prenotazione";
+                                break;
+                            default:
+                                imgName = "bell_num_other_20px.png";
+                                description = "Sono stati inviati "+levelSC+" solleciti di conferma prenotazione";
+                                break;
+                        }
+                    }else{
+                        imgName = null;
                     }
                 }
             }
+
             Image img = null;
             if (imgName != null) {
                 img = new Image(null, LibResource.getImgResource(EventoApp.IMG_FOLDER_NAME, imgName));
