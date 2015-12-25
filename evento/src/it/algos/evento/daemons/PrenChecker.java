@@ -120,7 +120,7 @@ public class PrenChecker implements Runnable {
 	}
 
 	/**
-	 * Promemoria invio scheda di prenotazione,
+	 * Sollecito conferma prenotazione,
 	 * (invio automatico al X° giorno dopo la opzione telefonica,
 	 * prolunga la scadenza di X giorni dopodiché verrà congelata)
 	 * <p>
@@ -170,7 +170,7 @@ public class PrenChecker implements Runnable {
 	
 	
 	/**
-	 * avviso congelamento dell’opzione telefonica, invio automatico alla scadenza ( quindi al 15° giorno dalla
+	 * avviso congelamento prenotazione, invio automatico alla scadenza ( quindi al 15° giorno dalla
  	 * opzione telefonica, o diversamente concordato) – lista d’attesa
  	 * <p>
 	 * @param company - l'azienda da controllare
