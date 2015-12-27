@@ -32,7 +32,7 @@ public class PrenotazioneTablePortal extends TablePortal {
     public static final String CMD_MEMO_INVIO_SCHEDA_PREN = "Invia sollecito conferma prenotazione...";
     public static final Resource ICON_MEMO_INVIO_SCHEDA_PREN = FontAwesome.ENVELOPE_O;
 
-    public static final String CMD_CONGELA_OPZIONE = "Congela opzione...";
+    public static final String CMD_CONGELA_OPZIONE = "Congela prenotazione...";
     public static final Resource ICON_CONGELA_OPZIONE = FontAwesome.LOCK;
 
     public static final String CMD_SPOSTA_AD_ALTRA_DATA = "Sposta ad altra data...";

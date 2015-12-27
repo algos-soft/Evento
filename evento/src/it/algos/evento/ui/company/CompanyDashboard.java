@@ -214,7 +214,7 @@ public class CompanyDashboard extends VerticalLayout {
      */
     private void createPrenScadute() {
         int quante = EQuery.countPrenotazioniScadute();
-        Component comp = new CompScadute(quante, "prenotazioni scadute", EventoApp.KEY_MOSTRA_PREN_RITARDO_CONFERMA);
+        Component comp = new CompScadute(quante, "prenotazioni scadute", EventoApp.KEY_MOSTRA_PREN_SCADUTE);
         pPrenScadPlaceholder.removeAllComponents();
         pPrenScadPlaceholder.addComponent(comp);
     }

@@ -69,9 +69,9 @@ public class PrenotazioneModulo extends EModulePop {
             @Override
             public void attach(AttachEvent attachEvent) {
 
-                // prenotazioni in ritardo di conferma prenotazione
-                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_CONFERMA) != null) {
-                    LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_CONFERMA, null);
+                // prenotazioni scadute
+                if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_SCADUTE) != null) {
+                    LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_SCADUTE, null);
                     changeFilter(PrenotazioneModulo.getFiltroPrenotazioniScadute());
                 }
 
@@ -865,6 +865,7 @@ public class PrenotazioneModulo extends EModulePop {
     /**
      * Ritorna un filtro che seleziona tutti i pagamenti scaduti e
      * non confermati per la stagione corrente
+     * (sono escluse le prenotazioni congelate)
      */
     public static Filter getFiltroPagamentiDaConfermare() {
         DateTime jToday = new DateTime().withTimeAtStartOfDay();
@@ -874,6 +875,7 @@ public class PrenotazioneModulo extends EModulePop {
         filters.add(new Compare.Equal(Prenotazione_.confermata.getName(), true));
         filters.add(new Compare.Equal(Prenotazione_.pagamentoConfermato.getName(), false));
         filters.add(new Compare.Less(Prenotazione_.scadenzaPagamento.getName(), today));
+        filters.add(new Compare.Less(Prenotazione_.congelata.getName(), false));
         Filter outFilter = new And(filters.toArray(new Filter[0]));
         return outFilter;
     }// end of method
@@ -882,6 +884,7 @@ public class PrenotazioneModulo extends EModulePop {
     /**
      * Ritorna un filtro che seleziona tutti i pagamenti scaduti e
      * non confermati per la stagione corrente
+     * (sono escluse le prenotazioni congelate)
      */
     public static Filter getFiltroPagamentiScaduti() {
         DateTime jToday = new DateTime().withTimeAtStartOfDay();
@@ -892,6 +895,7 @@ public class PrenotazioneModulo extends EModulePop {
         filters.add(new Compare.Equal(Prenotazione_.pagamentoConfermato.getName(), true));
         filters.add(new Compare.Equal(Prenotazione_.pagamentoRicevuto.getName(), false));
         filters.add(new Compare.Less(Prenotazione_.scadenzaPagamento.getName(), today));
+        filters.add(new Compare.Less(Prenotazione_.congelata.getName(), false));
         Filter outFilter = new And(filters.toArray(new Filter[0]));
 
         return outFilter;
@@ -915,6 +919,7 @@ public class PrenotazioneModulo extends EModulePop {
     /**
      * Ritorna un filtro che seleziona tutte le prenotazioni della stagione corrente
      * secondo i flag Prenotazione Confermata, Pagamento Confermato, Pagamento Ricevuto.
+     * (le prenotazioni congelate sono escluse)
      *
      * @param prenConf flag per prenotazione confermata (null per non selezionare)
      * @param pagaConf flag per pagamento confermato (null per non selezionare)
@@ -932,6 +937,9 @@ public class PrenotazioneModulo extends EModulePop {
         if (pagaRic != null) {
             filters.add(new Compare.Equal(Prenotazione_.pagamentoRicevuto.getName(), pagaRic));
         }
+
+        filters.add(new Compare.Equal(Prenotazione_.congelata.getName(), false));
+
         Filter outFilter = new And(filters.toArray(new Filter[0]));
         return outFilter;
     }// end of method

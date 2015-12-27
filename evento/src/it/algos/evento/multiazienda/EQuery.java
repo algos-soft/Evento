@@ -607,6 +607,7 @@ public class EQuery {
     /**
      * Ritorna il numero prenotazioni in ritardo di conferma pagamento (fase 1)
      * per l'azienda corrente nella stagione corrente.
+     * (sono escluse le prenotazioni congelate)
      *
      * @return il numero di prenotazioni in ritardo di conferma pagamento (fase 1)
      */
@@ -626,6 +627,7 @@ public class EQuery {
         predicates.add(cb.equal(root.get(Prenotazione_.confermata), true));
         predicates.add(cb.equal(root.get(Prenotazione_.pagamentoConfermato), false));
         predicates.add(cb.lessThan(root.get(Prenotazione_.scadenzaPagamento), today()));
+        predicates.add(cb.equal(root.get(Prenotazione_.congelata), false));
 
         cq.where(predicates.toArray(new Predicate[]{}));
 
@@ -646,6 +648,7 @@ public class EQuery {
     /**
      * Ritorna il numero prenotazioni con pagamento scaduto
      * per l'azienda corrente nella stagione corrente.
+     * (sono escluse le prenotazioni congelate)
      *
      * @return il numero di prenotazioni con pagamento scaduto
      */
@@ -666,6 +669,7 @@ public class EQuery {
         predicates.add(cb.equal(root.get(Prenotazione_.pagamentoConfermato), true));
         predicates.add(cb.equal(root.get(Prenotazione_.pagamentoRicevuto), false));
         predicates.add(cb.lessThan(root.get(Prenotazione_.scadenzaPagamento), today()));
+        predicates.add(cb.equal(root.get(Prenotazione_.congelata), false));
 
         cq.where(predicates.toArray(new Predicate[]{}));
 
@@ -1113,6 +1117,7 @@ public class EQuery {
     /**
      * Crea un filtro che seleziona le prenotazioni CONFERMATE con pagamento
      * confermato o non confermato per l'azienda corrente e la stagione corrente.
+     * (le prenotazioni congelate sono escluse)
      *
      * @param root       root della query
      * @param cb         il CriteriaBuilder da usare
@@ -1132,6 +1137,7 @@ public class EQuery {
         if (ricevuto!=null){
             predicates.add(cb.equal(root.get(Prenotazione_.pagamentoRicevuto), ricevuto));
         }
+        predicates.add(cb.equal(root.get(Prenotazione_.congelata), false));
         return predicates.toArray(new Predicate[0]);
     }
 

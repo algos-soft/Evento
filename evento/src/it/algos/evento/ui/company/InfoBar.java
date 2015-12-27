@@ -95,6 +95,8 @@ public class InfoBar extends VerticalLayout {
             setHeight("100%");
             setWidth("100%");
             setHtmlContentAllowed(true);
+            setMargin(false);
+            setSpacing(false);
 
             addClickListener(new ClickListener() {
                 @Override

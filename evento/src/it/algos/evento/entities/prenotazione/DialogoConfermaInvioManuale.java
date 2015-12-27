@@ -6,6 +6,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Notification;
+import it.algos.evento.entities.scuola.Scuola;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.field.CheckBoxField;
 import it.algos.webbase.web.field.EmailField;
@@ -81,10 +82,15 @@ class DialogoConfermaInvioManuale extends ConfirmDialog {
             mailRef.setValue(s);
         }
 
-        s=pren.getScuola().getEmail();
-        if (s!=null && !s.equals("")){
-            sendScuola.setValue(true);
-            mailScuola.setValue(s);
+        if(!pren.isPrivato()){
+            Scuola scuola = pren.getScuola();
+            if (scuola!=null){
+                s=scuola.getEmail();
+                if (s!=null && !s.equals("")){
+                    sendScuola.setValue(true);
+                    mailScuola.setValue(s);
+                }
+            }
         }
 
     }

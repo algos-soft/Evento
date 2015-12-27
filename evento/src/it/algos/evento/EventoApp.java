@@ -64,7 +64,7 @@ public abstract class EventoApp extends AlgosApp {
     /**
      * Keys for session attributes.<br>
      */
-    public static final String KEY_MOSTRA_PREN_RITARDO_CONFERMA = "mostraOpzioniRitardoConferma";
+    public static final String KEY_MOSTRA_PREN_SCADUTE = "mostraPrenScadute";
     public static final String KEY_MOSTRA_PREN_RITARDO_PAGAMENTO_1 = "mostraOpzioniRitardoPagamento1";
     public static final String KEY_MOSTRA_PREN_PAGAMENTO_SCADUTO = "mostraPrenPagamentoScaduto";
 
