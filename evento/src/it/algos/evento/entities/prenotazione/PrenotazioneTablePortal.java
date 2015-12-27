@@ -59,9 +59,9 @@ public class PrenotazioneTablePortal extends TablePortal {
         // bottone Altro...
         MenuBar.MenuItem item = toolbar.addButton("Altro...", FontAwesome.BARS, null);
 
-        item.addItem("Opzioni da confermare...", FontAwesome.CLOCK_O, new MenuBar.Command() {
+        item.addItem("Mostra prenotazioni scadute", FontAwesome.CLOCK_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Filter filter = PrenotazioneModulo.getFiltroOpzioniDaConfermare();
+                Filter filter = PrenotazioneModulo.getFiltroPrenotazioniScadute();
                 JPAContainer cont = getTable().getJPAContainer();
                 cont.removeAllContainerFilters();
                 cont.refresh(); // refresh container before applying new filters
@@ -69,7 +69,7 @@ public class PrenotazioneTablePortal extends TablePortal {
             }
         });// end of anonymous class
 
-        item.addItem("Pagamenti da confermare...", FontAwesome.CLOCK_O, new MenuBar.Command() {
+        item.addItem("Mostra conferme pagamento scadute", FontAwesome.CLOCK_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 Filter filter = PrenotazioneModulo.getFiltroPagamentiDaConfermare();
                 JPAContainer cont = getTable().getJPAContainer();
@@ -79,9 +79,19 @@ public class PrenotazioneTablePortal extends TablePortal {
             }
         });// end of anonymous class
 
-        item.addItem("Pagamenti scaduti...", FontAwesome.CLOCK_O, new MenuBar.Command() {
+//        item.addItem("Mostra pagamenti scaduti...", FontAwesome.CLOCK_O, new MenuBar.Command() {
+//            public void menuSelected(MenuItem selectedItem) {
+//                Filter filter = PrenotazioneModulo.getFiltroPagamentiScaduti();
+//                JPAContainer cont = getTable().getJPAContainer();
+//                cont.removeAllContainerFilters();
+//                cont.refresh(); // refresh container before applying new filters
+//                cont.addContainerFilter(filter);
+//            }
+//        });// end of anonymous class
+
+        item.addItem("Mostra prenotazioni congelate", FontAwesome.CLOCK_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Filter filter = PrenotazioneModulo.getFiltroPagamentiScaduti();
+                Filter filter = PrenotazioneModulo.getFiltroPrenCongelate();
                 JPAContainer cont = getTable().getJPAContainer();
                 cont.removeAllContainerFilters();
                 cont.refresh(); // refresh container before applying new filters

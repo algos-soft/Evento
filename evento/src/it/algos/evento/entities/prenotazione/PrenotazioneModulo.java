@@ -72,7 +72,7 @@ public class PrenotazioneModulo extends EModulePop {
                 // prenotazioni in ritardo di conferma prenotazione
                 if (LibSession.getAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_CONFERMA) != null) {
                     LibSession.setAttribute(EventoApp.KEY_MOSTRA_PREN_RITARDO_CONFERMA, null);
-                    changeFilter(PrenotazioneModulo.getFiltroOpzioniDaConfermare());
+                    changeFilter(PrenotazioneModulo.getFiltroPrenotazioniScadute());
                 }
 
                 // prenotazioni in ritardo di conferma pagamento
@@ -847,14 +847,16 @@ public class PrenotazioneModulo extends EModulePop {
     /**
      * Ritorna un filtro che seleziona tutte le prenotazioni
      * scadute e non confermate per la stagione corrente
+     * (sono escluse le congelate)
      */
-    public static Filter getFiltroOpzioniDaConfermare() {
+    public static Filter getFiltroPrenotazioniScadute() {
         DateTime jToday = new DateTime().withTimeAtStartOfDay();
         Date today = jToday.toDate();
         ArrayList<Filter> filters = new ArrayList<Filter>();
         filters.add(new Compare.Equal(PROP_STAGIONE, Stagione.getStagioneCorrente()));
         filters.add(new Compare.Equal(Prenotazione_.confermata.getName(), false));
         filters.add(new Compare.Less(Prenotazione_.scadenzaConferma.getName(), today));
+        filters.add(new Compare.Equal(Prenotazione_.congelata.getName(), false));
         Filter outFilter = new And(filters.toArray(new Filter[0]));
         return outFilter;
     }// end of method
@@ -932,6 +934,15 @@ public class PrenotazioneModulo extends EModulePop {
         }
         Filter outFilter = new And(filters.toArray(new Filter[0]));
         return outFilter;
+    }// end of method
+
+
+    /**
+     * Ritorna un filtro che seleziona tutte le prenotazioni
+     * congelate della stagione corrente
+     */
+    public static Filter getFiltroPrenCongelate() {
+        return getFiltroPrenCongelate(Stagione.getStagioneCorrente());
     }// end of method
 
     /**

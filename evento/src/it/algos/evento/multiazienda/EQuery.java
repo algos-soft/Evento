@@ -307,7 +307,7 @@ public class EQuery {
      * @return il numero totale di prenotazioni congelate
      */
     public static int countPrenotazioni() {
-        return countPrenotazioni(Stagione.getStagioneCorrente().getStagioneCorrente(), -1);
+        return countPrenotazioni(Stagione.getStagioneCorrente(), -1);
     }
 
     /**
@@ -317,8 +317,88 @@ public class EQuery {
      * @return il numero di prenotazioni congelate
      */
     public static int countPrenotazioniCongelate() {
-        return countPrenotazioni(Stagione.getStagioneCorrente(), 1);
+
+        EntityManager em = EM.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+
+        Root<Prenotazione> root = cq.from(Prenotazione.class);
+
+        cq.where(creaFiltroPrenCongelate(cb, root));
+
+        cq.select(cb.count(root));
+
+        Long num = em.createQuery(cq).getSingleResult();
+        if(num==null){
+            num=0l;
+        }
+
+        em.close();
+
+        return num.intValue();
+
     }
+
+    /**
+     * Ritorna il numero di posti totale delle prenotazioni non confermate
+     * per l'azienda corrente nella stagione corrente.
+     *
+     * @return il numero di posti totale delle prenotazioni
+     */
+    public static int sumPostiPrenotazioniCongelate() {
+        EntityManager em = EM.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Integer> cq = cb.createQuery(Integer.class);
+
+        Root<Prenotazione> root = cq.from(Prenotazione.class);
+
+        cq.where(creaFiltroPrenCongelate(cb, root));
+
+        cq.select(cb.sum(getExprPostiPrenotati(cb, root)));
+
+        TypedQuery<Integer> q = em.createQuery(cq);
+        Integer num = q.getSingleResult();
+        if(num==null){
+            num=0;
+        }
+
+        em.close();
+
+        return num;
+    }
+
+
+    /**
+     * Ritorna l'importo totale delle prenotazioni non confermate
+     * per l'azienda corrente nella stagione corrente.
+     *
+     * @return l'importo totale delle prenotazioni
+     */
+    public static BigDecimal sumImportoPrenotazioniCongelate() {
+
+        EntityManager em = EM.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Number> cq = cb.createQuery(Number.class);
+
+        Root<Prenotazione> root = cq.from(Prenotazione.class);
+
+        cq.where(creaFiltroPrenCongelate(cb, root));
+
+        cq.select(cb.sum(getExprImportoPrevisto(cb, root)));
+
+        Number num = em.createQuery(cq).getSingleResult();
+        em.close();
+
+        BigDecimal bd=new BigDecimal(0);
+        if (num != null) {
+            if (num instanceof BigDecimal){
+                bd=(BigDecimal)num;
+            }
+        }
+
+        return bd;
+    }
+
 
     /**
      * Ritorna il numero di eventi per l'azienda corrente in una data stagione.
@@ -485,12 +565,13 @@ public class EQuery {
 
 
     /**
-     * Ritorna il numero prenotazioni in ritardo di conferma per
+     * Ritorna il numero prenotazioni scadute per
      * l'azienda corrente nella stagione corrente.
+     * (sono escluse le congelate)
      *
      * @return il numero di prenotazioni in ritardo di conferma
      */
-    public static int countPrenRitardoConferma() {
+    public static int countPrenotazioniScadute() {
 
         EntityManager em = EM.createEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -505,6 +586,7 @@ public class EQuery {
         predicates.add(cb.equal(joinEve.get(Evento_.stagione), Stagione.getStagioneCorrente()));
         predicates.add(cb.equal(root.get(Prenotazione_.confermata), false));
         predicates.add(cb.lessThan(root.get(Prenotazione_.scadenzaConferma), today()));
+        predicates.add(cb.equal(root.get(Prenotazione_.congelata), false));
 
         cq.where(predicates.toArray(new Predicate[]{}));
 
@@ -694,14 +776,28 @@ public class EQuery {
 
 
     /**
+     * Crea un filtro per selezionare le prenotazioni congelate
+     * per l'azienda corrente e la stagione corrente
+     */
+    private static Predicate[] creaFiltroPrenCongelate(CriteriaBuilder cb, Root<Prenotazione> root){
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(creaFiltroCompany(root, cb));
+        predicates.add(creaFiltroStagioneCorrente(root, cb));
+        predicates.add(cb.equal(root.get(Prenotazione_.congelata), true));
+        return predicates.toArray(new Predicate[]{});
+    }
+
+    /**
      * Crea un filtro per selezionare le prenotazioni non confermate
      * per l'azienda corrente e la stagione corrente
+     * (sono escluse le congelate)
      */
     private static Predicate[] creaFiltroPrenNonConf(CriteriaBuilder cb, Root<Prenotazione> root){
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(creaFiltroCompany(root, cb));
         predicates.add(creaFiltroStagioneCorrente(root, cb));
         predicates.add(cb.equal(root.get(Prenotazione_.confermata), false));
+        predicates.add(cb.equal(root.get(Prenotazione_.congelata), false));
         return predicates.toArray(new Predicate[]{});
     }
 

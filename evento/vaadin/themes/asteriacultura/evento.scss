@@ -137,6 +137,17 @@ $v-font-weight: 400;
     font-weight: bold;
   }
 
+  // colore barra blu (congelate)
+  $darkblue: rgb(15, 0, 217);
+  $lightblue: rgba(15, 0, 217, 0.6);
+  .blueGradientBg {
+    background: $darkblue;
+    background: -webkit-linear-gradient(top, $darkblue,  $lightblue,  $darkblue);
+    background: -moz-linear-gradient(top,   $darkblue,  $lightblue,  $darkblue);
+    background: -o-linear-gradient(top,  $darkblue,  $lightblue,  $darkblue);
+    background: linear-gradient(top,  $darkblue,  $lightblue,  $darkblue);
+  }
+
   // colore barra rossa (non confermate)
   $darkred: rgba(217, 11, 0, 1);
   $lightred: rgba(217, 11, 0, 0.6);

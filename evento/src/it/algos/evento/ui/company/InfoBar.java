@@ -15,12 +15,14 @@ public class InfoBar extends VerticalLayout {
     private CompanyHome home;
     private boolean euro;
     private HorizontalLayout segmentsLayout;
+    private Segment segCongelate;
     private Segment segNonConf;
     private Segment segPagaNonConf;
     private Segment segPagaConf;
     private Segment segPagaRic;
 
     // testi per tooltips, legenda ecc...
+    public static final String TEXT_PREN_CONGELATE="prenotazioni congelate";
     public static final String TEXT_PREN_NOCONF="prenotazioni non confermate";
     public static final String TEXT_PAGA_NOCONF="prenotazioni confermate";
     public static final String TEXT_PAGA_CONF="pagamenti confermati";
@@ -33,6 +35,7 @@ public class InfoBar extends VerticalLayout {
         setWidth("100%");
         setSpacing(false);
 
+        segCongelate=new Segment(TEXT_PREN_CONGELATE,"blueGradientBg",EventoApp.KEY_MOSTRA_PREN_CONGELATE);
         segNonConf=new Segment(TEXT_PREN_NOCONF,"redGradientBg",EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE);
         segPagaNonConf=new Segment(TEXT_PAGA_NOCONF,"orangeGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO);
         segPagaConf=new Segment(TEXT_PAGA_CONF,"goldenGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO);
@@ -45,6 +48,7 @@ public class InfoBar extends VerticalLayout {
         segmentsLayout = new HorizontalLayout();
         segmentsLayout.setWidth("100%");
         segmentsLayout.setHeight("4em");
+        segmentsLayout.addComponent(segCongelate);
         segmentsLayout.addComponent(segNonConf);
         segmentsLayout.addComponent(segPagaNonConf);
         segmentsLayout.addComponent(segPagaConf);
@@ -57,7 +61,10 @@ public class InfoBar extends VerticalLayout {
     /**
      * Assegna i pesi ai vari segmenti
      */
-    public void update(int nonConf, int pagaNonConf, int pagaConf, int pagaRic){
+    public void update(int congelate, int nonConf, int pagaNonConf, int pagaConf, int pagaRic){
+        segmentsLayout.setExpandRatio(segCongelate, congelate);
+        segCongelate.setValue(congelate);
+
         segmentsLayout.setExpandRatio(segNonConf, nonConf);
         segNonConf.setValue(nonConf);
 

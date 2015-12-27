@@ -20,6 +20,8 @@ import it.algos.webbase.web.toolbar.Toolbar;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Executed on container startup
@@ -31,6 +33,7 @@ import java.util.List;
  */
 public class EventoBootStrap extends ABootStrap {
 
+    private static final Logger logger = Logger.getLogger(EventoBootStrap.class.getName());
 
     /**
      * @return the name of the current user
@@ -125,6 +128,9 @@ public class EventoBootStrap extends ABootStrap {
      * Se le versioni aumentano, conviene spostare in una classe esterna
      */
     private void versioneBootStrap(ServletContext svltCtx) {
+
+        logger.log(Level.INFO, "Controllo revisioni iniziali avviato");
+
         //--prima installazione del programma
         //--non fa nulla, solo informativo
         if (LibVers.installa(1)) {
@@ -136,6 +142,8 @@ public class EventoBootStrap extends ABootStrap {
 //            eliminaTrattinoLettera();
 //            LibVers.nuova("Lettera", "Modifica contemporanea del campo Lettera.sigla e del campo ModelliLettere.dbCode per eliminare il trattino basso");
 //        }// fine del blocco if
+
+        logger.log(Level.INFO, "Controllo revisioni iniziali terminato");
 
     }// end of method
 

@@ -26,7 +26,6 @@ public class CompanyDashboard extends VerticalLayout {
     private HorizontalLayout pPrenScadPlaceholder = new HorizontalLayout();
     private HorizontalLayout pConfPagScadPlaceholder = new HorizontalLayout();
     private HorizontalLayout pPagScadPlaceholder = new HorizontalLayout();
-    private HorizontalLayout pPrenCongPlaceholder = new HorizontalLayout();
     private HorizontalLayout rappresentazioniPlaceholder = new HorizontalLayout();
     private HorizontalLayout prenotazioniRicevutePlaceholder = new HorizontalLayout();
     private HorizontalLayout postiPrenotatiPlaceholder = new HorizontalLayout();
@@ -84,7 +83,6 @@ public class CompanyDashboard extends VerticalLayout {
         scadPanel.addComponent(pPrenScadPlaceholder);
         scadPanel.addComponent(pConfPagScadPlaceholder);
         scadPanel.addComponent(pPagScadPlaceholder);
-        scadPanel.addComponent(pPrenCongPlaceholder);
         addComponent(scadPanel);
         setExpandRatio(scadPanel,0);
 
@@ -162,22 +160,24 @@ public class CompanyDashboard extends VerticalLayout {
         createPrenScadute();
         createConfPagaScadute();
         createPagaScadute();
-        createPrenCongelate();
 
         // barra n. prenotazioni
-        barNumeri.update(EQuery.countPrenotazioniNonConfermate(),
+        barNumeri.update(EQuery.countPrenotazioniCongelate(),
+                EQuery.countPrenotazioniNonConfermate(),
                 EQuery.countPrenotazioniPagamentoNonConfermato(),
                 EQuery.countPrenotazioniPagamentoConfermato(),
                 EQuery.countPrenotazioniPagamentoRicevuto());
 
         // barra n. posti
-        barPosti.update(EQuery.sumPostiPrenotazioniNonConfermate(),
+        barPosti.update(EQuery.sumPostiPrenotazioniCongelate(),
+                EQuery.sumPostiPrenotazioniNonConfermate(),
                 EQuery.sumPostiPrenotazioniPagamentoNonConfermato(),
                 EQuery.sumPostiPrenotazioniPagamentoConfermato(),
                 EQuery.sumPostiPrenotazioniPagamentoRicevuto());
 
         // barra importi
-        barImporti.update(EQuery.sumImportoPrenotazioniNonConfermate().intValue(),
+        barImporti.update(EQuery.sumImportoPrenotazioniCongelate().intValue(),
+                EQuery.sumImportoPrenotazioniNonConfermate().intValue(),
                 EQuery.sumImportoPrenotazioniPagamentoNonConfermato().intValue(),
                 EQuery.sumImportoPrenotazioniPagamentoConfermato().intValue(),
                 EQuery.sumImportoPrenotazioniPagamentoRicevuto().intValue());
@@ -213,7 +213,7 @@ public class CompanyDashboard extends VerticalLayout {
      * Crea il componente UI che rappresenta le conferme prenotazione scadute
      */
     private void createPrenScadute() {
-        int quante = EQuery.countPrenRitardoConferma();
+        int quante = EQuery.countPrenotazioniScadute();
         Component comp = new CompScadute(quante, "prenotazioni scadute", EventoApp.KEY_MOSTRA_PREN_RITARDO_CONFERMA);
         pPrenScadPlaceholder.removeAllComponents();
         pPrenScadPlaceholder.addComponent(comp);
@@ -240,18 +240,6 @@ public class CompanyDashboard extends VerticalLayout {
         pPagScadPlaceholder.removeAllComponents();
         pPagScadPlaceholder.addComponent(comp);
     }
-
-
-    /**
-     * Crea il componente UI che rappresenta le prenotazioni con pagamento scaduto
-     */
-    private void createPrenCongelate() {
-        int quante = EQuery.countPrenotazioniCongelate();
-        Component comp = new CompScadute(quante, "prenotazioni congelate", EventoApp.KEY_MOSTRA_PREN_CONGELATE);
-        pPrenCongPlaceholder.removeAllComponents();
-        pPrenCongPlaceholder.addComponent(comp);
-    }
-
 
 
 
