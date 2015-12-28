@@ -98,17 +98,17 @@ public class InfoBar extends VerticalLayout {
             setMargin(false);
             setSpacing(false);
 
-            addClickListener(new ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
-
-                    // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
-                    LibSession.setAttribute(key, true);
-                    // clicca sul menu Prenotazioni
-                    clickMenuPren();
-
-                }
-            });
+//            addClickListener(new ClickListener() {
+//                @Override
+//                public void buttonClick(ClickEvent clickEvent) {
+//
+//                    // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
+//                    LibSession.setAttribute(key, true);
+//                    // clicca sul menu Prenotazioni
+//                    clickMenuPren();
+//
+//                }
+//            });
 
         }
 
