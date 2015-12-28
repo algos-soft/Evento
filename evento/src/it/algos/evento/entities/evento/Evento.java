@@ -37,16 +37,16 @@ public class Evento extends EventoEntity {
 	private Stagione stagione;
 
 	@Column(precision = 6, scale = 2)
-	private BigDecimal importoIntero;
+	private BigDecimal importoIntero=new BigDecimal(0);
 
 	@Column(precision = 6, scale = 2)
-	private BigDecimal importoRidotto;
+	private BigDecimal importoRidotto=new BigDecimal(0);
 	
 	@Column(precision = 6, scale = 2)
-	private BigDecimal importoDisabili;
+	private BigDecimal importoDisabili=new BigDecimal(0);
 
 	@Column(precision = 6, scale = 2)
-	private BigDecimal importoAccomp;
+	private BigDecimal importoAccomp=new BigDecimal(0);
 	
     @OneToMany(mappedBy = "evento")
     @CascadeOnDelete
@@ -120,6 +120,9 @@ public class Evento extends EventoEntity {
 	}
 
 	public void setImportoIntero(BigDecimal importo) {
+		if(importo==null){  // evitiamo i nulli nei numeri sul database
+			importo=new BigDecimal(0);
+		}
 		this.importoIntero = importo;
 	}
 
@@ -128,6 +131,9 @@ public class Evento extends EventoEntity {
 	}
 
 	public void setImportoRidotto(BigDecimal importo) {
+		if(importo==null){  // evitiamo i nulli nei numeri sul database
+			importo=new BigDecimal(0);
+		}
 		this.importoRidotto = importo;
 	}
 	
@@ -139,10 +145,13 @@ public class Evento extends EventoEntity {
 	}
 
 	/**
-	 * @param importoDisabili the importoDisabili to set
+	 * @param importo the importoDisabili to set
 	 */
-	public void setImportoDisabili(BigDecimal importoDisabili) {
-		this.importoDisabili = importoDisabili;
+	public void setImportoDisabili(BigDecimal importo) {
+		if(importo==null){  // evitiamo i nulli nei numeri sul database
+			importo=new BigDecimal(0);
+		}
+		this.importoDisabili = importo;
 	}
 
 	/**
@@ -153,10 +162,13 @@ public class Evento extends EventoEntity {
 	}
 
 	/**
-	 * @param importoAccomp the importoAccomp to set
+	 * @param importo the importoAccomp to set
 	 */
-	public void setImportoAccomp(BigDecimal importoAccomp) {
-		this.importoAccomp = importoAccomp;
+	public void setImportoAccomp(BigDecimal importo) {
+		if(importo==null){  // evitiamo i nulli nei numeri sul database
+			importo=new BigDecimal(0);
+		}
+		this.importoAccomp = importo;
 	}
 
 	@Override

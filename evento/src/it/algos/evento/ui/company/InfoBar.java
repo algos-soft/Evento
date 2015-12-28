@@ -1,6 +1,8 @@
 package it.algos.evento.ui.company;
 
 import com.vaadin.data.util.converter.StringToIntegerConverter;
+import com.vaadin.event.LayoutEvents;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import it.algos.evento.EventoApp;
 import it.algos.webbase.web.lib.LibSession;
@@ -15,11 +17,11 @@ public class InfoBar extends VerticalLayout {
     private CompanyHome home;
     private boolean euro;
     private HorizontalLayout segmentsLayout;
-    private Segment segCongelate;
-    private Segment segNonConf;
-    private Segment segPagaNonConf;
-    private Segment segPagaConf;
-    private Segment segPagaRic;
+    private BarSegment segCongelate;
+    private BarSegment segNonConf;
+    private BarSegment segPagaNonConf;
+    private BarSegment segPagaConf;
+    private BarSegment segPagaRic;
 
     // testi per tooltips, legenda ecc...
     public static final String TEXT_PREN_CONGELATE="prenotazioni congelate";
@@ -35,11 +37,11 @@ public class InfoBar extends VerticalLayout {
         setWidth("100%");
         setSpacing(false);
 
-        segCongelate=new Segment(TEXT_PREN_CONGELATE,"blueGradientBg",EventoApp.KEY_MOSTRA_PREN_CONGELATE);
-        segNonConf=new Segment(TEXT_PREN_NOCONF,"redGradientBg",EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE);
-        segPagaNonConf=new Segment(TEXT_PAGA_NOCONF,"orangeGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO);
-        segPagaConf=new Segment(TEXT_PAGA_CONF,"goldenGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO);
-        segPagaRic=new Segment(TEXT_PAGA_RIC, "greenGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_RICEVUTO);
+        segCongelate=new BarSegment(TEXT_PREN_CONGELATE,"blueGradientBg",EventoApp.KEY_MOSTRA_PREN_CONGELATE);
+        segNonConf=new BarSegment(TEXT_PREN_NOCONF,"redGradientBg",EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE);
+        segPagaNonConf=new BarSegment(TEXT_PAGA_NOCONF,"orangeGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO);
+        segPagaConf=new BarSegment(TEXT_PAGA_CONF,"goldenGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO);
+        segPagaRic=new BarSegment(TEXT_PAGA_RIC, "greenGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_RICEVUTO);
 
         Label label = new Label(titolo);
         label.addStyleName("infoBarTitle");
@@ -83,32 +85,40 @@ public class InfoBar extends VerticalLayout {
     /**
      * Segmento interno alla barra
      */
-    private class Segment extends Button {
+    private class BarSegment extends HorizontalLayout {
 
         private String title;
         private final StringToIntegerConverter intConv = new StringToIntegerConverter();
+        private Label label;
 
-        public Segment(String title, String style, final String key) {
+        public BarSegment(String title, String style, final String key) {
             this.title=title;
             addStyleName(style);
             addStyleName("infoBarSegment");
-            setHeight("100%");
+            setHeight("3em");
             setWidth("100%");
-            setHtmlContentAllowed(true);
             setMargin(false);
             setSpacing(false);
 
-            addClickListener(new ClickListener() {
-                @Override
-                public void buttonClick(ClickEvent clickEvent) {
+            // Label per mostrare il numero al centro della barra
+            label=new Label();
+            label.setWidthUndefined();
+            label.setContentMode(ContentMode.HTML);
+            addComponent(label);
+            setComponentAlignment(label, Alignment.MIDDLE_CENTER);
 
-                    // regola l'attributo che farà sì che il modulo esegua la query quando diventa visibile
+            addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+                @Override
+                public void layoutClick(LayoutEvents.LayoutClickEvent layoutClickEvent) {
+                    // regola l'attributo di sessione che farà sì che il modulo esegua la query quando diventa visibile
                     LibSession.setAttribute(key, true);
                     // clicca sul menu Prenotazioni
                     clickMenuPren();
 
                 }
             });
+
+
 
         }
 
@@ -117,8 +127,9 @@ public class InfoBar extends VerticalLayout {
             if (euro){
                 s+="&euro;";
             }
-            setCaption(s);
-            setDescription(title + ": " + s+"<br><strong>clicca per vedere</strong>");
+            label.setValue(s);
+            //setCaption(s);
+            setDescription(title + ": " + s + "<br><strong>clicca per vedere</strong>");
         }
 
         /**

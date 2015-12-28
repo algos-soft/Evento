@@ -905,11 +905,18 @@ public class EQuery {
      * Crea una Expression che calcola il totale importo previsto
      */
     private static Expression<Number> getExprImportoPrevisto(CriteriaBuilder cb, Root<Prenotazione> root){
-        CriteriaBuilder.Coalesce zero = cb.coalesce().value(0);
-        Expression<Number> e1 = cb.prod(cb.coalesce(root.get(Prenotazione_.numInteri),zero), cb.coalesce(root.get(Prenotazione_.importoIntero),zero));
-        Expression<Number> e2 = cb.prod(cb.coalesce(root.get(Prenotazione_.numRidotti),zero), cb.coalesce(root.get(Prenotazione_.importoRidotto),zero));
-        Expression<Number> e3 = cb.prod(cb.coalesce(root.get(Prenotazione_.numDisabili),zero), cb.coalesce(root.get(Prenotazione_.importoDisabili),zero));
-        Expression<Number> e4 = cb.prod(cb.coalesce(root.get(Prenotazione_.numAccomp),zero), cb.coalesce(root.get(Prenotazione_.importoAccomp),zero));
+
+        // coalesce() ritorna il primo non nullo in una lista di Expression
+        // evita che entrino eventuali null nei prodotti, che renderebbero null tutto il risultato.
+        // in questo modo, se ci sono dei null vengono trattati come zero.
+        // Dopo questa modifica ho preso alcune misure nelle entities per evitare numeri nulli sul database.
+        // Alex dic-2015
+        CriteriaBuilder.Coalesce zero = cb.coalesce().value(0); // creo una Expression che rappresenta lo zero, che uso nei coalesce() successivi
+
+        Expression<Number> e1 = cb.prod(cb.coalesce(root.get(Prenotazione_.numInteri), zero), cb.coalesce(root.get(Prenotazione_.importoIntero), zero));
+        Expression<Number> e2 = cb.prod(cb.coalesce(root.get(Prenotazione_.numRidotti), zero), cb.coalesce(root.get(Prenotazione_.importoRidotto), zero));
+        Expression<Number> e3 = cb.prod(cb.coalesce(root.get(Prenotazione_.numDisabili), zero), cb.coalesce(root.get(Prenotazione_.importoDisabili), zero));
+        Expression<Number> e4 = cb.prod(cb.coalesce(root.get(Prenotazione_.numAccomp), zero), cb.coalesce(root.get(Prenotazione_.importoAccomp), zero));
         Expression<Number> e1e2 = cb.sum(e1, e2);
         Expression<Number> e3e4 = cb.sum(e3, e4);
         return cb.sum(e1e2, e3e4);

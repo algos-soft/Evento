@@ -133,13 +133,13 @@ $v-font-weight: 400;
   }
 
   .infoBarSegment {
-    font-size: 18px;
+    font-size: 1em;
     font-weight: bold;
   }
 
   // colore barra blu (congelate)
-  $darkblue: rgb(15, 0, 217);
-  $lightblue: rgba(15, 0, 217, 0.6);
+  $darkblue: rgb(8, 96, 232);
+  $lightblue: rgba(8, 96, 232, 0.6);
   .blueGradientBg {
     background: $darkblue;
     background: -webkit-linear-gradient(top, $darkblue,  $lightblue,  $darkblue);
@@ -191,6 +191,18 @@ $v-font-weight: 400;
     background: -o-linear-gradient(top, $darkgreen, $lightgreen, $darkgreen);
     background: linear-gradient(top, $darkgreen, $lightgreen, $darkgreen);
   }
+
+  // mouse hovering su tutte le barre
+  $darkyellow: rgb(199, 188, 0);
+  $lightyellow: rgba(199, 188, 0, 0.6);
+  .blueGradientBg:hover, .redGradientBg:hover, .orangeGradientBg:hover, .goldenGradientBg:hover, .greenGradientBg:hover {
+    background: $darkyellow;
+    background: -webkit-linear-gradient(top, $darkyellow, $lightyellow, $darkyellow);
+    background: -moz-linear-gradient(top, $darkyellow, $lightyellow, $darkyellow);
+    background: -o-linear-gradient(top, $darkyellow, $lightyellow, $darkyellow);
+    background: linear-gradient(top, $darkyellow, $lightyellow, $darkyellow);
+  }
+
 
   .label-middle {
     font-size: 1.2em;

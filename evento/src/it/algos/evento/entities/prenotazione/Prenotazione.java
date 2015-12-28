@@ -100,16 +100,16 @@ public class Prenotazione extends EventoEntity {
     private int numTotali; // numero di posti totali (calcolato!)
 
     @Column(precision = 6, scale = 2)
-    private BigDecimal importoIntero;
+    private BigDecimal importoIntero=new BigDecimal(0);
 
     @Column(precision = 6, scale = 2)
-    private BigDecimal importoRidotto;
+    private BigDecimal importoRidotto=new BigDecimal(0);
 
     @Column(precision = 6, scale = 2)
-    private BigDecimal importoDisabili;
+    private BigDecimal importoDisabili=new BigDecimal(0);
 
     @Column(precision = 6, scale = 2)
-    private BigDecimal importoAccomp;
+    private BigDecimal importoAccomp=new BigDecimal(0);
 
     @Column(precision = 8, scale = 2)
     private BigDecimal importoDaPagare; // importo totale da pagare (calcolato!)
@@ -339,32 +339,44 @@ public class Prenotazione extends EventoEntity {
         return importoIntero;
     }
 
-    public void setImportoIntero(BigDecimal importoIntero) {
-        this.importoIntero = importoIntero;
+    public void setImportoIntero(BigDecimal importo) {
+        if(importo==null){  // evitiamo i nulli nei numeri sul database
+            importo=new BigDecimal(0);
+        }
+        this.importoIntero = importo;
     }
 
     public BigDecimal getImportoRidotto() {
         return importoRidotto;
     }
 
-    public void setImportoRidotto(BigDecimal importoRidotto) {
-        this.importoRidotto = importoRidotto;
+    public void setImportoRidotto(BigDecimal importo) {
+        if(importo==null){
+            importo=new BigDecimal(0);
+        }
+        this.importoRidotto = importo;
     }
 
     public BigDecimal getImportoDisabili() {
         return importoDisabili;
     }
 
-    public void setImportoDisabili(BigDecimal importoDisabili) {
-        this.importoDisabili = importoDisabili;
+    public void setImportoDisabili(BigDecimal importo) {
+        if(importo==null){
+            importo=new BigDecimal(0);
+        }
+        this.importoDisabili = importo;
     }
 
     public BigDecimal getImportoAccomp() {
         return importoAccomp;
     }
 
-    public void setImportoAccomp(BigDecimal importoAccomp) {
-        this.importoAccomp = importoAccomp;
+    public void setImportoAccomp(BigDecimal importo) {
+        if(importo==null){
+            importo=new BigDecimal(0);
+        }
+        this.importoAccomp = importo;
     }
 
     // questo è un campo calcolato, il getter
