@@ -37,7 +37,7 @@ public class InfoBar extends VerticalLayout {
         setWidth("100%");
         setSpacing(false);
 
-        segCongelate=new BarSegment(TEXT_PREN_CONGELATE,"blueGradientBg",EventoApp.KEY_MOSTRA_PREN_CONGELATE);
+        segCongelate=new BarSegment(TEXT_PREN_CONGELATE,"grayGradientBg",EventoApp.KEY_MOSTRA_PREN_CONGELATE);
         segNonConf=new BarSegment(TEXT_PREN_NOCONF,"redGradientBg",EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE);
         segPagaNonConf=new BarSegment(TEXT_PAGA_NOCONF,"orangeGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO);
         segPagaConf=new BarSegment(TEXT_PAGA_CONF,"goldenGradientBg",EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO);
@@ -95,7 +95,7 @@ public class InfoBar extends VerticalLayout {
             this.title=title;
             addStyleName(style);
             addStyleName("infoBarSegment");
-            setHeight("3em");
+            setHeight("2.3rem");
             setWidth("100%");
             setMargin(false);
             setSpacing(false);

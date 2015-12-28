@@ -19,7 +19,7 @@ public class InfoBarLegend extends HorizontalLayout {
         this.home=home;
         setSizeUndefined();
         setSpacing(true);
-        addComponent(new Element("blueGradientBg", InfoBar.TEXT_PREN_CONGELATE, EventoApp.KEY_MOSTRA_PREN_CONGELATE));
+        addComponent(new Element("grayGradientBg", InfoBar.TEXT_PREN_CONGELATE, EventoApp.KEY_MOSTRA_PREN_CONGELATE));
         addComponent(new Element("redGradientBg", InfoBar.TEXT_PREN_NOCONF, EventoApp.KEY_MOSTRA_PREN_NON_CONFERMATE));
         addComponent(new Element("orangeGradientBg",InfoBar.TEXT_PAGA_NOCONF, EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO));
         addComponent(new Element("goldenGradientBg",InfoBar.TEXT_PAGA_CONF, EventoApp.KEY_MOSTRA_PREN_PAGAMENTO_CONFERMATO));

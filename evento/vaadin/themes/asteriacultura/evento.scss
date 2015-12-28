@@ -138,9 +138,11 @@ $v-font-weight: 400;
   }
 
   // colore barra blu (congelate)
-  $darkblue: rgb(8, 96, 232);
-  $lightblue: rgba(8, 96, 232, 0.6);
-  .blueGradientBg {
+  //$darkblue: rgb(8, 96, 232);
+  //$lightblue: rgba(8, 96, 232, 0.6);
+  $darkblue: rgb(137, 137, 140);
+  $lightblue: rgba(137, 137, 140, 0.6);
+  .grayGradientBg {
     background: $darkblue;
     background: -webkit-linear-gradient(top, $darkblue,  $lightblue,  $darkblue);
     background: -moz-linear-gradient(top,   $darkblue,  $lightblue,  $darkblue);
@@ -195,7 +197,7 @@ $v-font-weight: 400;
   // mouse hovering su tutte le barre
   $darkyellow: rgb(199, 188, 0);
   $lightyellow: rgba(199, 188, 0, 0.6);
-  .blueGradientBg:hover, .redGradientBg:hover, .orangeGradientBg:hover, .goldenGradientBg:hover, .greenGradientBg:hover {
+  .grayGradientBg:hover, .redGradientBg:hover, .orangeGradientBg:hover, .goldenGradientBg:hover, .greenGradientBg:hover {
     background: $darkyellow;
     background: -webkit-linear-gradient(top, $darkyellow, $lightyellow, $darkyellow);
     background: -moz-linear-gradient(top, $darkyellow, $lightyellow, $darkyellow);
