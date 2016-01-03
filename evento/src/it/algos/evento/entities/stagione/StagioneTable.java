@@ -122,10 +122,6 @@ public class StagioneTable extends ETable {
 
 	}
 
-	private StagioneTable getTable() {
-		return this;
-	}
-
 
 	protected Object[] getDisplayColumns() {
 		return new Object[] { Stagione_.sigla, Stagione_.datainizio,

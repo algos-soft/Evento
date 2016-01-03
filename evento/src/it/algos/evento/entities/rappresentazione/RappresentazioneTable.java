@@ -153,9 +153,6 @@ public class RappresentazioneTable extends ETable {
 //	}// end of method
 
 
-    private RappresentazioneTable getTable() {
-        return this;
-    }
 
     @Override
     protected void createAdditionalColumns() {

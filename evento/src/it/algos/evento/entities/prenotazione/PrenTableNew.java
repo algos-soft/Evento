@@ -28,19 +28,24 @@ import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.entity.BaseEntity_;
+import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibDate;
+import it.algos.webbase.web.lib.LibFilter;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.module.Module;
 import it.algos.webbase.web.module.ModulePop;
 import org.vaadin.addons.lazyquerycontainer.LazyEntityContainer;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Locale;
 
 @SuppressWarnings("serial")
-public class PrenotazioneTable extends ETable {
+public class PrenTableNew extends ETable {
 
     private static final StringToBigDecimalConverter bdConv = new StringToBigDecimalConverter(2);
     private static final StringToIntegerConverter intConv = new StringToIntegerConverter();
@@ -57,24 +62,39 @@ public class PrenotazioneTable extends ETable {
     private static final String COL_PRIVATO = "tipo";
 
 
+//    /**
+//     * Creates the container
+//     * <p>
+//     *
+//     * @return un container RW filtrato sulla azienda corrente
+//     */
+//    @SuppressWarnings("unchecked")
+//    @Override
+//    protected Container createContainer() {
+//        // aggiunge un filtro sulla stagione corrente
+//        Container cont = super.createContainer();
+//        JPAContainer JPAcont = (JPAContainer) cont;
+//        Filter filter = new Compare.Equal(PrenotazioneModulo.PROP_STAGIONE, Stagione.getStagioneCorrente());
+//        JPAcont.addContainerFilter(filter);
+//        return JPAcont;
+//    }// end of method
+
+
     /**
      * Creates the container
-     * <p>
+     * <p/>
      *
-     * @return un container RW filtrato sulla azienda corrente
+     * @return the container
      */
-    @SuppressWarnings("unchecked")
-    @Override
     protected Container createContainer() {
+        LazyEntityContainer entityContainer = new LazyEntityContainer<Prenotazione>(entityManager, Prenotazione.class, 100, BaseEntity_.id.getName(), true, true, true);
+
         // aggiunge un filtro sulla stagione corrente
-        Container cont = super.createContainer();
-        JPAContainer JPAcont = (JPAContainer) cont;
         Filter filter = new Compare.Equal(PrenotazioneModulo.PROP_STAGIONE, Stagione.getStagioneCorrente());
-        JPAcont.addContainerFilter(filter);
-        return JPAcont;
+        entityContainer.addContainerFilter(filter);
+
+        return entityContainer;
     }// end of method
-
-
 
 
     /**
@@ -99,8 +119,77 @@ public class PrenotazioneTable extends ETable {
 
     }
 
+    @Override
+    protected BigDecimal getTotalForColumn(Object propertyId) {
+        BigDecimal tot=new BigDecimal(0);
+        boolean cont=true;
 
-    public PrenotazioneTable(ModulePop modulo) {
+        if(propertyId.equals(Prenotazione_.numTotali.getName())){
+
+            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Integer> cq = cb.createQuery(Integer.class);
+            Root<Prenotazione> root = cq.from(Prenotazione.class);
+            Predicate pred = getFiltersPredicate(cb, cq, root);
+            if(pred!=null){
+                cq.where(pred);
+            }
+
+            Expression<Integer> e1 = cb.sum(root.get(Prenotazione_.numInteri), root.get(Prenotazione_.numRidotti));
+            Expression<Integer> e2 = cb.sum(root.get(Prenotazione_.numDisabili), root.get(Prenotazione_.numAccomp));
+            Expression<Integer> exp = cb.sum(e1, e2);
+
+            cq.select(cb.sum(exp));
+
+            TypedQuery<Integer> q = entityManager.createQuery(cq);
+            Integer num = q.getSingleResult();
+            if(num==null){
+                num=0;
+            }
+            tot=new BigDecimal(num);
+            cont=false;
+        }
+
+        if(propertyId.equals(Prenotazione_.importoDaPagare.getName())){
+            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Number> cq = cb.createQuery(Number.class);
+            Root<Prenotazione> root = cq.from(Prenotazione.class);
+            Predicate pred = getFiltersPredicate(cb, cq, root);
+            if(pred!=null){
+                cq.where(pred);
+            }
+
+            CriteriaBuilder.Coalesce zero = cb.coalesce().value(0); // creo una Expression che rappresenta lo zero, che uso nei coalesce() successivi
+
+            Expression<Number> e1 = cb.prod(cb.coalesce(root.get(Prenotazione_.numInteri), zero), cb.coalesce(root.get(Prenotazione_.importoIntero), zero));
+            Expression<Number> e2 = cb.prod(cb.coalesce(root.get(Prenotazione_.numRidotti), zero), cb.coalesce(root.get(Prenotazione_.importoRidotto), zero));
+            Expression<Number> e3 = cb.prod(cb.coalesce(root.get(Prenotazione_.numDisabili), zero), cb.coalesce(root.get(Prenotazione_.importoDisabili), zero));
+            Expression<Number> e4 = cb.prod(cb.coalesce(root.get(Prenotazione_.numAccomp), zero), cb.coalesce(root.get(Prenotazione_.importoAccomp), zero));
+            Expression<Number> e1e2 = cb.sum(e1, e2);
+            Expression<Number> e3e4 = cb.sum(e3, e4);
+            Expression<Number> expr= cb.sum(e1e2, e3e4);
+
+            cq.select(cb.sum(expr));
+
+            Number num = entityManager.createQuery(cq).getSingleResult();
+            if (num != null) {
+                if (num instanceof BigDecimal){
+                    tot=(BigDecimal)num;
+                }
+            }
+
+            cont=false;
+        }
+
+        if(cont){
+            tot=super.getTotalForColumn(propertyId);
+        }
+
+
+
+        return tot;
+    }
+
+    public PrenTableNew(ModulePop modulo) {
         super(modulo);
 
         setColumnHeader(Prenotazione_.numPrenotazione, "N.");
@@ -193,7 +282,7 @@ public class PrenotazioneTable extends ETable {
 
                 //Prenotazione pren=(Prenotazione)getSelectedBean();
 
-                Item rowItem = PrenotazioneTable.this.getItem(target);
+                Item rowItem = getTable().getItem(target);
                 if (rowItem != null) {
                     Object value = rowItem.getItemProperty("id").getValue();
 
@@ -717,7 +806,7 @@ public class PrenotazioneTable extends ETable {
      */
     public void spostaAdAltraData() {
 
-        BeanItem[] beans = PrenotazioneTable.this.getSelectedBeans();
+        BeanItem[] beans = getTable().getSelectedBeans();
         Prenotazione[] aPren = new Prenotazione[beans.length];
         for (int i = 0; i < aPren.length; i++) {
             aPren[i] = (Prenotazione) beans[i].getBean();
@@ -750,11 +839,11 @@ public class PrenotazioneTable extends ETable {
     @Override
     protected void createAdditionalColumns() {
 
-        // queste property aggiunte servono per consentire
-        // di effettuare ricerche su proprietà in relazione
-        getJPAContainer().addNestedContainerProperty(PrenotazioneModulo.PROP_PROGETTO);
-        getJPAContainer().addNestedContainerProperty(PrenotazioneModulo.PROP_EVENTO);
-        getJPAContainer().addNestedContainerProperty(PrenotazioneModulo.PROP_STAGIONE);
+//        // queste property aggiunte servono per consentire
+//        // di effettuare ricerche su proprietà in relazione
+//        getJPAContainer().addNestedContainerProperty(PrenotazioneModulo.PROP_PROGETTO);
+//        getJPAContainer().addNestedContainerProperty(PrenotazioneModulo.PROP_EVENTO);
+//        getJPAContainer().addNestedContainerProperty(PrenotazioneModulo.PROP_STAGIONE);
 
         addGeneratedColumn(COL_STATUS, new StatusColumnGenerator());
         addGeneratedColumn(COL_PAGAM, new PagamColumnGenerator());

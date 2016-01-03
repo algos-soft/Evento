@@ -159,7 +159,8 @@ public class PrenotazioneModulo extends EModulePop {
 
     @Override
     public ATable createTable() {
-        return (new PrenotazioneTable(this));
+//        return (new PrenotazioneTable(this));
+        return (new PrenTableNew(this));
     }// end of method
 
     @Override
