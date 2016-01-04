@@ -36,6 +36,8 @@ import it.algos.webbase.web.module.Module;
 import it.algos.webbase.web.module.ModulePop;
 import org.vaadin.addons.lazyquerycontainer.LazyEntityContainer;
 
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Locale;
@@ -57,48 +59,6 @@ public class PrenotazioneTable extends ETable {
     // id della colonna generata "referente"
     private static final String COL_PRIVATO = "tipo";
 
-
-    /**
-     * Creates the container
-     * <p>
-     *
-     * @return un container RW filtrato sulla azienda corrente
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    protected Container createContainer() {
-        // aggiunge un filtro sulla stagione corrente
-        Container cont = super.createContainer();
-        JPAContainer JPAcont = (JPAContainer) cont;
-        Filter filter = new Compare.Equal(PrenotazioneModulo.PROP_STAGIONE, Stagione.getStagioneCorrente());
-        JPAcont.addContainerFilter(filter);
-        return JPAcont;
-    }// end of method
-
-
-
-
-    /**
-     * Updates the totals in the footer
-     * <p/>
-     * Called when the container data changes
-     */
-    @SuppressWarnings("rawtypes")
-    protected void updateTotals() {
-
-        // cycle the totalizable columns
-        StringToBigDecimalConverter converter = new StringToBigDecimalConverter();
-        for (TotalizableColumn column : totalizableColumns) {
-            Object propertyId = column.getPropertyId();
-            BigDecimal bd = getTotalForColumn(propertyId);
-            int places = column.getDecimalPlaces();
-            converter.setDecimalPlaces(places);
-            String sTotal = converter.convertToPresentation(bd);
-            setColumnFooter(propertyId, sTotal);
-        }
-
-
-    }
 
 
     public PrenotazioneTable(ModulePop modulo) {
@@ -267,6 +227,137 @@ public class PrenotazioneTable extends ETable {
         setColumnCollapsed(Prenotazione_.numAccomp.getName(), true);
 
     }// end of constructor
+
+
+//    /**
+//     * Creates the container
+//     * <p>
+//     *
+//     * @return un container RW filtrato sulla azienda corrente
+//     */
+//    @SuppressWarnings("unchecked")
+//    @Override
+//    protected Container createContainer() {
+//        // aggiunge un filtro sulla stagione corrente
+//        Container cont = super.createContainer();
+//        JPAContainer JPAcont = (JPAContainer) cont;
+//        Filter filter = new Compare.Equal(PrenotazioneModulo.PROP_STAGIONE, Stagione.getStagioneCorrente());
+//        JPAcont.addContainerFilter(filter);
+//        return JPAcont;
+//    }// end of method
+
+
+    /**
+     * Creates the container
+     * <p/>
+     *
+     * @return the container
+     */
+    protected Container createContainer() {
+        LazyEntityContainer entityContainer = new LazyEntityContainer<Prenotazione>(entityManager, Prenotazione.class, 100, BaseEntity_.id.getName(), true, true, true);
+
+        // aggiunge un filtro sulla stagione corrente
+        Filter filter = new Compare.Equal(PrenotazioneModulo.PROP_STAGIONE, Stagione.getStagioneCorrente());
+        entityContainer.addContainerFilter(filter);
+
+        return entityContainer;
+    }// end of method
+
+
+    /**
+     * Updates the totals in the footer
+     * <p/>
+     * Called when the container data changes
+     */
+    @SuppressWarnings("rawtypes")
+    protected void updateTotals() {
+
+        // cycle the totalizable columns
+        StringToBigDecimalConverter converter = new StringToBigDecimalConverter();
+        for (TotalizableColumn column : totalizableColumns) {
+            Object propertyId = column.getPropertyId();
+            BigDecimal bd = getTotalForColumn(propertyId);
+            int places = column.getDecimalPlaces();
+            converter.setDecimalPlaces(places);
+            String sTotal = converter.convertToPresentation(bd);
+            setColumnFooter(propertyId, sTotal);
+        }
+
+
+    }
+
+
+
+    @Override
+    protected BigDecimal getTotalForColumn(Object propertyId) {
+        BigDecimal tot=new BigDecimal(0);
+        boolean cont=true;
+
+        if(propertyId.equals(Prenotazione_.numTotali.getName())){
+
+            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Integer> cq = cb.createQuery(Integer.class);
+            Root<Prenotazione> root = cq.from(Prenotazione.class);
+            Predicate pred = getFiltersPredicate(cb, cq, root);
+            if(pred!=null){
+                cq.where(pred);
+            }
+
+            Expression<Integer> e1 = cb.sum(root.get(Prenotazione_.numInteri), root.get(Prenotazione_.numRidotti));
+            Expression<Integer> e2 = cb.sum(root.get(Prenotazione_.numDisabili), root.get(Prenotazione_.numAccomp));
+            Expression<Integer> exp = cb.sum(e1, e2);
+
+            cq.select(cb.sum(exp));
+
+            TypedQuery<Integer> q = entityManager.createQuery(cq);
+            Integer num = q.getSingleResult();
+            if(num==null){
+                num=0;
+            }
+            tot=new BigDecimal(num);
+            cont=false;
+        }
+
+        if(propertyId.equals(Prenotazione_.importoDaPagare.getName())){
+            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Number> cq = cb.createQuery(Number.class);
+            Root<Prenotazione> root = cq.from(Prenotazione.class);
+            Predicate pred = getFiltersPredicate(cb, cq, root);
+            if(pred!=null){
+                cq.where(pred);
+            }
+
+            CriteriaBuilder.Coalesce zero = cb.coalesce().value(0); // creo una Expression che rappresenta lo zero, che uso nei coalesce() successivi
+
+            Expression<Number> e1 = cb.prod(cb.coalesce(root.get(Prenotazione_.numInteri), zero), cb.coalesce(root.get(Prenotazione_.importoIntero), zero));
+            Expression<Number> e2 = cb.prod(cb.coalesce(root.get(Prenotazione_.numRidotti), zero), cb.coalesce(root.get(Prenotazione_.importoRidotto), zero));
+            Expression<Number> e3 = cb.prod(cb.coalesce(root.get(Prenotazione_.numDisabili), zero), cb.coalesce(root.get(Prenotazione_.importoDisabili), zero));
+            Expression<Number> e4 = cb.prod(cb.coalesce(root.get(Prenotazione_.numAccomp), zero), cb.coalesce(root.get(Prenotazione_.importoAccomp), zero));
+            Expression<Number> e1e2 = cb.sum(e1, e2);
+            Expression<Number> e3e4 = cb.sum(e3, e4);
+            Expression<Number> expr= cb.sum(e1e2, e3e4);
+
+            cq.select(cb.sum(expr));
+
+            Number num = entityManager.createQuery(cq).getSingleResult();
+            if (num != null) {
+                if (num instanceof BigDecimal){
+                    tot=(BigDecimal)num;
+                }
+            }
+
+            cont=false;
+        }
+
+        if(cont){
+            tot=super.getTotalForColumn(propertyId);
+        }
+
+
+
+        return tot;
+    }
+
 
 
     private PrenotazioneModulo getPrenotazioneModulo() {

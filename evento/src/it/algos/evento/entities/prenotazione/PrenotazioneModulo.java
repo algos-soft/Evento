@@ -160,8 +160,7 @@ public class PrenotazioneModulo extends EModulePop {
 
     @Override
     public ATable createTable() {
-//        return (new PrenotazioneTable(this));
-        return (new PrenTableNew(this));
+        return (new PrenotazioneTable(this));
     }// end of method
 
     @Override
@@ -897,7 +896,7 @@ public class PrenotazioneModulo extends EModulePop {
         filters.add(new Compare.Equal(Prenotazione_.pagamentoConfermato.getName(), true));
         filters.add(new Compare.Equal(Prenotazione_.pagamentoRicevuto.getName(), false));
         filters.add(new Compare.Less(Prenotazione_.scadenzaPagamento.getName(), today));
-        filters.add(new Compare.Less(Prenotazione_.congelata.getName(), false));
+        filters.add(new Compare.Equal(Prenotazione_.congelata.getName(), false));
         Filter outFilter = new And(filters.toArray(new Filter[0]));
 
         return outFilter;
