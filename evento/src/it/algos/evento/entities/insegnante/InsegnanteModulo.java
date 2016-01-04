@@ -7,6 +7,7 @@ import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.search.SearchManager;
@@ -94,8 +95,8 @@ public class InsegnanteModulo extends EModulePop {
 		// prima controlla se ci sono prenotazioni collegate
 		boolean cont=true;
 		for (Object id : getTable().getSelectedIds()) {
-			BeanItem item = getTable().getBeanItem(id);
-			List listaPren = EQuery.queryList(Prenotazione.class, Prenotazione_.insegnante, item.getBean());
+			BaseEntity entity=getTable().getEntity((Long)id);
+			List listaPren = EQuery.queryList(Prenotazione.class, Prenotazione_.insegnante, entity);
 			if (listaPren.size()>0) {
 				Notification.show("Impossibile eliminare i referenti selezionati perché hanno delle prenotazioni.\nEliminate prima le prenotazioni collegate o assegnatele a un altro referente.", Notification.Type.WARNING_MESSAGE);
 				cont=false;

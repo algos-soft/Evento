@@ -50,7 +50,7 @@ public class InsegnanteTablePortal extends TablePortal {
 		item.addItem(CMD_EXPORT, ICON_EXPORT, new MenuBar.Command() {
 			public void menuSelected(MenuItem selectedItem) {
 				ExportConfiguration conf = ExportManager.createExportConfiguration(Insegnante.class);
-				conf.setContainer(getTable().getJPAContainer()); // used only if "only records in table" is selected
+				conf.setContainer(getTable().getContainerDataSource()); // used only if "only records in table" is selected
 				new ExportManager(conf).show(getUI());
 			}// end of method
 		});// end of anonymous class

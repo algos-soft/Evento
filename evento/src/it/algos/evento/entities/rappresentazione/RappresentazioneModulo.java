@@ -87,13 +87,26 @@ public class RappresentazioneModulo extends EModulePop {
 
     public void esportaPartecipanti(UI ui) {
 
+//        // crea un container contenente un wrapper per ogni partecipazione
+//        // alle rappresentazioni correntemente elencate in tabella
+//        BeanItemContainer<PartecipazioneBean> container = new BeanItemContainer(PartecipazioneBean.class);
+//        Object[] ids = getTable().getSelectedIds();
+//        for(Object id:ids){
+//            EntityItem item = getTable().getJPAContainer().getItem(id);
+//            Rappresentazione rapp=(Rappresentazione)item.getEntity();
+//            List<Insegnante> insegnanti = rapp.getInsegnanti();
+//            for(Insegnante ins : insegnanti){
+//                PartecipazioneBean bean = new PartecipazioneBean(ins, rapp);
+//                container.addBean(bean);
+//            }
+//        }
+
         // crea un container contenente un wrapper per ogni partecipazione
         // alle rappresentazioni correntemente elencate in tabella
         BeanItemContainer<PartecipazioneBean> container = new BeanItemContainer(PartecipazioneBean.class);
-        Object[] ids = getTable().getSelectedIds();
-        for(Object id:ids){
-            EntityItem item = getTable().getJPAContainer().getItem(id);
-            Rappresentazione rapp=(Rappresentazione)item.getEntity();
+        BaseEntity[] entities=getTable().getSelectedEntities();
+        for(BaseEntity entity : entities){
+            Rappresentazione rapp=(Rappresentazione)entity;
             List<Insegnante> insegnanti = rapp.getInsegnanti();
             for(Insegnante ins : insegnanti){
                 PartecipazioneBean bean = new PartecipazioneBean(ins, rapp);
@@ -252,8 +265,8 @@ public class RappresentazioneModulo extends EModulePop {
         // prima controlla se ci sono prenotazioni collegate
         boolean cont = true;
         for (Object id : getTable().getSelectedIds()) {
-            BeanItem item = getTable().getBeanItem(id);
-            List listaPren = EQuery.queryList(Prenotazione.class, Prenotazione_.rappresentazione, item.getBean());
+            BaseEntity entity = getTable().getEntity((Long)id);
+            List listaPren = EQuery.queryList(Prenotazione.class, Prenotazione_.rappresentazione, entity);
             if (listaPren.size() > 0) {
                 Notification.show("Impossibile eliminare le rappresentazioni selezionate perché ci sono delle prenotazioni.\nEliminate prima le prenotazioni collegate o  assegnatele a un'altra rappresentazione.", Notification.Type.WARNING_MESSAGE);
                 cont = false;

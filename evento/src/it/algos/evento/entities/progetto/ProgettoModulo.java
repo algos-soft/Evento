@@ -7,6 +7,7 @@ import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.search.SearchManager;
@@ -59,8 +60,8 @@ public class ProgettoModulo extends EModulePop {
 		// prima controlla se ci sono eventi collegati
 		boolean cont=true;
 		for (Object id : getTable().getSelectedIds()) {
-			BeanItem item = getTable().getBeanItem(id);
-			List lista = EQuery.queryList(Evento.class, Evento_.progetto, item.getBean());
+			BaseEntity entity = getTable().getEntity((Long)id);
+			List lista = EQuery.queryList(Evento.class, Evento_.progetto, entity);
 			if (lista.size()>0) {
 				Notification.show("Impossibile eliminare i progetti selezionati perché sono collegati a degli eventi.\nEliminate prima gli eventi collegati o assegnateli ad altri progetti.", Notification.Type.WARNING_MESSAGE);
 				cont=false;

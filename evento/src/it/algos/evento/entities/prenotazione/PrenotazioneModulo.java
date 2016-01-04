@@ -1,6 +1,7 @@
 package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
@@ -147,10 +148,10 @@ public class PrenotazioneModulo extends EModulePop {
      * Assegna un nuovo filtro alla table
      */
     private void changeFilter(Filter filter) {
-        JPAContainer cont = getTable().getJPAContainer();
-        cont.removeAllContainerFilters();
-        cont.refresh(); // refresh container before applying new filters!
-        cont.addContainerFilter(filter);
+        Container.Filterable fCont = getTable().getFilterableContainer();
+        fCont.removeAllContainerFilters();
+        getTable().refresh(); // refresh container before applying new filters!
+        fCont.addContainerFilter(filter);
     }
 
     public TablePortal createTablePortal() {
@@ -876,7 +877,7 @@ public class PrenotazioneModulo extends EModulePop {
         filters.add(new Compare.Equal(Prenotazione_.confermata.getName(), true));
         filters.add(new Compare.Equal(Prenotazione_.pagamentoConfermato.getName(), false));
         filters.add(new Compare.Less(Prenotazione_.scadenzaPagamento.getName(), today));
-        filters.add(new Compare.Less(Prenotazione_.congelata.getName(), false));
+        filters.add(new Compare.Equal(Prenotazione_.congelata.getName(), false));
         Filter outFilter = new And(filters.toArray(new Filter[0]));
         return outFilter;
     }// end of method

@@ -27,6 +27,7 @@ import it.algos.evento.multiazienda.ETable;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
 import it.algos.webbase.web.dialog.ConfirmDialog;
+import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.BaseEntity_;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.lib.Lib;
@@ -376,7 +377,7 @@ public class PrenTableNew extends ETable {
         boolean cont = true;
 
         // controllo una e una sola selezionata
-        Prenotazione pren = (Prenotazione) getSelectedBean();
+        Prenotazione pren = (Prenotazione)getSelectedEntity();
         if (pren == null) {
             cont = false;
             Notification.show("Seleziona prima una prenotazione.");
@@ -444,7 +445,7 @@ public class PrenTableNew extends ETable {
         boolean cont = true;
 
         // controllo una e una sola selezionata
-        Prenotazione pren = (Prenotazione) getSelectedBean();
+        Prenotazione pren = (Prenotazione)getSelectedEntity();
         if (pren == null) {
             cont = false;
             Notification.show("Seleziona prima una prenotazione.");
@@ -501,7 +502,7 @@ public class PrenTableNew extends ETable {
         boolean cont = true;
 
         // controllo una e una sola selezionata
-        Prenotazione pren = (Prenotazione) getSelectedBean();
+        Prenotazione pren = (Prenotazione)getSelectedEntity();
         if (pren == null) {
             cont = false;
             Notification.show("Seleziona prima una prenotazione.");
@@ -588,7 +589,7 @@ public class PrenTableNew extends ETable {
         boolean cont = true;
 
         // controllo una e una sola selezionata
-        Prenotazione pren = (Prenotazione) getSelectedBean();
+        Prenotazione pren = (Prenotazione)getSelectedEntity();
         if (pren == null) {
             cont = false;
             Notification.show("Seleziona prima una prenotazione.");
@@ -655,7 +656,7 @@ public class PrenTableNew extends ETable {
         boolean cont = true;
 
         // controllo una e una sola selezionata
-        Prenotazione pren = (Prenotazione) getSelectedBean();
+        Prenotazione pren = (Prenotazione)getSelectedEntity();
         if (pren == null) {
             cont = false;
             Notification.show("Seleziona prima una prenotazione.");
@@ -730,7 +731,7 @@ public class PrenTableNew extends ETable {
         boolean cont = true;
 
         // controllo una e una sola selezionata
-        Prenotazione pren = (Prenotazione) getSelectedBean();
+        Prenotazione pren = (Prenotazione)getSelectedEntity();
         if (pren == null) {
             cont = false;
             Notification.show("Seleziona prima una prenotazione.");
@@ -806,10 +807,10 @@ public class PrenTableNew extends ETable {
      */
     public void spostaAdAltraData() {
 
-        BeanItem[] beans = getTable().getSelectedBeans();
-        Prenotazione[] aPren = new Prenotazione[beans.length];
+        BaseEntity[] entities = getTable().getSelectedEntities();
+        Prenotazione[] aPren = new Prenotazione[entities.length];
         for (int i = 0; i < aPren.length; i++) {
-            aPren[i] = (Prenotazione) beans[i].getBean();
+            aPren[i] = (Prenotazione) entities[i];
         }
 
         if (aPren.length > 0) {

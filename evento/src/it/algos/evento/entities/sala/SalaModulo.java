@@ -6,6 +6,7 @@ import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.module.ModulePop;
 
 import javax.persistence.metamodel.Attribute;
@@ -45,8 +46,8 @@ public class SalaModulo extends EModulePop {
 		// prima controlla se ci sono rappresentazioni collegate
 		boolean cont=true;
 		for (Object id : getTable().getSelectedIds()) {
-			BeanItem item = getTable().getBeanItem(id);
-			List lista = EQuery.queryList(Rappresentazione.class, Rappresentazione_.sala, item.getBean());
+			BaseEntity entity = getTable().getEntity((Long)id);
+			List lista = EQuery.queryList(Rappresentazione.class, Rappresentazione_.sala, entity);
 			if (lista.size()>0) {
 				Notification.show("Impossibile eliminare le sale selezionate perché ci sono delle rappresentazioni collegate.\nEliminate prima le rappresentazioni collegate o cambiate sala.", Notification.Type.WARNING_MESSAGE);
 				cont=false;

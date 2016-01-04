@@ -7,6 +7,7 @@ import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
@@ -54,8 +55,8 @@ public class ModoPagamentoModulo extends EModulePop {
 		// prima controlla se ci sono prenotazioni collegate
 		boolean cont=true;
 		for (Object id : getTable().getSelectedIds()) {
-			BeanItem item = getTable().getBeanItem(id);
-			List lista = EQuery.queryList(Prenotazione.class, Prenotazione_.modoPagamento, item.getBean());
+			BaseEntity entity = getTable().getEntity((Long)id);
+			List lista = EQuery.queryList(Prenotazione.class, Prenotazione_.modoPagamento, entity);
 			if (lista.size()>0) {
 				Notification.show("Impossibile eliminare i tipi di pagamento selezionati perché ci sono delle prenotazioni collegate.\nEliminate prima le prenotazioni collegate o cambiate il tipo di pagamento.", Notification.Type.WARNING_MESSAGE);
 				cont=false;

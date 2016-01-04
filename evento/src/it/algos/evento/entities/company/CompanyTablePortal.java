@@ -49,7 +49,7 @@ public class CompanyTablePortal extends TablePortal {
                     public void commit_() {
                         form.getWindow().close();
                         CompanyService.activateCompany(company, form.getPassword(), form.isCreateData());
-                        getTable().getJPAContainer().refresh();
+                        getTable().refresh();
                     }
                 });
 
@@ -70,7 +70,7 @@ public class CompanyTablePortal extends TablePortal {
         item.addItem("Crea dati demo", FontAwesome.GEARS, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
 
-                Company company = (Company)getTable().getSelectedBean();
+                Company company = (Company)getTable().getSelectedEntity();
                 if (company != null) {
                     ConfirmDialog dialog = new ConfirmDialog("Crazione dati","Confermi la creazione dei dati demo per l'azienda "+company+"?",new ConfirmDialog.Listener() {
                         @Override
@@ -96,7 +96,7 @@ public class CompanyTablePortal extends TablePortal {
 
         item.addItem("Cancella dati azienda", FontAwesome.TRASH_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Company company = (Company)getTable().getSelectedBean();
+                Company company = (Company)getTable().getSelectedEntity();
                 if (company != null) {
                     ConfirmDialog dialog = new ConfirmDialog("Eliminazione dati","Confermi l'eliminazione di tutti dati dell'azienda "+company+"?",new ConfirmDialog.Listener() {
                         @Override
@@ -118,7 +118,7 @@ public class CompanyTablePortal extends TablePortal {
 
         item.addItem("Esegui PrenChecker per l'azienda selezionata", FontAwesome.GEARS, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Company company = (Company)getTable().getSelectedBean();
+                Company company = (Company)getTable().getSelectedEntity();
                 if (company != null) {
                     ConfirmDialog dialog = new ConfirmDialog("Controllo prenotazioni","Vuoi eseguire il controllo prenotazioni per l'azienda "+company+"?<br>(Attenzione, potrebbe inviare i solleciti e congelare delle prenotazioni!)",new ConfirmDialog.Listener() {
                         @Override

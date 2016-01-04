@@ -11,6 +11,7 @@ import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.search.SearchManager;
@@ -75,8 +76,8 @@ public class EventoModulo extends EModulePop  {
 		// prima controlla se ci sono rappresentazioni collegate
 		boolean cont=true;
 		for (Object id : getTable().getSelectedIds()) {
-			BeanItem item = getTable().getBeanItem(id);
-			List lista = EQuery.queryList(Rappresentazione.class, Rappresentazione_.evento, item.getBean());
+			BaseEntity entity = getTable().getEntity((Long)id);
+			List lista = EQuery.queryList(Rappresentazione.class, Rappresentazione_.evento, entity);
 			if (lista.size()>0) {
 				Notification.show("Impossibile eliminare gli eventi selezionati perché ci sono delle rappresentazioni.\nEliminate prima le rappresentazioni collegate.", Notification.Type.WARNING_MESSAGE);
 				cont=false;

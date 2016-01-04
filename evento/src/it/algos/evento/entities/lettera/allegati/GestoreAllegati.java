@@ -6,6 +6,7 @@ import com.vaadin.ui.Button.ClickListener;
 import it.algos.evento.entities.lettera.allegati.AllegatoModulo.AllegatoListener;
 import it.algos.webbase.web.dialog.AlertDialog;
 import it.algos.webbase.web.dialog.ConfirmDialog;
+import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.field.TextField;
 
 @SuppressWarnings("serial")
@@ -153,9 +154,9 @@ public class GestoreAllegati extends AlertDialog {
 	 */
 	private String getNomeSelezionato(){
 		String name = "";
-		Object bean = table.getSelectedBean();
-		if ((bean!=null) && (bean instanceof Allegato)) {
-			Allegato allegato = (Allegato)bean;
+		BaseEntity entity=table.getSelectedEntity();
+		if ((entity!=null) && (entity instanceof Allegato)) {
+			Allegato allegato = (Allegato)entity;
 			name=allegato.getName();
 		}
 		return name;

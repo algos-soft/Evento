@@ -1,6 +1,7 @@
 package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.server.FontAwesome;
@@ -8,6 +9,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
+import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.importexport.ExportConfiguration;
 import it.algos.webbase.web.importexport.ExportManager;
 import it.algos.webbase.web.importexport.ExportProvider;
@@ -62,9 +64,9 @@ public class PrenotazioneTablePortal extends TablePortal {
         item.addItem("Mostra prenotazioni scadute", FontAwesome.CLOCK_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 Filter filter = PrenotazioneModulo.getFiltroPrenotazioniScadute();
-                JPAContainer cont = getTable().getJPAContainer();
+                Container.Filterable cont = getTable().getFilterableContainer();
                 cont.removeAllContainerFilters();
-                cont.refresh(); // refresh container before applying new filters
+                getTable().refresh(); // refresh container before applying new filters
                 cont.addContainerFilter(filter);
             }
         });// end of anonymous class
@@ -72,9 +74,9 @@ public class PrenotazioneTablePortal extends TablePortal {
         item.addItem("Mostra conferme pagamento scadute", FontAwesome.CLOCK_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 Filter filter = PrenotazioneModulo.getFiltroPagamentiDaConfermare();
-                JPAContainer cont = getTable().getJPAContainer();
+                Container.Filterable cont = getTable().getFilterableContainer();
                 cont.removeAllContainerFilters();
-                cont.refresh(); // refresh container before applying new filters
+                getTable().refresh(); // refresh container before applying new filters
                 cont.addContainerFilter(filter);
             }
         });// end of anonymous class
@@ -92,9 +94,9 @@ public class PrenotazioneTablePortal extends TablePortal {
         item.addItem("Mostra prenotazioni congelate", FontAwesome.CLOCK_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 Filter filter = PrenotazioneModulo.getFiltroPrenCongelate();
-                JPAContainer cont = getTable().getJPAContainer();
+                Container.Filterable cont = getTable().getFilterableContainer();
                 cont.removeAllContainerFilters();
-                cont.refresh(); // refresh container before applying new filters
+                getTable().refresh(); // refresh container before applying new filters
                 cont.addContainerFilter(filter);
             }
         });// end of anonymous class
@@ -103,7 +105,7 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addItem(CMD_RIEPILOGO_OPZIONE, ICON_RIEPILOGO_OPZIONE, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                if (getTable().getSelectedBean() != null) {
+                if (getTable().getSelectedEntity() != null) {
                     getPrenotazioneTable().inviaRiepilogoPrenotazione();
                 } else {
                     msgNoSelection();
@@ -113,7 +115,7 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addItem(CMD_MEMO_INVIO_SCHEDA_PREN, ICON_MEMO_INVIO_SCHEDA_PREN, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                if (getTable().getSelectedBean() != null) {
+                if (getTable().getSelectedEntity() != null) {
                     getPrenotazioneTable().inviaMemoConfermaPren();
                 } else {
                     msgNoSelection();
@@ -123,7 +125,7 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addItem(CMD_MEMO_SCAD_PAGA, ICON_MEMO_SCAD_PAGA, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                if (getTable().getSelectedBean() != null) {
+                if (getTable().getSelectedEntity() != null) {
                     getPrenotazioneTable().inviaPromemoriaScadenzaPagamento();
                 } else {
                     msgNoSelection();
@@ -133,7 +135,7 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addItem(CMD_ATTESTATO_PARTECIPAZIONE, ICON_ATTESTATO_PARTECIPAZIONE, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                if (getTable().getSelectedBean() != null) {
+                if (getTable().getSelectedEntity() != null) {
                     getPrenotazioneTable().inviaAttestatoPartecipazione();
                 } else {
                     msgNoSelection();
@@ -152,7 +154,7 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addItem(CMD_CONGELA_OPZIONE, ICON_CONGELA_OPZIONE, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                if (getTable().getSelectedBean() != null) {
+                if (getTable().getSelectedEntity() != null) {
                     getPrenotazioneTable().congelaPrenotazione();
                 } else {
                     msgNoSelection();
@@ -163,8 +165,8 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addItem(CMD_SPOSTA_AD_ALTRA_DATA, ICON_SPOSTA_AD_ALTRA_DATA, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                BeanItem[] beans = getTable().getSelectedBeans();
-                if ((beans != null) && (beans.length>0)) {
+                BaseEntity[] entities = getTable().getSelectedEntities();
+                if ((entities != null) && (entities.length>0)) {
                     getPrenotazioneTable().spostaAdAltraData();
                 } else {
                     Notification.show("Seleziona prima le prenotazioni da spostare.");
@@ -181,7 +183,7 @@ public class PrenotazioneTablePortal extends TablePortal {
             public void menuSelected(MenuItem selectedItem) {
                 Class clazz = Prenotazione.class;
                 String filename = "prenotazioni";
-                JPAContainer cont = getTable().getJPAContainer();
+                Container cont = getTable().getContainerDataSource();
                 ExportProvider provider = new PrenExportProvider();
                 ExportConfiguration conf = new ExportConfiguration(clazz, filename, cont, provider);
                 new ExportManager(conf).show(getUI());
@@ -206,9 +208,9 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addItem("Test lettera", null, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Object bean = getTable().getSelectedBean();
-                if (bean != null) {
-                    Prenotazione pren = (Prenotazione) bean;
+                BaseEntity entity = getTable().getSelectedEntity();
+                if (entity != null) {
+                    Prenotazione pren = (Prenotazione)entity;
                     PrenotazioneModulo.testLettera(pren);
                 } else {
                     msgNoSelection();

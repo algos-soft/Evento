@@ -658,14 +658,15 @@ public class PrenotazioneForm extends AForm {
 
         eventsTable = new EventiInPrenTable();
         eventsTable.setPageLength(7);
-        JPAContainer container = eventsTable.getJPAContainer();
-
         SingularAttribute attr = EventoPren_.prenotazione;
         String name = attr.getName();
         Filter filter = new Compare.Equal(name, getPrenotazione());
-        container.removeAllContainerFilters();
-        container.addContainerFilter(filter);
-        container.sort(new String[]{EventoPren_.timestamp.getName()}, new boolean[]{true});
+        Container.Filterable fCont = eventsTable.getFilterableContainer();
+        fCont.removeAllContainerFilters();
+        fCont.addContainerFilter(filter);
+
+        Container.Sortable sCont = eventsTable.getSortableContainer();
+        sCont.sort(new String[]{EventoPren_.timestamp.getName()}, new boolean[]{true});
 
         eventsTable.setWidth("100%");
         layout.addComponent(eventsTable);

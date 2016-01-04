@@ -27,6 +27,7 @@ import it.algos.evento.multiazienda.ETable;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
 import it.algos.webbase.web.dialog.ConfirmDialog;
+import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.BaseEntity_;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibDate;
@@ -193,7 +194,7 @@ public class PrenotazioneTable extends ETable {
 
                 //Prenotazione pren=(Prenotazione)getSelectedBean();
 
-                Item rowItem = PrenotazioneTable.this.getItem(target);
+                Item rowItem = getTable().getItem(target);
                 if (rowItem != null) {
                     Object value = rowItem.getItemProperty("id").getValue();
 
@@ -287,7 +288,7 @@ public class PrenotazioneTable extends ETable {
         boolean cont = true;
 
         // controllo una e una sola selezionata
-        Prenotazione pren = (Prenotazione) getSelectedBean();
+        Prenotazione pren = (Prenotazione)getSelectedEntity();
         if (pren == null) {
             cont = false;
             Notification.show("Seleziona prima una prenotazione.");
@@ -355,7 +356,7 @@ public class PrenotazioneTable extends ETable {
         boolean cont = true;
 
         // controllo una e una sola selezionata
-        Prenotazione pren = (Prenotazione) getSelectedBean();
+        Prenotazione pren = (Prenotazione)getSelectedEntity();
         if (pren == null) {
             cont = false;
             Notification.show("Seleziona prima una prenotazione.");
@@ -412,7 +413,7 @@ public class PrenotazioneTable extends ETable {
         boolean cont = true;
 
         // controllo una e una sola selezionata
-        Prenotazione pren = (Prenotazione) getSelectedBean();
+        Prenotazione pren = (Prenotazione)getSelectedEntity();
         if (pren == null) {
             cont = false;
             Notification.show("Seleziona prima una prenotazione.");
@@ -499,7 +500,7 @@ public class PrenotazioneTable extends ETable {
         boolean cont = true;
 
         // controllo una e una sola selezionata
-        Prenotazione pren = (Prenotazione) getSelectedBean();
+        Prenotazione pren = (Prenotazione)getSelectedEntity();
         if (pren == null) {
             cont = false;
             Notification.show("Seleziona prima una prenotazione.");
@@ -566,7 +567,7 @@ public class PrenotazioneTable extends ETable {
         boolean cont = true;
 
         // controllo una e una sola selezionata
-        Prenotazione pren = (Prenotazione) getSelectedBean();
+        Prenotazione pren = (Prenotazione)getSelectedEntity();
         if (pren == null) {
             cont = false;
             Notification.show("Seleziona prima una prenotazione.");
@@ -641,7 +642,7 @@ public class PrenotazioneTable extends ETable {
         boolean cont = true;
 
         // controllo una e una sola selezionata
-        Prenotazione pren = (Prenotazione) getSelectedBean();
+        Prenotazione pren = (Prenotazione)getSelectedEntity();
         if (pren == null) {
             cont = false;
             Notification.show("Seleziona prima una prenotazione.");
@@ -717,10 +718,10 @@ public class PrenotazioneTable extends ETable {
      */
     public void spostaAdAltraData() {
 
-        BeanItem[] beans = PrenotazioneTable.this.getSelectedBeans();
-        Prenotazione[] aPren = new Prenotazione[beans.length];
+        BaseEntity[] entities = getTable().getSelectedEntities();
+        Prenotazione[] aPren = new Prenotazione[entities.length];
         for (int i = 0; i < aPren.length; i++) {
-            aPren[i] = (Prenotazione) beans[i].getBean();
+            aPren[i] = (Prenotazione) entities[i];
         }
 
         if (aPren.length > 0) {
@@ -750,11 +751,14 @@ public class PrenotazioneTable extends ETable {
     @Override
     protected void createAdditionalColumns() {
 
-        // queste property aggiunte servono per consentire
-        // di effettuare ricerche su proprietà in relazione
-        getJPAContainer().addNestedContainerProperty(PrenotazioneModulo.PROP_PROGETTO);
-        getJPAContainer().addNestedContainerProperty(PrenotazioneModulo.PROP_EVENTO);
-        getJPAContainer().addNestedContainerProperty(PrenotazioneModulo.PROP_STAGIONE);
+        // disabilitato alex 04-01 per refactoring table container
+        // da verificare se funziona ancora!!
+//        // queste property aggiunte servono per consentire
+//        // di effettuare ricerche su proprietà in relazione
+//        getJPAContainer().addNestedContainerProperty(PrenotazioneModulo.PROP_PROGETTO);
+//        getJPAContainer().addNestedContainerProperty(PrenotazioneModulo.PROP_EVENTO);
+//        getJPAContainer().addNestedContainerProperty(PrenotazioneModulo.PROP_STAGIONE);
+        // end disabilitato
 
         addGeneratedColumn(COL_STATUS, new StatusColumnGenerator());
         addGeneratedColumn(COL_PAGAM, new PagamColumnGenerator());
