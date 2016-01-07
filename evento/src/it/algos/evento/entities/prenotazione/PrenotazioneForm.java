@@ -104,15 +104,8 @@ public class PrenotazioneForm extends AForm {
         doInit();
     }// end of constructor
 
+
     private void doInit() {
-        //setMargin(true);
-
-    }
-
-
-    @Override
-    protected void init() {
-        super.init();
 
         refreshDettaglioInsegnante();
 
@@ -127,8 +120,9 @@ public class PrenotazioneForm extends AForm {
                 }
             }
         });
-
     }
+
+
 
     /**
      * Aggiorna l'area di dettaglio insegnante in base all'insegnante correntemente selezionato
@@ -944,10 +938,10 @@ public class PrenotazioneForm extends AForm {
     }
 
 
-    private boolean save() {
+    protected boolean save() {
         boolean saved;
 
-        saved = super.save(bindMap, isNewRecord());
+        saved = super.save();
 
         if (saved) {
 

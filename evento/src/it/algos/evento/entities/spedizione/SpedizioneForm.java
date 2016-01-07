@@ -11,17 +11,17 @@ import it.algos.webbase.web.module.ModulePop;
  */
 public class SpedizioneForm extends AForm {
 
-    public SpedizioneForm(Item item) {
-        super(item);
-    }
+//    public SpedizioneForm(Item item) {
+//        super(item);
+//    }
 
     public SpedizioneForm(ModulePop module, Item item) {
         super(module, item);
     }
 
-    public SpedizioneForm(ModulePop module) {
-        super(module);
-    }
+//    public SpedizioneForm(ModulePop module) {
+//        super(module);
+//    }
 
     @Override
     protected void createFields() {

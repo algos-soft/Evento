@@ -18,20 +18,20 @@ import it.algos.webbase.web.module.ModulePop;
 @SuppressWarnings("serial")
 public class ScuolaForm extends AForm {
 
-	public ScuolaForm(ModulePop modulo) {
-		super(modulo);
-		doInit();
-	}// end of constructor
+//	public ScuolaForm(ModulePop modulo) {
+//		super(modulo);
+//		doInit();
+//	}// end of constructor
 
 	public ScuolaForm(ModulePop modulo, Item item) {
 		super(modulo, item);
 		doInit();
 	}// end of constructor
 
-	public ScuolaForm(Item item) {
-		this(null, item);
-		doInit();
-	}// end of constructor
+//	public ScuolaForm(Item item) {
+//		this(null, item);
+//		doInit();
+//	}// end of constructor
 	
 	private void doInit(){
 		//setMargin(true);

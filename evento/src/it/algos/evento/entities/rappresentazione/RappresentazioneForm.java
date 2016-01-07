@@ -43,10 +43,10 @@ public class RappresentazioneForm extends AForm {
 	private RelatedComboField fInsegnanti;
 	private TableInsegnanti tableInsegnanti;
 
-	public RappresentazioneForm(Item item) {
-		super(item);
-		doInit();
-	}
+//	public RappresentazioneForm(Item item) {
+//		super(item);
+//		doInit();
+//	}
 
 	public RappresentazioneForm(ModulePop module, Item item) {
 		super(module, item);
@@ -54,19 +54,11 @@ public class RappresentazioneForm extends AForm {
 	}
 
 	public RappresentazioneForm(ModulePop module) {
-		super(module);
+		super(module, null);
 		doInit();
 	}
 	
 	private void doInit(){
-		//setMargin(true);
-	}
-
-
-	@Override
-	protected void init() {
-		super.init();
-
 		// se nuovo record mette sala e capienza di default
 		if (isNewRecord()) {
 			Rappresentazione rapp = getRappresentazione();
@@ -78,8 +70,8 @@ public class RappresentazioneForm extends AForm {
 				}
 			}
 		}
-
 	}
+
 
 	@Override
 	protected void createFields() {
@@ -297,10 +289,10 @@ public class RappresentazioneForm extends AForm {
 	 */
 	@SuppressWarnings({ "unchecked" })
 	@Override
-	protected boolean save(LinkedHashMap<Object, Field> fieldMap, boolean newRecord) {
+	protected boolean save() {
 		Property<ArrayList<?>> prop=getItem().getItemProperty(Rappresentazione_.insegnanti.getName());
 		prop.setValue(tableInsegnanti.getListaInsegnanti());
-		return super.save(fieldMap, newRecord);
+		return super.save();
 	}
 
 	

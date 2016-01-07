@@ -15,10 +15,10 @@ import it.algos.webbase.web.module.ModulePop;
 @SuppressWarnings("serial")
 public class CompanyForm extends AForm {
 
-	public CompanyForm(ModulePop modulo) {
-		super(modulo);
-		doInit();
-	}// end of constructor
+//	public CompanyForm(ModulePop modulo) {
+//		super(modulo);
+//		doInit();
+//	}// end of constructor
 
 	public CompanyForm(ModulePop modulo, Item item) {
 		super(modulo, item);

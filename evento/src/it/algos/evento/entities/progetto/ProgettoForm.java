@@ -8,15 +8,15 @@ import it.algos.webbase.web.module.ModulePop;
 @SuppressWarnings("serial")
 public class ProgettoForm extends AForm {
 
-	public ProgettoForm(Item item) {
-		super(item);
-		doInit();
-	}
-
-	public ProgettoForm(ModulePop modulo) {
-		super(modulo);
-		doInit();
-	}// end of constructor
+//	public ProgettoForm(Item item) {
+//		super(item);
+//		doInit();
+//	}
+//
+//	public ProgettoForm(ModulePop modulo) {
+//		super(modulo);
+//		doInit();
+//	}// end of constructor
 
 	public ProgettoForm(ModulePop modulo, Item item) {
 		super(modulo, item);

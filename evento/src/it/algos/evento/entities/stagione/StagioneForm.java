@@ -14,15 +14,15 @@ import it.algos.webbase.web.module.ModulePop;
 @SuppressWarnings("serial")
 public class StagioneForm extends AForm {
 
-	public StagioneForm(Item item) {
-		super(item);
-		doInit();
-	}
+//	public StagioneForm(Item item) {
+//		super(item);
+//		doInit();
+//	}
 
-	public StagioneForm(ModulePop modulo) {
-		super(modulo);
-		doInit();
-	}
+//	public StagioneForm(ModulePop modulo) {
+//		super(modulo);
+//		doInit();
+//	}
 
 	public StagioneForm(ModulePop modulo, Item item) {
 		super(modulo, item);

@@ -20,10 +20,10 @@ import java.util.ArrayList;
 public class LetteraForm extends AForm {
 
 
-	public LetteraForm(ModulePop modulo) {
-		super(modulo);
-		doInit();
-	}// end of constructor
+//	public LetteraForm(ModulePop modulo) {
+//		super(modulo);
+//		doInit();
+//	}// end of constructor
 
 	public LetteraForm(ModulePop modulo, Item item) {
 		super(modulo, item);

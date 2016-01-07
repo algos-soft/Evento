@@ -318,11 +318,13 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
      * Form specifico per la creazione di nuova rappresentazione da popup.
      * Il campo evento viene bloccato.
      * Nota: le classi interne devono deve essere dichiarate static per
-     * poter essere instanziate per reflection (e questa lo è).
+     * poter essere istanziate per reflection (e questa lo è).
      */
     public static class RappresentazioneLockedForm extends RappresentazioneForm{
+
         public RappresentazioneLockedForm(Item item) {
-            super(item);
+//            super(item);
+            super(null, item);
             Field field = getField(Rappresentazione_.evento);
             if (field!=null){
                 field.setReadOnly(true);

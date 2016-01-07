@@ -7,15 +7,15 @@ import it.algos.webbase.web.module.ModulePop;
 @SuppressWarnings("serial")
 public class ModoPagamentoForm extends AForm {
 
-	public ModoPagamentoForm(ModulePop modulo) {
-		super(modulo);
-		doInit();
-	}// end of constructor
+//	public ModoPagamentoForm(ModulePop modulo) {
+//		super(modulo);
+//		doInit();
+//	}// end of constructor
 
 	public ModoPagamentoForm(ModulePop modulo, Item item) {
 		super(modulo, item);
 		doInit();
-	}// end of constructor
+	}
 	
 	private void doInit(){
 		//setMargin(true);

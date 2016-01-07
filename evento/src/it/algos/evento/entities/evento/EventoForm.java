@@ -21,10 +21,10 @@ import it.algos.webbase.web.module.ModulePop;
 @SuppressWarnings("serial")
 public class EventoForm extends AForm {
 
-	public EventoForm(ModulePop modulo) {
-		super(modulo);
-		doInit();
-	}// end of constructor
+//	public EventoForm(ModulePop modulo) {
+//		super(modulo);
+//		doInit();
+//	}// end of constructor
 
 	public EventoForm(ModulePop modulo, Item item) {
 		super(modulo, item);
