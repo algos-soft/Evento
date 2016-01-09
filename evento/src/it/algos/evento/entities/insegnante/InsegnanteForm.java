@@ -12,10 +12,11 @@ import it.algos.webbase.web.field.EmailField;
 import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.AFormLayout;
+import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.module.ModulePop;
 
 @SuppressWarnings("serial")
-public class InsegnanteForm extends AForm {
+public class InsegnanteForm extends ModuleForm {
 
 	private CheckBoxField fieldPrivato;
 	private ERelatedComboField fieldOrdineScuola;
@@ -32,7 +33,7 @@ public class InsegnanteForm extends AForm {
 //	}// end of constructor
 
 	public InsegnanteForm(ModulePop modulo, Item item) {
-		super(modulo, item);
+		super(item, modulo);
 		doInit();
 	}// end of constructor
 	
@@ -41,7 +42,7 @@ public class InsegnanteForm extends AForm {
 	}
 
 	@Override
-	protected void createFields() {
+	public void createFields() {
 		@SuppressWarnings("rawtypes")
 		Field field;
 

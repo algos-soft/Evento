@@ -12,16 +12,16 @@ import it.algos.evento.entities.prenotazione.EmailFailedException;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.PrenotazioneModulo;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
-import it.algos.evento.multiazienda.EROContainer;
+import it.algos.evento.multiazienda.ELazyContainer;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.lib.Lib;
 import org.joda.time.DateTime;
 
 import javax.persistence.EntityManager;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -128,7 +128,10 @@ public class PrenChecker implements Runnable {
 	 */
 	private void checkMemoSchedaPren(Company company) {
 		EntityManager manager = EM.createEntityManager();
-		EROContainer cont = new EROContainer(Prenotazione.class, manager, company);
+
+//		EROContainer cont = new EROContainer(Prenotazione.class, manager, company);
+		ELazyContainer cont = new ELazyContainer(manager, Prenotazione.class, company);
+
 		Filter filter;
 		filter = new Compare.Equal(Prenotazione_.confermata.getName(), false); // non confermate
 		cont.addContainerFilter(filter);
@@ -142,10 +145,13 @@ public class PrenChecker implements Runnable {
 		logger.log(Level.INFO, "Azienda "+company+": trovate "+cont.size()+" prenotazioni scadute");
 		
 		// spazzola le prenotazioni scadute ed esegue le azioni previste
-		List<?> ids = cont.getItemIds(0, cont.size());
+		Collection<?> ids = cont.getItemIds();
 		for (Object id : ids) {
-			EntityItem<?> item = cont.getItem(id);
-			Prenotazione pren = (Prenotazione) item.getEntity();
+
+//			EntityItem<?> item = cont.getItem(id);
+//			Prenotazione pren = (Prenotazione) item.getEntity();
+
+			Prenotazione pren = (Prenotazione) cont.getEntity(id);
 
 			// invia la mail di sollecito.
 			// controlla se va inviata per questa specifica prenotazione e la invia
@@ -177,7 +183,8 @@ public class PrenChecker implements Runnable {
 	 */
 	private void checkCongelamentoPrenotazioni(Company company) {
 		EntityManager manager = EM.createEntityManager();
-		EROContainer cont = new EROContainer(Prenotazione.class, manager, company);
+//		EROContainer cont = new EROContainer(Prenotazione.class, manager, company);
+		ELazyContainer cont = new ELazyContainer(manager, Prenotazione.class, company);
 		Filter filter;
 		filter = new Compare.Equal(Prenotazione_.confermata.getName(), false); // non confermate
 		cont.addContainerFilter(filter);
@@ -191,10 +198,13 @@ public class PrenChecker implements Runnable {
 		logger.log(Level.INFO, "Trovate "+cont.size()+" opzioni da congelare");
 		
 		// spazzola le prenotazioni e le congela
-		List<?> ids = cont.getItemIds(0, cont.size());
+		Collection<?> ids = cont.getItemIds();
 		for (Object id : ids) {
-			EntityItem<?> item = cont.getItem(id);
-			Prenotazione pren = (Prenotazione) item.getEntity();
+			Prenotazione pren = (Prenotazione) cont.getEntity(id);
+
+//			EntityItem<?> item = cont.getItem(id);
+//			Prenotazione pren = (Prenotazione) item.getEntity();
+
 			try {
 				PrenotazioneModulo.doCongelamentoOpzione(pren, EventoApp.BOT_USER, null);
 			} catch (EmailFailedException e) {
@@ -214,7 +224,10 @@ public class PrenChecker implements Runnable {
 	 */
 	private void checkMemoScadenzaPagamento(Company company) {
 		EntityManager manager = EM.createEntityManager();
-		EROContainer cont = new EROContainer(Prenotazione.class, manager, company);
+
+		ELazyContainer cont = new ELazyContainer(manager, Prenotazione.class, company);
+//		EROContainer cont = new EROContainer(Prenotazione.class, manager, company);
+
 		Filter filter;
 		filter = new Compare.Equal(Prenotazione_.confermata.getName(), true); // confermate prenotazione
 		cont.addContainerFilter(filter);
@@ -228,10 +241,13 @@ public class PrenChecker implements Runnable {
 		logger.log(Level.INFO, "Trovati "+cont.size()+" promemoria scadenza pagamento da inviare");
 
 		// spazzola le prenotazioni ed esegue i controlli
-		List<?> ids = cont.getItemIds(0, cont.size());
+		Collection<?> ids = cont.getItemIds();
 		for (Object id : ids) {
-			EntityItem<?> item = cont.getItem(id);
-			Prenotazione pren = (Prenotazione) item.getEntity();
+
+//			EntityItem<?> item = cont.getItem(id);
+//			Prenotazione pren = (Prenotazione) item.getEntity();
+
+			Prenotazione pren = (Prenotazione) cont.getEntity(id);
 
 			// invia solo se previsto nei settings, altrimenti logga soltanto
 			if (ModelliLettere.memoScadPagamento.isSend(pren)) {

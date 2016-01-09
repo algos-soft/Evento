@@ -1,6 +1,5 @@
 package it.algos.evento.entities.scuola;
 
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.filter.Like;
 import com.vaadin.ui.UI;
@@ -8,8 +7,8 @@ import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.comune.Comune_;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
 import it.algos.evento.entities.ordinescuola.OrdineScuola_;
+import it.algos.evento.multiazienda.ELazyContainer;
 import it.algos.evento.multiazienda.EQuery;
-import it.algos.evento.multiazienda.EROContainer;
 import it.algos.webbase.web.dialog.AlertDialog;
 import it.algos.webbase.web.dialog.BaseDialog;
 import it.algos.webbase.web.dialog.ConfirmDialog;
@@ -39,13 +38,14 @@ public class ScuolaImport {
 	private ATable table;
 	private Path file;
 	private DoneListener listener;
-	private JPAContainer comuniCont;
+	private ELazyContainer comuniCont;
 
 	public ScuolaImport(ATable table, DoneListener listener) {
 		super();
 		this.table = table;
 		this.listener = listener;
-		comuniCont = new EROContainer(Comune.class, EM.createEntityManager());
+//		comuniCont = new EROContainer(Comune.class, EM.createEntityManager());
+		comuniCont = new ELazyContainer(EM.createEntityManager(), Comune.class);
 		start();
 	}// end of constructor
 
@@ -330,7 +330,11 @@ public class ScuolaImport {
 		comuniCont.addContainerFilter(filter);
 		if (comuniCont.size() == 1) {
 			long id = Lib.getLong(comuniCont.getIdByIndex(0));
-			comune = (Comune)comuniCont.getItem(id).getEntity();
+
+//			comune = (Comune)comuniCont.getItem(id).getEntity();
+
+			comune = (Comune)comuniCont.getEntity(id);
+
 		}
 		return comune;
 	}

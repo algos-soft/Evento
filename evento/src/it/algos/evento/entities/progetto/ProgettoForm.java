@@ -3,10 +3,11 @@ package it.algos.evento.entities.progetto;
 import com.vaadin.data.Item;
 import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.module.ModulePop;
 
 @SuppressWarnings("serial")
-public class ProgettoForm extends AForm {
+public class ProgettoForm extends ModuleForm {
 
 //	public ProgettoForm(Item item) {
 //		super(item);
@@ -19,7 +20,7 @@ public class ProgettoForm extends AForm {
 //	}// end of constructor
 
 	public ProgettoForm(ModulePop modulo, Item item) {
-		super(modulo, item);
+		super(item, modulo);
 		doInit();
 	}// end of constructor
 
@@ -28,7 +29,7 @@ public class ProgettoForm extends AForm {
 	}
 
 	@Override
-	protected void createFields() {
+	public void createFields() {
 		TextField tfield;
 
 		tfield = new TextField("Descrizione");

@@ -1,29 +1,26 @@
 package it.algos.evento.entities.stagione;
 
-import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Notification;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.evento.Evento_;
+import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
-import it.algos.evento.multiazienda.ERWContainer;
+import it.algos.evento.multiazienda.EventoEntity_;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
-import it.algos.webbase.web.form.AForm;
-import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Attribute;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -50,7 +47,7 @@ public class StagioneModulo extends EModulePop {
     }// end of method
 
     @Override
-    public AForm createForm(Item item) {
+    public ModuleForm createForm(Item item) {
         return (new StagioneForm(this, item));
     }// end of method
 
@@ -70,47 +67,100 @@ public class StagioneModulo extends EModulePop {
         return new Attribute[]{Stagione_.sigla, Stagione_.corrente};
     }// end of method
 
+//    /**
+//     * Imposta una stagione come corrente.
+//     * <p>
+//     * Invocato dai menu
+//     * Pone il flag corrente=false a tutte le stagioni
+//     * Assegna il flag corrente=true alla stagione desiderata
+//     */
+//    public static void cmdSetCorrente(final Stagione stagione, final ATable table) {
+//
+//        EntityManagerFactory factory = Persistence.createEntityManagerFactory(EM.PERSISTENCE_UNIT);
+//        EntityManager manager = factory.createEntityManager();
+//
+//        JPAContainer container = new ERWContainer(Stagione.class, manager);
+//
+//        try {
+//
+//            manager.getTransaction().begin();
+//
+//            for (Iterator<Object> i = container.getItemIds().iterator(); i.hasNext(); ) {
+//                Object itemId = i.next();
+//                EntityItem item = container.getItem(itemId);
+//                Stagione entity = (Stagione)item.getEntity();
+//                boolean flag=false;
+//                if(entity.getId()==stagione.getId()){
+//                    flag=true;
+//                }
+//                Property property = item.getItemProperty(Stagione_.corrente.getName());
+//                property.setValue(flag);
+//
+//            }
+//
+//            manager.getTransaction().commit();
+//
+//        } catch (Exception e) {
+//            manager.getTransaction().rollback();
+//        }
+//
+//        manager.close();
+//
+//        table.refresh();
+//
+//
+//    }
+
+
     /**
      * Imposta una stagione come corrente.
      * <p>
      * Invocato dai menu
-     * Pone il flag corrente=false da tutte le stagioni
+     * Pone il flag corrente=false a tutte le stagioni
      * Assegna il flag corrente=true alla stagione desiderata
      */
     public static void cmdSetCorrente(final Stagione stagione, final ATable table) {
 
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory(EM.PERSISTENCE_UNIT);
-        EntityManager manager = factory.createEntityManager();
+        CriteriaUpdate<Stagione> update;
+        Root<Stagione> root;
+        Predicate condition;
 
-        JPAContainer container = new ERWContainer(Stagione.class, manager);
+        // setup
+        EntityManager manager = EM.createEntityManager();
+        CriteriaBuilder cb = manager.getCriteriaBuilder();
 
+        //fase 1) - poni tutti i flag a false
+
+        // create criteria update
+        update = cb.createCriteriaUpdate(Stagione.class);
+
+        // set the root class
+        root = update.from(Stagione.class);
+
+        // set where clause
+        condition = cb.equal(root.get(EventoEntity_.company), EventoSessionLib.getCompany());
+        update.where(condition);
+
+        // what to update
+        update.set(root.get(Stagione_.corrente), false);
+
+        // perform update
         try {
-
             manager.getTransaction().begin();
-
-            for (Iterator<Object> i = container.getItemIds().iterator(); i.hasNext(); ) {
-                Object itemId = i.next();
-                EntityItem item = container.getItem(itemId);
-                Stagione entity = (Stagione)item.getEntity();
-                boolean flag=false;
-                if(entity.getId()==stagione.getId()){
-                    flag=true;
-                }
-                Property property = item.getItemProperty(Stagione_.corrente.getName());
-                property.setValue(flag);
-
-            }
-
+            manager.createQuery(update).executeUpdate();
             manager.getTransaction().commit();
-
         } catch (Exception e) {
             manager.getTransaction().rollback();
         }
 
+        //fase 2) - accendi il flag alla stagione richiesta
+        stagione.setCorrente(true);
+        stagione.save(manager);
+
+        // alla fine: chiudi EntityManager
         manager.close();
 
         table.refresh();
-
 
     }
 

@@ -9,10 +9,11 @@ import it.algos.webbase.web.field.DateField;
 import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.AFormLayout;
+import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.module.ModulePop;
 
 @SuppressWarnings("serial")
-public class StagioneForm extends AForm {
+public class StagioneForm extends ModuleForm {
 
 //	public StagioneForm(Item item) {
 //		super(item);
@@ -25,7 +26,7 @@ public class StagioneForm extends AForm {
 //	}
 
 	public StagioneForm(ModulePop modulo, Item item) {
-		super(modulo, item);
+		super(item, modulo);
 		doInit();
 	}
 	
@@ -34,7 +35,7 @@ public class StagioneForm extends AForm {
 	}
 
 	@Override
-	protected void createFields() {
+	public void createFields() {
 		@SuppressWarnings("rawtypes")
 		Field field;
 

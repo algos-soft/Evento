@@ -16,10 +16,11 @@ import it.algos.webbase.web.field.RelatedComboField;
 import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.AFormLayout;
+import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.module.ModulePop;
 
 @SuppressWarnings("serial")
-public class EventoForm extends AForm {
+public class EventoForm extends ModuleForm {
 
 //	public EventoForm(ModulePop modulo) {
 //		super(modulo);
@@ -27,7 +28,7 @@ public class EventoForm extends AForm {
 //	}// end of constructor
 
 	public EventoForm(ModulePop modulo, Item item) {
-		super(modulo, item);
+		super(item, modulo);
 		doInit();
 	}// end of constructor
 
@@ -49,7 +50,7 @@ public class EventoForm extends AForm {
 	}
 	
 	@Override
-	protected void createFields() {
+	public void createFields() {
 		@SuppressWarnings("rawtypes")
 		AbstractField field;
 		TextField tfield;

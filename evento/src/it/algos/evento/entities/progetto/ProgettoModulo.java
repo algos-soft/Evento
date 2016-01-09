@@ -9,6 +9,7 @@ import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.search.SearchManager;
 
@@ -43,7 +44,7 @@ public class ProgettoModulo extends EModulePop {
 
 	
 	@Override
-	public AForm createForm(Item item) {
+	public ModuleForm createForm(Item item) {
 		return (new ProgettoForm(this, item));
 	}// end of method
 

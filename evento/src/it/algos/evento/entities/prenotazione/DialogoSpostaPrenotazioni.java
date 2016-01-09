@@ -247,11 +247,10 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
 
             //setNewItemHandler(RappresentazioneForm.class, null);
             setNewItemHandler(new PrenNewItemHandler(this));
-            JPAContainer container=getJPAContainer();
 
             // container filtrato sulle sole rappresentazioni dell'evento selezionato
             Container.Filter filter = new Compare.Equal(Rappresentazione_.evento.getName(), evento);
-            container.addContainerFilter(filter);
+            getFilterableContainer().addContainerFilter(filter);
 
 
             // regola i testi visualizzati nel popup in modo esplicito
@@ -265,9 +264,10 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
             // reinfresco le descrizioni nel combo
             addRecordEditedListener(new RecordEditedListener() {
                 @Override
-                public void save_(BeanItem bi, boolean newRecord) {
+                public void save_(Item item, boolean newRecord) {
                     updateCaptions();
                 }
+
             });
 
         }
@@ -279,7 +279,7 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
 
             sort(Rappresentazione_.dataRappresentazione);
 
-            Collection ids = getJPAContainer().getItemIds();
+            Collection ids = getContainerDataSource().getItemIds();
             for (Object id : ids){
                 EntityItem<Rappresentazione> ei = getJPAContainer().getItem(id);
                 Rappresentazione rapp = ei.getEntity();

@@ -229,23 +229,6 @@ public class PrenotazioneTable extends ETable {
     }// end of constructor
 
 
-//    /**
-//     * Creates the container
-//     * <p>
-//     *
-//     * @return un container RW filtrato sulla azienda corrente
-//     */
-//    @SuppressWarnings("unchecked")
-//    @Override
-//    protected Container createContainer() {
-//        // aggiunge un filtro sulla stagione corrente
-//        Container cont = super.createContainer();
-//        JPAContainer JPAcont = (JPAContainer) cont;
-//        Filter filter = new Compare.Equal(PrenotazioneModulo.PROP_STAGIONE, Stagione.getStagioneCorrente());
-//        JPAcont.addContainerFilter(filter);
-//        return JPAcont;
-//    }// end of method
-
 
     /**
      * Creates the container
@@ -253,8 +236,8 @@ public class PrenotazioneTable extends ETable {
      *
      * @return the container
      */
-    protected Container createContainer() {
-        LazyEntityContainer entityContainer = new LazyEntityContainer<Prenotazione>(entityManager, Prenotazione.class, 100, BaseEntity_.id.getName(), true, true, true);
+    public Container createContainer() {
+        LazyEntityContainer entityContainer=(LazyEntityContainer)super.createContainer();
 
         // aggiunge un filtro sulla stagione corrente
         Filter filter = new Compare.Equal(PrenotazioneModulo.PROP_STAGIONE, Stagione.getStagioneCorrente());
@@ -270,7 +253,8 @@ public class PrenotazioneTable extends ETable {
      * Called when the container data changes
      */
     @SuppressWarnings("rawtypes")
-    protected void updateTotals() {
+    @Override
+    public void updateTotals() {
 
         // cycle the totalizable columns
         StringToBigDecimalConverter converter = new StringToBigDecimalConverter();
@@ -295,7 +279,7 @@ public class PrenotazioneTable extends ETable {
 
         if(propertyId.equals(Prenotazione_.numTotali.getName())){
 
-            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
             CriteriaQuery<Integer> cq = cb.createQuery(Integer.class);
             Root<Prenotazione> root = cq.from(Prenotazione.class);
             Predicate pred = getFiltersPredicate(cb, cq, root);
@@ -309,7 +293,7 @@ public class PrenotazioneTable extends ETable {
 
             cq.select(cb.sum(exp));
 
-            TypedQuery<Integer> q = entityManager.createQuery(cq);
+            TypedQuery<Integer> q = getEntityManager().createQuery(cq);
             Integer num = q.getSingleResult();
             if(num==null){
                 num=0;
@@ -319,7 +303,7 @@ public class PrenotazioneTable extends ETable {
         }
 
         if(propertyId.equals(Prenotazione_.importoDaPagare.getName())){
-            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
             CriteriaQuery<Number> cq = cb.createQuery(Number.class);
             Root<Prenotazione> root = cq.from(Prenotazione.class);
             Predicate pred = getFiltersPredicate(cb, cq, root);
@@ -339,7 +323,7 @@ public class PrenotazioneTable extends ETable {
 
             cq.select(cb.sum(expr));
 
-            Number num = entityManager.createQuery(cq).getSingleResult();
+            Number num = getEntityManager().createQuery(cq).getSingleResult();
             if (num != null) {
                 if (num instanceof BigDecimal){
                     tot=(BigDecimal)num;

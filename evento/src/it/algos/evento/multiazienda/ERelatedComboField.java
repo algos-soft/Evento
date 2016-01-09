@@ -1,8 +1,12 @@
 package it.algos.evento.multiazienda;
 
+import com.vaadin.addon.jpacontainer.EntityProvider;
+import com.vaadin.addon.jpacontainer.provider.LocalEntityProvider;
 import com.vaadin.data.Container;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.field.RelatedComboField;
+
+import javax.persistence.EntityManager;
 
 @SuppressWarnings("serial")
 public class ERelatedComboField extends RelatedComboField{
@@ -22,12 +26,9 @@ public class ERelatedComboField extends RelatedComboField{
 	 * <p>
 	 * @return the container
 	 */
-	protected Container createContainer(){
-
-		return new EROContainer(getEntityClass(), EM.createEntityManager());
-
-		//return JPAContainerFactory.makeReadOnly(getEntityClass(), EM.createEntityManager());
-
+	public Container createContainer(){
+//		return new EROContainer(getEntityClass(), EM.createEntityManager());
+		return new EJPAContainer(getEntityClass(), getEntityManager());
 	}
 
 }

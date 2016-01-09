@@ -1,7 +1,5 @@
 package it.algos.evento.statistiche;
 
-import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
@@ -15,7 +13,7 @@ import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 import it.algos.evento.entities.scuola.Scuola;
-import it.algos.evento.multiazienda.EROContainer;
+import it.algos.evento.multiazienda.ELazyContainer;
 import it.algos.webbase.web.component.DateRangeComponent;
 import it.algos.webbase.web.entity.EM;
 
@@ -159,21 +157,25 @@ public abstract class StatisticaBase extends StatisticaGenerale {
 	protected ArrayList<Rappresentazione> getRappresentazioni(Date data1, Date data2, String sortAttribute) {
 		ArrayList<Rappresentazione> lista = new ArrayList<Rappresentazione>();
 		String nomeAttributo = Rappresentazione_.dataRappresentazione.getName();
-		JPAContainer container;
 		Collection<Object> listaIds = null;
 
 		EntityManager manager = EM.createEntityManager();
-		container=new EROContainer(Rappresentazione.class, manager);
+//		JPAContainer container=new EJPAContainer(Rappresentazione.class, manager);
+		ELazyContainer container = new ELazyContainer(manager, Rappresentazione.class);
+
 		Filter filter1 = new Compare.GreaterOrEqual(nomeAttributo, data1);
 		Filter filter2 = new Compare.LessOrEqual(nomeAttributo, data2);
 		Filter filter = new And(filter1, filter2);
 		container.addContainerFilter(filter);
 		container.sort(new Object[] { sortAttribute }, new boolean[] { true });
-		listaIds = container.getItemIds();
+//		listaIds = container.getItemIds();
 
-		for (Object itemId : listaIds) {
-			EntityItem<Rappresentazione> item = container.getItem(itemId);
-			Rappresentazione rapp = item.getEntity();
+		for (Object id : container.getItemIds()) {
+//			EntityItem<Rappresentazione> item = container.getItem(id);
+//			Rappresentazione rapp = item.getEntity();
+
+			Rappresentazione rapp = (Rappresentazione)container.getEntity(id);
+
 			lista.add(rapp);
 		}// end of for cycle
 		manager.close();
@@ -205,15 +207,21 @@ public abstract class StatisticaBase extends StatisticaGenerale {
 		EntityManager manager = EM.createEntityManager();
 		
 		// container delle prenotazioni per la rappresentazione
-		JPAContainer prenotazioni = new EROContainer(Prenotazione.class, manager);
+//		JPAContainer prenotazioni = new EJPAContainer(Prenotazione.class, manager);
+		ELazyContainer prenotazioni = new ELazyContainer(manager, Prenotazione.class);
+
 		Filter filter = new Compare.Equal(Prenotazione_.rappresentazione.getName(), rapp);
 		prenotazioni.addContainerFilter(filter);
 
 		// spazzola e calcola totali
-		Collection<Object> ids = prenotazioni.getItemIds();
+		Collection ids = prenotazioni.getItemIds();
 		for (Object itemId : ids) {
-			EntityItem<Prenotazione> item = prenotazioni.getItem(itemId);
-			Prenotazione pren = item.getEntity();
+
+//			EntityItem<Prenotazione> item = prenotazioni.getItem(itemId);
+//			Prenotazione pren = item.getEntity();
+
+			Prenotazione pren = (Prenotazione)prenotazioni.getEntity(itemId);
+
 			totInteri += pren.getNumInteri();
 			totRidotti += pren.getNumRidotti();
 			totDisabili += pren.getNumDisabili();

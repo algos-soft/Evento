@@ -12,12 +12,13 @@ import it.algos.webbase.web.field.TextArea;
 import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.AFormLayout;
+import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.module.ModulePop;
 
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class LetteraForm extends AForm {
+public class LetteraForm extends ModuleForm {
 
 
 //	public LetteraForm(ModulePop modulo) {
@@ -26,7 +27,7 @@ public class LetteraForm extends AForm {
 //	}// end of constructor
 
 	public LetteraForm(ModulePop modulo, Item item) {
-		super(modulo, item);
+		super(item, modulo);
 		doInit();
 	}// end of constructor
 
@@ -43,7 +44,7 @@ public class LetteraForm extends AForm {
 	 * nel Modello), usare il metodo sovrascritto nella sottoclasse richiamando prima il metodo della superclasse.
 	 */
 	@Override
-	protected void createFields() {
+	public void createFields() {
 		@SuppressWarnings("rawtypes")
 		Field field;
 

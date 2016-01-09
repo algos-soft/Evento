@@ -28,6 +28,7 @@ import it.algos.webbase.web.field.RelatedComboField;
 import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.AFormLayout;
+import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
 
@@ -38,7 +39,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public class RappresentazioneForm extends AForm {
+public class RappresentazioneForm extends ModuleForm {
 
 	private RelatedComboField fInsegnanti;
 	private TableInsegnanti tableInsegnanti;
@@ -49,14 +50,14 @@ public class RappresentazioneForm extends AForm {
 //	}
 
 	public RappresentazioneForm(ModulePop module, Item item) {
-		super(module, item);
+		super(item, module);
 		doInit();
 	}
 
-	public RappresentazioneForm(ModulePop module) {
-		super(module, null);
-		doInit();
-	}
+//	public RappresentazioneForm(ModulePop module) {
+//		super(module, null);
+//		doInit();
+//	}
 	
 	private void doInit(){
 		// se nuovo record mette sala e capienza di default
@@ -74,7 +75,7 @@ public class RappresentazioneForm extends AForm {
 
 
 	@Override
-	protected void createFields() {
+	public void createFields() {
 		@SuppressWarnings("rawtypes")
 		Field field;
 		RelatedComboField rField;
@@ -222,7 +223,7 @@ public class RappresentazioneForm extends AForm {
 		 * 
 		 * @return the container Override in the subclass to use a different container
 		 */
-		protected Container createContainer() {
+		public Container createContainer() {
 			return new BeanItemContainer<Insegnante>(Insegnante.class);
 		}
 

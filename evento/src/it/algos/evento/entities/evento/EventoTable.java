@@ -35,13 +35,15 @@ public class EventoTable extends ETable {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	protected Container createContainer() {
+	public Container createContainer() {
 		// aggiunge un filtro sulla stagione corrente
 		Container cont = super.createContainer();
-		JPAContainer JPAcont = (JPAContainer)cont;
 		Filter filter=new Compare.Equal(Evento_.stagione.getName(), Stagione.getStagioneCorrente());
-		JPAcont.addContainerFilter(filter);
-		return JPAcont;
+		if(cont instanceof Filterable){
+			Filterable fcont=(Filterable)cont;
+			fcont.addContainerFilter(filter);
+		}
+		return cont;
 	}// end of method
 
 

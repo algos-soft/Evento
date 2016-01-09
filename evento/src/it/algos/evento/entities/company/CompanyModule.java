@@ -12,6 +12,7 @@ import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.query.AQuery;
 import it.algos.webbase.web.table.TablePortal;
@@ -43,7 +44,7 @@ public class CompanyModule extends ModulePop implements View {
 	}
 
 	@Override
-	public AForm createForm(Item item) {
+	public ModuleForm createForm(Item item) {
 		return (new CompanyForm(this, item));
 	}// end of method
 

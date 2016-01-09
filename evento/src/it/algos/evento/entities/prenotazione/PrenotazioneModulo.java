@@ -32,6 +32,7 @@ import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.field.ArrayComboField;
 import it.algos.webbase.web.field.EmailField;
 import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.search.SearchManager;
@@ -164,7 +165,7 @@ public class PrenotazioneModulo extends EModulePop {
     }// end of method
 
     @Override
-    public AForm createForm(Item item) {
+    public ModuleForm createForm(Item item) {
         PrenotazioneForm form = new PrenotazioneForm(this, item);
 
         // refresh table dopo conferma prenotazione

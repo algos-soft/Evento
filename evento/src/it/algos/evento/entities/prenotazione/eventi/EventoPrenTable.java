@@ -38,9 +38,9 @@ public class EventoPrenTable extends ETable {
 
 
 
-	public EventoPrenTable(Class<?> entityClass) {
-		super(entityClass);
-	}
+//	public EventoPrenTable(Class<?> entityClass) {
+//		super(entityClass);
+//	}
 
 //	/**
 //	 * Initial sort order for the JPA container

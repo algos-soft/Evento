@@ -48,6 +48,7 @@ import it.algos.webbase.web.field.DateField;
 import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.AFormLayout;
+import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.module.Module;
 import it.algos.webbase.web.module.ModulePop;
@@ -61,7 +62,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @SuppressWarnings("serial")
-public class PrenotazioneForm extends AForm {
+public class PrenotazioneForm extends ModuleForm {
 
     private static final String WF = "4em"; // larghezza dei campi numerici
     private static final String WT = "6em"; // larghezza dei totali
@@ -74,7 +75,7 @@ public class PrenotazioneForm extends AForm {
     private TextField fieldClasse;
     private RelatedComboField comboScuola;
     private CheckBoxField fieldPrivato;
-    private EventoPrenTable eventsTable; // la table con gli eventi
+    private EventiInPrenTable eventsTable; // la table con gli eventi
     private Label dettaglioInsegnante;
 
     private boolean inValueChange = false;   // flag per evitare di reagire ricorsivamente agli eventi di cambio valore di alcuni campi
@@ -100,7 +101,7 @@ public class PrenotazioneForm extends AForm {
     }// end of constructor
 
     public PrenotazioneForm(ModulePop modulo, Item item) {
-        super(modulo, item);
+        super(item, modulo);
         doInit();
     }// end of constructor
 
@@ -190,7 +191,7 @@ public class PrenotazioneForm extends AForm {
     }// end of method
 
     @Override
-    protected void createFields() {
+    public void createFields() {
 
         @SuppressWarnings("rawtypes")
         Field field;
@@ -242,7 +243,7 @@ public class PrenotazioneForm extends AForm {
         comboInsegnante.addRecordEditedListener(new RelatedComboField.RecordEditedListener() {
 
             @Override
-            public void save_(BeanItem bi, boolean newRecord) {
+            public void save_(Item bi, boolean newRecord) {
                 syncRiferimentiInsegnante();
                 refreshDettaglioInsegnante();
             }

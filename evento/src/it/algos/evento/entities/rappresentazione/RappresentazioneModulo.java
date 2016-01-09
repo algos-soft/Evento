@@ -1,11 +1,8 @@
 package it.algos.evento.entities.rappresentazione;
 
-import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.tableexport.ExcelExport;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.ui.Component;
@@ -16,13 +13,12 @@ import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
+import it.algos.evento.multiazienda.ELazyContainer;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
-import it.algos.evento.multiazienda.EROContainer;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
-import it.algos.webbase.web.form.AForm;
-import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
@@ -55,15 +51,22 @@ public class RappresentazioneModulo extends EModulePop {
         Filter filtroRappresentazione = new Compare.Equal(Prenotazione_.rappresentazione.getName(), rapp);
         Filter filtroNonCongelata = new Compare.Equal(Prenotazione_.congelata.getName(), false);
         EntityManager manager = EM.createEntityManager();
-        EROContainer cont = new EROContainer(Prenotazione.class, manager);
+
+//        EROContainer cont = new EROContainer(Prenotazione.class, manager);
+        ELazyContainer cont = new ELazyContainer(manager, Prenotazione.class);
+
         cont.addContainerFilter(filtroRappresentazione);
         cont.addContainerFilter(filtroNonCongelata);
 
         // spazzola le prenotazioni e calcola il tatale posti prenotati
-        List<?> ids = cont.getItemIds(0, cont.size());
+        Collection<?> ids = cont.getItemIds();
         for (Object id : ids) {
-            EntityItem<?> item = cont.getItem(id);
-            Prenotazione pren = (Prenotazione) item.getEntity();
+
+//            EntityItem<?> item = cont.getItem(id);
+//            Prenotazione pren = (Prenotazione) item.getEntity();
+
+            Prenotazione pren = (Prenotazione) cont.getEntity(id);
+
             quantiPrenotati += pren.getNumTotali();
         }
 
@@ -243,7 +246,7 @@ public class RappresentazioneModulo extends EModulePop {
     }// end of method
 
     @Override
-    public AForm createForm(Item item) {
+    public ModuleForm createForm(Item item) {
         return (new RappresentazioneForm(this, item));
     }// end of method
 

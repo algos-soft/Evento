@@ -4,19 +4,20 @@ import com.vaadin.data.Item;
 import it.algos.evento.entities.lettera.Lettera;
 import it.algos.webbase.web.field.*;
 import it.algos.webbase.web.form.AForm;
+import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.module.ModulePop;
 
 /**
  * Created by Alex on 28/10/15.
  */
-public class SpedizioneForm extends AForm {
+public class SpedizioneForm extends ModuleForm {
 
 //    public SpedizioneForm(Item item) {
 //        super(item);
 //    }
 
     public SpedizioneForm(ModulePop module, Item item) {
-        super(module, item);
+        super(item, module);
     }
 
 //    public SpedizioneForm(ModulePop module) {
@@ -24,7 +25,7 @@ public class SpedizioneForm extends AForm {
 //    }
 
     @Override
-    protected void createFields() {
+    public void createFields() {
 
         addField(Spedizione_.dataSpedizione, new DateField("Data spedizione"));
 

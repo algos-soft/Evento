@@ -1,23 +1,29 @@
 package it.algos.evento.multiazienda;
 
 import com.vaadin.data.Container;
+import it.algos.evento.entities.company.Company;
+import it.algos.evento.lib.EventoSessionLib;
+import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.BaseEntity_;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
+import it.algos.webbase.web.table.ModuleTable;
+import org.vaadin.addons.lazyquerycontainer.LazyEntityContainer;
 
 /**
- * Una table con JPAContainer già filtrato sulla Company corrente
+ * Una ModuleTable con Container già filtrato sulla Company corrente
  */
 @SuppressWarnings("serial")
-public class ETable extends ATable{
+public class ETable extends ModuleTable{
 
 	public ETable(ModulePop module) {
 		super(module);
 	}
 	
-	public ETable(Class<?> entityClass) {
-		super(entityClass);
-	}
+//	public ETable(Class<?> entityClass) {
+//		super(entityClass);
+//	}
 
 	/**
 	 * Creates the container
@@ -27,10 +33,11 @@ public class ETable extends ATable{
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	protected Container createContainer() {
+	public Container createContainer() {
 		Class<EventoEntity> entityClass = (Class<EventoEntity>)getEntityClass();
-		ERWContainer cont = new ERWContainer(entityClass, EM.createEntityManager());
-		return cont;
+		Company company = EventoSessionLib.getCompany();
+		ELazyContainer entityContainer = new ELazyContainer(getEntityManager(), entityClass, getContainerPageSize() , company);
+		return entityContainer;
 	}// end of method
 
 

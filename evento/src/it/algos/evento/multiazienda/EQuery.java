@@ -180,12 +180,28 @@ public class EQuery {
      */
     public static List<? extends EventoEntity> getList(Class<? extends EventoEntity> entityClass, Filter... filters) {
         ArrayList<EventoEntity> list = new ArrayList<>();
-        JPAContainer<EventoEntity> container = getContainer(entityClass, filters);
-        for (Object obj : container.getItemIds()) {
-            EntityItem<EventoEntity> item = container.getItem(obj);
-            list.add(item.getEntity());
+
+//        JPAContainer<EventoEntity> container = getContainer(entityClass, filters);
+//        for (Object obj : container.getItemIds()) {
+//            EntityItem<EventoEntity> item = container.getItem(obj);
+//            list.add(item.getEntity());
+//        }
+//        container.getEntityProvider().getEntityManager().close();
+
+        EntityManager em = EM.createEntityManager();
+        ELazyContainer container = new ELazyContainer(em, entityClass);
+        if (filters != null) {
+            for (Filter filter : filters) {
+                container.addContainerFilter(filter);
+            }
         }
-        container.getEntityProvider().getEntityManager().close();
+
+        for (Object id : container.getItemIds()) {
+            EventoEntity entity = (EventoEntity)container.getEntity(id);
+            list.add(entity);
+        }
+        em.close();
+
         return list;
     }
 
@@ -208,52 +224,93 @@ public class EQuery {
     }
 
 
+//    /**
+//     * Create a read-only JPA container for a given domain class and filters.
+//     * <p>
+//     *
+//     * @param entityClass - the entity class
+//     * @param filters     - an array of filters (you can use FilterFactory
+//     *                    to build filters, or create them as Compare....), null for no filters
+//     * @return the JPA container
+//     */
+//    public static JPAContainer<EventoEntity> getContainer(Class<? extends EventoEntity> entityClass, Filter... filters) {
+//        EntityManager manager = EM.createEntityManager();
+//        JPAContainer<EventoEntity> container = new EROContainer(entityClass, manager);
+//        if (filters != null) {
+//            for (Filter filter : filters) {
+//                container.addContainerFilter(filter);
+//            }
+//        }
+//        return container;
+//    }
+
+
+//    /**
+//     * Delete all the records for a given domain class
+//     */
+//    public static void deleteAll(Class<? extends EventoEntity> entityClass) {
+//
+//        EntityManager manager = EM.createEntityManager();
+//        ERWContainer cont = new ERWContainer(entityClass, manager);
+//        try {
+//
+//            manager.getTransaction().begin();
+//
+//            for (Object id : cont.getItemIds()) {
+//                EventoEntity entity = cont.getItem(id).getEntity();
+//                entity = manager.merge(entity);
+//                manager.remove(entity);
+//            }
+//
+//            manager.getTransaction().commit();
+//
+//        } catch (Exception e) {
+//            manager.getTransaction().rollback();
+//        }
+//        manager.close();
+//
+//    }// end of method
+
+
+
+
+
+
     /**
-     * Create a read-only JPA container for a given domain class and filters.
+     * Bulk delete records with CriteriaDelete
+     * for a given domain class
      * <p>
      *
-     * @param entityClass - the entity class
-     * @param filters     - an array of filters (you can use FilterFactory
-     *                    to build filters, or create them as Compare....), null for no filters
-     * @return the JPA container
-     */
-    public static JPAContainer<EventoEntity> getContainer(Class<? extends EventoEntity> entityClass, Filter... filters) {
-        EntityManager manager = EM.createEntityManager();
-        JPAContainer<EventoEntity> container = new EROContainer(entityClass, manager);
-        if (filters != null) {
-            for (Filter filter : filters) {
-                container.addContainerFilter(filter);
-            }
-        }
-        return container;
-    }
-
-
-    /**
-     * Delete all the records for a given domain class
+     * @param entityClass - the domain class
      */
     public static void deleteAll(Class<? extends EventoEntity> entityClass) {
-
         EntityManager manager = EM.createEntityManager();
-        ERWContainer cont = new ERWContainer(entityClass, manager);
+        CriteriaBuilder cb = manager.getCriteriaBuilder();
+
+        // create delete
+        CriteriaDelete delete = cb.createCriteriaDelete(entityClass);
+
+        // set the root class
+        Root root = delete.from(entityClass);
+
+        // set where clause
+        Predicate pred = cb.equal(root.get(EventoEntity_.company), EventoSessionLib.getCompany());
+        delete.where(pred);
+
+        // perform update
         try {
-
             manager.getTransaction().begin();
-
-            for (Object id : cont.getItemIds()) {
-                EventoEntity entity = cont.getItem(id).getEntity();
-                entity = manager.merge(entity);
-                manager.remove(entity);
-            }
-
+            manager.createQuery(delete).executeUpdate();
             manager.getTransaction().commit();
-
         } catch (Exception e) {
             manager.getTransaction().rollback();
         }
+
         manager.close();
 
-    }// end of method
+    }
+
+
 
 
     /**

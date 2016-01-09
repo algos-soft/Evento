@@ -1,7 +1,5 @@
 package it.algos.evento.statistiche;
 
-import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.event.FieldEvents.FocusEvent;
@@ -11,7 +9,7 @@ import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.insegnante.Insegnante_;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.rappresentazione.Rappresentazione_;
-import it.algos.evento.multiazienda.EROContainer;
+import it.algos.evento.multiazienda.ELazyContainer;
 import it.algos.webbase.web.component.DateRangeComponent;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.lib.LibDate;
@@ -154,18 +152,21 @@ public class StatisticaPerInsegnante extends StatisticaBase {
     private List<Insegnante> getInsegnanti() {
         ArrayList<Insegnante> lista = new ArrayList<Insegnante>();
 
-        JPAContainer container;
         Collection<Object> listaIds = null;
 
         EntityManager manager = EM.createEntityManager();
 
-        container = new EROContainer(Insegnante.class, manager);
-        container.sort(new Object[]{Insegnante_.cognome.getName(), Insegnante_.nome.getName()}, new boolean[]{true, true});
-        listaIds = container.getItemIds();
+//        JPAContainer container = new EJPAContainer(Insegnante.class, manager);
+        ELazyContainer container = new ELazyContainer(manager, Insegnante.class);
 
-        for (Object itemId : listaIds) {
-            EntityItem<Insegnante> item = container.getItem(itemId);
-            Insegnante insegnante = item.getEntity();
+        container.sort(new Object[]{Insegnante_.cognome.getName(), Insegnante_.nome.getName()}, new boolean[]{true, true});
+
+        for (Object id : container.getItemIds()) {
+//            EntityItem<Insegnante> item = container.getItem(id);
+//            Insegnante insegnante = item.getEntity();
+
+            Insegnante insegnante = (Insegnante)container.getEntity(id);
+
             lista.add(insegnante);
         }// end of for cycle
 

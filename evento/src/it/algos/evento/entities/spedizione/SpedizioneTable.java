@@ -4,14 +4,15 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Property;
 import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.lib.LibDate;
+import it.algos.webbase.web.module.ModulePop;
 
 import java.util.Date;
 
 @SuppressWarnings("serial")
 public class SpedizioneTable extends ETable {
 
-	public SpedizioneTable() {
-		super(Spedizione.class);
+	public SpedizioneTable(ModulePop module) {
+		super(module);
 
 		setColumnHeader(Spedizione_.dataSpedizione, "Data e ora");
 		setColumnHeader(Spedizione_.destinatario, "Destinatario");

@@ -131,13 +131,12 @@ public class RappresentazioneTable extends ETable {
      */
     @SuppressWarnings("unchecked")
     @Override
-    protected Container createContainer() {
+    public Container createContainer() {
         // aggiunge un filtro sulla stagione corrente
         Container cont = super.createContainer();
-        JPAContainer JPAcont = (JPAContainer) cont;
         Filter filter = new Compare.Equal(PROP_EVENTO_STAGIONE, Stagione.getStagioneCorrente());
-        JPAcont.addContainerFilter(filter);
-        return JPAcont;
+        getFilterableContainer().addContainerFilter(filter);
+        return cont;
     }// end of method
 
 //	/**
