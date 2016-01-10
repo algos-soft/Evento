@@ -90,8 +90,11 @@ public class EventoPrenTable extends ETable {
 		@SuppressWarnings("unchecked")
 		public Component generateCell(Table source, Object itemId, Object columnId) {
 			Component comp = null;
-			JPAContainerItem<EventoPren> item = (JPAContainerItem<EventoPren>) source.getItem(itemId);
-			final EventoPren evento = item.getEntity();
+//			JPAContainerItem<EventoPren> item = (JPAContainerItem<EventoPren>) source.getItem(itemId);
+//			final EventoPren evento = item.getEntity();
+
+			final EventoPren evento = (EventoPren)getEntity(itemId);
+
 			if (evento.isInvioEmail()) {
 				Button bSend = new Button("Reinvia...");
 				bSend.addClickListener(new ClickListener() {
@@ -147,8 +150,11 @@ public class EventoPrenTable extends ETable {
 		@SuppressWarnings("unchecked")
 		public Component generateCell(Table source, Object itemId, Object columnId) {
 			Component comp = null;
-			JPAContainerItem<EventoPren> item = (JPAContainerItem<EventoPren>) source.getItem(itemId);
-			EventoPren evento = item.getEntity();
+//			JPAContainerItem<EventoPren> item = (JPAContainerItem<EventoPren>) source.getItem(itemId);
+//			EventoPren evento = item.getEntity();
+
+			EventoPren evento = (EventoPren)getEntity(itemId);
+
 			if (evento.isInvioEmail()) {
 				if (evento.isEmailInviata()) {
 					comp = new Label( "\u2714");

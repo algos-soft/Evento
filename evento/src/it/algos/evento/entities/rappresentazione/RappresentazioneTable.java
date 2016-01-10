@@ -223,8 +223,11 @@ public class RappresentazioneTable extends ETable {
     @SuppressWarnings("unchecked")
     private Component generateCellPosti(Table source, Object itemId, boolean pren) {
         int posti = 0;
-        JPAContainerItem<Rappresentazione> item = (JPAContainerItem<Rappresentazione>) source.getItem(itemId);
-        Rappresentazione rapp = item.getEntity();
+//        JPAContainerItem<Rappresentazione> item = (JPAContainerItem<Rappresentazione>) source.getItem(itemId);
+//        Rappresentazione rapp = item.getEntity();
+
+        Rappresentazione rapp=(Rappresentazione)getEntity(itemId);
+
         Label label = new Label();
         if (pren) {
             posti = RappresentazioneModulo.getPostiPrenotati(rapp);
