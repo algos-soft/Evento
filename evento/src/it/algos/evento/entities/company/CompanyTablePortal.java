@@ -34,8 +34,8 @@ public class CompanyTablePortal extends TablePortal {
         item.addItem("Attiva nuova azienda", FontAwesome.HOME, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
 
-                Company company = new Company();
-                ActivateCompanyForm form = new ActivateCompanyForm(getModule(), new BeanItem(company));
+//                Company company = new Company();
+                ActivateCompanyForm form = new ActivateCompanyForm(getModule(), null);
                 form.addFormListener(new AForm.FormListener() {
                     @Override
                     public void cancel_() {
@@ -45,6 +45,7 @@ public class CompanyTablePortal extends TablePortal {
                     @Override
                     public void commit_() {
                         form.getWindow().close();
+                        Company company = (Company)form.getEntity();
                         CompanyService.activateCompany(company, form.getPassword(), form.isCreateData());
                         getTable().refresh();
                     }
