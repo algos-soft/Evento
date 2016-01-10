@@ -1,6 +1,5 @@
 package it.algos.evento.entities.insegnante;
 
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Image;
 import it.algos.evento.EventoApp;
@@ -8,7 +7,6 @@ import it.algos.evento.entities.ordinescuola.OrdineScuola;
 import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibResource;
-import it.algos.webbase.web.lib.LibResourceOld;
 import it.algos.webbase.web.module.ModulePop;
 
 @SuppressWarnings("serial")
@@ -31,17 +29,6 @@ public class InsegnanteTable extends ETable {
 		setColumnCollapsed(Insegnante_.titolo.getName(), true);
 	}// end of constructor
 
-//	/**
-//	 * Initial sort order for the JPA container
-//	 * <p>
-//	 *
-//	 * @param cont
-//	 *            the container to be sorted
-//	 */
-//	protected void sortJPAContainer(JPAContainer cont) {
-//		String sortField = Insegnante_.cognome.getName();
-//		cont.sort(new String[]{sortField}, new boolean[]{true});
-//	}// end of method
 
 	protected Object[] getDisplayColumns() {
 		return new Object[] {

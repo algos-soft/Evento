@@ -88,7 +88,7 @@ public class RappresentazioneForm extends ModuleForm {
 		// se nuovo record il popup mostra solo gli eventi della stagione corrente
 		if (isNewRecord()){
 			Container.Filter filter = new Compare.Equal(Evento_.stagione.getName(), Stagione.getStagioneCorrente());
-			rField.getJPAContainer().addContainerFilter(filter);
+			rField.getFilterableContainer().addContainerFilter(filter);
 		}
 
 		rField = new ERelatedComboField(Sala.class, "Sala");

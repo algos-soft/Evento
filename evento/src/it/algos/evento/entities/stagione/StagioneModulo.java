@@ -67,49 +67,6 @@ public class StagioneModulo extends EModulePop {
         return new Attribute[]{Stagione_.sigla, Stagione_.corrente};
     }// end of method
 
-//    /**
-//     * Imposta una stagione come corrente.
-//     * <p>
-//     * Invocato dai menu
-//     * Pone il flag corrente=false a tutte le stagioni
-//     * Assegna il flag corrente=true alla stagione desiderata
-//     */
-//    public static void cmdSetCorrente(final Stagione stagione, final ATable table) {
-//
-//        EntityManagerFactory factory = Persistence.createEntityManagerFactory(EM.PERSISTENCE_UNIT);
-//        EntityManager manager = factory.createEntityManager();
-//
-//        JPAContainer container = new ERWContainer(Stagione.class, manager);
-//
-//        try {
-//
-//            manager.getTransaction().begin();
-//
-//            for (Iterator<Object> i = container.getItemIds().iterator(); i.hasNext(); ) {
-//                Object itemId = i.next();
-//                EntityItem item = container.getItem(itemId);
-//                Stagione entity = (Stagione)item.getEntity();
-//                boolean flag=false;
-//                if(entity.getId()==stagione.getId()){
-//                    flag=true;
-//                }
-//                Property property = item.getItemProperty(Stagione_.corrente.getName());
-//                property.setValue(flag);
-//
-//            }
-//
-//            manager.getTransaction().commit();
-//
-//        } catch (Exception e) {
-//            manager.getTransaction().rollback();
-//        }
-//
-//        manager.close();
-//
-//        table.refresh();
-//
-//
-//    }
 
 
     /**

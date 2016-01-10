@@ -1,6 +1,5 @@
 package it.algos.evento.entities.evento;
 
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
@@ -57,17 +56,6 @@ public class EventoTable extends ETable {
 		return new Object[] { Evento_.sigla, Evento_.titolo, colPrezzi, Evento_.progetto, Evento_.stagione};
 	}
 	
-//	/**
-//	 * Initial sort order for the JPA container
-//	 * <p>
-//	 *
-//	 * @param cont
-//	 *            the container to be sorted
-//	 */
-//	protected void sortJPAContainer(JPAContainer cont) {
-//		String sortField = Evento_.sigla.getName();
-//		cont.sort(new String[] { sortField }, new boolean[] { true });
-//	}// end of method
 
 
 	/** Formats the value in a column containing Double objects. */

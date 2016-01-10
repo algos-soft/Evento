@@ -160,7 +160,6 @@ public abstract class StatisticaBase extends StatisticaGenerale {
 		Collection<Object> listaIds = null;
 
 		EntityManager manager = EM.createEntityManager();
-//		JPAContainer container=new EJPAContainer(Rappresentazione.class, manager);
 		ELazyContainer container = new ELazyContainer(manager, Rappresentazione.class);
 
 		Filter filter1 = new Compare.GreaterOrEqual(nomeAttributo, data1);
@@ -168,16 +167,13 @@ public abstract class StatisticaBase extends StatisticaGenerale {
 		Filter filter = new And(filter1, filter2);
 		container.addContainerFilter(filter);
 		container.sort(new Object[] { sortAttribute }, new boolean[] { true });
-//		listaIds = container.getItemIds();
 
 		for (Object id : container.getItemIds()) {
-//			EntityItem<Rappresentazione> item = container.getItem(id);
-//			Rappresentazione rapp = item.getEntity();
 
 			Rappresentazione rapp = (Rappresentazione)container.getEntity(id);
 
 			lista.add(rapp);
-		}// end of for cycle
+		}
 		manager.close();
 		return lista;
 	}// end of method
@@ -216,9 +212,6 @@ public abstract class StatisticaBase extends StatisticaGenerale {
 		// spazzola e calcola totali
 		Collection ids = prenotazioni.getItemIds();
 		for (Object itemId : ids) {
-
-//			EntityItem<Prenotazione> item = prenotazioni.getItem(itemId);
-//			Prenotazione pren = item.getEntity();
 
 			Prenotazione pren = (Prenotazione)prenotazioni.getEntity(itemId);
 

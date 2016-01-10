@@ -1,26 +1,13 @@
 package it.algos.evento.ui.company;
 
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.converter.StringToBigDecimalConverter;
-import com.vaadin.data.util.converter.StringToIntegerConverter;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import it.algos.evento.EventoApp;
 import it.algos.evento.entities.company.Company;
-import it.algos.evento.entities.prenotazione.PrenotazioneModulo;
-import it.algos.evento.entities.stagione.Stagione;
-import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.lib.LibImage;
-import it.algos.webbase.web.lib.LibSession;
-
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * Splash screen della Company.

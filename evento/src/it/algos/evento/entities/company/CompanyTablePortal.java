@@ -1,9 +1,7 @@
 package it.algos.evento.entities.company;
 
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
@@ -19,7 +17,6 @@ import it.algos.webbase.web.table.TablePortal;
 import it.algos.webbase.web.toolbar.Toolbar;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 @SuppressWarnings("serial")
 public class CompanyTablePortal extends TablePortal {

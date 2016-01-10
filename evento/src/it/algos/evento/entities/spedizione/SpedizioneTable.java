@@ -1,6 +1,5 @@
 package it.algos.evento.entities.spedizione;
 
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Property;
 import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.lib.LibDate;
@@ -23,17 +22,6 @@ public class SpedizioneTable extends ETable {
 
 	}
 
-//	/**
-//	 * Initial sort order for the JPA container
-//	 * <p>
-//	 *
-//	 * @param cont
-//	 *            the container to be sorted
-//	 */
-//	protected void sortJPAContainer(JPAContainer cont) {
-//		String sortField = Spedizione_.dataSpedizione.getName();
-//		cont.sort(new String[] { sortField }, new boolean[] { true });
-//	}// end of method
 
 	
 	protected Object[] getDisplayColumns() {

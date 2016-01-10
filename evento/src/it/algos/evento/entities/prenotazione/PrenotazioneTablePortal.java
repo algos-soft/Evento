@@ -81,15 +81,6 @@ public class PrenotazioneTablePortal extends TablePortal {
             }
         });// end of anonymous class
 
-//        item.addItem("Mostra pagamenti scaduti...", FontAwesome.CLOCK_O, new MenuBar.Command() {
-//            public void menuSelected(MenuItem selectedItem) {
-//                Filter filter = PrenotazioneModulo.getFiltroPagamentiScaduti();
-//                JPAContainer cont = getTable().getJPAContainer();
-//                cont.removeAllContainerFilters();
-//                cont.refresh(); // refresh container before applying new filters
-//                cont.addContainerFilter(filter);
-//            }
-//        });// end of anonymous class
 
         item.addItem("Mostra prenotazioni congelate", FontAwesome.CLOCK_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {

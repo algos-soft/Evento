@@ -1,14 +1,10 @@
 package it.algos.evento.entities.rappresentazione;
 
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.JPAContainerItem;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.event.Action;
-import com.vaadin.server.ClientConnector;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
@@ -183,12 +179,6 @@ public class RappresentazioneTable extends ETable {
 
         public Component generateCell(Table source, Object itemId, Object columnId) {
 
-//			JPAContainerItem<Rappresentazione> item = (JPAContainerItem<Rappresentazione>) source.getItem(itemId);
-//			Rappresentazione rapp = item.getEntity();
-//			int disp = RappresentazioneModulo.getPostiDisponibili(rapp);
-//			Label label = new Label("" + disp);
-//			label.setSizeUndefined(); // se non metto questo, non allinea a destra la label
-//			return label;
             return generateCellPosti(source, itemId, true);
         }
     }
@@ -199,13 +189,6 @@ public class RappresentazioneTable extends ETable {
     class PostiDispColumnGenerator implements ColumnGenerator {
 
         public Component generateCell(Table source, Object itemId, Object columnId) {
-
-//			JPAContainerItem<Rappresentazione> item = (JPAContainerItem<Rappresentazione>) source.getItem(itemId);
-//			Rappresentazione rapp = item.getEntity();
-//			int disp = RappresentazioneModulo.getPostiDisponibili(rapp);
-//			Label label = new Label("" + disp);
-//			label.setSizeUndefined(); // se non metto questo, non allinea a destra la label
-//			return label;
 
             return generateCellPosti(source, itemId, false);
 
@@ -223,8 +206,6 @@ public class RappresentazioneTable extends ETable {
     @SuppressWarnings("unchecked")
     private Component generateCellPosti(Table source, Object itemId, boolean pren) {
         int posti = 0;
-//        JPAContainerItem<Rappresentazione> item = (JPAContainerItem<Rappresentazione>) source.getItem(itemId);
-//        Rappresentazione rapp = item.getEntity();
 
         Rappresentazione rapp=(Rappresentazione)getEntity(itemId);
 

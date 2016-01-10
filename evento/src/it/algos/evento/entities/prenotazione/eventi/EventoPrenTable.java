@@ -1,7 +1,5 @@
 package it.algos.evento.entities.prenotazione.eventi;
 
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.JPAContainerItem;
 import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
@@ -42,17 +40,6 @@ public class EventoPrenTable extends ETable {
 //		super(entityClass);
 //	}
 
-//	/**
-//	 * Initial sort order for the JPA container
-//	 * <p>
-//	 *
-//	 * @param cont
-//	 *            the container to be sorted
-//	 */
-//	protected void sortJPAContainer(JPAContainer cont) {
-//		String sortField = EventoPren_.timestamp.getName();
-//		cont.sort(new String[] { sortField }, new boolean[] { true });
-//	}// end of method
 
 
 	@Override
@@ -150,8 +137,6 @@ public class EventoPrenTable extends ETable {
 		@SuppressWarnings("unchecked")
 		public Component generateCell(Table source, Object itemId, Object columnId) {
 			Component comp = null;
-//			JPAContainerItem<EventoPren> item = (JPAContainerItem<EventoPren>) source.getItem(itemId);
-//			EventoPren evento = item.getEntity();
 
 			EventoPren evento = (EventoPren)getEntity(itemId);
 

@@ -1,6 +1,5 @@
 package it.algos.evento.entities.stagione;
 
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Item;
 import com.vaadin.event.Action;
 import com.vaadin.ui.Notification;
@@ -74,17 +73,6 @@ public class StagioneTable extends ETable {
 
 
 
-//	/**
-//	 * Initial sort order for the JPA container
-//	 * <p>
-//	 *
-//	 * @param cont
-//	 *            the container to be sorted
-//	 */
-//	protected void sortJPAContainer(JPAContainer cont) {
-//		String sortField = Stagione_.datainizio.getName();
-//		cont.sort(new String[] { sortField }, new boolean[] { true });
-//	}
 
 	/**
 	 * Imposta la stagione corrente

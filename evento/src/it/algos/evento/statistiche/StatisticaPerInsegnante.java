@@ -156,14 +156,11 @@ public class StatisticaPerInsegnante extends StatisticaBase {
 
         EntityManager manager = EM.createEntityManager();
 
-//        JPAContainer container = new EJPAContainer(Insegnante.class, manager);
         ELazyContainer container = new ELazyContainer(manager, Insegnante.class);
 
         container.sort(new Object[]{Insegnante_.cognome.getName(), Insegnante_.nome.getName()}, new boolean[]{true, true});
 
         for (Object id : container.getItemIds()) {
-//            EntityItem<Insegnante> item = container.getItem(id);
-//            Insegnante insegnante = item.getEntity();
 
             Insegnante insegnante = (Insegnante)container.getEntity(id);
 

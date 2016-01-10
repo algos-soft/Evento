@@ -211,7 +211,7 @@ public class PrenotazioneForm extends ModuleForm {
             String prop = Evento.class.getSimpleName().toLowerCase() + "." + Evento_.stagione.getName();
             cont.addNestedContainerProperty(prop);
             Container.Filter filter = new Compare.Equal(prop, Stagione.getStagioneCorrente());
-            rcField.getJPAContainer().addContainerFilter(filter);
+            rcField.getFilterableContainer().addContainerFilter(filter);
         }
 
 
@@ -673,25 +673,6 @@ public class PrenotazioneForm extends ModuleForm {
         return layout;
     }
 
-//	/**
-//	 * Refreshes the table containing the events
-//	 */
-//	private void refreshEventsTable() {
-//		eventsTable.getJPAContainer().removeAllContainerFilters();
-//		eventsTable.refresh();
-//	}
-
-    // private Component creaTabNote() {
-    // VerticalLayout layout = new VerticalLayout();
-    // layout.setMargin(true);
-    // layout.setSpacing(true);
-    // layout.setWidth("100%");
-    // Component comp = getField(Prenotazione_.note);
-    // comp.setWidth("100%");
-    // layout.addComponent(comp);
-    // return layout;
-    // }
-    //
 
     /**
      * Eseguito dopo il disegno dei layout di tutte le pagine

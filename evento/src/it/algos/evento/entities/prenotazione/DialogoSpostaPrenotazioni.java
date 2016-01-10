@@ -1,11 +1,8 @@
 package it.algos.evento.entities.prenotazione;
 
-import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Field;
@@ -281,8 +278,12 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
 
             Collection ids = getContainerDataSource().getItemIds();
             for (Object id : ids){
-                EntityItem<Rappresentazione> ei = getJPAContainer().getItem(id);
-                Rappresentazione rapp = ei.getEntity();
+
+//                EntityItem<Rappresentazione> ei = getJPAContainer().getItem(id);
+//                Rappresentazione rapp = ei.getEntity();
+
+                Rappresentazione rapp=(Rappresentazione)getEntity(id);
+
                 String s = rapp.getDataEtDisponibilita();
                 setItemCaption(id,s);
             }

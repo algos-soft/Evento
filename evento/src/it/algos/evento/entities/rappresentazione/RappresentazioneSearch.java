@@ -67,10 +67,10 @@ public class RappresentazioneSearch extends StagioneSearchManager {
 	public void checkStagioneChanged(boolean newValue){
 		if(newValue){
 			filtroEventiPerStagione=new Compare.Equal(Evento_.stagione.getName(), Stagione.getStagioneCorrente());
-			fEvento.getJPAContainer().addContainerFilter(filtroEventiPerStagione);
+			fEvento.getFilterableContainer().addContainerFilter(filtroEventiPerStagione);
 
 		}else{
-			fEvento.getJPAContainer().removeContainerFilter(filtroEventiPerStagione);
+			fEvento.getFilterableContainer().removeContainerFilter(filtroEventiPerStagione);
 		}
 	}
 

@@ -1,6 +1,5 @@
 package it.algos.evento.entities.scuola;
 
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Property;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
 import it.algos.evento.multiazienda.ETable;
@@ -17,17 +16,6 @@ public class ScuolaTable extends ETable {
 
 	}// end of constructor
 
-//	/**
-//	 * Initial sort order for the JPA container
-//	 * <p>
-//	 *
-//	 * @param cont
-//	 *            the container to be sorted
-//	 */
-//	protected void sortJPAContainer(JPAContainer cont) {
-//		String sortField = Scuola_.sigla.getName();
-//		cont.sort(new String[] { sortField }, new boolean[] { true });
-//	}// end of method
 
 	@Override
 	protected String formatPropertyValue(Object rowId, Object colId, Property property) {

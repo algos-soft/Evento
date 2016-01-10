@@ -1,7 +1,5 @@
 package it.algos.evento.multiazienda;
 
-import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container.Filter;
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.evento.Evento;
@@ -14,7 +12,6 @@ import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.lib.EventoSessionLib;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
-import org.eclipse.persistence.internal.jpa.querydef.FunctionExpressionImpl;
 import org.joda.time.DateTime;
 
 import javax.persistence.EntityManager;
@@ -222,56 +219,6 @@ public class EQuery {
         }
         return entity;
     }
-
-
-//    /**
-//     * Create a read-only JPA container for a given domain class and filters.
-//     * <p>
-//     *
-//     * @param entityClass - the entity class
-//     * @param filters     - an array of filters (you can use FilterFactory
-//     *                    to build filters, or create them as Compare....), null for no filters
-//     * @return the JPA container
-//     */
-//    public static JPAContainer<EventoEntity> getContainer(Class<? extends EventoEntity> entityClass, Filter... filters) {
-//        EntityManager manager = EM.createEntityManager();
-//        JPAContainer<EventoEntity> container = new EROContainer(entityClass, manager);
-//        if (filters != null) {
-//            for (Filter filter : filters) {
-//                container.addContainerFilter(filter);
-//            }
-//        }
-//        return container;
-//    }
-
-
-//    /**
-//     * Delete all the records for a given domain class
-//     */
-//    public static void deleteAll(Class<? extends EventoEntity> entityClass) {
-//
-//        EntityManager manager = EM.createEntityManager();
-//        ERWContainer cont = new ERWContainer(entityClass, manager);
-//        try {
-//
-//            manager.getTransaction().begin();
-//
-//            for (Object id : cont.getItemIds()) {
-//                EventoEntity entity = cont.getItem(id).getEntity();
-//                entity = manager.merge(entity);
-//                manager.remove(entity);
-//            }
-//
-//            manager.getTransaction().commit();
-//
-//        } catch (Exception e) {
-//            manager.getTransaction().rollback();
-//        }
-//        manager.close();
-//
-//    }// end of method
-
-
 
 
 

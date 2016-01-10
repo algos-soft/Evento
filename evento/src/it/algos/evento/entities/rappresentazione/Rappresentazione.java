@@ -1,6 +1,5 @@
 package it.algos.evento.entities.rappresentazione;
 
-import com.vaadin.addon.jpacontainer.EntityItem;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.prenotazione.Prenotazione;
@@ -8,14 +7,12 @@ import it.algos.evento.entities.sala.Sala;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.DefaultSort;
-import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.query.AQuery;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
-import java.text.StringCharacterIterator;
 import java.util.Date;
 import java.util.List;
 

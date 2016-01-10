@@ -75,10 +75,10 @@ public class EventoSearch extends StagioneSearchManager {
 	public void checkStagioneChanged(boolean newValue){
 		if(newValue){
 			filtroPerStagione=new Compare.Equal(Stagione_.corrente.getName(), true);
-			fStagione.getJPAContainer().addContainerFilter(filtroPerStagione);
+			fStagione.getFilterableContainer().addContainerFilter(filtroPerStagione);
 
 		}else{
-			fStagione.getJPAContainer().removeContainerFilter(filtroPerStagione);
+			fStagione.getFilterableContainer().removeContainerFilter(filtroPerStagione);
 		}
 	}
 
