@@ -12,6 +12,7 @@ import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.lib.EventoSessionLib;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
+import it.algos.webbase.web.lib.LibFilter;
 import org.joda.time.DateTime;
 
 import javax.persistence.EntityManager;
@@ -489,7 +490,7 @@ public class EQuery {
 
     /**
      * Ritorna il numero di posti prenotati per l'azienda corrente in una data stagione.
-     *
+     * (comprese le prenotazioni congelate)
      * @param stagione la stagione
      * @return il numero totale di posti prenotati
      */
@@ -509,16 +510,7 @@ public class EQuery {
 
         cq.where(predicates.toArray(new Predicate[]{}));
 
-        Expression<Integer> e1 = cb.sum(root.get(Prenotazione_.numInteri));
-        Expression<Integer> e2 = cb.sum(root.get(Prenotazione_.numRidotti));
-        Expression<Integer> e3 = cb.sum(root.get(Prenotazione_.numDisabili));
-        Expression<Integer> e4 = cb.sum(root.get(Prenotazione_.numAccomp));
-
-        Expression<Integer> e1e2 = cb.sum(e1, e2);
-        Expression<Integer> e3e4 = cb.sum(e3, e4);
-
-        Expression<Integer> sTot = cb.sum(e1e2, e3e4);
-
+        Expression<Integer> sTot=cb.sum(getExprPostiPrenotati(cb, root));
         cq.select(sTot);
 
         TypedQuery<Integer> q = em.createQuery(cq);
@@ -531,6 +523,7 @@ public class EQuery {
 
         return num;
     }
+
 
 
     /**
@@ -929,7 +922,7 @@ public class EQuery {
     /**
      * Crea una Expression che calcola il totale posti prenotati
      */
-    private static Expression<Integer> getExprPostiPrenotati(CriteriaBuilder cb, Root<Prenotazione> root){
+    public static Expression<Integer> getExprPostiPrenotati(CriteriaBuilder cb, Root<Prenotazione> root){
         Expression<Integer> e1 = cb.sum(root.get(Prenotazione_.numInteri), root.get(Prenotazione_.numRidotti));
         Expression<Integer> e2 = cb.sum(root.get(Prenotazione_.numDisabili), root.get(Prenotazione_.numAccomp));
         return cb.sum(e1, e2);

@@ -3,7 +3,9 @@ package it.algos.evento.entities.prenotazione;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.rappresentazione.RappresentazioneModulo;
+import it.algos.webbase.web.entity.EM;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 
 /**
@@ -50,7 +52,7 @@ class PrenMover {
         // controllo che la prenotazione non faccia già parte della rappresentazione destinazione
         if (pren.getRappresentazione().equals(destRapp)) {
             Insegnante ins = pren.getInsegnante();
-            String s = "La prenotazione N. "+pren.getNumPrenotazione()+" di "+ins.getCognomeNome()+" è già nella rappresentazione selezionata.";
+            String s = "La prenotazione N. " + pren.getNumPrenotazione() + " di " + ins.getCognomeNome() + " è già nella rappresentazione selezionata.";
             errorRows.add(s);
         }
 
@@ -64,12 +66,14 @@ class PrenMover {
 
         // controlla che numero di persone totali dopo lo spostamento
         // non ecceda la capienza della sala
-        int numPersoneDopo = RappresentazioneModulo.getPostiPrenotati(destRapp) + totPersoneSpostate;
+        EntityManager em = EM.createEntityManager();
+        int numPersoneDopo = RappresentazioneModulo.getPostiPrenotati(destRapp, em) + totPersoneSpostate;
+        em.close();
         int capienza = destRapp.getCapienza();
         if (numPersoneDopo > capienza) {
-            int diff=numPersoneDopo-capienza;
+            int diff = numPersoneDopo - capienza;
             String warn = "Attenzione: dopo lo spostamento, la capienza sarà superata";
-            warn+=" di "+diff+" posti (max=" + capienza + ", tot=" + numPersoneDopo+")";
+            warn += " di " + diff + " posti (max=" + capienza + ", tot=" + numPersoneDopo + ")";
             warningRows.add(warn);
         }
 
@@ -79,17 +83,18 @@ class PrenMover {
 
     /**
      * Ritorna il testo di preview degli warning in formato html
+     *
      * @return il testo di warning
      */
     public String getHTMLWarnings() {
-        String s="";
+        String s = "";
 
         // righe di warning
-        for (String row : warningRows){
-            if (!s.equals("")){
-                s+="<br>";
+        for (String row : warningRows) {
+            if (!s.equals("")) {
+                s += "<br>";
             }
-            s+=row;
+            s += row;
         }
 
 
@@ -99,17 +104,18 @@ class PrenMover {
 
     /**
      * Ritorna il testo di preview degli errori in formato html
+     *
      * @return il testo di errore
      */
     public String getHTMLErrors() {
-        String s="";
+        String s = "";
 
         // righe di errore
-        for (String row : errorRows){
-            if (!s.equals("")){
-                s+="<br>";
+        for (String row : errorRows) {
+            if (!s.equals("")) {
+                s += "<br>";
             }
-            s+=row;
+            s += row;
         }
 
         return s;

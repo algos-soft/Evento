@@ -18,6 +18,7 @@ import it.algos.webbase.web.field.ComboNewItemHandler;
 import it.algos.webbase.web.field.RelatedComboField;
 import org.joda.time.DateTime;
 
+import javax.persistence.EntityManager;
 import java.util.Collection;
 
 /**
@@ -278,12 +279,7 @@ public class DialogoSpostaPrenotazioni extends ConfirmDialog {
 
             Collection ids = getContainerDataSource().getItemIds();
             for (Object id : ids){
-
-//                EntityItem<Rappresentazione> ei = getJPAContainer().getItem(id);
-//                Rappresentazione rapp = ei.getEntity();
-
                 Rappresentazione rapp=(Rappresentazione)getEntity(id);
-
                 String s = rapp.getDataEtDisponibilita();
                 setItemCaption(id,s);
             }

@@ -1,9 +1,11 @@
 package it.algos.evento.entities.rappresentazione;
 
 import com.vaadin.addon.tableexport.ExcelExport;
+import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
@@ -19,12 +21,15 @@ import it.algos.evento.multiazienda.EQuery;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.form.ModuleForm;
+import it.algos.webbase.web.lib.LibFilter;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import javax.persistence.metamodel.Attribute;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,47 +45,109 @@ public class RappresentazioneModulo extends EModulePop {
         super(Rappresentazione.class);
     }// end of constructor
 
+
     /**
      * Ritorna i posti prenotati per una data rappresentazione.
      */
-    public static int getPostiPrenotati(Rappresentazione rapp) {
-        int quantiPrenotati = 0;
+    public int getPostiPrenotati(Rappresentazione rapp) {
+        return RappresentazioneModulo.getPostiPrenotati(rapp, getEntityManager());
+    }
 
-        // prenotazioni esistenti sulla stassa rapresentazione
-        // (escluse le congelate)
-        Filter filtroRappresentazione = new Compare.Equal(Prenotazione_.rappresentazione.getName(), rapp);
-        Filter filtroNonCongelata = new Compare.Equal(Prenotazione_.congelata.getName(), false);
-        EntityManager manager = EM.createEntityManager();
+//    /**
+//     * Ritorna i posti prenotati per una data rappresentazione.
+//     */
+//    public static int getPostiPrenotati(Rappresentazione rapp, EntityManager manager) {
+//        int quantiPrenotati = 0;
+//
+//        // prenotazioni esistenti sulla stassa rapresentazione
+//        // (escluse le congelate)
+//        Filter filtroRappresentazione = new Compare.Equal(Prenotazione_.rappresentazione.getName(), rapp);
+//        Filter filtroNonCongelata = new Compare.Equal(Prenotazione_.congelata.getName(), false);
+//        ELazyContainer cont = new ELazyContainer(manager, Prenotazione.class);
+//
+//        cont.addContainerFilter(filtroRappresentazione);
+//        cont.addContainerFilter(filtroNonCongelata);
+//
+//        // spazzola le prenotazioni e calcola il tatale posti prenotati
+//        Collection<?> ids = cont.getItemIds();
+//        for (Object id : ids) {
+//            Prenotazione pren = (Prenotazione) cont.getEntity(id);
+//            quantiPrenotati += pren.getNumTotali();
+//        }
+//
+//        return quantiPrenotati;
+//    }
 
-//        EROContainer cont = new EROContainer(Prenotazione.class, manager);
-        ELazyContainer cont = new ELazyContainer(manager, Prenotazione.class);
 
-        cont.addContainerFilter(filtroRappresentazione);
-        cont.addContainerFilter(filtroNonCongelata);
+    /**
+     * Ritorna i posti prenotati per una data rappresentazione.
+     * (sono esclusi i posti delle prenotazioni congelate)
+     *
+     * @param rapp la rappresentazione
+     * @return il numero di posti prenotati
+     */
+    public static int getPostiPrenotati(Rappresentazione rapp, EntityManager em) {
 
-        // spazzola le prenotazioni e calcola il tatale posti prenotati
-        Collection<?> ids = cont.getItemIds();
-        for (Object id : ids) {
+        // filtro che seleziona tutte le prenotazioni non congelate della rappresentazione
+        Filter[] aFilters = {
+                new Compare.Equal(Prenotazione_.rappresentazione.getName(), rapp),
+                new Compare.Equal(Prenotazione_.congelata.getName(), false)
+        };
 
-//            EntityItem<?> item = cont.getItem(id);
-//            Prenotazione pren = (Prenotazione) item.getEntity();
+        int quantiPrenotati = countPostiPrenotati(aFilters, em);
+        return quantiPrenotati;
+    }
 
-            Prenotazione pren = (Prenotazione) cont.getEntity(id);
 
-            quantiPrenotati += pren.getNumTotali();
+    /**
+     * Ritorna i posti prenotati per una lista di rappresentazioni.
+     * Considera tutte le prenotazioni non congelate.
+     *
+     * @param filters il filtro sulle rappresentazioni
+     */
+    public static int countPostiPrenotati(Filter[] filters, EntityManager em) {
+
+//        EntityManager em = getEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Integer> cq = cb.createQuery(Integer.class);
+        Root<Prenotazione> root = cq.from(Prenotazione.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+        for (Filter f : filters) {
+            Predicate pred = LibFilter.getPredicate(f, cb, cq, root);
+            predicates.add(pred);
         }
 
-        manager.close();
+        cq.where(predicates.toArray(new Predicate[]{}));
 
-        return quantiPrenotati;
+        Expression<Integer> sTot = cb.sum(EQuery.getExprPostiPrenotati(cb, root));
+        cq.select(sTot);
+
+        TypedQuery<Integer> q = em.createQuery(cq);
+        Integer num = q.getSingleResult();
+        if (num == null) {
+            num = 0;
+        }
+
+        return num;
+
+    }
+
+
+    /**
+     * Ritorna i posti disponibili per una data rappresentazione.
+     */
+    public static int getPostiDisponibili(Rappresentazione rapp, EntityManager em) {
+        return rapp.getCapienza() - getPostiPrenotati(rapp, em);
     }
 
     /**
      * Ritorna i posti disponibili per una data rappresentazione.
      */
-    public static int getPostiDisponibili(Rappresentazione rapp) {
-        return rapp.getCapienza() - getPostiPrenotati(rapp);
+    public int getPostiDisponibili(Rappresentazione rapp) {
+        return getPostiDisponibili(rapp, getEntityManager());
     }
+
 
     public static void esportaRappresentazione(Object id, UI ui) {
         ArrayList<Prenotazione> lista;
@@ -94,11 +161,11 @@ public class RappresentazioneModulo extends EModulePop {
         // crea un container contenente un wrapper per ogni partecipazione
         // alle rappresentazioni correntemente elencate in tabella
         BeanItemContainer<PartecipazioneBean> container = new BeanItemContainer(PartecipazioneBean.class);
-        BaseEntity[] entities=getTable().getSelectedEntities();
-        for(BaseEntity entity : entities){
-            Rappresentazione rapp=(Rappresentazione)entity;
+        BaseEntity[] entities = getTable().getSelectedEntities();
+        for (BaseEntity entity : entities) {
+            Rappresentazione rapp = (Rappresentazione) entity;
             List<Insegnante> insegnanti = rapp.getInsegnanti();
-            for(Insegnante ins : insegnanti){
+            for (Insegnante ins : insegnanti) {
                 PartecipazioneBean bean = new PartecipazioneBean(ins, rapp);
                 container.addBean(bean);
             }
@@ -111,13 +178,13 @@ public class RappresentazioneModulo extends EModulePop {
 
         // i nomi devono corrispondere alle properties del bean (metodi getter senza parola "get")!
         table.setVisibleColumns(new Object[]{"data", "evento", "cognome", "nome", "email"});
-        table.setColumnHeaders(new String[]{"Data", "Evento", "Cognome", "Nome" , "Email"});
+        table.setColumnHeaders(new String[]{"Data", "Evento", "Cognome", "Nome", "Email"});
 
         final ExcelExport excelExport;
 
         excelExport = new ExcelExport(table);
         excelExport.setReportTitle(titoloReport);
-        excelExport.setExportFileName(titoloReport+".xls");
+        excelExport.setExportFileName(titoloReport + ".xls");
         excelExport.setDisplayTotals(false);
 
         Component oldContent = ui.getContent();
@@ -127,10 +194,6 @@ public class RappresentazioneModulo extends EModulePop {
 
 
     }// end of method
-
-
-
-
 
 
     private static void tableExport(Object id, ArrayList<Prenotazione> lista, UI ui) {
@@ -146,7 +209,7 @@ public class RappresentazioneModulo extends EModulePop {
 
         table.setVisibleColumns(new Object[]{Prenotazione_.scuola.getName(), Prenotazione_.insegnante.getName(), Prenotazione_.numInteri.getName(), Prenotazione_.numRidotti.getName(),
                 Prenotazione_.numDisabili.getName(), Prenotazione_.numAccomp.getName(), Prenotazione_.numTotali.getName()});
-        table.setColumnHeaders(new String[]{"Scuola", "Insegnante", "Interi", "Ridotti", "Disabili","Accomp.",
+        table.setColumnHeaders(new String[]{"Scuola", "Insegnante", "Interi", "Ridotti", "Disabili", "Accomp.",
                 "Totale"});
 
         //comp.addComponent(table);
@@ -255,7 +318,7 @@ public class RappresentazioneModulo extends EModulePop {
         // prima controlla se ci sono prenotazioni collegate
         boolean cont = true;
         for (Object id : getTable().getSelectedIds()) {
-            BaseEntity entity = getTable().getEntity((Long)id);
+            BaseEntity entity = getTable().getEntity((Long) id);
             List listaPren = EQuery.queryList(Prenotazione.class, Prenotazione_.rappresentazione, entity);
             if (listaPren.size() > 0) {
                 Notification.show("Impossibile eliminare le rappresentazioni selezionate perché ci sono delle prenotazioni.\nEliminate prima le prenotazioni collegate o  assegnatele a un'altra rappresentazione.", Notification.Type.WARNING_MESSAGE);

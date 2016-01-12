@@ -56,6 +56,7 @@ import it.algos.webbase.web.toolbar.FormToolbar;
 import it.algos.webbase.web.toolbar.FormToolbar.FormToolbarListener;
 import org.joda.time.DateTime;
 
+import javax.persistence.EntityManager;
 import javax.persistence.metamodel.SingularAttribute;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -898,7 +899,8 @@ public class PrenotazioneForm extends ModuleForm {
         if (questaRapp != null) {
 
             // tutte le prenotazioni non congelate (compresa questa)
-            disponibili = RappresentazioneModulo.getPostiDisponibili(questaRapp);
+            EntityManager em = getModule().getEntityManager();
+            disponibili = RappresentazioneModulo.getPostiDisponibili(questaRapp, em);
 
             // tolgo questa come risulta dal db
             Prenotazione prenDb = Prenotazione.read(getItemId());

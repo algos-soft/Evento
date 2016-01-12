@@ -17,6 +17,8 @@ import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.module.ModulePop;
 
+import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @SuppressWarnings("serial")
@@ -82,9 +84,9 @@ public class RappresentazioneTable extends ETable {
         setColumnAlignment(colPostiPren, Align.RIGHT);
         setColumnAlignment(colPostiDisp, Align.RIGHT);
 
-//		setColumnUseTotals(Rappresentazione_.capienza, true);
-//		setColumnUseTotals(colPostiPren, true);
-//		setColumnUseTotals(colPostiDisp, true);
+		setColumnUseTotals(Rappresentazione_.capienza, true);
+		setColumnUseTotals(colPostiPren, true);
+		setColumnUseTotals(colPostiDisp, true);
 
 
         // comandi contestuali aggiuntivi
@@ -172,6 +174,27 @@ public class RappresentazioneTable extends ETable {
         return super.formatPropertyValue(rowId, colId, property);
     }// end of method
 
+
+    @Override
+    protected BigDecimal getTotalForColumn(Object propertyId) {
+        BigDecimal bd = null;
+
+        if(propertyId.equals(colPostiPren)){
+            Filter[] filters=getFilterableContainer().getContainerFilters().toArray(new Filter[0]);
+            EntityManager em = getModule().getEntityManager();
+            int quanti=RappresentazioneModulo.countPostiPrenotati(filters, em);
+            bd=new BigDecimal(quanti);
+        }
+        if(propertyId.equals(colPostiDisp)){
+            bd=new BigDecimal(998);
+        }
+        if(bd==null){
+            bd=super.getTotalForColumn(propertyId);
+        }
+
+        return bd;
+    }
+
     /**
      * Genera la colonna dei posti prenotati.
      */
@@ -211,10 +234,10 @@ public class RappresentazioneTable extends ETable {
 
         Label label = new Label();
         if (pren) {
-            posti = RappresentazioneModulo.getPostiPrenotati(rapp);
+            posti = getRappresentazioneModulo().getPostiPrenotati(rapp);
             label.setValue("" + posti);
         } else {
-            posti = RappresentazioneModulo.getPostiDisponibili(rapp);
+            posti = getRappresentazioneModulo().getPostiDisponibili(rapp);
             if (posti < 0) {
                 label.addStyleName("redbold");
             }
@@ -222,6 +245,10 @@ public class RappresentazioneTable extends ETable {
         }
         label.setSizeUndefined(); // se non metto questo, non allinea a destra la label
         return label;
+    }
+
+    private RappresentazioneModulo getRappresentazioneModulo(){
+        return  (RappresentazioneModulo)getModule();
     }
 
 }// end of class

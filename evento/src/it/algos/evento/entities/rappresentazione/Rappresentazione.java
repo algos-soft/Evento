@@ -7,6 +7,7 @@ import it.algos.evento.entities.sala.Sala;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.DefaultSort;
+import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.query.AQuery;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 
@@ -168,7 +169,9 @@ public class Rappresentazione extends EventoEntity {
         if (sala!=null){
             sSala=sala.toString();
         }
-        int disponibili=RappresentazioneModulo.getPostiDisponibili(this);
+        EntityManager em = EM.createEntityManager();
+        int disponibili=RappresentazioneModulo.getPostiDisponibili(this, em);
+        em.close();
         String s = sData+" "+sSala+" - disp: "+disponibili;
 
         return s;
