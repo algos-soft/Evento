@@ -490,7 +490,7 @@ public class EQuery {
 
     /**
      * Ritorna il numero di posti prenotati per l'azienda corrente in una data stagione.
-     * (comprese le prenotazioni congelate)
+     * (escluse le prenotazioni congelate)
      * @param stagione la stagione
      * @return il numero totale di posti prenotati
      */
@@ -506,6 +506,7 @@ public class EQuery {
 
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(creaFiltroCompany(root, cb));
+        predicates.add(cb.equal(root.get(Prenotazione_.congelata), false));
         predicates.add(cb.equal(joinEve.get(Evento_.stagione), stagione));
 
         cq.where(predicates.toArray(new Predicate[]{}));

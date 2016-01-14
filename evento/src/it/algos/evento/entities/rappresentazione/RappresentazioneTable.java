@@ -14,11 +14,13 @@ import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.BaseEntity_;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.module.ModulePop;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 
 @SuppressWarnings("serial")
@@ -52,17 +54,17 @@ public class RappresentazioneTable extends ETable {
             }
         });
 
-		// aggiungi un listener alla modifica di prenotazioni
-		// per rinfrescare il container che mostra il n. di posti disponibili
+        // aggiungi un listener alla modifica di prenotazioni
+        // per rinfrescare il container che mostra il n. di posti disponibili
         final BaseEntity.PostUpdateListener pul = Prenotazione.addPostUpdateListener(new BaseEntity.PostUpdateListener() {
 
-			@Override
-			public void postUpdate(Class<?> entityClass, long id) {
-				if (entityClass.equals(Prenotazione.class)) {
-					refreshRowCache();
-				}
-			}
-		});
+            @Override
+            public void postUpdate(Class<?> entityClass, long id) {
+                if (entityClass.equals(Prenotazione.class)) {
+                    refreshRowCache();
+                }
+            }
+        });
 
         // Al detach rimuove i listeners che ha attaccato alla entity.
         // Essendo la Entity statica, se non rimuovo i listeners questi
@@ -84,9 +86,9 @@ public class RappresentazioneTable extends ETable {
         setColumnAlignment(colPostiPren, Align.RIGHT);
         setColumnAlignment(colPostiDisp, Align.RIGHT);
 
-		setColumnUseTotals(Rappresentazione_.capienza, true);
-		setColumnUseTotals(colPostiPren, true);
-		setColumnUseTotals(colPostiDisp, true);
+        setColumnUseTotals(Rappresentazione_.capienza, true);
+        setColumnUseTotals(colPostiPren, true);
+        setColumnUseTotals(colPostiDisp, true);
 
 
         // comandi contestuali aggiuntivi
@@ -124,8 +126,7 @@ public class RappresentazioneTable extends ETable {
     /**
      * Creates the container
      * <p>
-     *
-     * @return un container RW filtrato sulla azienda corrente
+     * @return un container filtrato sulla azienda corrente
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -136,18 +137,6 @@ public class RappresentazioneTable extends ETable {
         getFilterableContainer().addContainerFilter(filter);
         return cont;
     }// end of method
-
-//	/**
-//	 * Initial sort order for the JPA container
-//	 * <p>
-//	 *
-//	 * @param cont
-//	 *            the container to be sorted
-//	 */
-//	protected void sortJPAContainer(JPAContainer cont) {
-//		String sortField = Rappresentazione_.dataRappresentazione.getName();
-//		cont.sort(new String[] { sortField }, new boolean[] { true });
-//	}// end of method
 
 
 
@@ -179,21 +168,41 @@ public class RappresentazioneTable extends ETable {
     protected BigDecimal getTotalForColumn(Object propertyId) {
         BigDecimal bd = null;
 
-        if(propertyId.equals(colPostiPren)){
-            Filter[] filters=getFilterableContainer().getContainerFilters().toArray(new Filter[0]);
+        if (propertyId.equals(colPostiPren)) {
+            bd = new BigDecimal(0);
+            Container cont = getContainerDataSource();
+            Collection itemIds = cont.getItemIds();
             EntityManager em = getModule().getEntityManager();
-            int quanti=RappresentazioneModulo.countPostiPrenotati(filters, em);
-            bd=new BigDecimal(quanti);
+            for (Object itemId : itemIds) {
+                Property prop = cont.getContainerProperty(itemId, BaseEntity_.id.getName());
+                long idRapp = (long)prop.getValue();
+                Rappresentazione rapp=em.find(Rappresentazione.class, idRapp);
+                int quanti = RappresentazioneModulo.countPostiPrenotati(rapp, em);
+                bd=bd.add(new BigDecimal(quanti));
+            }
         }
-        if(propertyId.equals(colPostiDisp)){
-            bd=new BigDecimal(998);
+
+        if (propertyId.equals(colPostiDisp)) {
+            bd = new BigDecimal(0);
+            Container cont = getContainerDataSource();
+            Collection itemIds = cont.getItemIds();
+            EntityManager em = getModule().getEntityManager();
+            for (Object itemId : itemIds) {
+                Property prop = cont.getContainerProperty(itemId, BaseEntity_.id.getName());
+                long idRapp = (long)prop.getValue();
+                Rappresentazione rapp=em.find(Rappresentazione.class, idRapp);
+                int quanti = RappresentazioneModulo.countPostiDisponibili(rapp, em);
+                bd=bd.add(new BigDecimal(quanti));
+            }
         }
-        if(bd==null){
-            bd=super.getTotalForColumn(propertyId);
+
+        if (bd == null) {
+            bd = super.getTotalForColumn(propertyId);
         }
 
         return bd;
     }
+
 
     /**
      * Genera la colonna dei posti prenotati.
@@ -230,7 +239,7 @@ public class RappresentazioneTable extends ETable {
     private Component generateCellPosti(Table source, Object itemId, boolean pren) {
         int posti = 0;
 
-        Rappresentazione rapp=(Rappresentazione)getEntity(itemId);
+        Rappresentazione rapp = (Rappresentazione) getEntity(itemId);
 
         Label label = new Label();
         if (pren) {
@@ -247,8 +256,8 @@ public class RappresentazioneTable extends ETable {
         return label;
     }
 
-    private RappresentazioneModulo getRappresentazioneModulo(){
-        return  (RappresentazioneModulo)getModule();
+    private RappresentazioneModulo getRappresentazioneModulo() {
+        return (RappresentazioneModulo) getModule();
     }
 
 }// end of class

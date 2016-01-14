@@ -67,7 +67,7 @@ class PrenMover {
         // controlla che numero di persone totali dopo lo spostamento
         // non ecceda la capienza della sala
         EntityManager em = EM.createEntityManager();
-        int numPersoneDopo = RappresentazioneModulo.getPostiPrenotati(destRapp, em) + totPersoneSpostate;
+        int numPersoneDopo = RappresentazioneModulo.countPostiPrenotati(destRapp, em) + totPersoneSpostate;
         em.close();
         int capienza = destRapp.getCapienza();
         if (numPersoneDopo > capienza) {

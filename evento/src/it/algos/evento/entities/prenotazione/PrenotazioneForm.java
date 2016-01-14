@@ -7,13 +7,10 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.server.ClientConnector;
 import com.vaadin.server.Page;
-import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.TextArea;
@@ -27,9 +24,7 @@ import it.algos.evento.entities.lettera.ModelliLettere;
 import it.algos.evento.entities.modopagamento.ModoPagamento;
 import it.algos.evento.entities.prenotazione.PrenotazioneFormToolbar.PrenotazioneFormToolbarListener;
 import it.algos.evento.entities.prenotazione.eventi.EventiInPrenTable;
-import it.algos.evento.entities.prenotazione.eventi.EventoPrenTable;
 import it.algos.evento.entities.prenotazione.eventi.EventoPren_;
-import it.algos.evento.entities.prenotazione.eventi.TipoEventoPren;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.rappresentazione.RappresentazioneModulo;
 import it.algos.evento.entities.rappresentazione.Rappresentazione_;
@@ -46,14 +41,12 @@ import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.field.*;
 import it.algos.webbase.web.field.DateField;
 import it.algos.webbase.web.field.TextField;
-import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.AFormLayout;
 import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.module.Module;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.toolbar.FormToolbar;
-import it.algos.webbase.web.toolbar.FormToolbar.FormToolbarListener;
 import org.joda.time.DateTime;
 
 import javax.persistence.EntityManager;
@@ -900,7 +893,7 @@ public class PrenotazioneForm extends ModuleForm {
 
             // tutte le prenotazioni non congelate (compresa questa)
             EntityManager em = getModule().getEntityManager();
-            disponibili = RappresentazioneModulo.getPostiDisponibili(questaRapp, em);
+            disponibili = RappresentazioneModulo.countPostiDisponibili(questaRapp, em);
 
             // tolgo questa come risulta dal db
             Prenotazione prenDb = Prenotazione.read(getItemId());

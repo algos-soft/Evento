@@ -1,11 +1,9 @@
 package it.algos.evento.entities.rappresentazione;
 
 import com.vaadin.addon.tableexport.ExcelExport;
-import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
@@ -15,11 +13,9 @@ import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
-import it.algos.evento.multiazienda.ELazyContainer;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.webbase.web.entity.BaseEntity;
-import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.lib.LibFilter;
 import it.algos.webbase.web.search.SearchManager;
@@ -32,7 +28,6 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.persistence.metamodel.Attribute;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -50,13 +45,13 @@ public class RappresentazioneModulo extends EModulePop {
      * Ritorna i posti prenotati per una data rappresentazione.
      */
     public int getPostiPrenotati(Rappresentazione rapp) {
-        return RappresentazioneModulo.getPostiPrenotati(rapp, getEntityManager());
+        return RappresentazioneModulo.countPostiPrenotati(rapp, getEntityManager());
     }
 
 //    /**
 //     * Ritorna i posti prenotati per una data rappresentazione.
 //     */
-//    public static int getPostiPrenotati(Rappresentazione rapp, EntityManager manager) {
+//    public static int countPostiPrenotati(Rappresentazione rapp, EntityManager manager) {
 //        int quantiPrenotati = 0;
 //
 //        // prenotazioni esistenti sulla stassa rapresentazione
@@ -86,7 +81,7 @@ public class RappresentazioneModulo extends EModulePop {
      * @param rapp la rappresentazione
      * @return il numero di posti prenotati
      */
-    public static int getPostiPrenotati(Rappresentazione rapp, EntityManager em) {
+    public static int countPostiPrenotati(Rappresentazione rapp, EntityManager em) {
 
         // filtro che seleziona tutte le prenotazioni non congelate della rappresentazione
         Filter[] aFilters = {
@@ -100,8 +95,8 @@ public class RappresentazioneModulo extends EModulePop {
 
 
     /**
-     * Ritorna i posti prenotati per una lista di rappresentazioni.
-     * Considera tutte le prenotazioni non congelate.
+     * Ritorna il numero posti prenotati per una lista di rappresentazioni.
+     * Esclude le prenotazioni congelate.
      *
      * @param filters il filtro sulle rappresentazioni
      */
@@ -137,15 +132,15 @@ public class RappresentazioneModulo extends EModulePop {
     /**
      * Ritorna i posti disponibili per una data rappresentazione.
      */
-    public static int getPostiDisponibili(Rappresentazione rapp, EntityManager em) {
-        return rapp.getCapienza() - getPostiPrenotati(rapp, em);
+    public static int countPostiDisponibili(Rappresentazione rapp, EntityManager em) {
+        return rapp.getCapienza() - countPostiPrenotati(rapp, em);
     }
 
     /**
      * Ritorna i posti disponibili per una data rappresentazione.
      */
     public int getPostiDisponibili(Rappresentazione rapp) {
-        return getPostiDisponibili(rapp, getEntityManager());
+        return countPostiDisponibili(rapp, getEntityManager());
     }
 
 

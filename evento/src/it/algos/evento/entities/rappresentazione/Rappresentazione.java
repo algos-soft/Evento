@@ -170,7 +170,7 @@ public class Rappresentazione extends EventoEntity {
             sSala=sala.toString();
         }
         EntityManager em = EM.createEntityManager();
-        int disponibili=RappresentazioneModulo.getPostiDisponibili(this, em);
+        int disponibili=RappresentazioneModulo.countPostiDisponibili(this, em);
         em.close();
         String s = sData+" "+sSala+" - disp: "+disponibili;
 
