@@ -31,6 +31,7 @@ import it.algos.webbase.web.form.AFormLayout;
 import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
+import it.algos.webbase.web.table.ModuleTable;
 
 import javax.persistence.metamodel.Attribute;
 import java.util.ArrayList;
@@ -214,17 +215,25 @@ public class RappresentazioneForm extends ModuleForm {
 
 		public TableInsegnanti() {
 			super(Insegnante.class);
-			loadContainer();
+            init();
 		}
 
 		/**
 		 * Creates the container
 		 * <p>
 		 * 
-		 * @return the container Override in the subclass to use a different container
+		 * @return the container
 		 */
 		public Container createContainer() {
-			return new BeanItemContainer<Insegnante>(Insegnante.class);
+            BeanItemContainer cont = new BeanItemContainer<Insegnante>(Insegnante.class);
+
+            // fill the container with data
+            List<Insegnante> lista = getRappresentazione().getInsegnanti();
+            if (lista != null) {
+                cont.removeAllItems();
+                cont.addAll(lista);
+            }
+            return cont;
 		}
 
 		@SuppressWarnings("rawtypes")
@@ -237,20 +246,13 @@ public class RappresentazioneForm extends ModuleForm {
 			return columns.toArray(new Attribute[0]);
 		}// end of method
 
+
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public BeanItemContainer<Insegnante> getBeanContainer() {
 			return (BeanItemContainer) getContainerDataSource();
 		}
 
-		// riempie il container dalla property
-		public void loadContainer() {
-			List<Insegnante> lista = getRappresentazione().getInsegnanti();
-			if (lista != null) {
-				getBeanContainer().removeAllItems();
-				getBeanContainer().addAll(lista);
-			}
-		}
-		
+
 		public ArrayList<Insegnante> getListaInsegnanti(){
 			ArrayList<Insegnante> lista = new ArrayList<Insegnante>();
 			BeanItemContainer<Insegnante> cont = getBeanContainer();

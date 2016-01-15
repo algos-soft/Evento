@@ -219,5 +219,10 @@ $v-font-weight: 400;
     font-size: 0.85em;
   }
 
+  // stile per le celle del numero posti nelle prenotazioni congelate.
+  .v-table-cell-content-cell-cong {
+    color: #bbbbbb;
+  }
+
 
 }

@@ -68,7 +68,7 @@ public class PrenotazioneTable extends ETable {
         setColumnHeader(Prenotazione_.dataPrenotazione, "data");
 //        setColumnHeader(Prenotazione_.privato, "priv");
         setColumnHeader(Prenotazione_.insegnante, "referente");
-        setColumnHeader(Prenotazione_.numTotali, "pers");
+        setColumnHeader(Prenotazione_.numTotali, "posti");
         setColumnHeader(Prenotazione_.importoDaPagare, "importo");
         setColumnHeader(Prenotazione_.importoPagato, "pagato");
         setColumnHeader(Prenotazione_.scadenzaConferma, "conf. entro");
@@ -225,6 +225,25 @@ public class PrenotazioneTable extends ETable {
         setColumnCollapsed(Prenotazione_.numRidotti.getName(), true);
         setColumnCollapsed(Prenotazione_.numDisabili.getName(), true);
         setColumnCollapsed(Prenotazione_.numAccomp.getName(), true);
+
+
+        // generatore di stili per le singole celle
+        setCellStyleGenerator(new Table.CellStyleGenerator() {
+
+            @Override
+            public String getStyle(Table table, Object itemId, Object propertyId) {
+                // posti e importo in grigio se pren congelata
+                if(propertyId == Prenotazione_.numTotali.getName() | propertyId == Prenotazione_.importoDaPagare.getName()) {
+                    Prenotazione pren=(Prenotazione)getEntity(itemId);
+                    if(pren.isCongelata()){
+                        return "cell-cong";
+                    }
+                }
+                return null;
+            }
+        });
+
+
 
     }// end of constructor
 
@@ -898,6 +917,7 @@ public class PrenotazioneTable extends ETable {
         }
 
 
+
         if (colId.equals(Prenotazione_.importoDaPagare.getName())) {
             string = "";
             bd = Lib.getBigDecimal(property.getValue());
@@ -1129,6 +1149,9 @@ public class PrenotazioneTable extends ETable {
             return img;
         }
     }
+
+
+
 
 
 }
