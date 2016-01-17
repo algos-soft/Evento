@@ -8,20 +8,28 @@ import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.filter.Compare;
+import com.vaadin.event.Action;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.insegnante.InsegnanteForm;
 import it.algos.evento.entities.insegnante.Insegnante_;
+import it.algos.evento.entities.modopagamento.ModoPagamento;
 import it.algos.evento.entities.prenotazione.Prenotazione;
+import it.algos.evento.entities.prenotazione.PrenotazioneBaseTable;
+import it.algos.evento.entities.prenotazione.PrenotazioneTablePortal;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.entities.sala.Sala;
 import it.algos.evento.entities.sala.Sala_;
+import it.algos.evento.entities.scuola.Scuola;
+import it.algos.evento.entities.scuola.Scuola_;
 import it.algos.evento.entities.stagione.Stagione;
+import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
 import it.algos.evento.multiazienda.ERelatedComboField;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.BaseEntity_;
@@ -32,6 +40,7 @@ import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.AFormLayout;
 import it.algos.webbase.web.form.ModuleForm;
+import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.ModuleTable;
@@ -40,10 +49,8 @@ import org.vaadin.addons.lazyquerycontainer.LazyEntityContainer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.metamodel.Attribute;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 
 @SuppressWarnings("serial")
 public class RappresentazioneForm extends ModuleForm {
@@ -208,7 +215,7 @@ public class RappresentazioneForm extends ModuleForm {
         tableInsegnanti.setPageLength(8);
 
         // panComandi.setWidth("100%");
-        layout.addComponent(new Label("Elenco dei partecipanti"));
+        layout.addComponent(new Label("Elenco degli insegnanti che hanno partecipato"));
         layout.addComponent(panComandi);
         tableInsegnanti.setWidth("100%");
         layout.addComponent(tableInsegnanti);
@@ -230,15 +237,14 @@ public class RappresentazioneForm extends ModuleForm {
         return found;
     }
 
-
     // tabella interna delle prenotazioni
-    private class TablePrenotazioni extends ATable {
+    private class TablePrenotazioni extends PrenotazioneBaseTable {
 
         Rappresentazione rappresentazione;
 
         public TablePrenotazioni(Rappresentazione rapp, EntityManager em) {
-            super(Prenotazione.class, em);
-            this.rappresentazione=rapp;
+            super(em);
+            this.rappresentazione = rapp;
             init();
         }
 
@@ -250,7 +256,169 @@ public class RappresentazioneForm extends ModuleForm {
             return cont;
         }
 
+
+        protected Object[] getDisplayColumns() {
+            return new Object[]{
+                    Prenotazione_.numPrenotazione,
+                    Prenotazione_.dataPrenotazione,
+                    Prenotazione_.scuola,
+                    Prenotazione_.insegnante,
+                    Prenotazione_.numTotali,
+                    COL_STATUS,
+                    COL_PAGAM,
+            };
+
+
+        }
+
+
+//        /**
+//         * Return the Actions to display in contextual menu
+//         */
+//        protected Action[] getActions(Object target, Object sender) {
+//            Action[] actions = null;
+//            actions = new Action[2];
+//            actions[0] = actionEdit;
+//            actions[1] = actionDelete;
+//            return actions;
+//        }
+
+        private final Action actRegistraPagamento = new Action(PrenotazioneTablePortal.CMD_REGISTRA_PAGAMENTO,
+                PrenotazioneTablePortal.ICON_REGISTRA_PAGAMENTO);
+        private final Action actIstruzioni = new Action(PrenotazioneTablePortal.CMD_RIEPILOGO_OPZIONE,
+                PrenotazioneTablePortal.ICON_RIEPILOGO_OPZIONE);
+        private final Action actMemoInvioSchedaPren = new Action(
+                PrenotazioneTablePortal.CMD_MEMO_INVIO_SCHEDA_PREN,
+                PrenotazioneTablePortal.ICON_MEMO_INVIO_SCHEDA_PREN);
+        private final Action actMemoScadPag = new Action(PrenotazioneTablePortal.CMD_MEMO_SCAD_PAGA,
+                PrenotazioneTablePortal.ICON_MEMO_SCAD_PAGA);
+        private final Action actAttestatoPartecipazione = new Action(PrenotazioneTablePortal.CMD_ATTESTATO_PARTECIPAZIONE,
+                PrenotazioneTablePortal.ICON_ATTESTATO_PARTECIPAZIONE);
+        private final Action actAvvisoCongOpz = new Action(PrenotazioneTablePortal.CMD_CONGELA_OPZIONE,
+                PrenotazioneTablePortal.ICON_CONGELA_OPZIONE);
+        private final Action actSpostaAdAltraData = new Action(PrenotazioneTablePortal.CMD_SPOSTA_AD_ALTRA_DATA,
+                PrenotazioneTablePortal.ICON_SPOSTA_AD_ALTRA_DATA);
+
+        /**
+         * Return the Actions to display in contextual menu
+         */
+        protected Action[] getActions(Object target, Object sender) {
+            ArrayList<Action> aActions = new ArrayList<>();
+            aActions.add(actIstruzioni);
+            aActions.add(actMemoInvioSchedaPren);
+            aActions.add(actMemoScadPag);
+            aActions.add(actAttestatoPartecipazione);
+            aActions.add(actRegistraPagamento);
+            aActions.add(actAvvisoCongOpz);
+            aActions.add(actSpostaAdAltraData);
+            return aActions.toArray(new Action[0]);
+        }
+
+
+        /**
+         * Handle the contextual Actions
+         */
+        protected void handleAction(Action action, Object sender, Object target) {
+
+
+            Item rowItem = getTable().getItem(target);
+            if (rowItem != null) {
+                Object value = rowItem.getItemProperty("id").getValue();
+
+                long id = Lib.getLong(value);
+                if (id > 0) {
+
+                    if (action.equals(actRegistraPagamento)) {
+                        registraPagamento();
+                    }
+
+                    if (action.equals(actIstruzioni)) {
+                        inviaRiepilogoPrenotazione();
+                    }
+
+                    if (action.equals(actMemoInvioSchedaPren)) {
+                        inviaMemoConfermaPren();
+                    }
+
+                    if (action.equals(actAvvisoCongOpz)) {
+                        congelaPrenotazione();
+                    }
+
+                    if (action.equals(actSpostaAdAltraData)) {
+                        spostaAdAltraData();
+                    }
+
+                    if (action.equals(actMemoScadPag)) {
+                        inviaPromemoriaScadenzaPagamento();
+                    }
+
+                    if (action.equals(actAttestatoPartecipazione)) {
+                        inviaAttestatoPartecipazione();
+                    }
+
+
+                }
+            }
+        }
+
+
     }
+
+
+//    // tabella interna delle prenotazioni
+//    private class TablePrenotazioni extends ATable {
+//
+//        Rappresentazione rappresentazione;
+//
+//        public TablePrenotazioni(Rappresentazione rapp, EntityManager em) {
+//            super(Prenotazione.class, em);
+//            this.rappresentazione=rapp;
+//            init();
+//        }
+//
+//        @Override
+//        public Container createContainer() {
+//            LazyEntityContainer<Prenotazione> cont = new LazyEntityContainer<Prenotazione>(getEntityManager(), Prenotazione.class, 100, BaseEntity_.id.getName(), true, true, true);
+//            cont.addContainerProperty(BaseEntity_.id.getName(), Long.class, 0L, true, true);
+//            cont.addContainerFilter(new Compare.Equal(Prenotazione_.rappresentazione.getName(), rappresentazione));
+//            return cont;
+//        }
+//
+//
+//		@SuppressWarnings("rawtypes")
+//		protected Object[] getDisplayColumns() {
+//			ArrayList<Attribute> columns = new ArrayList();
+//			columns.add(Prenotazione_.numPrenotazione);
+//			columns.add(Prenotazione_.dataPrenotazione);
+//			columns.add(Prenotazione_.scuola);
+//			return columns.toArray(new Attribute[0]);
+//		}
+//
+//
+//		@Override
+//		protected String formatPropertyValue(Object rowId, Object colId, Property property) {
+//			String string = null;
+//
+//			if (colId.equals(Prenotazione_.scuola.getName())) {
+//				Object value = property.getValue();
+//				if (value != null && value instanceof Scuola) {
+//					Scuola scuola = (Scuola) value;
+//					string = scuola.getSigla();
+//					Comune comune = scuola.getComune();
+//					if (comune != null) {
+//						string += " - " + comune.getNome();
+//					}
+//				} else {
+//					string = "";
+//				}
+//				return string;
+//			}
+//
+//			return super.formatPropertyValue(rowId, colId, property);
+//		}
+//
+//
+//	}
 
 
     // tabella interna degli insegnanti partecipanti

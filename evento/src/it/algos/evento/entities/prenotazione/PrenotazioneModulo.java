@@ -1,6 +1,5 @@
 package it.algos.evento.entities.prenotazione;
 
-import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
@@ -31,7 +30,6 @@ import it.algos.webbase.web.converter.StringToBigDecimalConverter;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.field.ArrayComboField;
 import it.algos.webbase.web.field.EmailField;
-import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.lib.LibSession;
