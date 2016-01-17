@@ -4,12 +4,14 @@ package it.algos.evento.entities.prenotazione.eventi;
 import com.vaadin.data.Container;
 import it.algos.webbase.web.table.ATable;
 
+import javax.persistence.EntityManager;
+
 @SuppressWarnings("serial")
 public class EventiInPrenTable extends ATable {
 
 	
-	public EventiInPrenTable() {
-		super(EventoPren.class);
+	public EventiInPrenTable(EntityManager em) {
+		super(EventoPren.class, em);
 	}
 
 	@Override

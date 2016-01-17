@@ -645,7 +645,7 @@ public class PrenotazioneForm extends ModuleForm {
         layout.setMargin(true);
         layout.setSpacing(true);
 
-        eventsTable = new EventiInPrenTable();
+        eventsTable = new EventiInPrenTable(getModule().getEntityManager());
         eventsTable.setPageLength(7);
         SingularAttribute attr = EventoPren_.prenotazione;
         String name = attr.getName();

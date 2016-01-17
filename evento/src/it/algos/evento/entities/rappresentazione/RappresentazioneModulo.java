@@ -5,6 +5,8 @@ import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.filter.Compare;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
@@ -32,6 +34,10 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 public class RappresentazioneModulo extends EModulePop {
+
+    public static final String CMD_MEMO_EXPORT = "Esporta riepilogo rappresentazione...";
+    public static final Resource ICON_MEMO_EXPORT = FontAwesome.DOWNLOAD;
+    public static final String CMD_PARTECIPANTI_EXPORT = "Esporta partecipanti...";
 
     /**
      * Costruttore senza parametri
@@ -144,10 +150,10 @@ public class RappresentazioneModulo extends EModulePop {
     }
 
 
-    public static void esportaRappresentazione(Object id, UI ui) {
+    public static void esportaRappresentazione(Object id) {
         ArrayList<Prenotazione> lista;
         lista = getListaPrenotazioni(id);
-        tableExport(id, lista, ui);
+        tableExport(id, lista, UI.getCurrent());
     }// end of method
 
     public void esportaPartecipanti(UI ui) {

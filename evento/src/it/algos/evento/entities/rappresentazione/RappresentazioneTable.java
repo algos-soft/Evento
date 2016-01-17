@@ -94,8 +94,8 @@ public class RappresentazioneTable extends ETable {
         // comandi contestuali aggiuntivi
         addActionHandler(new Action.Handler() {
 
-            private final Action actRiepilogo = new Action(RappresentazioneTablePortal.CMD_MEMO_EXPORT,
-                    RappresentazioneTablePortal.ICON_MEMO_EXPORT);
+            private final Action actRiepilogo = new Action(RappresentazioneModulo.CMD_MEMO_EXPORT,
+                    RappresentazioneModulo.ICON_MEMO_EXPORT);
 
             public Action[] getActions(Object target, Object sender) {
                 Action[] actions = null;
@@ -112,7 +112,7 @@ public class RappresentazioneTable extends ETable {
                     if (id > 0) {
 
                         if (action.equals(actRiepilogo)) {
-                            RappresentazioneModulo.esportaRappresentazione(id, getUI());
+                            RappresentazioneModulo.esportaRappresentazione(id);
                         }
 
                     }
@@ -120,6 +120,9 @@ public class RappresentazioneTable extends ETable {
 
             }
         });
+
+
+
     }// end of constructor
 
 
