@@ -231,22 +231,23 @@ public class RappresentazioneForm extends ModuleForm {
     }
 
 
-    // tabella interna dell prenotazioni
+    // tabella interna delle prenotazioni
     private class TablePrenotazioni extends ATable {
 
-        Rappresentazione rapp;
+        Rappresentazione rappresentazione;
 
         public TablePrenotazioni(Rappresentazione rapp, EntityManager em) {
             super(Prenotazione.class, em);
+            this.rappresentazione=rapp;
             init();
         }
 
         @Override
         public Container createContainer() {
-            LazyEntityContainer entityContainer = new LazyEntityContainer<Prenotazione>(getEntityManager(), Prenotazione.class, 100, BaseEntity_.id.getName(), true, true, true);
-            entityContainer.addContainerProperty(BaseEntity_.id.getName(), Long.class, 0L, true, true);
-            entityContainer.addContainerFilter(new Compare.Equal(Prenotazione_.rappresentazione.getName(), rapp));
-            return entityContainer;
+            LazyEntityContainer<Prenotazione> cont = new LazyEntityContainer<Prenotazione>(getEntityManager(), Prenotazione.class, 100, BaseEntity_.id.getName(), true, true, true);
+            cont.addContainerProperty(BaseEntity_.id.getName(), Long.class, 0L, true, true);
+            cont.addContainerFilter(new Compare.Equal(Prenotazione_.rappresentazione.getName(), rappresentazione));
+            return cont;
         }
 
     }
