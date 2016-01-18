@@ -41,7 +41,6 @@ import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.field.*;
 import it.algos.webbase.web.field.DateField;
 import it.algos.webbase.web.field.TextField;
-import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.AFormLayout;
 import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.lib.Lib;
@@ -55,11 +54,9 @@ import javax.persistence.metamodel.SingularAttribute;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-/**
- * Created by alex on 18-01-2016.
- */
-public class PrenotazioneForm extends AForm {
 
+@SuppressWarnings("serial")
+public class PrenotazioneFormOld extends ModuleForm {
 
     private static final String WF = "4em"; // larghezza dei campi numerici
     private static final String WT = "6em"; // larghezza dei totali
@@ -92,9 +89,13 @@ public class PrenotazioneForm extends AForm {
     }
 
 
+    public PrenotazioneFormOld(ModulePop modulo) {
+        this(modulo, null);
+        doInit();
+    }// end of constructor
 
-    public PrenotazioneForm(Item item) {
-        super(item);
+    public PrenotazioneFormOld(ModulePop modulo, Item item) {
+        super(item, modulo);
         doInit();
     }// end of constructor
 

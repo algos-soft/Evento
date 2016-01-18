@@ -164,10 +164,10 @@ public class PrenotazioneModulo extends EModulePop {
 
     @Override
     public ModuleForm createForm(Item item) {
-        PrenotazioneForm form = new PrenotazioneForm(this, item);
+        PrenotazioneFormOld form = new PrenotazioneFormOld(this, item);
 
         // refresh table dopo conferma prenotazione
-        form.setPrenotazioneConfermataListener(new PrenotazioneForm.PrenotazioneConfermataListener() {
+        form.setPrenotazioneConfermataListener(new PrenotazioneFormOld.PrenotazioneConfermataListener() {
             @Override
             public void prenotazioneConfermata(Prenotazione pren, Spedizione sped) {
 
