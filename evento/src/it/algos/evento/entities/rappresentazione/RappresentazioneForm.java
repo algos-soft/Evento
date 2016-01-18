@@ -20,10 +20,7 @@ import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.insegnante.InsegnanteForm;
 import it.algos.evento.entities.insegnante.Insegnante_;
 import it.algos.evento.entities.modopagamento.ModoPagamento;
-import it.algos.evento.entities.prenotazione.Prenotazione;
-import it.algos.evento.entities.prenotazione.PrenotazioneBaseTable;
-import it.algos.evento.entities.prenotazione.PrenotazioneTablePortal;
-import it.algos.evento.entities.prenotazione.Prenotazione_;
+import it.algos.evento.entities.prenotazione.*;
 import it.algos.evento.entities.sala.Sala;
 import it.algos.evento.entities.sala.Sala_;
 import it.algos.evento.entities.scuola.Scuola;
@@ -58,13 +55,23 @@ public class RappresentazioneForm extends ModuleForm {
     private RelatedComboField fInsegnanti;
     private TableInsegnanti tableInsegnanti;
 
+    // Modulo Prenotazioni interno per la gestione
+    // della lista prenotazioni interna alla scheda
+    private PrenotazioneModulo modPren;
+
 
     public RappresentazioneForm(ModulePop module, Item item) {
         super(item, module);
-        doInit();
     }
 
-    private void doInit() {
+    @Override
+    protected void init() {
+
+        modPren = new PrenotazioneModuloInterno();
+
+        super.init();
+
+
         // se nuovo record mette sala e capienza di default
         if (isNewRecord()) {
             Rappresentazione rapp = getRappresentazione();
@@ -76,8 +83,8 @@ public class RappresentazioneForm extends ModuleForm {
                 }
             }
         }
-    }
 
+    }
 
     @Override
     public void createFields() {
@@ -153,7 +160,8 @@ public class RappresentazioneForm extends ModuleForm {
         VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
 
-        ATable tablePrenotazioni = new TablePrenotazioni(getRappresentazione(), getEntityManager());
+        ATable tablePrenotazioni = modPren.getTable();
+//        ATable tablePrenotazioni = new TablePrenotazioni(getRappresentazione());
         tablePrenotazioni.setPageLength(8);
 
         layout.addComponent(new Label("Elenco delle prenotazioni"));
@@ -237,132 +245,7 @@ public class RappresentazioneForm extends ModuleForm {
         return found;
     }
 
-    // tabella interna delle prenotazioni
-    private class TablePrenotazioni extends PrenotazioneBaseTable {
 
-        Rappresentazione rappresentazione;
-
-        public TablePrenotazioni(Rappresentazione rapp, EntityManager em) {
-            super(em);
-            this.rappresentazione = rapp;
-            init();
-        }
-
-        @Override
-        public Container createContainer() {
-            LazyEntityContainer<Prenotazione> cont = new LazyEntityContainer<Prenotazione>(getEntityManager(), Prenotazione.class, 100, BaseEntity_.id.getName(), true, true, true);
-            cont.addContainerProperty(BaseEntity_.id.getName(), Long.class, 0L, true, true);
-            cont.addContainerFilter(new Compare.Equal(Prenotazione_.rappresentazione.getName(), rappresentazione));
-            return cont;
-        }
-
-
-        protected Object[] getDisplayColumns() {
-            return new Object[]{
-                    Prenotazione_.numPrenotazione,
-                    Prenotazione_.dataPrenotazione,
-                    Prenotazione_.scuola,
-                    Prenotazione_.insegnante,
-                    Prenotazione_.numTotali,
-                    COL_STATUS,
-                    COL_PAGAM,
-            };
-
-
-        }
-
-
-//        /**
-//         * Return the Actions to display in contextual menu
-//         */
-//        protected Action[] getActions(Object target, Object sender) {
-//            Action[] actions = null;
-//            actions = new Action[2];
-//            actions[0] = actionEdit;
-//            actions[1] = actionDelete;
-//            return actions;
-//        }
-
-        private final Action actRegistraPagamento = new Action(PrenotazioneTablePortal.CMD_REGISTRA_PAGAMENTO,
-                PrenotazioneTablePortal.ICON_REGISTRA_PAGAMENTO);
-        private final Action actIstruzioni = new Action(PrenotazioneTablePortal.CMD_RIEPILOGO_OPZIONE,
-                PrenotazioneTablePortal.ICON_RIEPILOGO_OPZIONE);
-        private final Action actMemoInvioSchedaPren = new Action(
-                PrenotazioneTablePortal.CMD_MEMO_INVIO_SCHEDA_PREN,
-                PrenotazioneTablePortal.ICON_MEMO_INVIO_SCHEDA_PREN);
-        private final Action actMemoScadPag = new Action(PrenotazioneTablePortal.CMD_MEMO_SCAD_PAGA,
-                PrenotazioneTablePortal.ICON_MEMO_SCAD_PAGA);
-        private final Action actAttestatoPartecipazione = new Action(PrenotazioneTablePortal.CMD_ATTESTATO_PARTECIPAZIONE,
-                PrenotazioneTablePortal.ICON_ATTESTATO_PARTECIPAZIONE);
-        private final Action actAvvisoCongOpz = new Action(PrenotazioneTablePortal.CMD_CONGELA_OPZIONE,
-                PrenotazioneTablePortal.ICON_CONGELA_OPZIONE);
-        private final Action actSpostaAdAltraData = new Action(PrenotazioneTablePortal.CMD_SPOSTA_AD_ALTRA_DATA,
-                PrenotazioneTablePortal.ICON_SPOSTA_AD_ALTRA_DATA);
-
-        /**
-         * Return the Actions to display in contextual menu
-         */
-        protected Action[] getActions(Object target, Object sender) {
-            ArrayList<Action> aActions = new ArrayList<>();
-            aActions.add(actIstruzioni);
-            aActions.add(actMemoInvioSchedaPren);
-            aActions.add(actMemoScadPag);
-            aActions.add(actAttestatoPartecipazione);
-            aActions.add(actRegistraPagamento);
-            aActions.add(actAvvisoCongOpz);
-            aActions.add(actSpostaAdAltraData);
-            return aActions.toArray(new Action[0]);
-        }
-
-
-        /**
-         * Handle the contextual Actions
-         */
-        protected void handleAction(Action action, Object sender, Object target) {
-
-
-            Item rowItem = getTable().getItem(target);
-            if (rowItem != null) {
-                Object value = rowItem.getItemProperty("id").getValue();
-
-                long id = Lib.getLong(value);
-                if (id > 0) {
-
-                    if (action.equals(actRegistraPagamento)) {
-                        registraPagamento();
-                    }
-
-                    if (action.equals(actIstruzioni)) {
-                        inviaRiepilogoPrenotazione();
-                    }
-
-                    if (action.equals(actMemoInvioSchedaPren)) {
-                        inviaMemoConfermaPren();
-                    }
-
-                    if (action.equals(actAvvisoCongOpz)) {
-                        congelaPrenotazione();
-                    }
-
-                    if (action.equals(actSpostaAdAltraData)) {
-                        spostaAdAltraData();
-                    }
-
-                    if (action.equals(actMemoScadPag)) {
-                        inviaPromemoriaScadenzaPagamento();
-                    }
-
-                    if (action.equals(actAttestatoPartecipazione)) {
-                        inviaAttestatoPartecipazione();
-                    }
-
-
-                }
-            }
-        }
-
-
-    }
 
 
 //    // tabella interna delle prenotazioni
@@ -482,7 +365,7 @@ public class RappresentazioneForm extends ModuleForm {
      */
     private Rappresentazione getRappresentazione() {
         Rappresentazione rapp = null;
-        BaseEntity entity = getBaseEntity();
+        BaseEntity entity = getEntity();
         if (entity != null) {
             rapp = (Rappresentazione) entity;
         }
@@ -508,6 +391,81 @@ public class RappresentazioneForm extends ModuleForm {
         prop.setValue(tableInsegnanti.getListaInsegnanti());
         return super.save();
     }
+
+    /**
+     * Modulo Prenotazioni dedicato alla gestione Prenotazioni
+     * all'interno della scheda Rappresentazione.
+     * Usato per la gestione della lista e della scheda interne.
+     */
+    private class PrenotazioneModuloInterno extends PrenotazioneModulo{
+
+        /**
+         * Usa una tabella specifica
+         */
+        @Override
+        public ATable createTable() {
+            return new TablePrenotazioniInterna(this);
+        }
+
+        /**
+         * Questo modulo non è inserito graficamente in nessuna UI
+         * perciò ritorna la UI della scheda che lo contiene.
+         * La UI è richiesta quando deve mostrare la scheda.
+         */
+        @Override
+        public UI getUI() {
+            return RappresentazioneForm.this.getUI();
+        }
+
+        /**
+         * Questo modulo lo stesso EntityManager della
+         * scheda che lo contiene
+         */
+        @Override
+        public EntityManager getEntityManager() {
+            return RappresentazioneForm.this.getEntityManager();
+        }
+    }
+
+    /**
+     * Tabella Prenotazioni del modulo Prenotazioni interno
+     */
+    private class TablePrenotazioniInterna extends PrenotazioneBaseTable {
+
+        public TablePrenotazioniInterna(PrenotazioneModulo modulo) {
+            super(modulo);
+        }
+
+        /**
+         * Filtra il container sulla prenotazione corrente
+         */
+        @Override
+        public Container createContainer() {
+            Filterable cont = (Filterable)super.createContainer();
+            Rappresentazione rapp = getRappresentazione();
+            cont.addContainerFilter(new Compare.Equal(Prenotazione_.rappresentazione.getName(), rapp));
+            return cont;
+        }
+
+
+        /**
+         * Mostra solo alcune colonne
+         */
+        protected Object[] getDisplayColumns() {
+            return new Object[]{
+                    Prenotazione_.numPrenotazione,
+                    Prenotazione_.dataPrenotazione,
+                    Prenotazione_.scuola,
+                    Prenotazione_.insegnante,
+                    Prenotazione_.numTotali,
+                    COL_STATUS,
+                    COL_PAGAM,
+            };
+        }
+
+
+    }
+
 
 
 }

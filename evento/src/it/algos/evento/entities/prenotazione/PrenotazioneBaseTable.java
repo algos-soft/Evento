@@ -13,6 +13,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
 import it.algos.evento.EventoApp;
 import it.algos.evento.EventoBootStrap;
+import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;
@@ -23,6 +24,8 @@ import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
+import it.algos.evento.lib.EventoSessionLib;
+import it.algos.evento.multiazienda.ELazyContainer;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.multiazienda.ETable;
 import it.algos.evento.multiazienda.EventoEntity;
@@ -30,23 +33,42 @@ import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.BaseEntity_;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.module.Module;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
+import it.algos.webbase.web.table.ModuleTable;
 import org.vaadin.addons.lazyquerycontainer.LazyEntityContainer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
 @SuppressWarnings("serial")
-public abstract class PrenotazioneBaseTable extends ATable {
+public abstract class PrenotazioneBaseTable extends ModuleTable {
+
+    protected final Action actRegistraPagamento = new Action(PrenotazioneTablePortal.CMD_REGISTRA_PAGAMENTO,
+            PrenotazioneTablePortal.ICON_REGISTRA_PAGAMENTO);
+    protected final Action actIstruzioni = new Action(PrenotazioneTablePortal.CMD_RIEPILOGO_OPZIONE,
+            PrenotazioneTablePortal.ICON_RIEPILOGO_OPZIONE);
+    protected final Action actMemoInvioSchedaPren = new Action(
+            PrenotazioneTablePortal.CMD_MEMO_INVIO_SCHEDA_PREN,
+            PrenotazioneTablePortal.ICON_MEMO_INVIO_SCHEDA_PREN);
+    protected final Action actMemoScadPag = new Action(PrenotazioneTablePortal.CMD_MEMO_SCAD_PAGA,
+            PrenotazioneTablePortal.ICON_MEMO_SCAD_PAGA);
+    protected final Action actAttestatoPartecipazione = new Action(PrenotazioneTablePortal.CMD_ATTESTATO_PARTECIPAZIONE,
+            PrenotazioneTablePortal.ICON_ATTESTATO_PARTECIPAZIONE);
+    protected final Action actAvvisoCongOpz = new Action(PrenotazioneTablePortal.CMD_CONGELA_OPZIONE,
+            PrenotazioneTablePortal.ICON_CONGELA_OPZIONE);
+    protected final Action actSpostaAdAltraData = new Action(PrenotazioneTablePortal.CMD_SPOSTA_AD_ALTRA_DATA,
+            PrenotazioneTablePortal.ICON_SPOSTA_AD_ALTRA_DATA);
 
     private static final StringToBigDecimalConverter bdConv = new StringToBigDecimalConverter(2);
     private static final StringToIntegerConverter intConv = new StringToIntegerConverter();
@@ -66,8 +88,8 @@ public abstract class PrenotazioneBaseTable extends ATable {
     /**
      * Classe base tabella prenotazioni
      */
-    public PrenotazioneBaseTable(EntityManager em) {
-        super(Prenotazione.class, em);
+    public PrenotazioneBaseTable(PrenotazioneModulo modulo) {
+        super(modulo);
     }// end of constructor
 
 
@@ -140,6 +162,22 @@ public abstract class PrenotazioneBaseTable extends ATable {
 
 
     }
+
+    /**
+     * Creates the container
+     * <p>
+     *
+     * @return un container RW filtrato sulla azienda corrente
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public Container createContainer() {
+        Company company = EventoSessionLib.getCompany();
+        ELazyContainer entityContainer = new ELazyContainer(getEntityManager(), getEntityClass(), getContainerPageSize(), company);
+        return entityContainer;
+    }// end of method
+
+
 
     /**
      * Ritorna il numero di record di competenza della azienda corrente
@@ -697,7 +735,7 @@ public abstract class PrenotazioneBaseTable extends ATable {
                 DialogoSpostaPrenotazioni dialogo = new DialogoSpostaPrenotazioni(e, aPren, new DialogoSpostaPrenotazioni.OnMoveDoneListener() {
                     @Override
                     public void moveDone(int quante, Rappresentazione dest) {
-                        refreshRowCache();
+                        refresh();
 
                         Notification notification = new Notification(quante + " prenotazioni spostate.", Notification.Type.HUMANIZED_MESSAGE);
                         notification.setDelayMsec(-1);
@@ -758,6 +796,86 @@ public abstract class PrenotazioneBaseTable extends ATable {
 
 
     }// end of method
+
+
+
+
+    /**
+     * Return the Actions to display in contextual menu
+     */
+    protected Action[] getActions(Object target, Object sender) {
+        Action[] actions = super.getActions(target, sender);
+        ArrayList<Action> aActions=new ArrayList<>();
+        for(Action a : actions){
+            aActions.add(a);
+        }
+
+
+        aActions.add(actIstruzioni);
+        aActions.add(actMemoInvioSchedaPren);
+        aActions.add(actMemoScadPag);
+        aActions.add(actAttestatoPartecipazione);
+        aActions.add(actRegistraPagamento);
+        aActions.add(actAvvisoCongOpz);
+        aActions.add(actSpostaAdAltraData);
+
+        return aActions.toArray(new Action[0]);
+    }
+
+
+    /**
+     * Handle the contextual Actions
+     */
+    protected void handleAction(Action action, Object sender, Object target) {
+
+
+        if (action.equals(actionDelete)) {
+            getModule().delete();
+        }
+
+        Item rowItem = getTable().getItem(target);
+        if (rowItem != null) {
+            Object value = rowItem.getItemProperty("id").getValue();
+
+            long id = Lib.getLong(value);
+            if (id > 0) {
+
+                if (action.equals(actionEdit)) {
+                    getModule().edit();
+                }
+
+                if (action.equals(actRegistraPagamento)) {
+                    registraPagamento();
+                }
+
+                if (action.equals(actIstruzioni)) {
+                    inviaRiepilogoPrenotazione();
+                }
+
+                if (action.equals(actMemoInvioSchedaPren)) {
+                    inviaMemoConfermaPren();
+                }
+
+                if (action.equals(actAvvisoCongOpz)) {
+                    congelaPrenotazione();
+                }
+
+                if (action.equals(actSpostaAdAltraData)) {
+                    spostaAdAltraData();
+                }
+
+                if (action.equals(actMemoScadPag)) {
+                    inviaPromemoriaScadenzaPagamento();
+                }
+
+                if (action.equals(actAttestatoPartecipazione)) {
+                    inviaAttestatoPartecipazione();
+                }
+
+
+            }
+        }
+    }
 
     @Override
     protected String formatPropertyValue(Object rowId, Object colId, Property property) {

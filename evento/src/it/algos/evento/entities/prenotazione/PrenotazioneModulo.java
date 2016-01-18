@@ -30,6 +30,7 @@ import it.algos.webbase.web.converter.StringToBigDecimalConverter;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.field.ArrayComboField;
 import it.algos.webbase.web.field.EmailField;
+import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.lib.LibSession;
@@ -162,12 +163,41 @@ public class PrenotazioneModulo extends EModulePop {
         return (new PrenotazioneTable(this));
     }// end of method
 
+//    @Override
+//    public ModuleForm createForm(Item item) {
+//        PrenotazioneFormOld form = new PrenotazioneFormOld(this, item);
+//
+//        // refresh table dopo conferma prenotazione
+//        form.setPrenotazioneConfermataListener(new PrenotazioneFormOld.PrenotazioneConfermataListener() {
+//            @Override
+//            public void prenotazioneConfermata(Prenotazione pren, Spedizione sped) {
+//
+//                getTable().refreshRowCache();
+//
+//                String detail = pren.toStringNumDataInsegnante();
+//                String mailDetail = "";
+//                if (sped != null) {
+//                    mailDetail = "e-mail inviata a " + sped.getDestinatario();
+//                }
+//
+//                Notification notif = new Notification("Prenotazione confermata: " + detail, mailDetail, Notification.Type.HUMANIZED_MESSAGE);
+//                notif.setDelayMsec(-1);
+//                notif.show(Page.getCurrent());
+//
+//            }
+//        });
+//
+//        return form;
+//    }// end of method
+
+
+
     @Override
     public ModuleForm createForm(Item item) {
-        PrenotazioneFormOld form = new PrenotazioneFormOld(this, item);
+        PrenotazioneForm form = new PrenotazioneForm(this, item);
 
         // refresh table dopo conferma prenotazione
-        form.setPrenotazioneConfermataListener(new PrenotazioneFormOld.PrenotazioneConfermataListener() {
+        form.setPrenotazioneConfermataListener(new PrenotazioneForm.PrenotazioneConfermataListener() {
             @Override
             public void prenotazioneConfermata(Prenotazione pren, Spedizione sped) {
 

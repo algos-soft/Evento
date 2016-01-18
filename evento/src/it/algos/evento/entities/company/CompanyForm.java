@@ -82,7 +82,7 @@ public class CompanyForm extends ModuleForm {
 
 
 	private Company getCompany(){
-		BaseEntity entity = getBaseEntity();
+		BaseEntity entity = getEntity();
 		return (Company)entity;
 	}
 
