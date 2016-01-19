@@ -7,6 +7,7 @@ import com.vaadin.data.util.filter.Compare;
 import com.vaadin.event.Action;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.evento.Evento_;
@@ -105,6 +106,13 @@ public class RappresentazioneTable extends ETable {
             }
 
             public void handleAction(Action action, Object sender, Object target) {
+
+                BaseEntity[] entities = getSelectedEntities();
+                if(entities.length>0) {
+                }else{
+                    Notification.show("Devi selezionare le rappresentazioni da esportare");
+                }
+
                 Item rowItem = getTable().getItem(target);
                 if (rowItem != null) {
                     Object value = rowItem.getItemProperty("id").getValue();
@@ -124,6 +132,9 @@ public class RappresentazioneTable extends ETable {
 
 
     }// end of constructor
+
+
+
 
 
     /**
