@@ -21,6 +21,7 @@ import it.algos.webbase.web.module.ModulePop;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
@@ -109,21 +110,10 @@ public class RappresentazioneTable extends ETable {
 
                 BaseEntity[] entities = getSelectedEntities();
                 if(entities.length>0) {
+                    Rappresentazione[] rapps = Arrays.copyOf(entities, entities.length, Rappresentazione[].class);
+                    RappresentazioneModulo.esportaPrenotazioni(rapps);
                 }else{
                     Notification.show("Devi selezionare le rappresentazioni da esportare");
-                }
-
-                Item rowItem = getTable().getItem(target);
-                if (rowItem != null) {
-                    Object value = rowItem.getItemProperty("id").getValue();
-                    long id = Lib.getLong(value);
-                    if (id > 0) {
-
-                        if (action.equals(actRiepilogo)) {
-                            RappresentazioneModulo.esportaRappresentazione(id);
-                        }
-
-                    }
                 }
 
             }

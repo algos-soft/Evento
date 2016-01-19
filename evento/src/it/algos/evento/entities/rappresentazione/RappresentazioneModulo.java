@@ -5,6 +5,7 @@ import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.filter.Compare;
+import com.vaadin.data.util.filter.Or;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
@@ -18,12 +19,16 @@ import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.BaseEntity_;
+import it.algos.webbase.web.entity.EM;
+import it.algos.webbase.web.entity.Entities;
 import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.lib.LibFilter;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
 import org.apache.commons.lang3.StringUtils;
+import org.vaadin.addons.lazyquerycontainer.LazyEntityContainer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -35,7 +40,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class RappresentazioneModulo extends EModulePop {
 
-    public static final String CMD_MEMO_EXPORT = "Esporta riepilogo rappresentazione...";
+    public static final String CMD_MEMO_EXPORT = "Esporta prenotazioni...";
     public static final Resource ICON_MEMO_EXPORT = FontAwesome.DOWNLOAD;
     public static final String CMD_PARTECIPANTI_EXPORT = "Esporta partecipanti...";
 
@@ -150,11 +155,78 @@ public class RappresentazioneModulo extends EModulePop {
     }
 
 
-    public static void esportaRappresentazione(Object id) {
-        ArrayList<Prenotazione> lista;
-        lista = getListaPrenotazioni(id);
-        tableExport(id, lista, UI.getCurrent());
-    }// end of method
+//    public static void esportaRappresentazione(Object id) {
+//        ArrayList<Prenotazione> lista;
+//        lista = getListaPrenotazioni(id);
+//        tableExport(id, lista, UI.getCurrent());
+//    }// end of method
+
+
+    /**
+     * Esporta tutte le prenotazioni relative a un elenco di rappresentazioni.
+     * @param rapps l'elenco delle rappresentazioni
+     */
+    public static void esportaPrenotazioni(Rappresentazione[] rapps) {
+        EntityManager em = EM.createEntityManager();
+        String titoloReport ="Report prenotazioni";
+        LazyEntityContainer cont = new LazyEntityContainer<BaseEntity>(em, Prenotazione.class, 100, BaseEntity_.id.getName(), true, true, true);
+        Entities.addPropertiesToContainer(cont, Prenotazione.class);
+
+        // filtro che seleziona le prenotazioni delle rappresentazioni
+        Filter[] filtersToAdd = new Filter[rapps.length];
+        int i=0;
+        for (Rappresentazione rapp : rapps) {
+            filtersToAdd[i++] = new Compare.Equal(Prenotazione_.rappresentazione.getName(), rapp);
+        }
+        Filter f;
+        if(filtersToAdd.length>1){
+            f = new Or(filtersToAdd);
+        }else{
+            f = filtersToAdd[0];
+        }
+        cont.addContainerFilter(f);
+
+        // ordina per rappresentazione e sotto per n.prenotazione
+        cont.sort(new Object[]{Prenotazione_.rappresentazione.getName(), Prenotazione_.numPrenotazione.getName()}, new boolean[]{true, true});
+        Table table = new Table();
+        table.setContainerDataSource(cont);
+
+        table.setVisibleColumns(new Object[]{
+                Prenotazione_.rappresentazione.getName(),
+                Prenotazione_.numPrenotazione.getName(),
+                Prenotazione_.scuola.getName(),
+                Prenotazione_.insegnante.getName(),
+                Prenotazione_.numInteri.getName(),
+                Prenotazione_.numRidotti.getName(),
+                Prenotazione_.numDisabili.getName(),
+                Prenotazione_.numAccomp.getName(),
+                Prenotazione_.numTotali.getName()});
+        table.setColumnHeaders(new String[]{
+                "Rappresentazione",
+                "N.Prenotazione",
+                "Scuola",
+                "Insegnante",
+                "Interi",
+                "Ridotti",
+                "Disabili",
+                "Accomp.",
+                "Totale"});
+
+        final ExcelExport excelExport;
+
+        excelExport = new ExcelExport(table);
+        excelExport.setReportTitle(titoloReport);
+        String filename = StringUtils.stripAccents(titoloReport) + ".xls";    // or ExcelExport throws errors!
+        excelExport.setExportFileName(filename);
+
+        UI ui = UI.getCurrent();
+        Component oldContent = ui.getContent();
+        ui.setContent(table);
+        excelExport.export();
+        ui.setContent(oldContent);
+        em.close();
+    }
+
 
     public void esportaPartecipanti(UI ui) {
 
@@ -197,39 +269,45 @@ public class RappresentazioneModulo extends EModulePop {
     }// end of method
 
 
-    private static void tableExport(Object id, ArrayList<Prenotazione> lista, UI ui) {
-        Table table = new Table();
-        String titoloReport = getTitoloReport(id);
-        BeanItemContainer<Prenotazione> container = new BeanItemContainer<Prenotazione>(Prenotazione.class);
+//    /**
+//     * @param id    id della rappresentazione
+//     * @param lista lista delle prenotazioni della rappresentazione
+//     * @param ui    la ui
+//     */
+//    private static void tableExport(Object id, ArrayList<Prenotazione> lista, UI ui) {
+//        Table table = new Table();
+//        String titoloReport = getTitoloReport(id);
+//        BeanItemContainer<Prenotazione> container = new BeanItemContainer<Prenotazione>(Prenotazione.class);
+//
+//        for (Prenotazione bean : lista) {
+//            container.addBean(bean);
+//        }// end of for cycle
+//
+//        table.setContainerDataSource(container);
+//
+//        table.setVisibleColumns(new Object[]{Prenotazione_.scuola.getName(), Prenotazione_.insegnante.getName(), Prenotazione_.numInteri.getName(), Prenotazione_.numRidotti.getName(),
+//                Prenotazione_.numDisabili.getName(), Prenotazione_.numAccomp.getName(), Prenotazione_.numTotali.getName()});
+//        table.setColumnHeaders(new String[]{"Scuola", "Insegnante", "Interi", "Ridotti", "Disabili", "Accomp.",
+//                "Totale"});
+//
+//        //comp.addComponent(table);
+//        final ExcelExport excelExport;
+//
+//        excelExport = new ExcelExport(table);
+//        excelExport.setReportTitle(titoloReport);
+//        String filename = StringUtils.stripAccents(titoloReport) + ".xls";    // or ExcelExport throws errors!
+//        excelExport.setExportFileName(filename);
+//
+//        Component oldContent = ui.getContent();
+//        ui.setContent(table);
+//        excelExport.export();
+//        ui.setContent(oldContent);
+//
+//        //comp.removeComponent(table);
+//
+//
+//    }// end of method
 
-        for (Prenotazione bean : lista) {
-            container.addBean(bean);
-        }// end of for cycle
-
-        table.setContainerDataSource(container);
-
-        table.setVisibleColumns(new Object[]{Prenotazione_.scuola.getName(), Prenotazione_.insegnante.getName(), Prenotazione_.numInteri.getName(), Prenotazione_.numRidotti.getName(),
-                Prenotazione_.numDisabili.getName(), Prenotazione_.numAccomp.getName(), Prenotazione_.numTotali.getName()});
-        table.setColumnHeaders(new String[]{"Scuola", "Insegnante", "Interi", "Ridotti", "Disabili", "Accomp.",
-                "Totale"});
-
-        //comp.addComponent(table);
-        final ExcelExport excelExport;
-
-        excelExport = new ExcelExport(table);
-        excelExport.setReportTitle(titoloReport);
-        String filename = StringUtils.stripAccents(titoloReport) + ".xls";    // or ExcelExport throws errors!
-        excelExport.setExportFileName(filename);
-
-        Component oldContent = ui.getContent();
-        ui.setContent(table);
-        excelExport.export();
-        ui.setContent(oldContent);
-
-        //comp.removeComponent(table);
-
-
-    }// end of method
 
     private static String getTitoloReport(Object id) {
         String titoloReport = "";
