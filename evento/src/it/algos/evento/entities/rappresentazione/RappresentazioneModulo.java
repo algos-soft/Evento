@@ -23,6 +23,7 @@ import it.algos.webbase.web.entity.BaseEntity_;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.entity.Entities;
 import it.algos.webbase.web.form.ModuleForm;
+import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.lib.LibFilter;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
@@ -40,9 +41,9 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class RappresentazioneModulo extends EModulePop {
 
-    public static final String CMD_MEMO_EXPORT = "Esporta prenotazioni...";
-    public static final Resource ICON_MEMO_EXPORT = FontAwesome.DOWNLOAD;
+    public static final String CMD_PRENOTAZIONI_EXPORT = "Esporta prenotazioni...";
     public static final String CMD_PARTECIPANTI_EXPORT = "Esporta partecipanti...";
+    public static final Resource ICON_MEMO_EXPORT = FontAwesome.DOWNLOAD;
 
     /**
      * Costruttore senza parametri
@@ -164,24 +165,25 @@ public class RappresentazioneModulo extends EModulePop {
 
     /**
      * Esporta tutte le prenotazioni relative a un elenco di rappresentazioni.
+     *
      * @param rapps l'elenco delle rappresentazioni
      */
     public static void esportaPrenotazioni(Rappresentazione[] rapps) {
         EntityManager em = EM.createEntityManager();
-        String titoloReport ="Report prenotazioni";
+        String titoloReport = "Report prenotazioni "+ LibDate.toStringDDMMYYYY(LibDate.today());;
         LazyEntityContainer cont = new LazyEntityContainer<BaseEntity>(em, Prenotazione.class, 100, BaseEntity_.id.getName(), true, true, true);
         Entities.addPropertiesToContainer(cont, Prenotazione.class);
 
         // filtro che seleziona le prenotazioni delle rappresentazioni
         Filter[] filtersToAdd = new Filter[rapps.length];
-        int i=0;
+        int i = 0;
         for (Rappresentazione rapp : rapps) {
             filtersToAdd[i++] = new Compare.Equal(Prenotazione_.rappresentazione.getName(), rapp);
         }
         Filter f;
-        if(filtersToAdd.length>1){
+        if (filtersToAdd.length > 1) {
             f = new Or(filtersToAdd);
-        }else{
+        } else {
             f = filtersToAdd[0];
         }
         cont.addContainerFilter(f);
@@ -212,9 +214,8 @@ public class RappresentazioneModulo extends EModulePop {
                 "Accomp.",
                 "Totale"});
 
-        final ExcelExport excelExport;
 
-        excelExport = new ExcelExport(table);
+        final ExcelExport excelExport = new ExcelExport(table);
         excelExport.setReportTitle(titoloReport);
         String filename = StringUtils.stripAccents(titoloReport) + ".xls";    // or ExcelExport throws errors!
         excelExport.setExportFileName(filename);
@@ -226,6 +227,51 @@ public class RappresentazioneModulo extends EModulePop {
         ui.setContent(oldContent);
         em.close();
     }
+
+
+    /**
+     * Esporta tutti i partecipanti relativi a un elenco di rappresentazioni.
+     *
+     * @param rapps l'elenco delle rappresentazioni
+     */
+    public static void esportaPartecipanti(Rappresentazione[] rapps) {
+        EntityManager em = EM.createEntityManager();
+        String titoloReport = "Report partecipanti "+ LibDate.toStringDDMMYYYY(LibDate.today());
+
+
+        // crea un container contenente un wrapper per ogni
+        // partecipazione alle rappresentazioni
+        BeanItemContainer<PartecipazioneBean> container = new BeanItemContainer(PartecipazioneBean.class);
+        for (Rappresentazione rapp : rapps) {
+            List<Insegnante> insegnanti = rapp.getInsegnanti();
+            for (Insegnante ins : insegnanti) {
+                PartecipazioneBean bean = new PartecipazioneBean(ins, rapp);
+                container.addBean(bean);
+            }
+        }
+
+        // crea una table da esportare
+        Table table = new Table();
+        table.setContainerDataSource(container);
+
+        // i nomi delle visible columns devono corrispondere alle properties
+        // del bean (metodi getter senza parola "get")!
+        table.setVisibleColumns(new Object[]{"data", "nomeEvento", "cognome", "nome", "email"});
+        table.setColumnHeaders(new String[]{"Data", "Evento", "Cognome", "Nome", "Email"});
+
+        final ExcelExport excelExport = new ExcelExport(table);
+        excelExport.setReportTitle(titoloReport);
+        String filename = StringUtils.stripAccents(titoloReport) + ".xls";    // or ExcelExport throws errors!
+        excelExport.setExportFileName(filename);
+
+        UI ui = UI.getCurrent();
+        Component oldContent = ui.getContent();
+        ui.setContent(table);
+        excelExport.export();
+        ui.setContent(oldContent);
+        em.close();
+    }
+
 
 
     public void esportaPartecipanti(UI ui) {

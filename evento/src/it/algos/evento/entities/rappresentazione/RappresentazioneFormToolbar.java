@@ -29,7 +29,7 @@ public class RappresentazioneFormToolbar extends FormToolbar {
 //            }// end of method
 //        });// end of anonymous inner class
 //
-//        button.setDescription(RappresentazioneModulo.CMD_MEMO_EXPORT);
+//        button.setDescription(RappresentazioneModulo.CMD_PRENOTAZIONI_EXPORT);
 
     }
 }

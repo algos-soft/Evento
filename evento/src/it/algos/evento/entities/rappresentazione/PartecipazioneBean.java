@@ -1,6 +1,7 @@
 package it.algos.evento.entities.rappresentazione;
 
 import it.algos.evento.entities.insegnante.Insegnante;
+import it.algos.webbase.web.lib.LibDate;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -30,12 +31,22 @@ public class PartecipazioneBean  implements Serializable {
     }
 
 
-    public Date getData() {
-        return rappresentazione.getDataRappresentazione();
+    public String getData() {
+        Date date=rappresentazione.getDataRappresentazione();
+        return LibDate.toStringDDMMYYYY(date);
     }
 
+    public String getNomeEvento() {
+        return rappresentazione.getEvento().getTitolo();
+    }
+
+
     public String getEvento() {
-        return rappresentazione.getEvento().getSigla();
+        return rappresentazione.getEvento().toString();
+    }
+
+    public String getRappresentazione() {
+        return rappresentazione.toString();
     }
 
     public String getNome() {

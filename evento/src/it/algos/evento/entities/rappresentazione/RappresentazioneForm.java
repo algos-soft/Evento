@@ -135,10 +135,23 @@ public class RappresentazioneForm extends ModuleForm {
 
     protected Component createComponent() {
         TabSheet tabsheet = new TabSheet();
-        tabsheet.setWidth("700px");
-        tabsheet.addTab(creaTabGenerale(), "Generale");
-        tabsheet.addTab(creaTabPrenotazioni(), "Prenotazioni");
-        tabsheet.addTab(creaTabInsegnanti(), "Partecipanti");
+        tabsheet.setWidth("60em");
+
+        Component tab;
+        String h="28em";
+
+        tab = creaTabGenerale();
+        tab.setHeight(h);
+        tabsheet.addTab(tab, "Generale");
+
+        tab = creaTabPrenotazioni();
+        tab.setHeight(h);
+        tabsheet.addTab(tab, "Prenotazioni");
+
+        tab = creaTabInsegnanti();
+        tab.setHeight(h);
+        tabsheet.addTab(tab, "Partecipanti");
+
         return tabsheet;
 
     }// end of method
@@ -162,11 +175,12 @@ public class RappresentazioneForm extends ModuleForm {
 
         ATable tablePrenotazioni = modPren.getTable();
 //        ATable tablePrenotazioni = new TablePrenotazioni(getRappresentazione());
-        tablePrenotazioni.setPageLength(8);
+//        tablePrenotazioni.setPageLength(8);
 
         layout.addComponent(new Label("Elenco delle prenotazioni"));
         tablePrenotazioni.setWidth("100%");
         layout.addComponent(tablePrenotazioni);
+        layout.setExpandRatio(tablePrenotazioni, 1);
 
         return layout;
     }
@@ -220,13 +234,15 @@ public class RappresentazioneForm extends ModuleForm {
         panComandi.setComponentAlignment(bRimuovi, Alignment.BOTTOM_LEFT);
 
         tableInsegnanti = new TableInsegnanti(getEntityManager());
-        tableInsegnanti.setPageLength(8);
+//        tableInsegnanti.setPageLength(8);
 
         // panComandi.setWidth("100%");
         layout.addComponent(new Label("Elenco degli insegnanti che hanno partecipato"));
         layout.addComponent(panComandi);
         tableInsegnanti.setWidth("100%");
         layout.addComponent(tableInsegnanti);
+        layout.setExpandRatio(tableInsegnanti, 1);
+
 
         return layout;
     }

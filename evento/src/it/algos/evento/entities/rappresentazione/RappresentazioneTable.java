@@ -1,7 +1,6 @@
 package it.algos.evento.entities.rappresentazione;
 
 import com.vaadin.data.Container;
-import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.event.Action;
@@ -16,7 +15,6 @@ import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.ETable;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.BaseEntity_;
-import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.module.ModulePop;
 
 import javax.persistence.EntityManager;
@@ -96,13 +94,17 @@ public class RappresentazioneTable extends ETable {
         // comandi contestuali aggiuntivi
         addActionHandler(new Action.Handler() {
 
-            private final Action actRiepilogo = new Action(RappresentazioneModulo.CMD_MEMO_EXPORT,
+            private final Action actExportPren = new Action(RappresentazioneModulo.CMD_PRENOTAZIONI_EXPORT,
                     RappresentazioneModulo.ICON_MEMO_EXPORT);
+            private final Action actExportPart = new Action(RappresentazioneModulo.CMD_PARTECIPANTI_EXPORT,
+                    RappresentazioneModulo.ICON_MEMO_EXPORT);
+
 
             public Action[] getActions(Object target, Object sender) {
                 Action[] actions = null;
-                actions = new Action[1];
-                actions[0] = actRiepilogo;
+                actions = new Action[2];
+                actions[0] = actExportPren;
+                actions[1] = actExportPart;
                 return actions;
             }
 
@@ -111,7 +113,15 @@ public class RappresentazioneTable extends ETable {
                 BaseEntity[] entities = getSelectedEntities();
                 if(entities.length>0) {
                     Rappresentazione[] rapps = Arrays.copyOf(entities, entities.length, Rappresentazione[].class);
-                    RappresentazioneModulo.esportaPrenotazioni(rapps);
+
+                    if(action.equals(actExportPren)){
+                        RappresentazioneModulo.esportaPrenotazioni(rapps);
+                    }
+
+                    if(action.equals(actExportPart)){
+                        RappresentazioneModulo.esportaPartecipanti(rapps);
+                    }
+
                 }else{
                     Notification.show("Devi selezionare le rappresentazioni da esportare");
                 }
