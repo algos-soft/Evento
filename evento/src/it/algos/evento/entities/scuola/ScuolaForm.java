@@ -19,24 +19,12 @@ import it.algos.webbase.web.module.ModulePop;
 @SuppressWarnings("serial")
 public class ScuolaForm extends ModuleForm {
 
-//	public ScuolaForm(ModulePop modulo) {
-//		super(modulo);
-//		doInit();
-//	}// end of constructor
 
 	public ScuolaForm(ModulePop modulo, Item item) {
 		super(item, modulo);
-		doInit();
-	}// end of constructor
-
-//	public ScuolaForm(Item item) {
-//		this(null, item);
-//		doInit();
-//	}// end of constructor
-	
-	private void doInit(){
-		//setMargin(true);
 	}
+
+
 
 
 	@Override
@@ -108,8 +96,8 @@ public class ScuolaForm extends ModuleForm {
 		layout.addComponent(getField(Scuola_.fax));
 		layout.addComponent(getField(Scuola_.email));
 		layout.addComponent(getField(Scuola_.note));
-		
+
 		return layout;
-	}// end of method
+	}
 
 }

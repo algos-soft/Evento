@@ -152,6 +152,7 @@ public class RappresentazioneForm extends ModuleForm {
         tab.setHeight(h);
         tabsheet.addTab(tab, "Partecipanti");
 
+//        tabsheet.addStyleName("redBg");
         return tabsheet;
 
     }// end of method
@@ -218,7 +219,7 @@ public class RappresentazioneForm extends ModuleForm {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                Object id = tableInsegnanti.getSelectedId(); // get the selected rows id
+                Object id = tableInsegnanti.getSelectedId(); // get the selected row id
                 if (id != null) {
                     BeanItemContainer<Insegnante> cont = tableInsegnanti.getBeanContainer();
                     cont.removeItem(id);
@@ -236,10 +237,11 @@ public class RappresentazioneForm extends ModuleForm {
         tableInsegnanti = new TableInsegnanti(getEntityManager());
 //        tableInsegnanti.setPageLength(8);
 
-        // panComandi.setWidth("100%");
         layout.addComponent(new Label("Elenco degli insegnanti che hanno partecipato"));
         layout.addComponent(panComandi);
         tableInsegnanti.setWidth("100%");
+        tableInsegnanti.setHeight("100%");
+
         layout.addComponent(tableInsegnanti);
         layout.setExpandRatio(tableInsegnanti, 1);
 

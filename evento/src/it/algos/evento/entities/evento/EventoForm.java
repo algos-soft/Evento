@@ -22,19 +22,15 @@ import it.algos.webbase.web.module.ModulePop;
 @SuppressWarnings("serial")
 public class EventoForm extends ModuleForm {
 
-//	public EventoForm(ModulePop modulo) {
-//		super(modulo);
-//		doInit();
-//	}// end of constructor
 
 	public EventoForm(ModulePop modulo, Item item) {
 		super(item, modulo);
 		doInit();
-	}// end of constructor
+	}
 
 	private void doInit(){
-		setWidth("500px");
-		
+		//setWidth("500px");
+
 		// se nuovo record mette importi di default
 		if (isNewRecord()) {
 			Field fIntero = getField(Evento_.importoIntero);

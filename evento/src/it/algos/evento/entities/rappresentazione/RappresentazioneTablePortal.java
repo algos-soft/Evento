@@ -1,9 +1,8 @@
 package it.algos.evento.entities.rappresentazione;
 
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.*;
 import com.vaadin.ui.MenuBar.MenuItem;
-import com.vaadin.ui.Notification;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.TablePortal;
@@ -41,8 +40,50 @@ public class RappresentazioneTablePortal extends TablePortal {
 		});// end of anonymous class
 		subItem.setDescription("Esporta il riepilogo dei partecipanti per tutte le rappresentazioni in selezionate");
 
+
+
+		// bottone Test...
+		toolbar.addButton("Test...", FontAwesome.BARS, new MenuBar.Command() {
+			@Override
+			public void menuSelected(MenuItem menuItem) {
+				test();
+			}
+		});
+
 		return toolbar;
 	}// end of method
+
+
+	private void test(){
+		final Window window = new Window();
+        VerticalLayout layout = new VerticalLayout();
+
+        Component c1 = new Label("riga1");
+        c1.addStyleName("yellowBg");
+        layout.addComponent(c1);
+        //c1.setHeight("100%");
+
+        Component c2 = new Label("seconda riga");
+        c2.addStyleName("greenBg");
+        layout.addComponent(c2);
+
+        //layout.setExpandRatio(c1,1);
+
+        //layout.setSizeFull();
+        layout.setHeight("100%");
+
+
+        window.setCaption("Window title");
+        window.setContent(layout);
+
+        window.setSizeUndefined();
+
+		getUI().addWindow(window);
+//        window.setSizeFull();
+//        window.setWidth(layout.getWidth(), layout.getWidthUnits());
+//        window.setHeight("100px");
+        window.center();
+	}
 
 
 	/**
