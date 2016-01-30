@@ -224,17 +224,6 @@ public class PrenotazioneModulo extends EModulePop {
         return new PrenotazioneSearch();
     }// end of method
 
-    /**
-     * Post create / pre edit item
-     */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    protected void postCreate(Item item) {
-        Property prop = item.getItemProperty(Prenotazione_.numPrenotazione.getName());
-        int nextnum = CompanyPrefs.nextNumPren.getInt();
-        prop.setValue(nextnum);
-        CompanyPrefs.nextNumPren.put(nextnum + 1);
-    }// end of method
-
 
     /**
      * Invio email istruzioni (no UI)

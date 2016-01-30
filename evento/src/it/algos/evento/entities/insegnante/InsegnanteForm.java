@@ -22,15 +22,9 @@ public class InsegnanteForm extends ModuleForm {
 	private ERelatedComboField fieldOrdineScuola;
 	private TextField fieldMaterie;
 
-//	public InsegnanteForm(Item item) {
-//		super(item);
-//		doInit();
-//	}
-
-//	public InsegnanteForm(ModulePop modulo) {
-//		super(modulo);
-//		doInit();
-//	}// end of constructor
+	public InsegnanteForm(Item item) {
+		this(null, item);
+	}
 
 	public InsegnanteForm(ModulePop modulo, Item item) {
 		super(item, modulo);

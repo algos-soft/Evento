@@ -1,5 +1,6 @@
 package it.algos.evento.entities.prenotazione;
 
+import com.vaadin.data.*;
 import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.modopagamento.ModoPagamento;
@@ -47,6 +48,17 @@ public class Prenotazione extends EventoEntity {
 
     private final static Logger logger = Logger.getLogger(PrenotazioneModulo.class.getName());
 
+
+    @PrePersist
+    public void prePersist(){
+        super.prePersist(Prenotazione.class);
+
+        // assegna il numero di prenotazione dal contatore e incrementa il contatore
+        int nextnum = CompanyPrefs.nextNumPren.getInt();
+        setNumPrenotazione(nextnum);
+        CompanyPrefs.nextNumPren.put(nextnum + 1);
+
+    }
 
     @PostPersist
     protected void postPersist() {

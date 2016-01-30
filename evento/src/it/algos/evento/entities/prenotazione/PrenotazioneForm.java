@@ -6,6 +6,7 @@ import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.validator.NullValidator;
@@ -105,6 +106,18 @@ public class PrenotazioneForm extends ModuleForm {
             public void attach(AttachEvent attachEvent) {
                 if (isNewRecord()) {
                     getWindow().setCaption("Nuova prenotazione");
+
+                    // scrive in anteprima nel campo il prossimo numero di prenotazione
+                    // (se il field è read-only lo mette provvisoriamente in rw per scriverlo)
+                    // (il numero viene comunque riattribuito nel @PrePersist della entity)
+                    Field field = getField(Prenotazione_.numPrenotazione);
+                    if(field!=null){
+                        boolean ro=field.isReadOnly();
+                        field.setReadOnly(false);
+                        field.setValue(CompanyPrefs.nextNumPren.getInt());
+                        field.setReadOnly(ro);
+                    }
+
                 } else {
                     getWindow().setCaption("Modifica prenotazione");
                 }
