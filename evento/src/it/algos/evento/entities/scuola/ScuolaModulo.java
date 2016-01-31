@@ -74,7 +74,7 @@ public class ScuolaModulo extends EModulePop {
 
 	@Override
 	public ModuleForm createForm(Item item) {
-		return (new ScuolaForm(this, item));
+		return (new ScuolaForm(item, this));
 	}// end of method
 
 	@Override

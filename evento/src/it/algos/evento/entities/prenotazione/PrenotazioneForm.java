@@ -2,11 +2,9 @@ package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.data.Container;
-import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.validator.NullValidator;
@@ -24,7 +22,8 @@ import it.algos.evento.entities.insegnante.Insegnante_;
 import it.algos.evento.entities.lettera.ModelliLettere;
 import it.algos.evento.entities.modopagamento.ModoPagamento;
 import it.algos.evento.entities.prenotazione.PrenotazioneFormToolbar.PrenotazioneFormToolbarListener;
-import it.algos.evento.entities.prenotazione.eventi.EventiInPrenTable;
+import it.algos.evento.entities.prenotazione.eventi.EventoPrenModulo;
+import it.algos.evento.entities.prenotazione.eventi.EventoPrenTable;
 import it.algos.evento.entities.prenotazione.eventi.EventoPren_;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.rappresentazione.RappresentazioneModulo;
@@ -47,11 +46,11 @@ import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.module.Module;
 import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.toolbar.FormToolbar;
 import org.joda.time.DateTime;
 
 import javax.persistence.EntityManager;
-import javax.persistence.metamodel.SingularAttribute;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -70,10 +69,14 @@ public class PrenotazioneForm extends ModuleForm {
     private TextField fieldClasse;
     private RelatedComboField comboScuola;
     private CheckBoxField fieldPrivato;
-    private EventiInPrenTable eventsTable; // la table con gli eventi
     private Label dettaglioInsegnante;
 
     private boolean inValueChange = false;   // flag per evitare di reagire ricorsivamente agli eventi di cambio valore di alcuni campi
+
+    // Modulo EventiPrenotazioni interno per la gestione
+    // della lista eventi interna alla scheda
+    private EventoPrenModulo modEventi;
+
 
     // listener e relativi metodi per ascoltare la prenotazione confermata
     private PrenotazioneConfermataListener pcListener;
@@ -92,11 +95,14 @@ public class PrenotazioneForm extends ModuleForm {
 
     public PrenotazioneForm(ModulePop modulo, Item item) {
         super(item, modulo);
-        doInit();
     }// end of constructor
 
 
-    private void doInit() {
+    protected void init() {
+
+        modEventi = new EventiPrenModuloInterno();
+
+        super.init();
 
         refreshDettaglioInsegnante();
 
@@ -123,6 +129,7 @@ public class PrenotazioneForm extends ModuleForm {
                 }
             }
         });
+
     }
 
 
@@ -653,20 +660,30 @@ public class PrenotazioneForm extends ModuleForm {
         layout.setMargin(true);
         layout.setSpacing(true);
 
-        eventsTable = new EventiInPrenTable(getModule().getEntityManager());
-        eventsTable.setPageLength(7);
-        SingularAttribute attr = EventoPren_.prenotazione;
-        String name = attr.getName();
-        Filter filter = new Compare.Equal(name, getPrenotazione());
-        Container.Filterable fCont = eventsTable.getFilterableContainer();
-        fCont.removeAllContainerFilters();
-        fCont.addContainerFilter(filter);
 
-        Container.Sortable sCont = eventsTable.getSortableContainer();
-        sCont.sort(new String[]{EventoPren_.timestamp.getName()}, new boolean[]{true});
+        ATable tableEventi = modEventi.getTable();
+        layout.addComponent(new Label("Eventi della prenotazione"));
+        tableEventi.setWidth("100%");
+        tableEventi.setPageLength(7);
+        layout.addComponent(tableEventi);
+        layout.setExpandRatio(tableEventi, 1);
 
-        eventsTable.setWidth("100%");
-        layout.addComponent(eventsTable);
+
+
+//        eventsTable = new EventiInPrenTable(getModule().getEntityManager());
+//        eventsTable.setPageLength(7);
+//        SingularAttribute attr = EventoPren_.prenotazione;
+//        String name = attr.getName();
+//        Filter filter = new Compare.Equal(name, getPrenotazione());
+//        Container.Filterable fCont = eventsTable.getFilterableContainer();
+//        fCont.removeAllContainerFilters();
+//        fCont.addContainerFilter(filter);
+//
+//        Container.Sortable sCont = eventsTable.getSortableContainer();
+//        sCont.sort(new String[]{EventoPren_.timestamp.getName()}, new boolean[]{true});
+//
+//        eventsTable.setWidth("100%");
+//        layout.addComponent(eventsTable);
 
         comp = getField(Prenotazione_.note);
         comp.setWidth("100%");
@@ -1145,4 +1162,77 @@ public class PrenotazioneForm extends ModuleForm {
         return  pm;
     }
 
+
+    /**
+     * Modulo EventoPrenModulo dedicato alla gestione Eventi Prenotazioni
+     * all'interno della scheda Prenotazione.
+     * Usato per la gestione della lista e della scheda interne.
+     */
+    private class EventiPrenModuloInterno extends EventoPrenModulo{
+
+        /**
+         * Usa una tabella specifica
+         */
+        @Override
+        public ATable createTable() {
+            return new TableEventiInterna(this);
+        }
+
+        /**
+         * Questo modulo non è inserito graficamente in nessuna UI
+         * perciò ritorna la UI della scheda che lo contiene.
+         * La UI è richiesta quando deve mostrare la scheda.
+         */
+        @Override
+        public UI getUI() {
+            return PrenotazioneForm.this.getUI();
+        }
+
+        /**
+         * Questo modulo usa lo stesso EntityManager della
+         * scheda che lo contiene
+         */
+        @Override
+        public EntityManager getEntityManager() {
+            return PrenotazioneForm.this.getEntityManager();
+        }
+    }
+
+    /**
+     * Tabella Prenotazioni del modulo Prenotazioni interno
+     */
+    private class TableEventiInterna extends EventoPrenTable {
+
+        public TableEventiInterna(EventoPrenModulo modulo) {
+            super(modulo);
+        }
+
+        /**
+         * Filtra il container sulla prenotazione corrente
+         */
+        @Override
+        public Container createContainer() {
+            Filterable cont = (Filterable)super.createContainer();
+            Prenotazione pren = getPrenotazione();
+            cont.addContainerFilter(new Compare.Equal(EventoPren_.prenotazione.getName(), pren));
+            return cont;
+        }
+
+
+
+        /**
+         * Mostra solo alcune colonne
+         */
+        protected Object[] getDisplayColumns() {
+            return new Object[] { EventoPren_.timestamp,
+                    EventoPren_.tipo,
+                    EventoPren_.dettagli,
+                    EventoPren_.user ,
+                    colEmail,
+                    colEsito};
+        }// end of method
+
+
+
+    }
 }

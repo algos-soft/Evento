@@ -20,7 +20,7 @@ import it.algos.webbase.web.module.ModulePop;
 public class ScuolaForm extends ModuleForm {
 
 
-	public ScuolaForm(ModulePop modulo, Item item) {
+	public ScuolaForm( Item item, ModulePop modulo) {
 		super(item, modulo);
 	}
 

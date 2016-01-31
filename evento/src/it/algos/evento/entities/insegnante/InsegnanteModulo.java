@@ -71,7 +71,7 @@ public class InsegnanteModulo extends EModulePop {
 
 	@Override
 	public ModuleForm createForm(Item item) {
-		return (new InsegnanteForm(this, item));
+		return (new InsegnanteForm(item, this));
 	}// end of method
 
 	@Override
