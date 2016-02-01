@@ -39,6 +39,7 @@ import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
 import org.joda.time.DateTime;
 
+import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -191,7 +192,6 @@ public class PrenotazioneModulo extends EModulePop {
 //    }// end of method
 
 
-
     @Override
     public ModuleForm createForm(Item item) {
         PrenotazioneForm form = new PrenotazioneForm(this, item);
@@ -287,11 +287,11 @@ public class PrenotazioneModulo extends EModulePop {
         TipoEventoPren tipoEvento = TipoEventoPren.promemoriaInvioSchedaPrenotazione;
 
         // manda l'e-mail
-        Spedizione sped=sendEmailEvento(pren, tipoEvento, user, destinatari);
+        Spedizione sped = sendEmailEvento(pren, tipoEvento, user, destinatari);
 
         // solo se e' riuscito a inviare l'email esegue il blocco seguente:
         // aumenta di 1 il livello di sollecito e prolunga la scadenza a X giorni da oggi
-        pren.setLivelloSollecitoConferma(pren.getLivelloSollecitoConferma()+1);
+        pren.setLivelloSollecitoConferma(pren.getLivelloSollecitoConferma() + 1);
         int numDays = CompanyPrefs.ggProlungamentoConfDopoSollecito.getInt(pren.getCompany());
         Date date = new DateTime(LibDate.today()).plusDays(numDays).toDate();
         pren.setScadenzaConferma(date);
@@ -396,8 +396,8 @@ public class PrenotazioneModulo extends EModulePop {
     /**
      * Controlli scadenza pagamento (no UI).
      *
-     * @param pren la prenotazione di riferimento
-     * @param user l'utente che effettua questa operazione
+     * @param pren        la prenotazione di riferimento
+     * @param user        l'utente che effettua questa operazione
      * @param destinatari destinatari email - stringa separata da virgole,
      *                    null per usare i default dalle preferenze
      * @return il rapporto di spedizione e-mail (se eseguita)
@@ -407,7 +407,7 @@ public class PrenotazioneModulo extends EModulePop {
 
         // invia la mail, incrementa il livello di sollecito
         // e prolunga la scadenza a X giorni da oggi
-        pren.setLivelloSollecitoPagamento(pren.getLivelloSollecitoPagamento()+1);
+        pren.setLivelloSollecitoPagamento(pren.getLivelloSollecitoPagamento() + 1);
         int numDays = CompanyPrefs.ggProlungamentoPagamDopoSollecito.getInt(pren.getCompany());
         Date date = new DateTime(LibDate.today()).plusDays(numDays).toDate();
         pren.setScadenzaPagamento(date);
@@ -438,13 +438,26 @@ public class PrenotazioneModulo extends EModulePop {
      * Conferma registrazione pagamento (no UI)
      * <p>
      *
-     * @return true se ha inviato una o più mail
+     * @param pren            - la prenotazione
+     * @param em              - l'EntityManager da usare per le operazioni
+     * @param checkConfermato - true se il pagamento è stato confermato
+     * @param checkRicevuto   - true se il pagamento è stato ricevuto
+     * @param dataCompetenza  - la data di competenza della operazione
+     * @param numInteri       - il nuovo numero di interi
+     * @param numRidotti      - il nuovo numero di ridotti
+     * @param numDisabili     - il nuovo numero di disabili
+     * @param numAccomp       - il nuovo numero di accompagnatori
+     * @param importoPagato   - l'importo pagato
+     * @param mezzo           - il mezzo di pagamento
+     * @param emails          - elenco di indirizzi email dei destinatari, comma-sep.
+     * @return l'esito della eventuale spedizione, null se non aveva niente da spedire
      */
-    public static boolean doConfermaRegistrazionePagamento(Prenotazione pren, int numInteri, int numRidotti,
-                                                           int numDisabili, int numAccomp, BigDecimal importoPrevisto, BigDecimal importoPagato, ModoPagamento mezzo,
-                                                           boolean checkConfermato, boolean checkRicevuto, String user) throws EmailFailedException {
+    public static Spedizione doConfermaRegistrazionePagamento(Prenotazione pren, EntityManager em, boolean checkConfermato, boolean checkRicevuto, Date dataCompetenza,
+                                                           int numInteri, int numRidotti, int numDisabili, int numAccomp,
+                                                           BigDecimal importoPagato, ModoPagamento mezzo,
+                                                           String emails, String user) throws EmailFailedException {
 
-        boolean mailInviata = false;
+        Spedizione sped = null;
 
         // indicatori di passaggio di stato da off a on
         boolean accesoConfermato = false;
@@ -460,52 +473,53 @@ public class PrenotazioneModulo extends EModulePop {
         pren.setImportoPagato(importoPagato);
         pren.setModoPagamento(mezzo);
 
-        // se si è acceso il flag pagamento confermato, registro flag e data di conferma
-        if ((pren.isPagamentoConfermato() == false) && (checkConfermato == true)) {
+        // se è acceso pagamento confermato, registro flag confermato e data di conferma
+        if ((!pren.isPagamentoConfermato()) && (checkConfermato)) {
             pren.setPagamentoConfermato(true);
-            pren.setDataPagamentoConfermato(LibDate.today());
+            pren.setDataPagamentoConfermato(dataCompetenza);
             accesoConfermato = true;
         }
 
-        // se si è acceso il flag pagamento ricevuto, registro flag e data di ricevimento
-        if ((pren.isPagamentoRicevuto() == false) && (checkRicevuto == true)) {
+        // se si è acceso il flag pagamento ricevuto, registro flag ricevuto e data di ricevimento
+        if ((!pren.isPagamentoRicevuto()) && (checkRicevuto)) {
             pren.setPagamentoRicevuto(true);
-            pren.setDataPagamentoRicevuto(LibDate.today());
+            pren.setDataPagamentoRicevuto(dataCompetenza);
             accesoRicevuto = true;
         }
 
-        // salvo e genero evento status changed per aggiornare la lista
-        pren.save();
+        // registro la prenotazione
+        pren.save(em);
 
-        // Se il flag Confermato era spento e ora è stato acceso
-        // - genero evento status changed per aggiornare la lista
-        // - genero un evento pagamento nel registro
-        // - invio la mail se previsto
+
+        // invio le email se richiesto
+        if (!emails.equals("")) {
+            // determino il tipo di evento
+            TipoEventoPren tipoEvento=null;
+            if(checkConfermato){
+                tipoEvento=TipoEventoPren.confermaPagamento;
+            }
+            if(checkRicevuto){
+                tipoEvento=TipoEventoPren.registrazionePagamento;
+            }
+            // mando la(e) email
+            if(tipoEvento!=null){
+                sped = sendEmailEvento(pren, tipoEvento, user, emails);
+            }
+        }
+
+        // Se il flag Confermato era spento e ora è stato acceso genero
+        // un evento di conferma pagamento nel registro
         if (accesoConfermato) {
-            TipoEventoPren tipo = TipoEventoPren.confermaPagamento;
-            PrenotazioneModulo.creaEvento(pren, tipo, importoPagato.toString(), user);
-
-            if (ModelliLettere.confermaPagamento.isSend(pren)) {
-                sendEmailEvento(pren, tipo, user);
-                mailInviata = true;
-            }
+            PrenotazioneModulo.creaEvento(pren, TipoEventoPren.confermaPagamento, importoPagato.toString(), user);
         }
 
-        // Se il flag Ricevuto era spento e ora è stato acceso
-        // - genero evento status changed per aggiornare la lista
-        // - genero un evento pagamento nel registro
-        // - invio la mail se previsto
+        // Se il flag Ricevuto era spento e ora è stato acceso genero
+        // un evento di registrazione pagamento nel registro
         if (accesoRicevuto) {
-            TipoEventoPren tipo = TipoEventoPren.registrazionePagamento;
-            PrenotazioneModulo.creaEvento(pren, tipo, importoPagato.toString(), user);
-
-            if (ModelliLettere.registrazionePagamento.isSend(pren)) {
-                sendEmailEvento(pren, tipo, user);
-                mailInviata = true;
-            }
+            PrenotazioneModulo.creaEvento(pren, TipoEventoPren.registrazionePagamento, importoPagato.toString(), user);
         }
 
-        return mailInviata;
+        return sped;
 
 
     }
@@ -574,7 +588,7 @@ public class PrenotazioneModulo extends EModulePop {
 
 
     /**
-     * Invia una email per una dato evento di prenotazione
+     * Invia una email per un dato evento di prenotazione
      * <p>
      * Crea un evento di spedizione mail (anche se l'invio fallisce)
      *

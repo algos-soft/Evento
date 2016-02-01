@@ -1,6 +1,7 @@
 package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.data.*;
+import com.vaadin.ui.Notification;
 import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.modopagamento.ModoPagamento;
@@ -651,6 +652,37 @@ public class Prenotazione extends EventoEntity {
 
         return totImporto;
     }// end of method
+
+
+    /**
+     * Controlla che si possa eseguire la registrazione del pagamento
+     * (la prenotazione deve essere confermata e il pagamento non deve
+     * essere già stato ricevuto - potrebbe però essere stato solo registrato)
+     * In caso negativo visualizza una notifica
+     * @return stringa vuota se registrabile, o il motivo se non registrabile
+     */
+    public String isPagamentoRegistrabile(){
+        boolean cont=true;
+        String err_msg="";
+
+        // controllo che sia confermata
+        if (cont) {
+            if (!isConfermata()) {
+                err_msg="Questa prenotazione non è confermata.";
+                cont = false;
+            }
+        }
+
+        // controlla che non sia già pagamento confermato e ricevuto
+        if (cont) {
+            if (isPagamentoConfermato() && isPagamentoRicevuto()) {
+                err_msg="Il pagamento è già stato ricevuto.";
+                cont = false;
+            }
+        }
+
+        return err_msg;
+    }
 
 
 }// end of entity class

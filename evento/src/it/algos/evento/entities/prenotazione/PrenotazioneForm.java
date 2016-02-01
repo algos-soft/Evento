@@ -81,15 +81,16 @@ public class PrenotazioneForm extends ModuleForm {
     // listener e relativi metodi per ascoltare la prenotazione confermata
     private PrenotazioneConfermataListener pcListener;
 
-    public interface PrenotazioneConfermataListener{
+    public interface PrenotazioneConfermataListener {
         /**
          * @param pren la prenotazione
          * @param sped l'esito della spedizione (se effettuata)
          */
         void prenotazioneConfermata(Prenotazione pren, Spedizione sped);
     }
-    public void setPrenotazioneConfermataListener(PrenotazioneConfermataListener l){
-        this.pcListener=l;
+
+    public void setPrenotazioneConfermataListener(PrenotazioneConfermataListener l) {
+        this.pcListener = l;
     }
 
 
@@ -117,8 +118,8 @@ public class PrenotazioneForm extends ModuleForm {
                     // (se il field è read-only lo mette provvisoriamente in rw per scriverlo)
                     // (il numero viene comunque riattribuito nel @PrePersist della entity)
                     Field field = getField(Prenotazione_.numPrenotazione);
-                    if(field!=null){
-                        boolean ro=field.isReadOnly();
+                    if (field != null) {
+                        boolean ro = field.isReadOnly();
                         field.setReadOnly(false);
                         field.setValue(CompanyPrefs.nextNumPren.getInt());
                         field.setReadOnly(ro);
@@ -131,7 +132,6 @@ public class PrenotazioneForm extends ModuleForm {
         });
 
     }
-
 
 
     /**
@@ -193,6 +193,11 @@ public class PrenotazioneForm extends ModuleForm {
             @Override
             public void confermaPrenotazione() {
                 confermaPrenotazioneForm();
+            }
+
+            @Override
+            public void registraPagamento() {
+                registraPagamentoForm();
             }
         });
 
@@ -421,7 +426,7 @@ public class PrenotazioneForm extends ModuleForm {
     }
 
     protected Component createComponent() {
-        String width="64em";
+        String width = "64em";
         TabSheet.Tab tab;
 
         TabSheet tabsheet = new TabSheet();
@@ -541,8 +546,6 @@ public class PrenotazioneForm extends ModuleForm {
     }
 
 
-
-
     private Component creaRigaPersone() {
 
         // recupera i Fields
@@ -597,7 +600,6 @@ public class PrenotazioneForm extends ModuleForm {
         return grid;
 
     }
-
 
 
     private Component creaTabPagamento() {
@@ -667,7 +669,6 @@ public class PrenotazioneForm extends ModuleForm {
         tableEventi.setPageLength(7);
         layout.addComponent(tableEventi);
         layout.setExpandRatio(tableEventi, 1);
-
 
 
 //        eventsTable = new EventiInPrenTable(getModule().getEntityManager());
@@ -1063,19 +1064,19 @@ public class PrenotazioneForm extends ModuleForm {
                     new Thread(
                             () -> {
 
-                                Spedizione sped=null;
+                                Spedizione sped = null;
                                 Prenotazione pren = getPrenotazione();
-                                boolean mailInviata=false;
+                                boolean mailInviata = false;
                                 try {
                                     String user = EventoBootStrap.getUsername();
 
                                     // questo comando scrive i campi e salva la prenotazione
                                     // ed eventualmente invia la mail
-                                    String dests=dialogoConferma.getDestinatari();
-                                    sped=getPrenotazioneModulo().doConfermaPrenotazione(pren, dataConferma, user, dests);
+                                    String dests = dialogoConferma.getDestinatari();
+                                    sped = getPrenotazioneModulo().doConfermaPrenotazione(pren, dataConferma, user, dests);
 
                                     if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
-                                        mailInviata=true;
+                                        mailInviata = true;
                                     }
                                 } catch (EmailFailedException e) {
                                     PrenotazioneModulo.notifyEmailFailed(e);
@@ -1095,55 +1096,52 @@ public class PrenotazioneForm extends ModuleForm {
                 }
             });
 
-//            final DialogoConfermaPrenotazione dialogoConferma = new DialogoConfermaPrenotazione(new ConfirmDialog.Listener() {
-//
-//                @Override
-//                public void onClose(ConfirmDialog dialog, boolean confirmed) {
-//                    if (confirmed) {
-//
-//                        Date dataConferma = ((DialogoConfermaPrenotazione) dialog).getDataConferma();
-//
-//                        // invia la mail di istruzioni in un thread separato
-//                        // (usa una lambda al posto del runnable)
-//                        new Thread(
-//                                () -> {
-//
-//
-//                                    Prenotazione pren = getPrenotazione();
-//                                    boolean mailInviata=false;
-//                                    try {
-//                                        String user = EventoBootStrap.getUsername();
-//
-//                                        // questo comando scrive i campi e salva la prenotazione
-//                                        // ed eventualmente invia la mail
-//                                        getPrenotazioneModulo().doConfermaPrenotazione(pren, dataConferma, user);
-//
-//                                        if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
-//                                            mailInviata=true;
-//                                        }
-//                                    } catch (EmailFailedException e) {
-//                                        PrenotazioneModulo.notifyEmailFailed(e);
-//                                    }
-//
-//                                    pcListener.prenotazioneConfermata(pren, mailInviata);
-//
-//
-//                                }
-//                        ).start();
-//
-//                        // chiude la finestra
-//                        Window w = getWindow();
-//                        if (w != null) {
-//                            w.close();
-//                        }
-//
-//                    }
-//                }
-//            }, dataConf);
-
-
             dialogoConferma.show();
 
+        }
+
+    }
+
+
+    /**
+     * Tenta di registrare il pagamento
+     */
+    @SuppressWarnings("rawtypes")
+    private void registraPagamentoForm() {
+        boolean cont=true;
+        Prenotazione pren = getPrenotazione();
+
+        // controllo che il pagamento sia registrabile
+        if (cont) {
+            String err = pren.isPagamentoRegistrabile();
+            if(!err.equals("")){
+                cont = false;
+                Notification.show(err);
+            }
+        }
+
+        // tento di salvare i dati presenti nella scheda
+        if(cont){
+            cont=save();
+        }
+
+        // delega il resto al dialogo
+        if (cont) {
+            DialogoRegistraPagamento dialogo = new DialogoRegistraPagamento(pren, getEntityManager());
+            dialogo.setPagamentoRegistratoListener(new DialogoRegistraPagamento.PagamentoRegistratoListener() {
+                @Override
+                public void pagamentoRegistrato(boolean confermato, boolean ricevuto, boolean mailInviata, boolean emailFailed) {
+
+                    // eseguo un refresh dei dati visibili in scheda
+                    // (i dati sono stati salvati prima di aprire il diaogo)
+                    reload();
+
+                    // mostra una notifica con l'esito della operazione
+                    dialogo.notificaEsito();
+
+                }
+            });
+            dialogo.show();
         }
 
     }
@@ -1153,13 +1151,13 @@ public class PrenotazioneForm extends ModuleForm {
         return EventoBootStrap.getUsername();
     }
 
-    private PrenotazioneModulo getPrenotazioneModulo(){
-        PrenotazioneModulo pm=null;
+    private PrenotazioneModulo getPrenotazioneModulo() {
+        PrenotazioneModulo pm = null;
         Module mod = getModule();
-        if(mod!=null && mod instanceof PrenotazioneModulo){
-            pm=(PrenotazioneModulo)mod;
+        if (mod != null && mod instanceof PrenotazioneModulo) {
+            pm = (PrenotazioneModulo) mod;
         }
-        return  pm;
+        return pm;
     }
 
 
@@ -1168,7 +1166,7 @@ public class PrenotazioneForm extends ModuleForm {
      * all'interno della scheda Prenotazione.
      * Usato per la gestione della lista e della scheda interne.
      */
-    private class EventiPrenModuloInterno extends EventoPrenModulo{
+    private class EventiPrenModuloInterno extends EventoPrenModulo {
 
         /**
          * Usa una tabella specifica
@@ -1212,26 +1210,24 @@ public class PrenotazioneForm extends ModuleForm {
          */
         @Override
         public Container createContainer() {
-            Filterable cont = (Filterable)super.createContainer();
+            Filterable cont = (Filterable) super.createContainer();
             Prenotazione pren = getPrenotazione();
             cont.addContainerFilter(new Compare.Equal(EventoPren_.prenotazione.getName(), pren));
             return cont;
         }
 
 
-
         /**
          * Mostra solo alcune colonne
          */
         protected Object[] getDisplayColumns() {
-            return new Object[] { EventoPren_.timestamp,
+            return new Object[]{EventoPren_.timestamp,
                     EventoPren_.tipo,
                     EventoPren_.dettagli,
-                    EventoPren_.user ,
+                    EventoPren_.user,
                     colEmail,
                     colEsito};
         }// end of method
-
 
 
     }

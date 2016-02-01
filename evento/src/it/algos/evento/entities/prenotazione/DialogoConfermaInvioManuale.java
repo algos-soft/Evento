@@ -12,7 +12,15 @@ import it.algos.webbase.web.field.CheckBoxField;
 import it.algos.webbase.web.field.EmailField;
 
 /**
- * Dialogo conferma invio email prenotazione
+ * Dialogo conferma invio email di qualsiasi tipo, relativamente a una prenotazione.
+ * Fornisce le funzionalità di gestione indirizzi di spedizione a referente e scuola.
+ * Presenta un pannello con gli indirizzi del referente e della scuola con
+ * relativi checkboxes per abilitarli e disabilitarli.
+ * Alla conferma esegue le validazioni degli indirizzi inseriti.
+ * E' anche possibile <strong>non</strong> inserire automaticamente il pannello indirizzi nel dialogo
+ * usando l'apposito flag del costruttore. In tal caso la sottoclasse potrà
+ * recuperare il componente con getEmailComponent() e disporlo graficamente
+ * dove desiderato.
  */
 class DialogoConfermaInvioManuale extends ConfirmDialog {
     private Prenotazione pren;
@@ -22,8 +30,18 @@ class DialogoConfermaInvioManuale extends ConfirmDialog {
     protected EmailField mailRef;
     protected EmailField mailScuola;
     private GridLayout gridLayout;
+    private Component component;
 
-    public DialogoConfermaInvioManuale(Prenotazione pren, String titolo, String messaggio) {
+    /**
+     * Costruttore.
+     *
+     * @param pren      - la prenotazione
+     * @param titolo    - il titolo del dialogo
+     * @param messaggio - eventuale messaggio
+     * @param addPanel  - false per non inserire graficamente il pannello indirizzi nel dialogo
+     *                  (in tal caso lo si potrà poi recuperare con getEmailComponent())
+     */
+    public DialogoConfermaInvioManuale(Prenotazione pren, String titolo, String messaggio, boolean addPanel) {
         super(null);
         this.pren = pren;
         setTitle(titolo);
@@ -51,10 +69,26 @@ class DialogoConfermaInvioManuale extends ConfirmDialog {
         mailScuola = new EmailField();
         mailScuola.setCaption(null);
 
-        addComponent(createUI());
+        component = createUI();
+        if (addPanel) {
+            addComponent(component);
+        }
         populateUI();
         syncUI();
 
+    }
+
+
+    /**
+     * Costruttore.
+     * Inserisce automaticamente il pannello indirizzi.
+     *
+     * @param pren      - la prenotazione
+     * @param titolo    - il titolo del dialogo
+     * @param messaggio - eventuale messaggio
+     */
+    public DialogoConfermaInvioManuale(Prenotazione pren, String titolo, String messaggio) {
+        this(pren, titolo, messaggio, true);
     }
 
 
@@ -74,19 +108,19 @@ class DialogoConfermaInvioManuale extends ConfirmDialog {
     }
 
 
-    protected void populateUI(){
+    protected void populateUI() {
         String s;
-        s=pren.getEmailRiferimento();
-        if (s!=null && !s.equals("")){
+        s = pren.getEmailRiferimento();
+        if (s != null && !s.equals("")) {
             sendRef.setValue(true);
             mailRef.setValue(s);
         }
 
-        if(!pren.isPrivato()){
+        if (!pren.isPrivato()) {
             Scuola scuola = pren.getScuola();
-            if (scuola!=null){
-                s=scuola.getEmail();
-                if (s!=null && !s.equals("")){
+            if (scuola != null) {
+                s = scuola.getEmail();
+                if (s != null && !s.equals("")) {
                     sendScuola.setValue(true);
                     mailScuola.setValue(s);
                 }
@@ -104,33 +138,41 @@ class DialogoConfermaInvioManuale extends ConfirmDialog {
     @Override
     protected void onConfirm() {
 
-        String err="";
-        if(sendRef.getValue()){
-            if(!mailRef.isValid()){
-                if(!err.equals("")){err+="<br>";}
-                err+="e-mail referente non valida";
+        String err = "";
+        if (sendRef.getValue()) {
+            if (!mailRef.isValid()) {
+                if (!err.equals("")) {
+                    err += "<br>";
+                }
+                err += "e-mail referente non valida";
             }
-            if(mailRef.isEmpty()){
-                if(!err.equals("")){err+="<br>";}
-                err+="e-mail referente non specificata";
-            }
-        }
-
-        if(sendScuola.getValue()){
-            if(!mailScuola.isValid()){
-                if(!err.equals("")){err+="<br>";}
-                err+="e-mail scuola non valida";
-            }
-            if(mailScuola.isEmpty()){
-                if(!err.equals("")){err+="<br>";}
-                err+="e-mail scuola non specificata";
+            if (mailRef.isEmpty()) {
+                if (!err.equals("")) {
+                    err += "<br>";
+                }
+                err += "e-mail referente non specificata";
             }
         }
 
+        if (sendScuola.getValue()) {
+            if (!mailScuola.isValid()) {
+                if (!err.equals("")) {
+                    err += "<br>";
+                }
+                err += "e-mail scuola non valida";
+            }
+            if (mailScuola.isEmpty()) {
+                if (!err.equals("")) {
+                    err += "<br>";
+                }
+                err += "e-mail scuola non specificata";
+            }
+        }
 
-        if(err.equals("")) {
+
+        if (err.equals("")) {
             super.onConfirm();
-        }else{
+        } else {
             Notification n = new Notification(err);
             n.setHtmlContentAllowed(true);
             n.show(Page.getCurrent());
@@ -143,19 +185,23 @@ class DialogoConfermaInvioManuale extends ConfirmDialog {
      * @return l'array degli indirizzi dei destinatari
      * (elenco indirizzi separati da virgola)
      */
-    public String getDestinatari(){
-        String str="";
+    public String getDestinatari() {
+        String str = "";
 
-        if(sendRef.getValue()){
-            if(!mailRef.isEmpty()){
-                if(!str.equals("")){str+=", ";}
-                str+=mailRef.getValue();
+        if (sendRef.getValue()) {
+            if (!mailRef.isEmpty()) {
+                if (!str.equals("")) {
+                    str += ", ";
+                }
+                str += mailRef.getValue();
             }
         }
-        if(sendScuola.getValue()){
-            if(!mailScuola.isEmpty()){
-                if(!str.equals("")){str+=", ";}
-                str+=mailScuola.getValue();
+        if (sendScuola.getValue()) {
+            if (!mailScuola.isEmpty()) {
+                if (!str.equals("")) {
+                    str += ", ";
+                }
+                str += mailScuola.getValue();
             }
         }
 
@@ -170,4 +216,12 @@ class DialogoConfermaInvioManuale extends ConfirmDialog {
     public GridLayout getGridLayout() {
         return gridLayout;
     }
+
+    /**
+     * Ritorna il pannello con indirizzi e checkboxes
+     */
+    public Component getEmailComponent() {
+        return component;
+    }
+
 }

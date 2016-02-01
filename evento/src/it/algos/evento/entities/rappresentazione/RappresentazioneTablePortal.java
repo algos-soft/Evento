@@ -55,27 +55,24 @@ public class RappresentazioneTablePortal extends TablePortal {
 
 
 	private void test(){
-		final Window window = new Window();
+
         VerticalLayout layout = new VerticalLayout();
+		layout.setSizeFull();
 
-        Component c1 = new Label("riga1");
-        c1.addStyleName("yellowBg");
-        layout.addComponent(c1);
-        //c1.setHeight("100%");
+        Component c1 = new Label("expanding component");
+		c1.addStyleName("yellowBg");
+		layout.addComponent(c1);
 
-        Component c2 = new Label("seconda riga");
-        c2.addStyleName("greenBg");
-        layout.addComponent(c2);
+		c1.setHeight("100%");
+		layout.setExpandRatio(c1,1);
 
-        //layout.setExpandRatio(c1,1);
+		Component button = new Button("new window3", clickEvent -> {
+            test();
+        });
+		button.setWidth("100%");
+		layout.addComponent(button);
 
-        //layout.setSizeFull();
-        layout.setHeight("100%");
-
-
-        window.setCaption("Window title");
-        window.setContent(layout);
-
+		Window window = new Window("My Window", layout);
         window.setSizeUndefined();
 
 		getUI().addWindow(window);
@@ -83,6 +80,7 @@ public class RappresentazioneTablePortal extends TablePortal {
 //        window.setWidth(layout.getWidth(), layout.getWidthUnits());
 //        window.setHeight("100px");
         window.center();
+
 	}
 
 

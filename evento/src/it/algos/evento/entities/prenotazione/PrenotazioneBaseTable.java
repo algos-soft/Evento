@@ -4,7 +4,6 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.converter.StringToIntegerConverter;
-import com.vaadin.data.util.filter.Compare;
 import com.vaadin.event.Action;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Component;
@@ -22,28 +21,20 @@ import it.algos.evento.entities.prenotazione.eventi.TipoEventoPren;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.spedizione.Spedizione;
-import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
 import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.multiazienda.ELazyContainer;
 import it.algos.evento.multiazienda.EQuery;
-import it.algos.evento.multiazienda.ETable;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.entity.BaseEntity;
-import it.algos.webbase.web.entity.BaseEntity_;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.lib.LibResource;
-import it.algos.webbase.web.module.Module;
-import it.algos.webbase.web.module.ModulePop;
-import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.ModuleTable;
-import org.vaadin.addons.lazyquerycontainer.LazyEntityContainer;
 
-import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.math.BigDecimal;
@@ -299,49 +290,27 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
             Notification.show("Seleziona prima una prenotazione.");
         }
 
-        // controllo che sia confermata
+        // controllo che il pagamento sia registrabile
         if (cont) {
-            if (!pren.isConfermata()) {
+            String err = pren.isPagamentoRegistrabile();
+            if(!err.equals("")){
                 cont = false;
-                Notification.show("Questa prenotazione non è confermata.");
+                Notification.show(err);
             }
         }
 
-        // controlla che non sia già pagamento confermato e ricevuto
+        // delega il resto al dialogo
         if (cont) {
-            if (pren.isPagamentoConfermato() && pren.isPagamentoRicevuto()) {
-                cont = false;
-                Notification.show("Il pagamento è già stato ricevuto.");
-            }
-        }
-
-        // delega al dialogo
-        if (cont) {
-            DialogoRegistraPagamento dialogo = new DialogoRegistraPagamento(pren);
+            DialogoRegistraPagamento dialogo = new DialogoRegistraPagamento(pren, getEntityManager());
             dialogo.setPagamentoRegistratoListener(new DialogoRegistraPagamento.PagamentoRegistratoListener() {
                 @Override
                 public void pagamentoRegistrato(boolean confermato, boolean ricevuto, boolean mailInviata, boolean emailFailed) {
+
+                    // aggiorna la lista
                     refreshRowCache();
 
-                    String msg = "";
-                    if (confermato) {
-                        msg = "Pagamento confermato";
-                    }
-                    if (ricevuto) {
-                        msg = "Pagamento ricevuto";
-                    }
-
-                    String strEmail = "";
-                    if (mailInviata) {
-                        strEmail = "e-mail inviata";
-                    }
-                    if (emailFailed) {
-                        strEmail = "Invio e-mail fallito";
-                    }
-
-                    Notification notification = new Notification(msg, strEmail, Notification.Type.HUMANIZED_MESSAGE);
-                    notification.setDelayMsec(-1);
-                    notification.show(Page.getCurrent());
+                    // mostra una notifica con l'esito della operazione
+                    dialogo.notificaEsito();
 
                 }
             });

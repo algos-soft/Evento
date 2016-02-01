@@ -2,6 +2,7 @@ package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.ui.*;
 import it.algos.evento.pref.CompanyPrefs;
+import it.algos.webbase.web.component.HorizontalLine;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.field.DateField;
 
