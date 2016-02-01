@@ -166,28 +166,9 @@ public class PrenotazioneForm extends ModuleForm {
 
     protected FormToolbar createToolBar() {
         // create the toolbar
-        PrenotazioneFormToolbar toolbar = new PrenotazioneFormToolbar();
+        PrenotazioneFormToolbar toolbar = new PrenotazioneFormToolbar(this);
 
-//        // listener per eventi generali della scheda
-//        toolbar.addToolbarListener(new FormToolbarListener() {
-//
-//            @Override
-//            public void save_() {
-//                save();
-//            }// end of method
-//
-//            @Override
-//            public void reset_() {
-//            }// end of method
-//
-//            @Override
-//            public void cancel_() {
-//                fire(FormEvent.cancel);
-//            }// end of method
-//
-//        });// end of anonymous class
-
-        // listener per eventi specifici della scheda prenotazione
+        // listener per eventi specifici lanciati dalla toolbar
         toolbar.addToolbarListener(new PrenotazioneFormToolbarListener() {
 
             @Override
@@ -203,6 +184,8 @@ public class PrenotazioneForm extends ModuleForm {
 
         return toolbar;
     }// end of method
+
+
 
     @Override
     public void createFields() {

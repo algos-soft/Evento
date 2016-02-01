@@ -1,12 +1,15 @@
 package it.algos.evento.entities.prenotazione;
 
+import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import it.algos.webbase.web.component.Spacer;
+import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.toolbar.FormToolbar;
 
 import java.util.ArrayList;
@@ -16,19 +19,45 @@ public class PrenotazioneFormToolbar extends FormToolbar {
 
     private ArrayList<PrenotazioneFormToolbarListener> listeners = new ArrayList<PrenotazioneFormToolbarListener>();
 
+    private PrenotazioneForm form;
+
+    private MenuBar.MenuItem bConfermaPren;
+    private MenuBar.MenuItem bRegistraPaga;
+
+    public PrenotazioneFormToolbar(PrenotazioneForm form) {
+        super();
+        this.form=form;
+
+        // recupera il field confermata dal form e aggiunge un valueChange listener
+        // per sincronizzare l'abilitazione dei bottoni Conferma Prenotazione e Registra Pagamento
+        Field field = form.getBinder().getField(Prenotazione_.confermata.getName());
+        bConfermaPren.setEnabled(!Lib.getBool(field.getValue()));
+        bRegistraPaga.setEnabled(Lib.getBool(field.getValue()));
+        field.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                bConfermaPren.setEnabled(!Lib.getBool(field.getValue()));
+                bRegistraPaga.setEnabled(Lib.getBool(field.getValue()));
+            }
+        });
+
+
+
+    }
+
     public void addToolbarListener(PrenotazioneFormToolbarListener listener) {
         this.listeners.add(listener);
     }// end of method
 
     protected void addButtons() {
 
-        addButton("Conferma prenotazione", FontAwesome.THUMBS_O_UP, 180, new MenuBar.Command() {
+        bConfermaPren = addButton("Conferma prenotazione", FontAwesome.THUMBS_O_UP, 180, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 prenFire(PrenEvents.confermaPrenotazione);
             }
         });
 
-        addButton(PrenotazioneTablePortal.CMD_REGISTRA_PAGAMENTO, FontAwesome.THUMBS_O_UP, 180, new MenuBar.Command() {
+        bRegistraPaga = addButton(PrenotazioneTablePortal.CMD_REGISTRA_PAGAMENTO, FontAwesome.THUMBS_O_UP, 180, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 prenFire(PrenEvents.registraPagamento);
             }
