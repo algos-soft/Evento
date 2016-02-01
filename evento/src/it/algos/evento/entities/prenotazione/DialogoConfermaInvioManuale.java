@@ -132,7 +132,6 @@ class DialogoConfermaInvioManuale extends ConfirmDialog {
     protected void syncUI() {
         mailRef.setEnabled(sendRef.getValue());
         mailScuola.setEnabled(sendScuola.getValue());
-        getConfirmButton().setEnabled(sendRef.getValue() | sendScuola.getValue());
     }
 
     @Override

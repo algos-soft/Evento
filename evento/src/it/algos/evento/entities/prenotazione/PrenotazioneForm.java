@@ -1030,7 +1030,6 @@ public class PrenotazioneForm extends ModuleForm {
             }
         }
 
-
         // presenta il dialogo di conferma
         if (cont) {
 
@@ -1056,8 +1055,10 @@ public class PrenotazioneForm extends ModuleForm {
                                     // questo comando scrive i campi e salva la prenotazione
                                     // ed eventualmente invia la mail
                                     String dests = dialogoConferma.getDestinatari();
-                                    sped = getPrenotazioneModulo().doConfermaPrenotazione(pren, dataConferma, user, dests);
-
+                                    sped = getPrenotazioneModulo().doConfermaPrenotazione(pren, getEntityManager(), dataConferma, user, dests);
+                                    inValueChange = true;
+                                    reload();   // ricarica i dati in scheda
+                                    inValueChange = false;
                                     if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
                                         mailInviata = true;
                                     }
@@ -1071,11 +1072,11 @@ public class PrenotazioneForm extends ModuleForm {
                             }
                     ).start();
 
-                    // chiude la finestra
-                    Window w = getWindow();
-                    if (w != null) {
-                        w.close();
-                    }
+//                    // chiude la finestra
+//                    Window w = getWindow();
+//                    if (w != null) {
+//                        w.close();
+//                    }
                 }
             });
 

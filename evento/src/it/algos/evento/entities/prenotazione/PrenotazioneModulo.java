@@ -246,18 +246,19 @@ public class PrenotazioneModulo extends EModulePop {
      * Esecuzione conferma prenotazione (no UI)
      *
      * @param pren         la prenotazione
+     * @param em           l'entity manager da utilizzare
      * @param dataConferma la data di conferma da registrare
      * @param user         l'utente che effettua questa operazione
      * @param destinatari  eventuali destinatari della mail (stringa separata da virgole)
      * @return la spedizione effettuata (null se non ha spedito nulla)
      */
-    public static Spedizione doConfermaPrenotazione(Prenotazione pren, Date dataConferma, String user, String destinatari) throws EmailFailedException {
+    public static Spedizione doConfermaPrenotazione(Prenotazione pren, EntityManager em, Date dataConferma, String user, String destinatari) throws EmailFailedException {
         Spedizione sped = null;
         TipoEventoPren tipoEvento = TipoEventoPren.confermaPrenotazione;
         pren.setConfermata(true);
         pren.setDataConferma(dataConferma);
         pren.setCongelata(false);
-        pren.save();
+        pren.save(em);
 
         PrenotazioneModulo.creaEvento(pren, tipoEvento, "", getUsername());
 
@@ -453,9 +454,9 @@ public class PrenotazioneModulo extends EModulePop {
      * @return l'esito della eventuale spedizione, null se non aveva niente da spedire
      */
     public static Spedizione doConfermaRegistrazionePagamento(Prenotazione pren, EntityManager em, boolean checkConfermato, boolean checkRicevuto, Date dataCompetenza,
-                                                           int numInteri, int numRidotti, int numDisabili, int numAccomp,
-                                                           BigDecimal importoPagato, ModoPagamento mezzo,
-                                                           String emails, String user) throws EmailFailedException {
+                                                              int numInteri, int numRidotti, int numDisabili, int numAccomp,
+                                                              BigDecimal importoPagato, ModoPagamento mezzo,
+                                                              String emails, String user) throws EmailFailedException {
 
         Spedizione sped = null;
 
@@ -494,15 +495,15 @@ public class PrenotazioneModulo extends EModulePop {
         // invio le email se richiesto
         if (!emails.equals("")) {
             // determino il tipo di evento
-            TipoEventoPren tipoEvento=null;
-            if(checkConfermato){
-                tipoEvento=TipoEventoPren.confermaPagamento;
+            TipoEventoPren tipoEvento = null;
+            if (checkConfermato) {
+                tipoEvento = TipoEventoPren.confermaPagamento;
             }
-            if(checkRicevuto){
-                tipoEvento=TipoEventoPren.registrazionePagamento;
+            if (checkRicevuto) {
+                tipoEvento = TipoEventoPren.registrazionePagamento;
             }
             // mando la(e) email
-            if(tipoEvento!=null){
+            if (tipoEvento != null) {
                 sped = sendEmailEvento(pren, tipoEvento, user, emails);
             }
         }

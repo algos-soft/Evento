@@ -77,25 +77,9 @@ public class DialogoRegistraPagamento extends DialogoConfermaInvioManuale {
         void pagamentoRegistrato(boolean confermato, boolean ricevuto, boolean emailSent, boolean emailFailed);
     }
 
-//	/**
-//	 * @param pren  la prenotazione da registrare pagamento
-//	 */
-//	public DialogoRegistraPagamento(Prenotazione pren) {
-//		super(null);
-//		this.pren = pren;
-//		setTitle("Registrazione pagamento");
-//
-//		placeholderLayout.addComponent(createTitle());
-//		placeholderLayout.addComponent(createGrid());
-//
-//		caricaDatiDaPrenotazione();
-//		syncTotali();
-//		addListeners();
-//
-//	}
 
     /**
-     * @param pren          la prenotazione da registrare pagamento
+     * @param pren          la prenotazione di cui registrare il pagamento
      * @param entityManager l'entity manager per le operazioni
      */
     public DialogoRegistraPagamento(Prenotazione pren, EntityManager entityManager) {

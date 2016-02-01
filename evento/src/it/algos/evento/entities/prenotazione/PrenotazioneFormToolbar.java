@@ -30,19 +30,39 @@ public class PrenotazioneFormToolbar extends FormToolbar {
 
         // recupera il field confermata dal form e aggiunge un valueChange listener
         // per sincronizzare l'abilitazione dei bottoni Conferma Prenotazione e Registra Pagamento
-        Field field = form.getBinder().getField(Prenotazione_.confermata.getName());
-        bConfermaPren.setEnabled(!Lib.getBool(field.getValue()));
-        bRegistraPaga.setEnabled(Lib.getBool(field.getValue()));
+        Field field;
+        field = form.getField(Prenotazione_.confermata.getName());
         field.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                bConfermaPren.setEnabled(!Lib.getBool(field.getValue()));
-                bRegistraPaga.setEnabled(Lib.getBool(field.getValue()));
+                syncBottoni();
             }
         });
 
+        field = form.getField(Prenotazione_.pagamentoRicevuto.getName());
+        field.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                syncBottoni();
+            }
+        });
+
+        // sincronizzazione iniziale dei bottoni
+        syncBottoni();
+
+    }
 
 
+    /**
+     * Sincronizza i bottoni in base allo stato dei flag
+     */
+    private void syncBottoni(){
+        Field confField = form.getField(Prenotazione_.confermata.getName());
+        boolean conf = Lib.getBool(confField.getValue());
+        Field regisField = form.getField(Prenotazione_.pagamentoRicevuto.getName());
+        boolean regis = Lib.getBool(regisField.getValue());
+        bConfermaPren.setEnabled(!conf);
+        bRegistraPaga.setEnabled(conf && !regis);
     }
 
     public void addToolbarListener(PrenotazioneFormToolbarListener listener) {
@@ -57,7 +77,7 @@ public class PrenotazioneFormToolbar extends FormToolbar {
             }
         });
 
-        bRegistraPaga = addButton(PrenotazioneTablePortal.CMD_REGISTRA_PAGAMENTO, FontAwesome.THUMBS_O_UP, 180, new MenuBar.Command() {
+        bRegistraPaga = addButton(PrenotazioneTablePortal.CMD_REGISTRA_PAGAMENTO, PrenotazioneTablePortal.ICON_REGISTRA_PAGAMENTO, 180, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 prenFire(PrenEvents.registraPagamento);
             }
