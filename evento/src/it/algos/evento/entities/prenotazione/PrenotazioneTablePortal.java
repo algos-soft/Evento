@@ -23,6 +23,8 @@ import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
 import it.algos.webbase.web.toolbar.Toolbar;
 import it.algos.evento.entities.mailing.MailingModulo;
+import it.algos.webbase.web.updown.ExportStreamResource;
+import it.algos.webbase.web.updown.OnDemandFileDownloader;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -30,21 +32,8 @@ import java.util.ArrayList;
 @SuppressWarnings("serial")
 public class PrenotazioneTablePortal extends TablePortal {
 
-    private DownloaderExtension downloader;
-
-
     public PrenotazioneTablePortal(ModulePop modulo) {
         super(modulo);
-
-        addAttachListener(new AttachListener() {
-            @Override
-            public void attach(AttachEvent attachEvent) {
-                UI ui = getUI();
-//                downloader = new DownloaderExtension();
-//                downloader.extend(ui);
-
-            }
-        });
 
         Toolbar toolbar = getToolbar();
 
@@ -138,7 +127,6 @@ public class PrenotazioneTablePortal extends TablePortal {
         });// end of anonymous class
 
 
-
         item.addItem(Prenotazione.CMD_CONGELA_OPZIONE, Prenotazione.ICON_CONGELA_OPZIONE, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 if (getTable().getSelectedEntity() != null) {
@@ -153,15 +141,13 @@ public class PrenotazioneTablePortal extends TablePortal {
         item.addItem(Prenotazione.CMD_SPOSTA_AD_ALTRA_DATA, Prenotazione.ICON_SPOSTA_AD_ALTRA_DATA, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 BaseEntity[] entities = getTable().getSelectedEntities();
-                if ((entities != null) && (entities.length>0)) {
+                if ((entities != null) && (entities.length > 0)) {
                     getPrenotazioneTable().spostaAdAltraData();
                 } else {
                     Notification.show("Seleziona prima le prenotazioni da spostare.");
                 }
             }
         });// end of anonymous class
-
-
 
 
         item.addSeparator();
@@ -184,34 +170,38 @@ public class PrenotazioneTablePortal extends TablePortal {
                 Container cont = getTable().getContainerDataSource();
                 ExportProvider provider = new PrenExportProvider();
                 ExportConfiguration conf = new ExportConfiguration(clazz, filename, cont, provider);
-
-                downloader = new DownloaderExtension();
-                downloader.extend(PrenotazioneTablePortal.this);
-                downloader.setDownloadResource(new StreamResource(
-                                                       new StreamResource.StreamSource() {
-                                                           public InputStream getStream() {
-                                                               return VaadinjvxsetUI.class.getResourceAsStream("/com/example/vaadinjvxset/jvx.png");
-                                                           }
-                                                       },
-                                                       "jvx.png") {
-                                                   @Override
-                                                   public DownloadStream getStream() {
-                                                       DownloadStream ds = new DownloadStream(getStreamSource().getStream(), getMIMEType(), getFilename());
-
-                                                       // Content-Disposition: attachment generally forces download
-                                                       ds.setParameter("Content-Disposition", "attachment; filename=\"" + getFilename() + "\"");
-                                                       ds.setContentType("application/octet-stream;charset=UTF-8");
-
-                                                       return ds;
-                                                   }
-                                               }
-                );
-
-
 //                new ExportManager(conf).show(getUI());
+                OnDemandFileDownloader.OnDemandStreamResource streamRes = new ExportStreamResource(conf);
+
+
+                DownloaderExtension downloader = new DownloaderExtension();
+                downloader.extend(PrenotazioneTablePortal.this);
+
+                StreamResource.StreamSource streamSource = new StreamResource.StreamSource() {
+                    @Override
+                    public InputStream getStream() {
+                        return VaadinjvxsetUI.class.getResourceAsStream("/com/example/vaadinjvxset/jvx.png");
+                    }
+                };
+
+                StreamResource streamResource = new StreamResource(streamSource, "jvx.png") {
+                    @Override
+                    public DownloadStream getStream() {
+                        DownloadStream ds = new DownloadStream(getStreamSource().getStream(), getMIMEType(), getFilename());
+
+                        // Content-Disposition: attachment generally forces download
+                        ds.setParameter("Content-Disposition", "attachment; filename=\"" + getFilename() + "\"");
+                        ds.setContentType("application/octet-stream;charset=UTF-8");
+
+                        return ds;
+                    }
+                };
+
+                downloader.setDownloadResource(streamResource);
+
+
             }// end of method
         });// end of anonymous class
-
 
 
         if (LibSession.isDeveloper()) {
@@ -233,7 +223,7 @@ public class PrenotazioneTablePortal extends TablePortal {
             public void menuSelected(MenuItem selectedItem) {
                 BaseEntity entity = getTable().getSelectedEntity();
                 if (entity != null) {
-                    Prenotazione pren = (Prenotazione)entity;
+                    Prenotazione pren = (Prenotazione) entity;
                     PrenotazioneModulo.testLettera(pren);
                 } else {
                     msgNoSelection();
@@ -242,21 +232,19 @@ public class PrenotazioneTablePortal extends TablePortal {
         });// end of anonymous class
 
 
-
-
     }// end of method
 
 
     /**
      * Ritorna la table specifica
      */
-    private PrenotazioneTable getPrenotazioneTable(){
-        PrenotazioneTable pTable=null;
+    private PrenotazioneTable getPrenotazioneTable() {
+        PrenotazioneTable pTable = null;
         ATable table = getTable();
-        if(table!=null && table instanceof PrenotazioneTable){
-            pTable=(PrenotazioneTable)table;
+        if (table != null && table instanceof PrenotazioneTable) {
+            pTable = (PrenotazioneTable) table;
         }
-        return  pTable;
+        return pTable;
     }
 
     /**
