@@ -3,6 +3,7 @@ package it.algos.evento.ui.company;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.ClientConnector;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
@@ -25,6 +26,8 @@ import java.util.logging.Logger;
  */
 @Theme("asteriacultura")
 @Title("eVento")
+@Widgetset("com.sibvisions.vaadin.Widgetset")
+
 //@PreserveOnRefresh
 public class CompanyUI extends AlgosUI {
 

@@ -1,11 +1,18 @@
 package it.algos.evento.entities.prenotazione;
 
+import com.example.vaadinjvxset.VaadinjvxsetUI;
+import com.sibvisions.vaadin.server.DownloaderExtension;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
+import com.vaadin.server.ClientConnector;
+import com.vaadin.server.DownloadStream;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.StreamResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.importexport.ExportConfiguration;
 import it.algos.webbase.web.importexport.ExportManager;
@@ -17,14 +24,27 @@ import it.algos.webbase.web.table.TablePortal;
 import it.algos.webbase.web.toolbar.Toolbar;
 import it.algos.evento.entities.mailing.MailingModulo;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class PrenotazioneTablePortal extends TablePortal {
 
+    private DownloaderExtension downloader;
+
 
     public PrenotazioneTablePortal(ModulePop modulo) {
         super(modulo);
+
+        addAttachListener(new AttachListener() {
+            @Override
+            public void attach(AttachEvent attachEvent) {
+                UI ui = getUI();
+//                downloader = new DownloaderExtension();
+//                downloader.extend(ui);
+
+            }
+        });
 
         Toolbar toolbar = getToolbar();
 
@@ -146,6 +166,17 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addSeparator();
 
+//        item.addItem(Prenotazione.CMD_EXPORT, Prenotazione.ICON_EXPORT, new MenuBar.Command() {
+//            public void menuSelected(MenuItem selectedItem) {
+//                Class clazz = Prenotazione.class;
+//                String filename = "prenotazioni.xls";
+//                Container cont = getTable().getContainerDataSource();
+//                ExportProvider provider = new PrenExportProvider();
+//                ExportConfiguration conf = new ExportConfiguration(clazz, filename, cont, provider);
+//                new ExportManager(conf).show(getUI());
+//            }// end of method
+//        });// end of anonymous class
+
         item.addItem(Prenotazione.CMD_EXPORT, Prenotazione.ICON_EXPORT, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 Class clazz = Prenotazione.class;
@@ -153,9 +184,34 @@ public class PrenotazioneTablePortal extends TablePortal {
                 Container cont = getTable().getContainerDataSource();
                 ExportProvider provider = new PrenExportProvider();
                 ExportConfiguration conf = new ExportConfiguration(clazz, filename, cont, provider);
-                new ExportManager(conf).show(getUI());
+
+                downloader = new DownloaderExtension();
+                downloader.extend(PrenotazioneTablePortal.this);
+                downloader.setDownloadResource(new StreamResource(
+                                                       new StreamResource.StreamSource() {
+                                                           public InputStream getStream() {
+                                                               return VaadinjvxsetUI.class.getResourceAsStream("/com/example/vaadinjvxset/jvx.png");
+                                                           }
+                                                       },
+                                                       "jvx.png") {
+                                                   @Override
+                                                   public DownloadStream getStream() {
+                                                       DownloadStream ds = new DownloadStream(getStreamSource().getStream(), getMIMEType(), getFilename());
+
+                                                       // Content-Disposition: attachment generally forces download
+                                                       ds.setParameter("Content-Disposition", "attachment; filename=\"" + getFilename() + "\"");
+                                                       ds.setContentType("application/octet-stream;charset=UTF-8");
+
+                                                       return ds;
+                                                   }
+                                               }
+                );
+
+
+//                new ExportManager(conf).show(getUI());
             }// end of method
         });// end of anonymous class
+
 
 
         if (LibSession.isDeveloper()) {
