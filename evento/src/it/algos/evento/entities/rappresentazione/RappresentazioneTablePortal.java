@@ -42,13 +42,13 @@ public class RappresentazioneTablePortal extends TablePortal {
 
 
 
-		// bottone Test...
-		toolbar.addButton("Test Window...", FontAwesome.BARS, new MenuBar.Command() {
-			@Override
-			public void menuSelected(MenuItem menuItem) {
-				test();
-			}
-		});
+//		// bottone Test...
+//		toolbar.addButton("Test Window...", FontAwesome.BARS, new MenuBar.Command() {
+//			@Override
+//			public void menuSelected(MenuItem menuItem) {
+//				test();
+//			}
+//		});
 
 		return toolbar;
 	}// end of method
