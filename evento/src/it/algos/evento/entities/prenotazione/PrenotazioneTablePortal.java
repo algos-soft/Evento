@@ -149,7 +149,7 @@ public class PrenotazioneTablePortal extends TablePortal {
         item.addItem(Prenotazione.CMD_EXPORT, Prenotazione.ICON_EXPORT, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 Class clazz = Prenotazione.class;
-                String filename = "prenotazioni";
+                String filename = "prenotazioni.xls";
                 Container cont = getTable().getContainerDataSource();
                 ExportProvider provider = new PrenExportProvider();
                 ExportConfiguration conf = new ExportConfiguration(clazz, filename, cont, provider);

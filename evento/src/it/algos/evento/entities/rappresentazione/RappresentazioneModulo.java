@@ -193,7 +193,7 @@ public class RappresentazioneModulo extends EModulePop {
         Table table = new Table();
         table.setContainerDataSource(cont);
 
-        table.setVisibleColumns(new Object[]{
+        table.setVisibleColumns(
                 Prenotazione_.rappresentazione.getName(),
                 Prenotazione_.numPrenotazione.getName(),
                 Prenotazione_.scuola.getName(),
@@ -202,9 +202,9 @@ public class RappresentazioneModulo extends EModulePop {
                 Prenotazione_.numRidotti.getName(),
                 Prenotazione_.numDisabili.getName(),
                 Prenotazione_.numAccomp.getName(),
-                Prenotazione_.numTotali.getName()});
-        table.setColumnHeaders(new String[]{
-                "Rappresentazione",
+                Prenotazione_.numTotali.getName());
+
+        table.setColumnHeaders("Rappresentazione",
                 "N.Prenotazione",
                 "Scuola",
                 "Insegnante",
@@ -212,7 +212,7 @@ public class RappresentazioneModulo extends EModulePop {
                 "Ridotti",
                 "Disabili",
                 "Accomp.",
-                "Totale"});
+                "Totale");
 
 
         final ExcelExport excelExport = new ExcelExport(table);
