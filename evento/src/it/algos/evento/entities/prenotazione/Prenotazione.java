@@ -1,6 +1,8 @@
 package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.data.*;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Resource;
 import com.vaadin.ui.Notification;
 import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.entities.insegnante.Insegnante;
@@ -44,6 +46,27 @@ import java.util.logging.Logger;
 
 @DefaultSort({"numPrenotazione"})
 public class Prenotazione extends EventoEntity {
+
+    public static final String CMD_CONFERMA_PRENOTAZIONE = "Conferma prenotazione";
+    public static final Resource ICON_CONFERMA_PRENOTAZIONE = FontAwesome.THUMBS_O_UP;
+    public static final String CMD_REGISTRA_PAGAMENTO = "Registra pagamento...";
+    public static final Resource ICON_REGISTRA_PAGAMENTO = FontAwesome.EURO;
+    public static final String CMD_RIEPILOGO_OPZIONE = "Invia riepilogo prenotazione...";
+    public static final Resource ICON_RIEPILOGO_OPZIONE = FontAwesome.ENVELOPE_O;
+    public static final String CMD_MEMO_INVIO_SCHEDA_PREN = "Invia sollecito conferma prenotazione...";
+    public static final Resource ICON_MEMO_INVIO_SCHEDA_PREN = FontAwesome.ENVELOPE_O;
+    public static final String CMD_CONGELA_OPZIONE = "Congela prenotazione...";
+    public static final Resource ICON_CONGELA_OPZIONE = FontAwesome.LOCK;
+    public static final String CMD_SPOSTA_AD_ALTRA_DATA = "Sposta ad altra data...";
+    public static final Resource ICON_SPOSTA_AD_ALTRA_DATA = FontAwesome.ARROW_RIGHT;
+    public static final String CMD_MEMO_SCAD_PAGA = "Invia sollecito conferma pagamento...";
+    public static final Resource ICON_MEMO_SCAD_PAGA = FontAwesome.ENVELOPE_O;
+    public static final String CMD_ATTESTATO_PARTECIPAZIONE = "Invia attestato di partecipazione...";
+    public static final Resource ICON_ATTESTATO_PARTECIPAZIONE = FontAwesome.ENVELOPE_O;
+    public static final String CMD_GESTIONE_MAILING = "Crea mailing...";
+    public static final Resource ICON_GESTIONE_MAILING = FontAwesome.ENVELOPE_O;
+    public static final String CMD_EXPORT = "Esporta...";
+    public static final Resource ICON_EXPORT = FontAwesome.DOWNLOAD;
 
     private static final long serialVersionUID = -6685175938276422883L;
 
@@ -658,7 +681,6 @@ public class Prenotazione extends EventoEntity {
      * Controlla che si possa eseguire la registrazione del pagamento
      * (la prenotazione deve essere confermata e il pagamento non deve
      * essere già stato ricevuto - potrebbe però essere stato solo registrato)
-     * In caso negativo visualizza una notifica
      * @return stringa vuota se registrabile, o il motivo se non registrabile
      */
     public String isPagamentoRegistrabile(){
@@ -683,6 +705,25 @@ public class Prenotazione extends EventoEntity {
 
         return err_msg;
     }
+
+
+    /**
+     * Controlla che la prenotazione sia confermabile
+     * @return stringa vuota se confermabile, o il motivo se non confermabile
+     */
+    public String isConfermabile(){
+        boolean cont=true;
+        String err_msg="";
+
+        // controlla che non sia già confermata
+        if (isConfermata()) {
+            err_msg="Questa prenotazione è già confermata.";
+            cont = false;
+        }
+
+        return err_msg;
+    }
+
 
 
 }// end of entity class

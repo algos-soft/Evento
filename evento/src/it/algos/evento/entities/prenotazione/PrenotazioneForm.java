@@ -953,10 +953,6 @@ public class PrenotazioneForm extends ModuleForm {
 
                                 try {
                                     PrenotazioneModulo.doInvioIstruzioni(pren, getUsername());
-
-                                    // todo riattivare
-                                    // getPrenotazioneModulo().doInvioIstruzioniModulo(pren, getUsername());
-
                                     notification1 = new Notification("Inviata email di istruzioni", detail, Notification.Type.HUMANIZED_MESSAGE);
                                 } catch (EmailFailedException e) {
                                     notification1 = new Notification("Invio email istruzioni fallito: " + e.getMessage(), detail, Notification.Type.ERROR_MESSAGE);
@@ -1005,22 +1001,106 @@ public class PrenotazioneForm extends ModuleForm {
         return pren;
     }
 
+//    /**
+//     * Tenta di confermare la prenotazione
+//     */
+//    @SuppressWarnings("rawtypes")
+//    private void confermaPrenotazioneForm() {
+//        boolean cont = true;
+//        final Field fieldConfermata = getField(Prenotazione_.confermata);
+//
+//        // controlla che non sia già confermata
+//        boolean confermata = (Boolean) fieldConfermata.getValue();
+//        if (confermata) {
+//            Notification.show("Questa prenotazione è già confermata.");
+//            cont = false;
+//        }
+//
+//        // controlla che la prenotazione sia valida
+//        if (cont) {
+//            try {
+//                getBinder().commit();
+//            } catch (CommitException e) {
+//                Notification.show("Questa prenotazione non è valida.");
+//                cont = false;
+//            }
+//        }
+//
+//        // presenta il dialogo di conferma
+//        if (cont) {
+//
+//            final DialogoConfermaPrenotazione dialogoConferma = new DialogoConfermaPrenotazione(getPrenotazione(), new Date());
+//
+//            dialogoConferma.setConfirmListener(new ConfirmDialog.ConfirmListener() {
+//                @Override
+//                public void confirmed(ConfirmDialog dialog) {
+//
+//                    Date dataConferma = dialogoConferma.getDataConferma();
+//
+//                    // invia la mail di istruzioni in un thread separato
+//                    // (usa una lambda al posto del runnable)
+//                    new Thread(
+//                            () -> {
+//
+//                                Spedizione sped = null;
+//                                Prenotazione pren = getPrenotazione();
+//                                boolean mailInviata = false;
+//                                try {
+//                                    String user = EventoBootStrap.getUsername();
+//
+//                                    // questo comando scrive i campi e salva la prenotazione
+//                                    // ed eventualmente invia la mail
+//                                    String dests = dialogoConferma.getDestinatari();
+//                                    sped = getPrenotazioneModulo().doConfermaPrenotazione(pren, getEntityManager(), dataConferma, user, dests);
+//                                    inValueChange = true;
+//                                    reload();   // ricarica i dati in scheda
+//                                    inValueChange = false;
+//                                    if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
+//                                        mailInviata = true;
+//                                    }
+//                                } catch (EmailFailedException e) {
+//                                    PrenotazioneModulo.notifyEmailFailed(e);
+//                                }
+//
+//                                pcListener.prenotazioneConfermata(pren, sped);
+//
+//
+//                            }
+//                    ).start();
+//
+////                    // chiude la finestra
+////                    Window w = getWindow();
+////                    if (w != null) {
+////                        w.close();
+////                    }
+//                }
+//            });
+//
+//            dialogoConferma.show();
+//
+//        }
+//
+//    }
+
+
     /**
      * Tenta di confermare la prenotazione
      */
     @SuppressWarnings("rawtypes")
     private void confermaPrenotazioneForm() {
         boolean cont = true;
-        final Field fieldConfermata = getField(Prenotazione_.confermata);
+        Prenotazione pren = getPrenotazione();
 
-        // controlla che non sia già confermata
-        boolean confermata = (Boolean) fieldConfermata.getValue();
-        if (confermata) {
-            Notification.show("Questa prenotazione è già confermata.");
-            cont = false;
+        // controllo logico che la prenotazione sia confermabile
+        if (cont) {
+            String err = pren.isConfermabile();
+            if(!err.equals("")){
+                cont = false;
+                Notification.show(err);
+            }
         }
 
-        // controlla che la prenotazione sia valida
+        // controllo che la scheda sia valida e registrabile
         if (cont) {
             try {
                 getBinder().commit();
@@ -1030,59 +1110,38 @@ public class PrenotazioneForm extends ModuleForm {
             }
         }
 
-        // presenta il dialogo di conferma
+
+        // delega il resto al dialogo
         if (cont) {
+            DialogoConfermaPrenotazione dialogo = new DialogoConfermaPrenotazione(pren, getEntityManager(), new Date());
 
-            final DialogoConfermaPrenotazione dialogoConferma = new DialogoConfermaPrenotazione(getPrenotazione(), new Date());
-
-            dialogoConferma.setConfirmListener(new ConfirmDialog.ConfirmListener() {
+            // alla conferma del dialogo, registro la scheda
+            dialogo.setConfirmListener(new ConfirmDialog.ConfirmListener() {
                 @Override
                 public void confirmed(ConfirmDialog dialog) {
-
-                    Date dataConferma = dialogoConferma.getDataConferma();
-
-                    // invia la mail di istruzioni in un thread separato
-                    // (usa una lambda al posto del runnable)
-                    new Thread(
-                            () -> {
-
-                                Spedizione sped = null;
-                                Prenotazione pren = getPrenotazione();
-                                boolean mailInviata = false;
-                                try {
-                                    String user = EventoBootStrap.getUsername();
-
-                                    // questo comando scrive i campi e salva la prenotazione
-                                    // ed eventualmente invia la mail
-                                    String dests = dialogoConferma.getDestinatari();
-                                    sped = getPrenotazioneModulo().doConfermaPrenotazione(pren, getEntityManager(), dataConferma, user, dests);
-                                    inValueChange = true;
-                                    reload();   // ricarica i dati in scheda
-                                    inValueChange = false;
-                                    if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
-                                        mailInviata = true;
-                                    }
-                                } catch (EmailFailedException e) {
-                                    PrenotazioneModulo.notifyEmailFailed(e);
-                                }
-
-                                pcListener.prenotazioneConfermata(pren, sped);
-
-
-                            }
-                    ).start();
-
-//                    // chiude la finestra
-//                    Window w = getWindow();
-//                    if (w != null) {
-//                        w.close();
-//                    }
+                    save();
                 }
             });
 
-            dialogoConferma.show();
+            // dopo la vonferma e l'invio email (che avvengono in un thread separato),
+            // aggiorno la scheda e mostro una notifica
+            dialogo.setPrenotazioneConfermataListener(new DialogoConfermaPrenotazione.PrenotazioneConfermataListener() {
+                @Override
+                public void prenotazioneConfermata() {
 
+                    // aggiorno la scheda
+                    inValueChange=true;
+                    reload();
+                    inValueChange=false;
+
+                    // mostro una notifica
+                    dialogo.notificaEsito();
+
+                }
+            });
+            dialogo.show();
         }
+
 
     }
 
@@ -1095,7 +1154,8 @@ public class PrenotazioneForm extends ModuleForm {
         boolean cont=true;
         Prenotazione pren = getPrenotazione();
 
-        // controllo che il pagamento sia registrabile
+
+        // controllo logico che il pagamento sia registrabile
         if (cont) {
             String err = pren.isPagamentoRegistrabile();
             if(!err.equals("")){
@@ -1104,23 +1164,41 @@ public class PrenotazioneForm extends ModuleForm {
             }
         }
 
-        // tento di salvare i dati presenti nella scheda
-        if(cont){
-            cont=save();
+        // controllo che la scheda sia valida e registrabile
+        if (cont) {
+            try {
+                getBinder().commit();
+            } catch (CommitException e) {
+                Notification.show("Questa prenotazione non è valida.");
+                cont = false;
+            }
         }
+
 
         // delega il resto al dialogo
         if (cont) {
             DialogoRegistraPagamento dialogo = new DialogoRegistraPagamento(pren, getEntityManager());
+
+            // alla conferma del dialogo, registro la scheda
+            dialogo.setConfirmListener(new ConfirmDialog.ConfirmListener() {
+                @Override
+                public void confirmed(ConfirmDialog dialog) {
+                    save();
+                }
+            });
+
+            // dopo la registrazione del pagamento e l'invio email (che avvengono in un thread separato),
+            // aggiorno la scheda e mostro una notifica
             dialogo.setPagamentoRegistratoListener(new DialogoRegistraPagamento.PagamentoRegistratoListener() {
                 @Override
                 public void pagamentoRegistrato(boolean confermato, boolean ricevuto, boolean mailInviata, boolean emailFailed) {
 
-                    // eseguo un refresh dei dati visibili in scheda
-                    // (i dati sono stati salvati prima di aprire il diaogo)
+                    // aggiorno la scheda
+                    inValueChange=true;
                     reload();
+                    inValueChange=false;
 
-                    // mostra una notifica con l'esito della operazione
+                    // mostro una notifica
                     dialogo.notificaEsito();
 
                 }

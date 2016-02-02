@@ -45,21 +45,23 @@ import java.util.Locale;
 @SuppressWarnings("serial")
 public abstract class PrenotazioneBaseTable extends ModuleTable {
 
-    protected final Action actRegistraPagamento = new Action(PrenotazioneTablePortal.CMD_REGISTRA_PAGAMENTO,
-            PrenotazioneTablePortal.ICON_REGISTRA_PAGAMENTO);
-    protected final Action actIstruzioni = new Action(PrenotazioneTablePortal.CMD_RIEPILOGO_OPZIONE,
-            PrenotazioneTablePortal.ICON_RIEPILOGO_OPZIONE);
+    protected final Action actConfermaPrenotazione = new Action(Prenotazione.CMD_CONFERMA_PRENOTAZIONE,
+            Prenotazione.ICON_CONFERMA_PRENOTAZIONE);
+    protected final Action actRegistraPagamento = new Action(Prenotazione.CMD_REGISTRA_PAGAMENTO,
+            Prenotazione.ICON_REGISTRA_PAGAMENTO);
+    protected final Action actIstruzioni = new Action(Prenotazione.CMD_RIEPILOGO_OPZIONE,
+            Prenotazione.ICON_RIEPILOGO_OPZIONE);
     protected final Action actMemoInvioSchedaPren = new Action(
-            PrenotazioneTablePortal.CMD_MEMO_INVIO_SCHEDA_PREN,
-            PrenotazioneTablePortal.ICON_MEMO_INVIO_SCHEDA_PREN);
-    protected final Action actMemoScadPag = new Action(PrenotazioneTablePortal.CMD_MEMO_SCAD_PAGA,
-            PrenotazioneTablePortal.ICON_MEMO_SCAD_PAGA);
-    protected final Action actAttestatoPartecipazione = new Action(PrenotazioneTablePortal.CMD_ATTESTATO_PARTECIPAZIONE,
-            PrenotazioneTablePortal.ICON_ATTESTATO_PARTECIPAZIONE);
-    protected final Action actAvvisoCongOpz = new Action(PrenotazioneTablePortal.CMD_CONGELA_OPZIONE,
-            PrenotazioneTablePortal.ICON_CONGELA_OPZIONE);
-    protected final Action actSpostaAdAltraData = new Action(PrenotazioneTablePortal.CMD_SPOSTA_AD_ALTRA_DATA,
-            PrenotazioneTablePortal.ICON_SPOSTA_AD_ALTRA_DATA);
+            Prenotazione.CMD_MEMO_INVIO_SCHEDA_PREN,
+            Prenotazione.ICON_MEMO_INVIO_SCHEDA_PREN);
+    protected final Action actMemoScadPag = new Action(Prenotazione.CMD_MEMO_SCAD_PAGA,
+            Prenotazione.ICON_MEMO_SCAD_PAGA);
+    protected final Action actAttestatoPartecipazione = new Action(Prenotazione.CMD_ATTESTATO_PARTECIPAZIONE,
+            Prenotazione.ICON_ATTESTATO_PARTECIPAZIONE);
+    protected final Action actAvvisoCongOpz = new Action(Prenotazione.CMD_CONGELA_OPZIONE,
+            Prenotazione.ICON_CONGELA_OPZIONE);
+    protected final Action actSpostaAdAltraData = new Action(Prenotazione.CMD_SPOSTA_AD_ALTRA_DATA,
+            Prenotazione.ICON_SPOSTA_AD_ALTRA_DATA);
 
     private static final StringToBigDecimalConverter bdConv = new StringToBigDecimalConverter(2);
     private static final StringToIntegerConverter intConv = new StringToIntegerConverter();
@@ -273,6 +275,56 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
 
         return tot;
     }
+
+
+    /**
+     * Lancia la procedura di conferma prenotazione per la prenotazione
+     * correntemente selezionata nella lista
+     */
+    public void confermaPrenotazione() {
+
+        boolean cont = true;
+
+        // controllo una e una sola selezionata
+        Prenotazione pren = (Prenotazione) getSelectedEntity();
+        if (pren == null) {
+            cont = false;
+            Notification.show("Seleziona prima una prenotazione.");
+        }
+
+        // controllo che la prenotazione sia confermabile
+        if (cont) {
+            String err = pren.isConfermabile();
+            if(!err.equals("")){
+                cont = false;
+                Notification.show(err);
+            }
+        }
+
+        // delega il resto al dialogo
+        if (cont) {
+            DialogoConfermaPrenotazione dialogo = new DialogoConfermaPrenotazione(pren, getEntityManager(), new Date());
+
+            // dopo la conferma e l'invio email (che avvengono in un thread separato),
+            // aggiorno la scheda e mostro una notifica
+            dialogo.setPrenotazioneConfermataListener(new DialogoConfermaPrenotazione.PrenotazioneConfermataListener() {
+                @Override
+                public void prenotazioneConfermata() {
+
+                    // aggiorna la lista
+                    refreshRowCache();
+
+                    // mostra una notifica con l'esito della operazione
+                    dialogo.notificaEsito();
+
+                }
+            });
+            dialogo.show();
+        }
+
+
+    }
+
 
 
     /**
@@ -784,6 +836,7 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
         aActions.add(actMemoInvioSchedaPren);
         aActions.add(actMemoScadPag);
         aActions.add(actAttestatoPartecipazione);
+        aActions.add(actConfermaPrenotazione);
         aActions.add(actRegistraPagamento);
         aActions.add(actAvvisoCongOpz);
         aActions.add(actSpostaAdAltraData);
@@ -811,6 +864,10 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
 
                 if (action.equals(actionEdit)) {
                     getModule().edit();
+                }
+
+                if (action.equals(actConfermaPrenotazione)) {
+                    confermaPrenotazione();
                 }
 
                 if (action.equals(actRegistraPagamento)) {

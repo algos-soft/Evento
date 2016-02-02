@@ -1,21 +1,29 @@
 package it.algos.evento.entities.prenotazione;
 
+import com.vaadin.server.Page;
 import com.vaadin.ui.*;
+import it.algos.evento.EventoBootStrap;
+import it.algos.evento.entities.lettera.ModelliLettere;
+import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.webbase.web.component.HorizontalLine;
-import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.field.DateField;
 
+import javax.persistence.EntityManager;
 import java.util.Date;
 
 /**
  * Created by alex on 4-11-2015.
  */
 public class DialogoConfermaPrenotazione  extends DialogoConfermaInvioManuale {
-    DateField dateField;
+    private DateField dateField;
+    private EntityManager entityManager;
+    private PrenotazioneConfermataListener pcListener;
+    private boolean confermata=false;
+    private Spedizione spedizione;
 
-    public DialogoConfermaPrenotazione(Prenotazione pren, Date dataConfermaDefault) {
+    public DialogoConfermaPrenotazione(Prenotazione pren, EntityManager em, Date dataConfermaDefault) {
         super(pren, "Conferma prenotazione", "");
+        this.entityManager=em;
 
         setConfirmButtonText("Conferma");
 
@@ -37,11 +45,66 @@ public class DialogoConfermaPrenotazione  extends DialogoConfermaInvioManuale {
 
     @Override
     protected void onConfirm() {
-        if(getDataConferma()!=null){
-            super.onConfirm();
-        }else{
-            Notification.show("Inserire la data di conferma.");
+
+        boolean cont = true;
+
+        // check validators
+        String error = checkDataValid();
+        if (!error.equals("")) {
+            Notification.show(null, error, Notification.Type.WARNING_MESSAGE);
+            cont = false;
         }
+
+
+        if(cont){
+            super.onConfirm();
+
+            // esegue l'operazione di conferma e l'invio mail in un thread separato
+            new Thread(
+                    () -> {
+
+                        try {
+                            spedizione=PrenotazioneModulo.doConfermaPrenotazione(
+                                    getPrenotazione(),
+                                    entityManager,
+                                    getDataConferma(),
+                                    EventoBootStrap.getUsername(),
+                                    getDestinatari());
+
+                            // se arriva qui ha confermato correttamente
+                            confermata=true;
+
+                        } catch (EmailFailedException e) {
+                            PrenotazioneModulo.notifyEmailFailed(e);
+                        }
+
+                        // notifica il listener se registrato
+                        if (pcListener != null) {
+                            pcListener.prenotazioneConfermata();
+                        }
+
+                    }
+
+            ).start();
+
+        }
+
+    }
+
+
+    /**
+     * Valida tutti i field validabili e accumula tutti i messaggi in una stringa
+     * <p>
+     * Se la stringa ritornata è vuota la validazione è passata
+     */
+    private String checkDataValid() {
+        String string = "";
+
+        if(getDataConferma()==null){
+            string="Data di conferma non valida o mancante.";
+        }
+
+        return string;
     }
 
     @Override
@@ -83,6 +146,37 @@ public class DialogoConfermaPrenotazione  extends DialogoConfermaInvioManuale {
 
     }
 
+    /**
+     * Mostra una notifica con l'esito della operazione
+     */
+    public void notificaEsito() {
+        String msg = "";
+        String mailDetails="";
+        if (confermata) {
+            msg = "Prenotazione confermata";
+        }
 
+        if (spedizione!=null){
+            if(spedizione.isSpedita()) {
+                mailDetails += "e-mail inviata";
+            }else{
+                mailDetails += "Invio e-mail fallito";
+            }
+        }
+
+        Notification notification = new Notification(msg, mailDetails, Notification.Type.HUMANIZED_MESSAGE);
+        notification.setDelayMsec(-1);
+        notification.show(Page.getCurrent());
+
+    }
+
+
+    public void setPrenotazioneConfermataListener(PrenotazioneConfermataListener l){
+        this.pcListener =l;
+    }
+
+    public interface PrenotazioneConfermataListener {
+        void prenotazioneConfermata();
+    }
 
 }

@@ -3,7 +3,6 @@ package it.algos.evento.entities.prenotazione;
 import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Resource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
@@ -22,33 +21,6 @@ import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class PrenotazioneTablePortal extends TablePortal {
-
-    public static final String CMD_REGISTRA_PAGAMENTO = "Registra pagamento...";
-    public static final Resource ICON_REGISTRA_PAGAMENTO = FontAwesome.EURO;
-
-    public static final String CMD_RIEPILOGO_OPZIONE = "Invia riepilogo prenotazione...";
-    public static final Resource ICON_RIEPILOGO_OPZIONE = FontAwesome.ENVELOPE_O;
-
-    public static final String CMD_MEMO_INVIO_SCHEDA_PREN = "Invia sollecito conferma prenotazione...";
-    public static final Resource ICON_MEMO_INVIO_SCHEDA_PREN = FontAwesome.ENVELOPE_O;
-
-    public static final String CMD_CONGELA_OPZIONE = "Congela prenotazione...";
-    public static final Resource ICON_CONGELA_OPZIONE = FontAwesome.LOCK;
-
-    public static final String CMD_SPOSTA_AD_ALTRA_DATA = "Sposta ad altra data...";
-    public static final Resource ICON_SPOSTA_AD_ALTRA_DATA = FontAwesome.ARROW_RIGHT;
-
-    public static final String CMD_MEMO_SCAD_PAGA = "Invia sollecito conferma pagamento...";
-    public static final Resource ICON_MEMO_SCAD_PAGA = FontAwesome.ENVELOPE_O;
-
-    public static final String CMD_ATTESTATO_PARTECIPAZIONE = "Invia attestato di partecipazione...";
-    public static final Resource ICON_ATTESTATO_PARTECIPAZIONE = FontAwesome.ENVELOPE_O;
-
-    public static final String CMD_GESTIONE_MAILING = "Crea mailing...";
-    public static final Resource ICON_GESTIONE_MAILING = FontAwesome.ENVELOPE_O;
-
-    public static final String CMD_EXPORT = "Esporta...";
-    public static final Resource ICON_EXPORT = FontAwesome.DOWNLOAD;
 
 
     public PrenotazioneTablePortal(ModulePop modulo) {
@@ -92,7 +64,7 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addSeparator();
 
-        item.addItem(CMD_RIEPILOGO_OPZIONE, ICON_RIEPILOGO_OPZIONE, new MenuBar.Command() {
+        item.addItem(Prenotazione.CMD_RIEPILOGO_OPZIONE, Prenotazione.ICON_RIEPILOGO_OPZIONE, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 if (getTable().getSelectedEntity() != null) {
                     getPrenotazioneTable().inviaRiepilogoPrenotazione();
@@ -102,7 +74,7 @@ public class PrenotazioneTablePortal extends TablePortal {
             }
         });// end of anonymous class
 
-        item.addItem(CMD_MEMO_INVIO_SCHEDA_PREN, ICON_MEMO_INVIO_SCHEDA_PREN, new MenuBar.Command() {
+        item.addItem(Prenotazione.CMD_MEMO_INVIO_SCHEDA_PREN, Prenotazione.ICON_MEMO_INVIO_SCHEDA_PREN, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 if (getTable().getSelectedEntity() != null) {
                     getPrenotazioneTable().inviaMemoConfermaPren();
@@ -112,7 +84,7 @@ public class PrenotazioneTablePortal extends TablePortal {
             }
         });// end of anonymous class
 
-        item.addItem(CMD_MEMO_SCAD_PAGA, ICON_MEMO_SCAD_PAGA, new MenuBar.Command() {
+        item.addItem(Prenotazione.CMD_MEMO_SCAD_PAGA, Prenotazione.ICON_MEMO_SCAD_PAGA, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 if (getTable().getSelectedEntity() != null) {
                     getPrenotazioneTable().inviaPromemoriaScadenzaPagamento();
@@ -122,7 +94,7 @@ public class PrenotazioneTablePortal extends TablePortal {
             }
         });// end of anonymous class
 
-        item.addItem(CMD_ATTESTATO_PARTECIPAZIONE, ICON_ATTESTATO_PARTECIPAZIONE, new MenuBar.Command() {
+        item.addItem(Prenotazione.CMD_ATTESTATO_PARTECIPAZIONE, Prenotazione.ICON_ATTESTATO_PARTECIPAZIONE, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 if (getTable().getSelectedEntity() != null) {
                     getPrenotazioneTable().inviaAttestatoPartecipazione();
@@ -133,7 +105,13 @@ public class PrenotazioneTablePortal extends TablePortal {
         });// end of anonymous class
 
 
-        item.addItem(CMD_REGISTRA_PAGAMENTO, ICON_REGISTRA_PAGAMENTO, new MenuBar.Command() {
+        item.addItem(Prenotazione.CMD_CONFERMA_PRENOTAZIONE, Prenotazione.ICON_CONFERMA_PRENOTAZIONE, new MenuBar.Command() {
+            public void menuSelected(MenuItem selectedItem) {
+                getPrenotazioneTable().confermaPrenotazione();
+            }
+        });// end of anonymous class
+
+        item.addItem(Prenotazione.CMD_REGISTRA_PAGAMENTO, Prenotazione.ICON_REGISTRA_PAGAMENTO, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 getPrenotazioneTable().registraPagamento();
             }
@@ -141,7 +119,7 @@ public class PrenotazioneTablePortal extends TablePortal {
 
 
 
-        item.addItem(CMD_CONGELA_OPZIONE, ICON_CONGELA_OPZIONE, new MenuBar.Command() {
+        item.addItem(Prenotazione.CMD_CONGELA_OPZIONE, Prenotazione.ICON_CONGELA_OPZIONE, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 if (getTable().getSelectedEntity() != null) {
                     getPrenotazioneTable().congelaPrenotazione();
@@ -152,7 +130,7 @@ public class PrenotazioneTablePortal extends TablePortal {
         });// end of anonymous class
 
 
-        item.addItem(CMD_SPOSTA_AD_ALTRA_DATA, ICON_SPOSTA_AD_ALTRA_DATA, new MenuBar.Command() {
+        item.addItem(Prenotazione.CMD_SPOSTA_AD_ALTRA_DATA, Prenotazione.ICON_SPOSTA_AD_ALTRA_DATA, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 BaseEntity[] entities = getTable().getSelectedEntities();
                 if ((entities != null) && (entities.length>0)) {
@@ -168,7 +146,7 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addSeparator();
 
-        item.addItem(CMD_EXPORT, ICON_EXPORT, new MenuBar.Command() {
+        item.addItem(Prenotazione.CMD_EXPORT, Prenotazione.ICON_EXPORT, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 Class clazz = Prenotazione.class;
                 String filename = "prenotazioni";
@@ -181,7 +159,7 @@ public class PrenotazioneTablePortal extends TablePortal {
 
 
         if (LibSession.isDeveloper()) {
-            item.addItem(CMD_GESTIONE_MAILING, ICON_GESTIONE_MAILING, new MenuBar.Command() {
+            item.addItem(Prenotazione.CMD_GESTIONE_MAILING, Prenotazione.ICON_GESTIONE_MAILING, new MenuBar.Command() {
                 public void menuSelected(MenuItem selectedItem) {
                     Object[] selected = getTable().getSelectedIds();
                     ArrayList<Long> selezionati = getSelIds(selected);

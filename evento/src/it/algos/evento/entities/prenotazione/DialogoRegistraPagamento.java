@@ -36,7 +36,6 @@ public class DialogoRegistraPagamento extends DialogoConfermaInvioManuale {
 
     private PagamentoRegistratoListener prListener;
 
-    private Prenotazione pren;
     private EntityManager entityManager;
     private VerticalLayout placeholderLayout;
     private Field numInteri;
@@ -84,7 +83,6 @@ public class DialogoRegistraPagamento extends DialogoConfermaInvioManuale {
      */
     public DialogoRegistraPagamento(Prenotazione pren, EntityManager entityManager) {
         super(pren, "Registrazione pagamento", null, false);
-        this.pren = pren;
         this.entityManager = entityManager;
 
         setConfirmButtonText("Registra");
@@ -235,6 +233,7 @@ public class DialogoRegistraPagamento extends DialogoConfermaInvioManuale {
 
 
     private Component createTitle() {
+        Prenotazione pren = getPrenotazione();
         Rappresentazione rapp = pren.getRappresentazione();
 
         String strRapp = rapp.toString();
@@ -408,6 +407,8 @@ public class DialogoRegistraPagamento extends DialogoConfermaInvioManuale {
      */
     @SuppressWarnings("unchecked")
     private void caricaDatiDaPrenotazione() {
+
+        Prenotazione pren = getPrenotazione();
 
         numInteri.setValue(pren.getNumInteri());
         numRidotti.setValue(pren.getNumRidotti());
@@ -592,7 +593,6 @@ public class DialogoRegistraPagamento extends DialogoConfermaInvioManuale {
         String user = EventoBootStrap.getUsername();
 
         // esegue l'operazione di conferma e l'invio mail in un thread separato
-        // al termine dell'operazione viene visualizzata una notifica
         new Thread(
                 () -> {
 
@@ -602,7 +602,7 @@ public class DialogoRegistraPagamento extends DialogoConfermaInvioManuale {
 
 
                         Spedizione sped=PrenotazioneModulo.doConfermaRegistrazionePagamento(
-                                getPren(),
+                                getPrenotazione(),
                                 entityManager,
                                 isConfermato(),
                                 isRicevuto(),
@@ -638,9 +638,6 @@ public class DialogoRegistraPagamento extends DialogoConfermaInvioManuale {
     }
 
 
-    public Prenotazione getPren() {
-        return pren;
-    }
 
     public int getNumInteri() {
         return Lib.getInt(numInteri.getValue());
@@ -696,7 +693,7 @@ public class DialogoRegistraPagamento extends DialogoConfermaInvioManuale {
             msg = "Pagamento confermato";
         }
         if (isRicevuto()) {
-            msg = "Pagamento ricevuto";
+            msg = "Pagamento registrato";
         }
 
         String strEmail = "";

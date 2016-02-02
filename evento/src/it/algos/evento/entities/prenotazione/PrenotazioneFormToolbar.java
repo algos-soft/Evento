@@ -2,10 +2,8 @@ package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import it.algos.webbase.web.component.Spacer;
@@ -71,13 +69,13 @@ public class PrenotazioneFormToolbar extends FormToolbar {
 
     protected void addButtons() {
 
-        bConfermaPren = addButton("Conferma prenotazione", FontAwesome.THUMBS_O_UP, 180, new MenuBar.Command() {
+        bConfermaPren = addButton(Prenotazione.CMD_CONFERMA_PRENOTAZIONE, Prenotazione.ICON_CONFERMA_PRENOTAZIONE, 180, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 prenFire(PrenEvents.confermaPrenotazione);
             }
         });
 
-        bRegistraPaga = addButton(PrenotazioneTablePortal.CMD_REGISTRA_PAGAMENTO, PrenotazioneTablePortal.ICON_REGISTRA_PAGAMENTO, 180, new MenuBar.Command() {
+        bRegistraPaga = addButton(Prenotazione.CMD_REGISTRA_PAGAMENTO, Prenotazione.ICON_REGISTRA_PAGAMENTO, 180, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
                 prenFire(PrenEvents.registraPagamento);
             }
