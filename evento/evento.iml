@@ -23,6 +23,9 @@
         <setting name="compilerMaxHeapSize" value="1024" />
         <setting name="gwtScriptOutputStyle" value="DETAILED" />
         <setting name="gwtSdkUrl" value="file://" />
+        <packaging>
+          <module name="com.sibvisions.vaadin.Widgetset" enabled="false" />
+        </packaging>
       </configuration>
     </facet>
     <facet type="web" name="Web">
@@ -44,7 +47,6 @@
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="webbase_jar" level="project" />
     <orderEntry type="module-library">
       <library name="IvyIDEA">
         <CLASSES>
@@ -58,5 +60,6 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" name="webbase" level="project" />
   </component>
 </module>

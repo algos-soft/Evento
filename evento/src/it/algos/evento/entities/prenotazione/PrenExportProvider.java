@@ -1,14 +1,18 @@
 package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.addon.jpacontainer.EntityItem;
+import com.vaadin.data.Item;
+import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.importexport.BaseEntityExportProvider;
 import it.algos.webbase.web.importexport.ExportProvider;
+import org.vaadin.addons.lazyquerycontainer.CompositeItem;
 
 import java.util.ArrayList;
 
 /**
  * Created by alex on 31-05-2015.
  */
-public class PrenExportProvider extends ExportProvider<EntityItem<Prenotazione>> {
+public class PrenExportProvider extends BaseEntityExportProvider {
 
     ArrayList<Object> values;
 
@@ -54,13 +58,14 @@ public class PrenExportProvider extends ExportProvider<EntityItem<Prenotazione>>
     }
 
     @Override
-    public Object[] getExportValues(EntityItem<Prenotazione> source) {
+    public Object[] getExportValues(BaseEntity entity) {
+
+
+        Prenotazione pren = (Prenotazione)entity;
 
         // uso variabile di istanza perché vi accede anche un altro metodo
         // ma la ricreo ogni volta qui
         values = new ArrayList<>();
-        Prenotazione pren = source.getEntity();
-
 
         // che figata le Lambda!!
         // concateno le chiamate senza temere che falliscano
@@ -97,9 +102,6 @@ public class PrenExportProvider extends ExportProvider<EntityItem<Prenotazione>>
         add(() -> values.add(pren.isConfermata()));
         add(() -> values.add(pren.getDataConferma()));
         add(() -> values.add(pren.isCongelata()));
-
-
-
 
         return values.toArray(new Object[0]);
     }

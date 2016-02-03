@@ -1,20 +1,18 @@
 package it.algos.evento.entities.prenotazione;
 
-import com.example.vaadinjvxset.VaadinjvxsetUI;
 import com.sibvisions.vaadin.server.DownloaderExtension;
-import com.vaadin.annotations.Widgetset;
 import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
-import com.vaadin.server.ClientConnector;
 import com.vaadin.server.DownloadStream;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.StreamResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.UI;
+import it.algos.evento.entities.mailing.MailingModulo;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.importexport.ExportConfiguration;
+import it.algos.webbase.web.importexport.ExportFactory;
 import it.algos.webbase.web.importexport.ExportManager;
 import it.algos.webbase.web.importexport.ExportProvider;
 import it.algos.webbase.web.lib.LibSession;
@@ -22,11 +20,9 @@ import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
 import it.algos.webbase.web.toolbar.Toolbar;
-import it.algos.evento.entities.mailing.MailingModulo;
 import it.algos.webbase.web.updown.ExportStreamResource;
-import it.algos.webbase.web.updown.OnDemandFileDownloader;
+import it.algos.webbase.web.updown.ExportStreamSource;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
@@ -152,56 +148,17 @@ public class PrenotazioneTablePortal extends TablePortal {
 
         item.addSeparator();
 
-//        item.addItem(Prenotazione.CMD_EXPORT, Prenotazione.ICON_EXPORT, new MenuBar.Command() {
-//            public void menuSelected(MenuItem selectedItem) {
-//                Class clazz = Prenotazione.class;
-//                String filename = "prenotazioni.xls";
-//                Container cont = getTable().getContainerDataSource();
-//                ExportProvider provider = new PrenExportProvider();
-//                ExportConfiguration conf = new ExportConfiguration(clazz, filename, cont, provider);
-//                new ExportManager(conf).show(getUI());
-//            }// end of method
-//        });// end of anonymous class
 
         item.addItem(Prenotazione.CMD_EXPORT, Prenotazione.ICON_EXPORT, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Class clazz = Prenotazione.class;
-                String filename = "prenotazioni.xls";
-                Container cont = getTable().getContainerDataSource();
+
+                Container container = getTable().getContainerDataSource();
                 ExportProvider provider = new PrenExportProvider();
-                ExportConfiguration conf = new ExportConfiguration(clazz, filename, cont, provider);
-//                new ExportManager(conf).show(getUI());
-                OnDemandFileDownloader.OnDemandStreamResource streamRes = new ExportStreamResource(conf);
+                ExportConfiguration conf = new ExportConfiguration(Prenotazione.class, "prenotazioni.xls", container, provider);
+                new ExportManager(conf, PrenotazioneTablePortal.this).show();
 
-
-                DownloaderExtension downloader = new DownloaderExtension();
-                downloader.extend(PrenotazioneTablePortal.this);
-
-                StreamResource.StreamSource streamSource = new StreamResource.StreamSource() {
-                    @Override
-                    public InputStream getStream() {
-                        return VaadinjvxsetUI.class.getResourceAsStream("/com/example/vaadinjvxset/jvx.png");
-                    }
-                };
-
-                StreamResource streamResource = new StreamResource(streamSource, "jvx.png") {
-                    @Override
-                    public DownloadStream getStream() {
-                        DownloadStream ds = new DownloadStream(getStreamSource().getStream(), getMIMEType(), getFilename());
-
-                        // Content-Disposition: attachment generally forces download
-                        ds.setParameter("Content-Disposition", "attachment; filename=\"" + getFilename() + "\"");
-                        ds.setContentType("application/octet-stream;charset=UTF-8");
-
-                        return ds;
-                    }
-                };
-
-                downloader.setDownloadResource(streamResource);
-
-
-            }// end of method
-        });// end of anonymous class
+            }
+        });
 
 
         if (LibSession.isDeveloper()) {
@@ -215,8 +172,8 @@ public class PrenotazioneTablePortal extends TablePortal {
                         msgNoSelection();
                     }
                 }
-            });// end of anonymous class
-        }// fine del blocco if
+            });
+        }
 
 
         item.addItem("Test lettera", null, new MenuBar.Command() {
