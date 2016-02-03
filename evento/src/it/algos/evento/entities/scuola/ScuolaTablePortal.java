@@ -41,7 +41,7 @@ public class ScuolaTablePortal extends TablePortal {
 			public void menuSelected(MenuItem selectedItem) {
 				ExportConfiguration expConf = ExportManager.createExportConfiguration(Scuola.class);
 				expConf.setContainer(getTable().getContainerDataSource()); // used only if "only records in table" is selected
-				new ExportManager(expConf).show(getUI());
+				new ExportManager(expConf, ScuolaTablePortal.this).show();
 			}
 		});// end of anonymous class
 
