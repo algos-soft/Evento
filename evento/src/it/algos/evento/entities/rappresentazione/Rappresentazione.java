@@ -43,7 +43,7 @@ public class Rappresentazione extends EventoEntity {
 
     @ManyToMany
     // @CascadeOnDelete mette la constraint ON DELETE CASCADE sulla tabella di incrocio
-    // - cancellando One Record cancella automaticamente i record nella tabella di incrocio
+    // - cancellando lo One Record cancella automaticamente i record nella tabella di incrocio
     // - non cancella i record nella tabella di destinazione
     // HA EFFETTO NEL DDL (CREAZIONE DATABASE)
     @CascadeOnDelete
