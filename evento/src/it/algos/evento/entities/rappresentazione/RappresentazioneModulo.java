@@ -41,10 +41,6 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class RappresentazioneModulo extends EModulePop {
 
-    public static final String CMD_PRENOTAZIONI_EXPORT = "Esporta prenotazioni...";
-    public static final String CMD_PARTECIPANTI_EXPORT = "Esporta partecipanti...";
-    public static final Resource ICON_MEMO_EXPORT = FontAwesome.DOWNLOAD;
-
     /**
      * Costruttore senza parametri
      */

@@ -155,7 +155,10 @@ public class StatisticaPerMese extends StatisticaBase {
 
 		for (Rappresentazione rapp : lista) {
 			wrapTmp = super.analizzaPrenotazioni(rapp);
-			wrapTotali.addWrap(wrapTmp);
+            int tot = wrapTmp.getTotSpettatori();
+
+            wrapTotali.addWrap(wrapTmp);
+
 		}// end of for cycle
 
 		return wrapTotali;

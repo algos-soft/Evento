@@ -94,10 +94,10 @@ public class RappresentazioneTable extends ETable {
         // comandi contestuali aggiuntivi
         addActionHandler(new Action.Handler() {
 
-            private final Action actExportPren = new Action(RappresentazioneModulo.CMD_PRENOTAZIONI_EXPORT,
-                    RappresentazioneModulo.ICON_MEMO_EXPORT);
-            private final Action actExportPart = new Action(RappresentazioneModulo.CMD_PARTECIPANTI_EXPORT,
-                    RappresentazioneModulo.ICON_MEMO_EXPORT);
+            private final Action actExportPren = new Action(Rappresentazione.CMD_PRENOTAZIONI_EXPORT,
+                    Rappresentazione.ICON_MEMO_EXPORT);
+            private final Action actExportPart = new Action(Rappresentazione.CMD_PARTECIPANTI_EXPORT,
+                    Rappresentazione.ICON_MEMO_EXPORT);
 
 
             public Action[] getActions(Object target, Object sender) {

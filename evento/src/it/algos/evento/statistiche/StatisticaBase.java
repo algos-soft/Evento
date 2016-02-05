@@ -188,7 +188,8 @@ public abstract class StatisticaBase extends StatisticaGenerale {
 
 
 	/**
-	 * Analizza le prenotazioni per una data rappresentazione e ritorna un wrapper con totali
+	 * Analizza le prenotazioni per una data rappresentazione e ritorna un wrapper con totali.
+	 * Esclude le prenotazioni congelate.
 	 */
 	protected WrapTotali analizzaPrenotazioni(Rappresentazione rapp) {
 		int totInteri = 0;
@@ -206,8 +207,14 @@ public abstract class StatisticaBase extends StatisticaGenerale {
 //		JPAContainer prenotazioni = new EJPAContainer(Prenotazione.class, manager);
 		ELazyContainer prenotazioni = new ELazyContainer(manager, Prenotazione.class);
 
-		Filter filter = new Compare.Equal(Prenotazione_.rappresentazione.getName(), rapp);
+		Filter filter;
+
+		filter = new Compare.Equal(Prenotazione_.rappresentazione.getName(), rapp);
 		prenotazioni.addContainerFilter(filter);
+
+		filter = new Compare.Equal(Prenotazione_.congelata.getName(), false);
+		prenotazioni.addContainerFilter(filter);
+
 
 		// spazzola e calcola totali
 		Collection ids = prenotazioni.getItemIds();

@@ -34,6 +34,7 @@ public class CompanySplash extends VerticalLayout implements View {
         // personalizzazione Asteria per non fornire la dashboard
         Component comp;
         if (Company.getCurrent().getCompanyCode().equals(EventoApp.ASTERIA_COMPANY_CODE)) {
+//            comp = createUI();
             comp = createUIComponentOld();
         } else {
             comp = createUI();

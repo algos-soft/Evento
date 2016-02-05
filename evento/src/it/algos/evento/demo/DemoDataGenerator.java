@@ -44,6 +44,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.Predicate;
 import javax.servlet.ServletContext;
 import java.math.BigDecimal;
+import java.time.Month;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -525,7 +527,10 @@ public class DemoDataGenerator {
     private static void creaRappresentazioni(Company company, EntityManager manager) {
         Rappresentazione rapp;
 
-        MutableDateTime dt = new MutableDateTime(2014, 11, 1, 0, 0, 0, 0);
+        // cominciamo a creare rappresentazioni dal 1 novembre dell'anno corrente
+        int year = Year.now().getValue();
+        MutableDateTime dt = new MutableDateTime(year, 11, 1, 0, 0, 0, 0);
+        new MutableDateTime();
 
         for (int i = 0; i < 40; i++) {
 
@@ -560,7 +565,9 @@ public class DemoDataGenerator {
         int quante = 50;
         Prenotazione pren;
 
-        MutableDateTime dt = new MutableDateTime(2014, 9, 1, 0, 0, 0, 0);
+        // cominciamo a prenotare dal 1 settembre dell'anno corrente
+        int year = Year.now().getValue();
+        MutableDateTime dt = new MutableDateTime(year, 9, 1, 0, 0, 0, 0);
 
         for (int i = 0; i < quante; i++) {
 

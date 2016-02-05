@@ -36,6 +36,7 @@ public class WrapTotali {
 		totInteri = pren.getNumInteri();
 		totRidotti = pren.getNumRidotti();
 		totDisabili = pren.getNumDisabili();
+		totAccomp = pren.getNumAccomp();
 		totPagare = pren.getImportoDaPagare();
 		totPagato = pren.getImportoPagato();
 	}// end of constructor
@@ -46,6 +47,7 @@ public class WrapTotali {
 		totInteri += pren.getNumInteri();
 		totRidotti += pren.getNumRidotti();
 		totDisabili += pren.getNumDisabili();
+		totAccomp += pren.getNumAccomp();
 
 		importo = pren.getImportoDaPagare();
 		if (importo != null) {
@@ -72,6 +74,7 @@ public class WrapTotali {
 		totInteri += wrap.totInteri;
 		totRidotti += wrap.totRidotti;
 		totDisabili += wrap.totDisabili;
+		totAccomp += wrap.totAccomp;
 		totCapienza += wrap.totCapienza;
 
 		importo = wrap.totPagare;
@@ -110,7 +113,7 @@ public class WrapTotali {
 	}
 
 	public int getTotSpettatori(){
-		return getTotInteri()+getTotRidotti()+getTotDisabili();
+		return getTotInteri()+getTotRidotti()+getTotDisabili()+getTotAccomp();
 	}
 	
 	public int getTotCapienza(){
@@ -157,8 +160,12 @@ public class WrapTotali {
 		this.totRidotti = num;
 	}
 
-	public void setTotOmaggi(int num) {
+	public void setTotDisabili(int num) {
 		this.totDisabili = num;
+	}
+
+	public void setTotAccomp(int totAccomp) {
+		this.totAccomp = totAccomp;
 	}
 
 	public void setTotCapienza(int totCapienza) {

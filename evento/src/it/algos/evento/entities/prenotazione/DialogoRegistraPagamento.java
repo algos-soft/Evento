@@ -76,7 +76,6 @@ public class DialogoRegistraPagamento extends DialogoConfermaInvioManuale {
         void pagamentoRegistrato(boolean confermato, boolean ricevuto, boolean emailSent, boolean emailFailed);
     }
 
-
     /**
      * @param pren          la prenotazione di cui registrare il pagamento
      * @param entityManager l'entity manager per le operazioni
@@ -95,6 +94,14 @@ public class DialogoRegistraPagamento extends DialogoConfermaInvioManuale {
         caricaDatiDaPrenotazione();
         syncTotali();
         addListeners();
+
+        // alla confrma definitiva esegue le movimentazioni
+        addConfirmListener(new ConfirmListener() {
+            @Override
+            public void confirmed(ConfirmDialog confirmDialog) {
+                dialogoConfermato();
+            }
+        });
 
     }
 
@@ -508,7 +515,7 @@ public class DialogoRegistraPagamento extends DialogoConfermaInvioManuale {
                     @Override
                     public void onClose(ConfirmDialog dialog, boolean confirmed) {
                         if (confirmed) {
-                            superOnConfirm();
+                            DialogoRegistraPagamento.super.onConfirm();
                         }
                     }
                 });
@@ -517,7 +524,7 @@ public class DialogoRegistraPagamento extends DialogoConfermaInvioManuale {
                 dialog.setConfirmButtonText("Continua");
                 dialog.show(getUI());
             } else {
-                superOnConfirm();
+                DialogoRegistraPagamento.super.onConfirm();
             }
         }
 
@@ -574,18 +581,16 @@ public class DialogoRegistraPagamento extends DialogoConfermaInvioManuale {
         return string;
     }
 
-    private void superOnConfirm() {
-        super.onConfirm();
-        dialogoConfermato();
-    }
 
-    protected void dialogoConfermato() {
-
+    /**
+     * Conferma definitiva del dialogo
+     * Lancia un nuovo thread che esegue le movimentazioni
+     */
+    private void dialogoConfermato() {
         int numInteri = getNumInteri();
         int numRidotti = getNumRidotti();
         int numDisabili = getNumDisabili();
         int numAccomp = getNumAccomp();
-        BigDecimal importoPrevisto = getImportoPrevisto();
         BigDecimal importoPagato = getImportoPagato();
         ModoPagamento mezzo = getModoPagamento();
         boolean confermato = isConfermato();

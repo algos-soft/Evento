@@ -1,9 +1,12 @@
 package it.algos.evento.entities.prenotazione;
 
+import com.google.common.collect.Iterables;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.converter.StringToIntegerConverter;
+import com.vaadin.data.util.filter.And;
+import com.vaadin.data.util.filter.Compare;
 import com.vaadin.event.Action;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Component;
@@ -32,15 +35,14 @@ import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibDate;
+import it.algos.webbase.web.lib.LibFilter;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.table.ModuleTable;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 @SuppressWarnings("serial")
 public abstract class PrenotazioneBaseTable extends ModuleTable {
@@ -212,15 +214,14 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
         BigDecimal tot = new BigDecimal(0);
         boolean cont = true;
 
-        if (propertyId.equals(Prenotazione_.numTotali.getName())) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Number> cq = cb.createQuery(Number.class);
+        Root<Prenotazione> root = cq.from(Prenotazione.class);
 
-            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-            CriteriaQuery<Integer> cq = cb.createQuery(Integer.class);
-            Root<Prenotazione> root = cq.from(Prenotazione.class);
-            Predicate pred = getFiltersPredicate(cb, cq, root);
-            if (pred != null) {
-                cq.where(pred);
-            }
+        // applica il filtro totali
+        cq.where(LibFilter.getPredicate(getFilterTotali(), cb, cq, root));
+
+        if (propertyId.equals(Prenotazione_.numTotali.getName())) {
 
             Expression<Integer> e1 = cb.sum(root.get(Prenotazione_.numInteri), root.get(Prenotazione_.numRidotti));
             Expression<Integer> e2 = cb.sum(root.get(Prenotazione_.numDisabili), root.get(Prenotazione_.numAccomp));
@@ -228,8 +229,8 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
 
             cq.select(cb.sum(exp));
 
-            TypedQuery<Integer> q = getEntityManager().createQuery(cq);
-            Integer num = q.getSingleResult();
+            TypedQuery<Number> q = getEntityManager().createQuery(cq);
+            Integer num = (Integer)q.getSingleResult();
             if (num == null) {
                 num = 0;
             }
@@ -238,13 +239,6 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
         }
 
         if (propertyId.equals(Prenotazione_.importoDaPagare.getName())) {
-            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-            CriteriaQuery<Number> cq = cb.createQuery(Number.class);
-            Root<Prenotazione> root = cq.from(Prenotazione.class);
-            Predicate pred = getFiltersPredicate(cb, cq, root);
-            if (pred != null) {
-                cq.where(pred);
-            }
 
             CriteriaBuilder.Coalesce zero = cb.coalesce().value(0); // creo una Expression che rappresenta lo zero, che uso nei coalesce() successivi
 
@@ -274,6 +268,36 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
 
 
         return tot;
+    }
+
+
+    /**
+     * Ritorna il filtro per filtrare i totali.
+     * Il filtro è come quello corrente della table ma in più esclude le prenotazioni congelate.
+     */
+    private Filter getFilterTotali(){
+
+        // crea una nuova lista con i filtri correnti della table
+        ArrayList<Filter> filterList=new  ArrayList();
+        Collection<Filter> currFilters = getContainerFilters();
+        for(Filter f : currFilters){
+            filterList.add(f);
+        }
+
+        // aggiunge il filtro per escludere le prenotazioni congelate
+        Filter congFilter = new Compare.Equal(Prenotazione_.congelata.getName(), false);
+        filterList.add(congFilter);
+
+        // create a single Filter
+        Container.Filter singleFilter;
+        if (filterList.size() == 1) {
+            singleFilter = Iterables.get(filterList, 0);
+        } else {
+            Container.Filter[] aFilters = filterList.toArray(new Container.Filter[filterList.size()]);
+            singleFilter = new And(aFilters);
+        }
+
+        return singleFilter;
     }
 
 

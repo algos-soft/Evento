@@ -60,18 +60,6 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../../webbase/out/artifacts/webbase" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../../webbase/out/artifacts/webbase" />
-        </SOURCES>
-        <jarDirectory url="file://$MODULE_DIR$/../../webbase/out/artifacts/webbase" recursive="false" />
-        <jarDirectory url="file://$MODULE_DIR$/../../webbase/out/artifacts/webbase" recursive="false" type="SOURCES" />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="webbase" level="project" />
   </component>
 </module>

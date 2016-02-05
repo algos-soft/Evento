@@ -1115,15 +1115,8 @@ public class PrenotazioneForm extends ModuleForm {
         if (cont) {
             DialogoConfermaPrenotazione dialogo = new DialogoConfermaPrenotazione(pren, getEntityManager(), new Date());
 
-            // alla conferma del dialogo, registro la scheda
-            dialogo.setConfirmListener(new ConfirmDialog.ConfirmListener() {
-                @Override
-                public void confirmed(ConfirmDialog dialog) {
-                    save();
-                }
-            });
 
-            // dopo la vonferma e l'invio email (che avvengono in un thread separato),
+            // dopo la conferma e l'invio email (che avvengono in un thread separato),
             // aggiorno la scheda e mostro una notifica
             dialogo.setPrenotazioneConfermataListener(new DialogoConfermaPrenotazione.PrenotazioneConfermataListener() {
                 @Override
@@ -1179,16 +1172,9 @@ public class PrenotazioneForm extends ModuleForm {
         if (cont) {
             DialogoRegistraPagamento dialogo = new DialogoRegistraPagamento(pren, getEntityManager());
 
-            // alla conferma del dialogo, registro la scheda
-            dialogo.setConfirmListener(new ConfirmDialog.ConfirmListener() {
-                @Override
-                public void confirmed(ConfirmDialog dialog) {
-                    save();
-                }
-            });
-
-            // dopo la registrazione del pagamento e l'invio email (che avvengono in un thread separato),
-            // aggiorno la scheda e mostro una notifica
+            // Durante la procedura di registrazione pagamento, tutta la prenotazione viene registrata.
+            // Dopo la registrazione del pagamento e l'invio email (che avvengono in un thread separato),
+            // aggiorno i dati visualizzati nella scheda e mostro una notifica.
             dialogo.setPagamentoRegistratoListener(new DialogoRegistraPagamento.PagamentoRegistratoListener() {
                 @Override
                 public void pagamentoRegistrato(boolean confermato, boolean ricevuto, boolean mailInviata, boolean emailFailed) {

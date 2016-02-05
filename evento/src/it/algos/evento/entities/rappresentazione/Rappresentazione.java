@@ -1,19 +1,28 @@
 package it.algos.evento.entities.rappresentazione;
 
+import com.vaadin.data.Container;
+import com.vaadin.data.Item;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Resource;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.prenotazione.Prenotazione;
+import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.entities.sala.Sala;
+import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.DefaultSort;
 import it.algos.webbase.web.entity.EM;
+import it.algos.webbase.web.lib.LibFilter;
 import it.algos.webbase.web.query.AQuery;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 
 import javax.persistence.*;
+import javax.persistence.criteria.*;
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,8 +30,17 @@ import java.util.List;
 @DefaultSort({"dataRappresentazione"})
 public class Rappresentazione extends EventoEntity {
 
+    public static final String CMD_PRENOTAZIONI_EXPORT = "Esporta prenotazioni...";
+    public static final Resource ICON_PRENOTAZIONI_EXPORT = FontAwesome.DOWNLOAD;
+    public static final String CMD_PARTECIPANTI_EXPORT = "Esporta partecipanti...";
+    public static final Resource ICON_MEMO_EXPORT = FontAwesome.DOWNLOAD;
+    public static final String CMD_EXPORT = "Esporta Rappresentazioni...";
+    public static final Resource ICON_EXPORT = FontAwesome.DOWNLOAD;
+
     private static final long serialVersionUID = -3267255652926186175L;
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE dd-MM-yyyy HH:mm");
+
+
 
     @ManyToOne
     @NotNull
@@ -230,5 +248,36 @@ public class Rappresentazione extends EventoEntity {
 //		}
 //		return totImporto;
 //	}// end of method
+
+    /**
+     * Ritorna tutte le prenotazioni relative a questa rappresentazione
+     * @param congelate true ritorna anche quelle congelate, false le esclude
+     * @return le prenotazioni
+     */
+    public Prenotazione[] getPrenotazioni(boolean congelate){
+
+        EntityManager entityManager = EM.createEntityManager();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery cq = cb.createQuery(Prenotazione.class);
+        Root<Prenotazione> root = cq.from(Prenotazione.class);
+
+        cq.select(root);
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(cb.equal(root.get(Prenotazione_.rappresentazione), this));
+        if(!congelate){
+            predicates.add(cb.equal(root.get(Prenotazione_.congelata), false));
+        }
+        cq.where(predicates.toArray(new Predicate[]{}));
+
+        TypedQuery query = entityManager.createQuery(cq);
+
+        final List<Prenotazione> entities = query.getResultList();
+
+        entities.forEach(entityManager::detach);
+
+        return entities.toArray(new Prenotazione[0]);
+
+    }
 
 }// end of entity class

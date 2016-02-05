@@ -1,9 +1,15 @@
 package it.algos.evento.entities.rappresentazione;
 
+import com.vaadin.data.Container;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.MenuBar.MenuItem;
+import it.algos.evento.entities.prenotazione.PrenExportProvider;
+import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.importexport.ExportConfiguration;
+import it.algos.webbase.web.importexport.ExportManager;
+import it.algos.webbase.web.importexport.ExportProvider;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.TablePortal;
 import it.algos.webbase.web.toolbar.TableToolbar;
@@ -26,16 +32,27 @@ public class RappresentazioneTablePortal extends TablePortal {
 		// bottone Altro...
 		MenuBar.MenuItem item = toolbar.addButton("Altro...", FontAwesome.BARS, null);
 
-		subItem=item.addItem(RappresentazioneModulo.CMD_PRENOTAZIONI_EXPORT, RappresentazioneModulo.ICON_MEMO_EXPORT, new MenuBar.Command() {
+		item.addItem(Rappresentazione.CMD_EXPORT, Rappresentazione.ICON_EXPORT, new MenuBar.Command() {
 			public void menuSelected(MenuItem selectedItem) {
-				doExport(RappresentazioneModulo.CMD_PRENOTAZIONI_EXPORT);
+
+                Container container = getTable().getContainerDataSource();
+                ExportProvider provider = new RappExportProvider();
+                ExportConfiguration conf = new ExportConfiguration(Rappresentazione.class, "rappresentazioni.xls", container, provider);
+                new ExportManager(conf, RappresentazioneTablePortal.this).show();
+
+			}
+		});// end of anonymous class
+
+		subItem=item.addItem(Rappresentazione.CMD_PRENOTAZIONI_EXPORT, Rappresentazione.ICON_PRENOTAZIONI_EXPORT, new MenuBar.Command() {
+			public void menuSelected(MenuItem selectedItem) {
+				doExport(Rappresentazione.CMD_PRENOTAZIONI_EXPORT);
 			}// end of method
 		});// end of anonymous class
 		subItem.setDescription("Esporta il riepilogo delle prenotazioni per tutte le rappresentazioni selezionate");
 
-		subItem=item.addItem(RappresentazioneModulo.CMD_PARTECIPANTI_EXPORT, RappresentazioneModulo.ICON_MEMO_EXPORT, new MenuBar.Command() {
+		subItem=item.addItem(Rappresentazione.CMD_PARTECIPANTI_EXPORT, Rappresentazione.ICON_MEMO_EXPORT, new MenuBar.Command() {
 			public void menuSelected(MenuItem selectedItem) {
-				doExport(RappresentazioneModulo.CMD_PARTECIPANTI_EXPORT);
+				doExport(Rappresentazione.CMD_PARTECIPANTI_EXPORT);
 			}// end of method
 		});// end of anonymous class
 		subItem.setDescription("Esporta il riepilogo dei partecipanti per tutte le rappresentazioni in selezionate");
@@ -93,11 +110,11 @@ public class RappresentazioneTablePortal extends TablePortal {
 		if(entities.length>0) {
 			Rappresentazione[] rapps = Arrays.copyOf(entities, entities.length, Rappresentazione[].class);
 
-			if(cmd.equals(RappresentazioneModulo.CMD_PRENOTAZIONI_EXPORT)){
+			if(cmd.equals(Rappresentazione.CMD_PRENOTAZIONI_EXPORT)){
 				RappresentazioneModulo.esportaPrenotazioni(rapps);
 			}
 
-			if(cmd.equals(RappresentazioneModulo.CMD_PARTECIPANTI_EXPORT)){
+			if(cmd.equals(Rappresentazione.CMD_PARTECIPANTI_EXPORT)){
 				RappresentazioneModulo.esportaPartecipanti(rapps);
 			}
 
