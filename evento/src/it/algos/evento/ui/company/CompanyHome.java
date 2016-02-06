@@ -130,7 +130,7 @@ public class CompanyHome extends VerticalLayout {
         menubar.addItem("Statistiche", null, new MenuCommand(menubar,  StatisticheModulo.class));
 
         // Menu tabelle
-        item = menubar.addItem("Tabelle", null, null);
+        item = menubar.addItem("Altro...", null, null);
         item.addItem("Progetti", null, new MenuCommand(menubar,  ProgettoModulo.class));
         item.addItem("Stagioni", null, new MenuCommand(menubar,  StagioneModulo.class));
         item.addItem("Sale", null, new MenuCommand(menubar,  SalaModulo.class));
