@@ -387,7 +387,6 @@ public class PrenotazioneForm extends ModuleForm {
             onPrivatoChange();
         });
 
-
     }
 
 
@@ -500,7 +499,6 @@ public class PrenotazioneForm extends ModuleForm {
         layout.addComponent(fieldClasse);
         layout.addComponent(getField(Prenotazione_.telRiferimento));
         layout.addComponent(getField(Prenotazione_.emailRiferimento));
-
 
         // grid persone e prezzi
         //layout.addComponent(creaGridPersonePrezzi());
@@ -882,6 +880,11 @@ public class PrenotazioneForm extends ModuleForm {
         boolean roState = this.fieldDisponibili.isReadOnly();
         this.fieldDisponibili.setReadOnly(false);
         this.fieldDisponibili.setValue(disponibili);
+        if(disponibili<0) {
+            this.fieldDisponibili.addStyleName("red");
+        }else{
+            this.fieldDisponibili.removeStyleName("red");
+        }
         this.fieldDisponibili.setReadOnly(roState);
 
     }
@@ -1001,86 +1004,6 @@ public class PrenotazioneForm extends ModuleForm {
         return pren;
     }
 
-//    /**
-//     * Tenta di confermare la prenotazione
-//     */
-//    @SuppressWarnings("rawtypes")
-//    private void confermaPrenotazioneForm() {
-//        boolean cont = true;
-//        final Field fieldConfermata = getField(Prenotazione_.confermata);
-//
-//        // controlla che non sia già confermata
-//        boolean confermata = (Boolean) fieldConfermata.getValue();
-//        if (confermata) {
-//            Notification.show("Questa prenotazione è già confermata.");
-//            cont = false;
-//        }
-//
-//        // controlla che la prenotazione sia valida
-//        if (cont) {
-//            try {
-//                getBinder().commit();
-//            } catch (CommitException e) {
-//                Notification.show("Questa prenotazione non è valida.");
-//                cont = false;
-//            }
-//        }
-//
-//        // presenta il dialogo di conferma
-//        if (cont) {
-//
-//            final DialogoConfermaPrenotazione dialogoConferma = new DialogoConfermaPrenotazione(getPrenotazione(), new Date());
-//
-//            dialogoConferma.setConfirmListener(new ConfirmDialog.ConfirmListener() {
-//                @Override
-//                public void confirmed(ConfirmDialog dialog) {
-//
-//                    Date dataConferma = dialogoConferma.getDataConferma();
-//
-//                    // invia la mail di istruzioni in un thread separato
-//                    // (usa una lambda al posto del runnable)
-//                    new Thread(
-//                            () -> {
-//
-//                                Spedizione sped = null;
-//                                Prenotazione pren = getPrenotazione();
-//                                boolean mailInviata = false;
-//                                try {
-//                                    String user = EventoBootStrap.getUsername();
-//
-//                                    // questo comando scrive i campi e salva la prenotazione
-//                                    // ed eventualmente invia la mail
-//                                    String dests = dialogoConferma.getDestinatari();
-//                                    sped = getPrenotazioneModulo().doConfermaPrenotazione(pren, getEntityManager(), dataConferma, user, dests);
-//                                    inValueChange = true;
-//                                    reload();   // ricarica i dati in scheda
-//                                    inValueChange = false;
-//                                    if (ModelliLettere.confermaPrenotazione.isSend(pren)) {
-//                                        mailInviata = true;
-//                                    }
-//                                } catch (EmailFailedException e) {
-//                                    PrenotazioneModulo.notifyEmailFailed(e);
-//                                }
-//
-//                                pcListener.prenotazioneConfermata(pren, sped);
-//
-//
-//                            }
-//                    ).start();
-//
-////                    // chiude la finestra
-////                    Window w = getWindow();
-////                    if (w != null) {
-////                        w.close();
-////                    }
-//                }
-//            });
-//
-//            dialogoConferma.show();
-//
-//        }
-//
-//    }
 
 
     /**

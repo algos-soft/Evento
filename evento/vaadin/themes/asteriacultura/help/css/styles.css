@@ -82,3 +82,7 @@ p.dida {
     solo sotto a <img> quindi riduco il margine bottom*/
     margin-top: -1em;
 }
+
+code{
+        margin-bottom: 0.7em;
+}

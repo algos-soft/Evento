@@ -192,137 +192,234 @@
                 <p>Puoi modificare prezzi per ogni singola prenotazione, per esempio in caso di abbonamenti, promozioni, o gruppi numerosi, puoi praticare prezzi personalizzati.</p>
                 <p>Per farlo, basta modificare i prezzi all'interno della scheda prenotazione. I nuovi prezzi saranno applicati solo alla prenotazione modificata.</p>
 
-                <h2>Numerazione delle Prenotazioni</h2>
-                <p>Il numero della prenotazione viene attribuito automaticamente e viene usato come riferimento in tutte le comunicazioni.</p>
-                <p>Il numero delle nuove prenotazioni viene attribuito in base a un contatore mantenuto nelle preferenze dell'applicazione. Il contatore comincia a contare da 1 e viene incrementato ad ogni nuova prenotazione.</p>
-                <p class="nota">In caso di necessità puoi accedere al contatore e modificarlo per far partire la numerazione dal numero desiderato (menu Altro -> Configurazione -> Configurazione Prenotazioni). In tal caso fai molta attenzione a non generare doppioni nella stessa stagione!</p>
-                <p>Se devi partire da un numero esistente, modifica il contatore nelle preferenze.</p>
-                <p>Non è necessario far ripartire la numerazione ad ogni nuova stagione, si può proseguire la serie della stagione precedente. Ma se preferisci resettare la numerazione a inizio stagione, basta reimpostare il contatore.</p>
-
-                <h2>Flusso della Prenotazione</h2>
-
-                <p>La prenotazione viene ricevuta telefonicamente, via e-mail o per altro canale e <strong>viene inserita nel sistema</strong>. Da questo momento inizia il flusso dela prenotazione che attraversa le seguenti fasi:</p>
-                <ol>
-                    <li><strong>Invio del riepilogo:</strong> subito dopo l'inserimento della prenotazione, viene inviata una e-mail al referente che riepiloga gli estremi della prenotazione (evento, data, ora, n. partecipanti, importo...) e invita il referente a verificarli e a confermarli. Per facilitare la risposta, questa mail potrebbe includere anche un modulo da rendere compilato o un link a un form da compilare online. Da questo momento il referente ha a disposizione un certo numero di giorni per verificare e inviare conferma della prenotazione.</li>
-                    <li><strong>Conferma della prenotazione:</strong> si riceve dal referente una comunicazione (e-mail, modulo compilato o altro) che conferma o rettifica i dati precedentemente inviati nell'e-mail di riepilogo. A questo punto, nel programma si eseguono le eventuali rettifiche e <strong>si conferma la prenotazione</strong>. In questo momento al referente viene inviata una e-mail di conferma che ricorda di effettuare il pagamento entro una certa data (un dato numero di giorni prima dell'evento) e di trasmettere la documentazione del pagamento.
-                        <br> A questo punto il referente, entro la data specificata, deve inviare un documento che attesta l'avvenuto pagamento (contabile della banca o della posta, autorizzazione alla fatturazione elettronica o altro).</li>
-                    <li><strong>Conferma del pagamento:</strong> si riceve dal referente il documento che attesta l'avvenuto pagamento. Si verifica la correttezza dei dati e a questo punto nel sistema si esegue la <strong>conferma di pagamento</strong>. La conferma di pagamento non rappresenta ancora una prova dell'effettivo incasso.</li>
-                    <li><strong>Registrazione del pagamento:</strong> trascorsi i tempi tecnici l'ente (banca/posta...) trasmette una notifica di incasso. L'incasso è effettivamente avvenuto e si <strong>registra il pagamento</strong>.</li>
-                </ol>
-
-                <p class="nota">Se non interessa differenziare le fasi di conferma e di registrazione del pagamento (3 e 4), queste possono essere unificate in una sola operazione (vedi Registrazione del pagamento).</p>
-
-                <p>Il diagramma seguente illustra graficamente i vari passaggi:</p>
-
-                <img src="img/flusso_prenotazione.png" />
-                <p class="dida">Diagramma di flusso della Prenotazione</p>
-
-                <h2>Confermare una prenotazione</h2>
-                <p>Quando il referente invia la comunicazione di conferma, la prenotazione va confermata sul sistema.</p>
-                <p>Per confermare una prenotazione, procedi in questo modo:</p>
+                <h3>Date di scadenza</h3>
+                <p>Quando si inserisce una nuova prenotazione, vengono automaticamente calcolate le date di scadenza conferma e scadenza pagamento. Queste date sono usate dal sistema per evidenziare le posizioni in ritardo e determinano l'invio automatico delle e-mail di sollecito.</p>
                 <ul>
-                    <li>Apri la scheda della prenotazione;</li>
-                    <li>Verifica i dati e inserisci le eventuali rettifiche comunicate dal referente;</li>
-                    <li>Premi il pulsante Conferma Prenotazione che si trova nella parte inferiore della scheda: si apre il dialogo di conferma prenotazione;</li>
-                    <li>Modifica la data di conferma (se diversa da quella odierna);</li>
-                    <li>Premi il pulsante Conferma per confermare la prenotazione.</li>
+                    <li>La scadenza conferma è posta a 7 giorni dopo la data della prenotazione.</li>
+                    <li>La scadenza pagamento è posta a 30 giorni prima della rappresentazione.</li>
                 </ul>
+                <p>Il numero di giorni è configurabile in Configurazione -> Prenotazioni. &Egrave; sempre possibile inserire le date di scadenza manualmente.</p>
 
-                <img src="img/conf_pren.png" />
-                <p class="dida">Dialogo di conferma prenotazione</p>
+                <h3>Verifica della disponibilità e overbooking</h3>
+                <p>Durante l'inserimento della prenotazione, il numero di posti disponibili viene visualizzato nella casella <strong>Rimasti</strong>. Questo numero tiene conto dei posti impegnati da questa prenotazione, dalle altre prenotazioni, e della capacità della sala.
+                    <p>
+                    </p> Se questo numero diventa negativo significa che si sta effettuando overbooking.</p>
+                <p>Il programma non pone alcun vincolo in caso di overbooking, ma si limita a segnalare la situazione. La politica di overbooking è decisa da voi.</p>
 
+                <h3>Invio e-mail di riepilogo</h3>
+                <p>Subito dopo aver inserito una nuova prenotazione, viene automaticamente inviata al referente una e-mail di riepilogo e istruzioni per i passaggi successivi. Viene usato l'indirizzo email inserito nella prenotazione, che inizialmente è quello del referente ma può essere cambiato.</p>
+                <p>&Egrave; possibile inviare la stessa e-mail anche alla scuola (vedi Altro...-> Configurazione -> Configurazione invio e-mail).
+                    <p>
+                        <p>Il contenuto di questa e-mail si può personalizzare tramite la funzione Altro... -> Lettere Base.
+                            <p>
 
-                <p>Subito dopo la conferma, viene inviata una e-mail di riepilogo al referente e/o alla scuola. Nel dialogo puoi vedere a chi sta per essere inviata l'e-mail, ed eventualmente puoi modificare i destinatari e gli indirizzi.</p>
-                <p class="nota">Puoi modificare i destinatari di default delle email andando sul menu Altro... -> Configurazione -> Configuazione invio email</p>
-                <p>Quando una prenotazione viene confermata, tutte le modifiche vengono registrate automaticamente.</p>
+                                <h2>Numerazione delle Prenotazioni</h2>
+                                <p>Il numero della prenotazione viene attribuito automaticamente e viene usato come riferimento in tutte le comunicazioni.</p>
+                                <p>Il numero delle nuove prenotazioni viene attribuito in base a un contatore mantenuto nelle preferenze dell'applicazione. Il contatore comincia a contare da 1 e viene incrementato ad ogni nuova prenotazione.</p>
+                                <p class="nota">In caso di necessità puoi accedere al contatore e modificarlo per far partire la numerazione dal numero desiderato (menu Altro -> Configurazione -> Configurazione Prenotazioni). In tal caso fai molta attenzione a non generare doppioni nella stessa stagione!</p>
+                                <p>Se devi partire da un numero esistente, modifica il contatore nelle preferenze.</p>
+                                <p>Non è necessario far ripartire la numerazione ad ogni nuova stagione, si può proseguire la serie della stagione precedente. Ma se preferisci resettare la numerazione a inizio stagione, basta reimpostare il contatore.</p>
 
+                                <h2>Flusso della Prenotazione</h2>
 
+                                <p>La prenotazione viene ricevuta telefonicamente, via e-mail o per altro canale e <strong>viene inserita nel sistema</strong>. Da questo momento inizia il flusso dela prenotazione che attraversa le seguenti fasi:</p>
+                                <ol>
+                                    <li><strong>Invio del riepilogo:</strong> subito dopo l'inserimento della prenotazione, viene inviata una e-mail al referente che riepiloga gli estremi della prenotazione (evento, data, ora, n. partecipanti, importo...) e invita il referente a verificarli e a confermarli. Per facilitare la risposta, questa mail potrebbe includere anche un modulo da rendere compilato o un link a un form da compilare online. Da questo momento il referente ha a disposizione un certo numero di giorni per verificare e inviare conferma della prenotazione.</li>
+                                    <li><strong>Conferma della prenotazione:</strong> si riceve dal referente una comunicazione (e-mail, modulo compilato o altro) che conferma o rettifica i dati precedentemente inviati nell'e-mail di riepilogo. A questo punto, nel programma si eseguono le eventuali rettifiche e <strong>si conferma la prenotazione</strong>. In questo momento al referente viene inviata una e-mail di conferma che ricorda di effettuare il pagamento entro una certa data (un dato numero di giorni prima dell'evento) e di trasmettere la documentazione del pagamento.
+                                        <br> A questo punto il referente, entro la data specificata, deve inviare un documento che attesta l'avvenuto pagamento (contabile della banca o della posta, autorizzazione alla fatturazione elettronica o altro).</li>
+                                    <li><strong>Conferma del pagamento:</strong> si riceve dal referente il documento che attesta l'avvenuto pagamento. Si verifica la correttezza dei dati e a questo punto nel sistema si esegue la <strong>conferma di pagamento</strong>. La conferma di pagamento non rappresenta ancora una prova dell'effettivo incasso.</li>
+                                    <li><strong>Registrazione del pagamento:</strong> trascorsi i tempi tecnici l'ente (banca/posta...) trasmette una notifica di incasso. L'incasso è effettivamente avvenuto e si <strong>registra il pagamento</strong>.</li>
+                                </ol>
 
-                <h2>Registrare il pagamento</h2>
-                <p>Quando si riceve la documentazione dal referente o l'effettivo pagamento, l'operazione va registrata sul sistema.</p>
-                <p class="nota">Nota: una prenotazione deve essere confermata prima di poter registrare il pagamento.</p>
+                                <p class="nota">Se non interessa differenziare le fasi di conferma e di registrazione del pagamento (3 e 4), queste possono essere unificate in una sola operazione (vedi Registrazione del pagamento).</p>
 
-                <p>Per registrare il pagamento, apri la scheda della prenotazione e permi il pulsante Registra Pagamento. Si apre di dialogo di registrazione pagamento.</p>
+                                <p>Il diagramma seguente illustra graficamente i vari passaggi:</p>
 
-                <img src="img/regis_paga.png" />
-                <p class="dida">Dialogo di registrazione del pagamento</p>
+                                <img src="img/flusso_prenotazione.png" />
+                                <p class="dida">Diagramma di flusso della Prenotazione</p>
 
-                <p>Il dialogo riepiloga il numero di spettatori e l'importo da pagare.</p>
-                <p>Nel dialogo puoi inserire le seguenti informazioni:</p>
-                <ul>
-                    <li><strong>Numero di posti:</strong> di default è quello previsto dalla prenotazione; se il numero è variato è possibile effettuare la correzione e l'importo viene ricalcolato al volo.</li>
-                    <li><strong>Totale pagato</strong>, è l'importo pagato, che potrebbe anche differire dal previsto per vari motivi (errori, arrotondamenti, ecc...). Questa informazione va obbligatoriamente inserita, anche se uguale al previsto.</li>
-                    <li><strong>Data pagamento:</strong> la data del pagamento, di default è quella odierna ma è possibile modificarla se il pagamento è stato effettuato in altra data.</li>
-                    <li><strong>Mezzo di pagamento:</strong> selezionare dalla tendina il mezzo di pagamento utilizzato.</li>
-                    <li><strong>Pagamento Confermato e Pagamento Ricevuto:</strong> selezionare se si tratta di conferma pagamento o registrazione pagamento. La registrazione pagamento comporta implicitamente la conferma del pagamento.</li>
-                    <li><strong>Invio e-mail:</strong> viene mostrato in anteprima a chi verranno inviate le e-mail di conferma pagamento. &Egrave possibile modificare i destinatari manualmente.</li>
-                </ul>
+                                <h2>Confermare una prenotazione</h2>
+                                <p>Quando il referente invia la comunicazione di conferma, la prenotazione va confermata sul sistema.</p>
+                                <p>Per confermare una prenotazione, procedi in questo modo:</p>
+                                <ul>
+                                    <li>Apri la scheda della prenotazione;</li>
+                                    <li>Verifica i dati e inserisci le eventuali rettifiche comunicate dal referente;</li>
+                                    <li>Premi il pulsante Conferma Prenotazione che si trova nella parte inferiore della scheda: si apre il dialogo di conferma prenotazione;</li>
+                                    <li>Modifica la data di conferma (se diversa da quella odierna);</li>
+                                    <li>Premi il pulsante Conferma per confermare la prenotazione.</li>
+                                </ul>
 
-
-                <p>Confermando il pagamento, tutte le informazioni vengono registrate nella prenotazione e la prenotazione viene registrata.</p>
-
-
-                <p>Sono previste due fasi di registrazione del pagamento:</p>
-                <ul>
-                    <li><strong>Pagamento confermato:</strong> il referente ha inviato un documento che attesta il pagamento (contabile bancaria o postale, autorizzazione alla fattura elettronica...)</li>
-                    <li><strong>Pagamento ricevuto:</strong> è stata ricevuta la notifica dalla banca/posta che attesta l'effettivo ricevimento dell'importo da pagare.</li>
-                </ul>
-
-                <p>Sta a voi decidere se utilizzare le due fasi separatamente o gestire solo la fase di registrazione del pagamento. Mettendo la spunta su Pagamento ricevuto viene automaticamente acceso anche Pagamento Confermato.</p>
-
-                <h2>Controllo automatico delle scadenze</h2>
-                <p>bla bla...</p>
-
-
-                <h1>Referenti</h1>
-                <p>In questo modulo si gestisce l'archivio degli insegnanti o altre figure referenti per le prenotazioni.</p>
-
-                <h2>Inserire i referenti</h2>
-                <p>Per aggiungere un referente premi il pulsante <strong>Nuovo</strong> e compila la scheda.</p>
-                <p>&Egrave; anche possibile aggiungere i referenti direttamente in fase di prenotazione, in ogni caso saranno aggiunti all'anagrafica dei referenti e appariranno nella lista.</p>
-
-                <img src="img/scheda_referente.png" />
-                <p class="dida">La scheda di un Referente</p>
+                                <img src="img/conf_pren.png" />
+                                <p class="dida">Dialogo di conferma prenotazione</p>
 
 
-                <h2>Gestione di privati</h2>
-                <p>&Egrave; possibile gestire anche prenotazioni di privati identificando il referente come <strong>Privato</strong> tramite l'apposita indicatore nella scheda del referente. Le prenotazioni di privati sono riconoscibili tramite una apposita icona nella lista, non richiedono di specificare la scuola e possono essere escluse dalle notifiche via e-mail. Per maggiori informazioni vedi la sezione Notifiche via e-mail.</p>
-
-                <h2>Importare nominativi da un file</h2>
-                <p>Se hai già un file con i nominativi dei referenti puoi importare i dati nel programma. Per fare questo vai alla lista Referenti, premi il pulsante Altro e seleziona la funzione <strong>Importa</strong>. Si presenta una maschera con le istruzioni per la preparazione del file. Prepara il file come specificato e procedi all'importazione.</p>.
-
-                <h2>Eliminare un Referente</h2>
-                <p>Per eliminare un Referente, selezionalo nella lista e premi il pulsante <strong>Elimina</strong>.</p>
-                <p class="nota">Puoi eliminare un Referente solo se non ha prenotazioni. In caso contrario devi prima eliminare le prenotazioni o assegnarle ad un altro referente.</p>
+                                <p>Subito dopo la conferma, viene inviata una e-mail di riepilogo al referente e/o alla scuola. Nel dialogo puoi vedere a chi sta per essere inviata l'e-mail, ed eventualmente puoi modificare i destinatari e gli indirizzi.</p>
+                                <p class="nota">Puoi modificare i destinatari di default delle email andando sul menu Altro... -> Configurazione -> Configuazione invio email</p>
+                                <p>Quando una prenotazione viene confermata, tutte le modifiche vengono registrate automaticamente.</p>
 
 
-                <h1>Scuole</h1>
-                <p>Questo è l'archivio delle scuole che effettuano le prenotazioni e partecipano agli eventi.</p>
-                <h2>Inserire le scuole</h2>
-                <p>Per aggiungere una scuola premi il pulsante <strong>Nuovo</strong> e compila la scheda.</p>
-                <img src="img/scheda_scuola.png" />
-                <p class="dida">La scheda di una Scuola</p>
+
+                                <h2>Registrare il pagamento</h2>
+                                <p>Quando si riceve la documentazione dal referente o l'effettivo pagamento, l'operazione va registrata sul sistema.</p>
+                                <p class="nota">Nota: una prenotazione deve essere confermata prima di poter registrare il pagamento.</p>
+
+                                <p>Per registrare il pagamento, apri la scheda della prenotazione e permi il pulsante Registra Pagamento. Si apre di dialogo di registrazione pagamento.</p>
+
+                                <img src="img/regis_paga.png" />
+                                <p class="dida">Dialogo di registrazione del pagamento</p>
+
+                                <p>Il dialogo riepiloga il numero di spettatori e l'importo da pagare.</p>
+                                <p>Nel dialogo puoi inserire le seguenti informazioni:</p>
+                                <ul>
+                                    <li><strong>Numero di posti:</strong> di default è quello previsto dalla prenotazione; se il numero è variato è possibile effettuare la correzione e l'importo viene ricalcolato al volo.</li>
+                                    <li><strong>Totale pagato</strong>, è l'importo pagato, che potrebbe anche differire dal previsto per vari motivi (errori, arrotondamenti, ecc...). Questa informazione va obbligatoriamente inserita, anche se uguale al previsto.</li>
+                                    <li><strong>Data pagamento:</strong> la data del pagamento, di default è quella odierna ma è possibile modificarla se il pagamento è stato effettuato in altra data.</li>
+                                    <li><strong>Mezzo di pagamento:</strong> selezionare dalla tendina il mezzo di pagamento utilizzato.</li>
+                                    <li><strong>Pagamento Confermato e Pagamento Ricevuto:</strong> selezionare se si tratta di conferma pagamento o registrazione pagamento. La registrazione pagamento comporta implicitamente la conferma del pagamento.</li>
+                                    <li><strong>Invio e-mail:</strong> viene mostrato in anteprima a chi verranno inviate le e-mail di conferma pagamento. &Egrave possibile modificare i destinatari manualmente.</li>
+                                </ul>
 
 
-                <p>&Egrave; anche possibile aggiungere le scuole direttamente in fase di prenotazione, in ogni caso saranno aggiunte all'anagrafica delle scuole e appariranno nella lista.</p>
-
-                <h2>Importare le scuole da un file</h2>
-                <p>Se hai già un file con le scuole puoi importare i dati nel programma. Per fare questo vai alla lista Scuole, premi il pulsante Altro e seleziona la funzione <strong>Importa</strong>. Si presenta una maschera con le istruzioni per la preparazione del file. Prepara il file come specificato e procedi all'importazione.</p>.
-
-                <h2>Eliminare una Scuola</h2>
-                <p>Per eliminare una Scuola, selezionala nella lista e premi il pulsante <strong>Elimina</strong>.</p>
-                <p class="nota">Puoi eliminare una Scuola solo se questa non ha prenotazioni. In caso contrario devi prima eliminare le prenotazioni o assegnarle ad altra scuola.</p>
+                                <p>Confermando il pagamento, tutte le informazioni vengono registrate nella prenotazione e la prenotazione viene registrata.</p>
 
 
-                <h1>Le Stagioni</h1>
-                <h1>Statistiche</h1>
-                <h1>Lettere base</h1>
-                <h1>Notifiche via e-mail</h1>
-                <h1>Registri degli eventi</h1>
-                <h2>Registro eventi Prenotazioni</h2>
-                <h2>Registro spedizioni</h2>
-                <h1>Altre tabelle</h1>
-                <h1>Configurazione</h1>
+                                <p>Sono previste due fasi di registrazione del pagamento:</p>
+                                <ul>
+                                    <li><strong>Pagamento confermato:</strong> il referente ha inviato un documento che attesta il pagamento (contabile bancaria o postale, autorizzazione alla fattura elettronica...)</li>
+                                    <li><strong>Pagamento ricevuto:</strong> è stata ricevuta la notifica dalla banca/posta che attesta l'effettivo ricevimento dell'importo da pagare.</li>
+                                </ul>
+
+                                <p>Sta a voi decidere se utilizzare le due fasi separatamente o gestire solo la fase di registrazione del pagamento. Mettendo la spunta su Pagamento ricevuto viene automaticamente acceso anche Pagamento Confermato.</p>
+
+                                <h2>Controllo automatico delle scadenze</h2>
+                                <p>bla bla...</p>
+
+
+                                <h1>Referenti</h1>
+                                <p>In questo modulo si gestisce l'archivio degli insegnanti o altre figure referenti per le prenotazioni.</p>
+
+                                <h2>Inserire i referenti</h2>
+                                <p>Per aggiungere un referente premi il pulsante <strong>Nuovo</strong> e compila la scheda.</p>
+                                <p>&Egrave; anche possibile aggiungere i referenti direttamente in fase di prenotazione, in ogni caso saranno aggiunti all'anagrafica dei referenti e appariranno nella lista.</p>
+
+                                <img src="img/scheda_referente.png" />
+                                <p class="dida">La scheda di un Referente</p>
+
+
+                                <h2>Gestione di privati</h2>
+                                <p>&Egrave; possibile gestire anche prenotazioni di privati identificando il referente come <strong>Privato</strong> tramite l'apposita indicatore nella scheda del referente. Le prenotazioni di privati sono riconoscibili tramite una apposita icona nella lista, non richiedono di specificare la scuola e possono essere escluse dalle notifiche via e-mail. Per maggiori informazioni vedi la sezione Notifiche via e-mail.</p>
+
+                                <h2>Importare nominativi da un file</h2>
+                                <p>Se hai già un file con i nominativi dei referenti puoi importare i dati nel programma. Per fare questo vai alla lista Referenti, premi il pulsante Altro e seleziona la funzione <strong>Importa</strong>. Si presenta una maschera con le istruzioni per la preparazione del file. Prepara il file come specificato e procedi all'importazione.</p>.
+
+                                <h2>Eliminare un Referente</h2>
+                                <p>Per eliminare un Referente, selezionalo nella lista e premi il pulsante <strong>Elimina</strong>.</p>
+                                <p class="nota">Puoi eliminare un Referente solo se non ha prenotazioni. In caso contrario devi prima eliminare le prenotazioni o assegnarle ad un altro referente.</p>
+
+
+                                <h1>Scuole</h1>
+                                <p>Questo è l'archivio delle scuole che effettuano le prenotazioni e partecipano agli eventi.</p>
+                                <h2>Inserire le scuole</h2>
+                                <p>Per aggiungere una scuola premi il pulsante <strong>Nuovo</strong> e compila la scheda.</p>
+                                <img src="img/scheda_scuola.png" />
+                                <p class="dida">La scheda di una Scuola</p>
+
+
+                                <p>&Egrave; anche possibile aggiungere le scuole direttamente in fase di prenotazione, in ogni caso saranno aggiunte all'anagrafica delle scuole e appariranno nella lista.</p>
+
+                                <h2>Importare le scuole da un file</h2>
+                                <p>Se hai già un file con le scuole puoi importare i dati nel programma. Per fare questo vai alla lista Scuole, premi il pulsante Altro e seleziona la funzione <strong>Importa</strong>. Si presenta una maschera con le istruzioni per la preparazione del file. Prepara il file come specificato e procedi all'importazione.</p>.
+
+                                <h2>Eliminare una Scuola</h2>
+                                <p>Per eliminare una Scuola, selezionala nella lista e premi il pulsante <strong>Elimina</strong>.</p>
+                                <p class="nota">Puoi eliminare una Scuola solo se questa non ha prenotazioni. In caso contrario devi prima eliminare le prenotazioni o assegnarle ad altra scuola.</p>
+
+
+                                <h1>Le Stagioni</h1>
+                                <h1>Statistiche</h1>
+
+                                <h1>Lettere base</h1>
+                                <p>Le <strong>Lettere Base</strong> rappresentano i modelli usati per costruire le e-mail inviate dal programma (e-mail informative, e-mail di conferma o di sollecito...)</p>
+                                <p>Puoi accedere al modulo Lettere Base tramite il menu Altro... - > Lettere Base.</p>
+
+                                <p>Qui trovi tutti i modelli usati dal programma per le comunicazioni relative alle prenotazioni. Questi modelli sono contrassegnati come "Lettera Standard" e non possono essere cancellati, ma il contenuto può essere personalizzato. In questa stessa sezione puoi anche aggiungere nuovi modelli per inviare comunicazioni di altro tipo (es. comunicazioni promozionali).</p>
+
+                                <p>Al momento dell'invio, i modelli vengono automaticamente completati con le informazioni specifiche recuperate dalla prenotazione.</p>
+
+                                <p>Esistono i seguenti modelli di lettera standard:</p>
+
+                                <ul>
+                                    <li><strong>info_prenotazione:</strong> e-mail inviata all'inserimento di una nuova prenotazione.</li>
+                                    <li><strong>conferma_prenotazione:</strong> e-mail inviata quando si conferma di una prenotazione.</li>
+                                    <li><strong>memo_scadenza_prenotazione:</strong> e-mail inviata automaticamente se la conferma prenotazione non perviene entro il temine previsto (1° livello di sollecito).</li>
+                                    <li><strong>congelamento_opzione:</strong> e-mail inviata automaticamente se la conferma prenotazione non è ancora pervenuta dopo il 1° sollecito. (2° livello di sollecito).</li>
+                                    <li><strong>conferma_pagamento:</strong> inviata quando viene registrata la conferma del pagamento.</li>
+                                    <li><strong>memo_scadenza_pagamento:</strong> inviata automaticamente se la conferma del pagamento non perviene entro il termine previsto.</li>
+                                    <li><strong>attestato_partecipazione:</strong> documento inviato alla scuola per attestare l'avvenuto pagamento relativo a una prenotazione.</li>
+                                </ul>
+
+
+
+                                <h2>Comporre una lettera base</h2>
+                                <p>Il contenuto di una lettera base può essere completamente personalizzato con testo, oggetto, immagini ed eventuali allegati.</p>
+                                <p>&Egrave; possibile utilizzare una serie predefinita di testi variabili che al momento dell'invio verranno sostituiti con i dati specifici della prenotazione.</p>
+                                <p>Le sostituzioni possono avvenire sia nell'oggetto che nel testo della lettera.</p>
+                                <p>La sintassi per l'uso dei testi variabili è la seguente:</p>
+                                <p><code>${nome_variabile}</code></p>
+                                <p>Per esempio, scrivendo il seguente testo nella lettera base:</p>
+                                <p><code>Spettabile Prof. <strong>${cognomeInsegnante}</strong>, le confermiamo che il numero della Sua prenotazione è <strong>${numeroPrenotazione}</strong>.</code></p>
+                                <p>l'email inviata conterrà:</p>
+                                <p>Spettabile Prof. <strong>Rossi</strong>, le confermiamo che il numero della Sua prenotazione è <strong>146</strong>.</p>
+                                <p>L'elenco completo delle variabili disponibili è contenuto in una speciale lettera base denominata <strong>demo_sostituzioni</strong> che trovate nella lista delle lettere base. Puoi colaudare questa lettera base su una qualsiasi prenotazione per vedere tutte le possibili sostituzioni.</p>
+
+                                <h2>Collaudare una lettera base</h2>
+                                <p>Puoi verificare il risultato di una qualsiasi lettera base simulando l'invio della lettera per una prenotazione.</p>
+                                <p>Per farlo, vai nella lista prenotazioni e seleziona una prenotazione nella lista, quindi premi il pulsante <strong>Altro</strong> in fondo alla lista e seleziona <strong>Test lettera.</strong> Scegli la lettera da collaudare e inserisci un indirizzo e-mail. La lettera viene personalizzata in funzione della prenotazione che hai selezionato e viene inviata al'indirizzo che hai inserito. In questo modo puoi verificare il risultato effettivo delle modifiche.</p>
+
+                                <h2>Utilizzare il formato HTML</h2>
+                                <p>Puoi anche comporre il testo della lettera in linguaggio HTML. Questo consente di utilizzare i codici di formattazione HTML (titoli, grassetto, corsivo, liste numerate ecc...) per formattare il testo in modo più leggibile e gradevole.</p>
+                                <p>Per utilizzare questa funzionalità è necessaria una conoscenza di base del linguaggio HTML.</p>
+                                <p>Per comporre la lettera in formato HTML occorre:</p>
+                                <ol>
+                                    <li>inserire gli opportuni marcatori HTML nel testo della lettera</li>
+                                    <li>accendere la spunta "Testo HTML" nella scheda della lettera</li>
+                                </ol>
+                                <p>In questo modo il testo verrà interpretato e visualizzato in formato HTML nella email ricevuta dal cliente.</p>
+
+                                <h2>Aggiungere allegati</h2>
+                                <p>&Egrave; anche possibile aggiungere uno o più allegati alle lettere base.</p>
+                                <p>Può essere allegato qualsiasi tipo di file (.pdf, .jpg ecc...)</p>
+                                <p>I file da allegare vanno precaricati sul server per renderli disponibili.</p>
+
+                                <h3>Caricamento e gestione degli allegati</h3>
+                                <p>Per accedere alla funzione di gestione degli allegati, dalla lista lettere base premere il bottone Altro -> Gestione allegati. Questa funzione è accessibile anche dalla scheda delle lettere base.</p>
+                                <p>La Gestione Allegati permette di aggiungere, rimuovere o rinominare gli allegati che sono disponibili per l'utilizzo in tutte le lettere base.</p>
+                                <p>I file così caricati sono disponibili anche per l'utilizzo come immagini inserite all'interno di un testo HTML (vedi alla voce "Inserire delle immagini")</p>
+        
+        <h3>Aggiunta di un allegato a una lettera base</h3>
+        <p>Per aggiungere un allegato, apri la scheda della lettera base, premi il bottone <strong>Aggiungi Allegato</strong> e seleziona dalla lista l'allegato precedentemente caricato.</p>
+        <p>Il nome dell'allegato verrà aggiunto alla lista dei nomi separati da virgola.</p>
+        <p>Per rimuovere un allegato dalla email, semplicemente cancellalo dall'elenco dei nomi nel campo Allegati.</p>
+
+                                <h2>Inserire immagini</h2>
+        <p>Puoi inserire immagini anche all'interno del testo delle e-mail</p>
+        <p class="nota">Attenzione! Questa funzione è supportata solo nelle email in formato HTML</p>
+        <p>Per inserire una immagine nel testo, inserire il seguente tag html nel punto del testo dove si vuole che appaia l'immagine:</p>
+<p><xmp><img src="immagine.png"></xmp></p>
+        <p>dove <code>immagine.png</code> è il nome del file immagine caricato in Gestione Allegati.</p>
+<p>Puoi anche specificare le dimensioni dell'immagine:</p>
+<p><xmp><img src="immagine.png" height="130" width="90"></xmp></p>
+<p>Il file dell'immagine deve esistere sul server. Quindi, come per gli allegati, i file vanno precaricati per renderli disponibili.</p>
+<p class="nota">Nota: questi file non vanno aggiunti all'elenco allegati della mail, ma solo referenziati nel tag html inserito nel testo!</p>
+<p>Può essere allegato qualsiasi tipo di file interpretabile come immagine dai client di posta elettronica; si consiglia di usare i formati .png, .gif o .jpg</p>
+
+
+                                <h1>Notifiche via e-mail</h1>
+                                <h1>Registri degli eventi</h1>
+                                <h2>Registro eventi Prenotazioni</h2>
+                                <h2>Registro spedizioni</h2>
+                                <h1>Altre tabelle</h1>
+                                <h1>Configurazione</h1>
 
 
 
