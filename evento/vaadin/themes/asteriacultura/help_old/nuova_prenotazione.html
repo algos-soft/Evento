@@ -1,0 +1,33 @@
+<h1>Inserire una nuova prenotazione</h1>
+<p><i>Nota: prima di poter inserire prenotazioni bisogna aver definito l'elenco degli Eventi e il calendario delle Rappresentazioni.</i></p>
+<p>Per creare la prenotazione, andare nella lista Prenotazioni e premere il pulsante <strong>Nuovo</strong>. Si presenta la scheda della prenotazione da compilare.</p>
+<p>Tutti i campi contrassegnati con il simbolo rosso vanno obbligatoriamente compilati.</p>
+<p>Al termine premere <strong>Registra</strong> per registrare la prenotazione.</p>
+
+<h2>Numero della prenotazione</h2>
+<p>Il numero della prenotazione viene attribuito automaticamente e viene usato come riferimento per tutte le successive operazioni.</p>
+<p>Se necessario, il numeratore delle prenotazioni può essere modificato tramite la funzione <strong>Configuazione Prenotazioni</strong> (vedi Tabelle->Configurazione) per ripartire dal numero desiderato.</p>
+<p>Ogni volta che si preme Nuova prenotazione il contatore delle prenotazioni viene incrementato di 1 e resta incrementato anche se non si conferma la creazione. La prenotazione successiva avrà quindi un nuovo numero. E' possibile saltare dei numeri, questo non crea alcun problema. Si consiglia di evitare di creare due prenotazioni con lo stesso numero nella stessa stagione.</p>
+<p><strong>Si consiglia di ripartire dal numero 1 per ogni nuova stagione.</strong></p>
+
+<h2>Date di scadenza</h2>
+<p>Normalmente la data della prenotazione corrisponde alla la data di inserimento (ma può essere modificata).</p>
+<p>In funzione della data della prenotazione e della data della rappresentazione, vengono automaticamente inserite le date di <strong>scadenza conferma</strong> e <strong>scadenza pagamento</strong> (anche queste possono essere modificate manualmente).</p>
+
+<ul>
+<li><p>La data di scadenza conferma è posta a 7 giorni dopo la data della prenotazione.</p></li>
+<li><p>La data di scadenza pagamento è posta a 60 giorni prima della rappresentazione.</p></li>
+</ul>
+
+<p>Questi valori si possono modificare in <strong>Configurazione Prenotazioni</strong>.</p>
+
+<h2>Controllo disponibilità</h2>
+<p>Durante il caricamento della prenotazione, viene visualizzato nella scheda il numero di posti disponibili. Questo numero tiene conto di tutte le altre prenotazioni già caricate a fronte della stessa rappresentazione, e della capacità della sala.</p>
+<p>Se questo numero diventa negativo si sta effettuando overbooking.</p>
+
+<h2>Invio email di istruzioni</h2>
+<p>Quando si inserisce una nuova prenotazione, viene automaticamente inviata al referente una email di conferma e di istruzioni per i passaggi successivi (viene usato l'indirizzo email inserito nella prenotazione).<br>
+Il contenuto di questa mail si può modificare tramite la funzione <strong>Lettere Base</strong> (in Tabelle). Il codice della mail è: <strong>info_prenotazione</strong> (vedi sezione: Lettere Base).</p>
+<p>Se per qualsiasi motivo la mail non fosse stata ricevuta o fosse andata persa, per reinviarla si può aprire la scheda della prenotazione, andare alla pagina <strong>Eventi</strong>, selezionare la email già inviata e premere <strong>Reinvia</strong>.</p>
+
+

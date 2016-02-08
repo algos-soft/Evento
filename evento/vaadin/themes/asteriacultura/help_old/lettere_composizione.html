@@ -1,0 +1,36 @@
+<h1>Comporre una lettera base</h2>
+
+<p>Il contenuto di una lettera base può essere completamente personalizzato con testo, oggetto, immagini ed eventuali allegati.</p>
+
+<p>Per comporre la lettera si possono usare <strong>testi fissi</strong> o <strong>testi variabili</strong>.</p>
+
+<h2>Utilizzo di testi variabili</h2>
+<p>E' possibile utilizzare una serie predefinita di testi variabili che al momento dell'invio verranno sostituiti con i dati specifici della prenotazione.</p>
+
+<p>Le sostituzioni possono avvenire sia nell'oggetto che nel testo della lettera.</p>
+
+<p>La sintassi per l'uso dei testi variabili è la seguente:</p>
+
+<code>${nome_variabile}</code>
+
+<p>Per esempio, scrivendo il seguente testo nella lettera base:</p>
+
+<p><i>Spettabile Prof. <code>${cognomeInsegnante}</code>, le confermiamo che il numero della Sua prenotazione è <code>${numeroPrenotazione}</code>.</i></p>
+<p>
+<p>l'email inviata conterrà:</p>
+<p>
+<p><i>Spettabile Prof. Rossi, le confermiamo che il numero della Sua prenotazione è 46.</i></p>
+<p>
+<p>L'elenco completo delle variabili disponibili è contenuto in una speciale lettera base denominata <strong>demo_sostituzioni</strong> che trovate nella lista delle lettere base.</p>
+
+<h2>Testo HTML</h2>
+<p>E' possibile comporre il testo della lettera in linguaggio HTML. Questo consente di utilizzare i codici di formattazione HTML (titoli, grassetto, corsivo, liste numerate ecc...) per formattare il testo in modo più leggibile e gradevole.</p>
+<p>Per comporre la lettera in formato HTML occorre:</p>
+<ol>
+<li>inserire gli opportuni marcatori HTML nel testo</li>
+<li>accendere la spunta "Testo HTML" nella scheda della lettera.</li>
+</ol>
+<p>In questo modo il testo verrà interpretato e visualizzato in formato HTML nella email ricevuta dal cliente.</p>
+
+
+
