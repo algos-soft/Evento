@@ -710,16 +710,19 @@
         <h1>Le Stagioni</h1>
         <p>Il sistema mantiene sempre in linea i dati della stagione corrente e di tutte quelle passate. Ma per non appesantire le liste con dati inutili, filtra tutti i dati sulla <strong>Stagione corrente</strong>.</p>
         <p>A questo scopo, gli Eventi sono associati a una Stagione, e di conseguenza lo sono anche tutte le Rappresentazioni e Prenotazioni collegate.</p>
-        <p>Quando si effettua una ricerca di Eventi, Rappresentazioni o Prenotazioni, nel dialogo delle condizioni di ricerca c'è la spunta <strong>Solo stagione corrente</strong>, che è automaticamente selezionata. In questo modo, tutti i risultati sono filtrati sulla stagione corrente.
+        <h2>Il filtro sulla Stagione Corrente</h2>
+        <p>Quando si effettua una ricerca di Eventi, Rappresentazioni o Prenotazioni, nel dialogo delle condizioni di ricerca c'è la spunta <strong>Solo stagione corrente</strong>, che è automaticamente selezionata. In questo modo, tutti i risultati sono filtrati sulla stagione corrente.</p>
         <p>Se si vogliono effettuare ricerche anche sulle stagioni precedenti è necessario togliere questa spunta nel dialogo di ricerca.</p>
         <img src="img/checkbox_stagione_corrente.png"/>
         <h2>La tabella Stagioni</h2>
-        <p>Per utilizzare questo meccanismo è necessario inserire le stagioni nella tabella Stagioni, e identificare qual'è la stagione corrente.</p>
-        <p>Ogni anno, all'inizio della stagione, si inserisce una nuova riga in questa tabella e si definisce come Stagione Corrente.</p>
+        <p>Per utilizzare questo meccanismo è necessario inserire le stagioni nella tabella Stagioni, e identificare qual'è la stagione corrente. La tabella Stagioni è accessibile tramite il menu Altro... -> Stagioni.</p>
+        <p>Ogni anno, all'inizio della stagione, si inserisce una nuova riga in questa tabella e si definisce come Stagione Corrente. Per fare questo si seleziona la riga e si preme il pulsante <strong>Corrente</strong> al piede della lista.</p>
+        <p>La stagione ha un nome e le date di inizio e di fine. Le date hanno solo scopo indicativo, non funzionale.</p>
         <p>&Egrave; possibile in qualsiasi momento selezionare una diversa Stagione Corrente, e tutto il programma risulterà filtrato sulla Stagione selezionata.</p>
-        <p class="nota">Non è possibile eliminare una Stagione se ci sono degli eventi collegati.</p>
+        <p class="nota">Non è possibile eliminare una Stagione se ci sono degli eventi ad essa collegati.</p>
 
         <h1>Statistiche</h1>
+        <p>bla bla</p>
 
         <h1>Lettere base</h1>
 
@@ -874,6 +877,12 @@
         <h1>Registri degli eventi</h1>
 
         <h2>Registro eventi Prenotazioni</h2>
+        <p>Questo registro contiene tutti gli eventi significativi che si sono verificati nelle Prenotazioni. Ogni volta che si effettua la conferma prenotazione, la registrazione di un pagamento, il congelamento della prenotazione ecc... dei nuovi eventi vengono registrati in questa tabella. Analizzando questi eventi si può ricostruire la storia della prenotazione.</p>
+        <p>Se l'evento ha comportato anche l'invio di una e-mail, il registro riporta anche il destinatario e l'esito.</p>
+        <p>Premendo il pulsante <strong>Reinvia</strong>, è possibile inviare nuovamente l'e-mail. Questo può essere utile se alcune e-mail non hanno potuto essere inviate per qualche problema transitorio: in questo modo si può facilmente reinviare la e-mail quando il funzionamento è stato ripristinato.</p>
+        <p>L'elenco degli eventi qui riportato è lo stesso che si vede dall'interno della scheda prenotazione, alla pagina <strong>Eventi e Note</strong>.</p>
+        <p>Le operazioni sulla prenotazione che comportano l'invio di e-mail (per esempio la conferma prenotazione) generano due eventi nel Registro eventi prenotazione: un evento per l'operazione e uno per la spedizione della e-mail.</p>
+        <p>La spedizione inoltre genera un ulteriore evento nel Registro spedizioni generale.</p>
 
         <h2>Registro spedizioni</h2>
         <p>Il Registro Spedizioni è un registro che riporta un elenco di tutte le spedizioni di e-mail (riuscite o fallite) effettuate dal programma.<p>
