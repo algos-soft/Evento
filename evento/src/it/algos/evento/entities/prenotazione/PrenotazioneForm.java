@@ -337,17 +337,22 @@ public class PrenotazioneForm extends ModuleForm {
 
         fieldCongelata = new CheckBoxField("Congelata");
         addField(Prenotazione_.congelata, fieldCongelata);
+
+        // un listener che chiede conferma se si vuole accendere il flag manualmente.
         fieldCongelata.addValueChangeListener(event -> {
             if (!inValueChange) {
-                ConfirmDialog dialog = new ConfirmDialog(null, "Questo campo è gestito automaticamente.<br>Sei sicuro di volerlo modificare manualmente?", (dialog1, confirmed) -> {
-                    if (!confirmed) {
-                        inValueChange = true;
-                        fieldCongelata.setValue(!fieldCongelata.getValue());
-                        inValueChange = false;
-                    }
-                });
-                dialog.setConfirmButtonText("Modifica");
-                dialog.show();
+                boolean newValue = Lib.getBool(event.getProperty().getValue());
+                if(newValue==true){
+                    ConfirmDialog dialog = new ConfirmDialog(null, "Questo campo è gestito automaticamente.<br>Sei sicuro di volerlo modificare manualmente?", (dialog1, confirmed) -> {
+                        if (!confirmed) {
+                            inValueChange = true;
+                            fieldCongelata.setValue(!fieldCongelata.getValue());
+                            inValueChange = false;
+                        }
+                    });
+                    dialog.setConfirmButtonText("Modifica");
+                    dialog.show();
+                }
             }
         });
 
