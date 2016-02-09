@@ -41,34 +41,38 @@
     <div id="content">
 
         <h1>Avvio rapido</h1>
+        <p>Ciao,</p>
+        <p>Se hai già confidenza con programmi gestionali e vuoi partire immediatamente ad utilizzare eVento, qui sono elencati i punti chiave per una configurazione di base.</p>
+        <p>Se invece vuoi prendere confidenza con le varie funzionalità prima di cominciare, ti consigliamo di non eseguire subito queste procedure, ma di esplorare le varie funzioni seguendo il percorso suggerito da questo manuale, partendo dalla sezione <a href="#per-iniziare">Per iniziare.</a></p>
+        <p>Buon lavoro!</p>
+        <p>Procedura rapida di avvio:</p>
         <ol>
-            <li><strong>Cancella i dati dimostrativi.<br>Appena attivato, il programma contiene dei dati dimostrativi.
+            <li><strong>Cancella i dati dimostrativi.</strong><br>Appena attivato, il programma contiene dei dati dimostrativi.
                 Cancellali per partire da una situazione pulita.<br>Parti dalle prenotazioni. Seleziona tutto (clicca
                 sulla prima, tieni il maiuscolo e clicca sull'ultima), quindi elimina tutto. Fai lo stesso per le
                 Rappresentazioni e per gli Eventi.</strong></li>
-            <li>Imposta il contatore delle prenotazioni. Il contatore delle prenotazioni deve ripartire da 1 (o dal
+            <li><strong>Imposta il contatore delle prenotazioni.</strong> Il contatore delle prenotazioni deve ripartire da 1 (o dal
                 numero che vuoi tu). Vai nel menu Altro... -> Configurazione -> Configurazione Prenotazioni, imposta il
                 prossimo numero di prenotazione a 1 e registra.
             </li>
-            <li>Imposta la stagione. Vai nella tabella Stagioni (Menu Altro... -> Stagioni) e verifica che esista la
+            <li><strong>Imposta la stagione.</strong> Vai nella tabella Stagioni (Menu Altro... -> Stagioni) e verifica che esista la
                 stagione corrente. Se non esiste creala. Controlla che ci sia la spunta sulla la stagione giusta. Se non
                 è corretta, seleziona quella giusta e premi il pulsante <strong>Corrente</strong> in fondo alla lista.
             </li>
-            <li>Vai alla tabella Sale (Altro... -> Sale) e inserisci la/e sala/e della tua struttura con la relativa
+            <li><strong>Inserisci le Sale.</strong> Vai alla tabella Sale (Altro... -> Sale) e inserisci la/e sala/e della tua struttura con la relativa
                 capienza.
             </li>
             <li><strong>Configura l'e-mail:</strong> vai in Configurazione -> Configurazione invio e-maile inserisci
                 l'indirizzo del mittente (è l'indirizzo a cui risponderà chi riceve le e-mail dal sistema) e l'eventuale
                 indirizzo dove inviare un backup di tutte le e-mail. Al termine ricordati di registrare.
             </li>
-            <li>Crea gli eventi della stagione</li>
-            <li>Crea le rappresentazioni della stagione</li>
+            <li><strong>Crea gli eventi della stagione</strong></li>
+            <li><strong>Crea le rappresentazioni della stagione</strong></li>
         </ol>
         <p>Hai eseguito tutte le preparazioni indispensabili e puoi iniziare a lavorare! Puoi esplorare le altre
             funzionalità man mano che servono.</p>
 
-
-        <h1>Per iniziare</h1>
+        <a name="per-iniziare"></a><h1>Per iniziare</h1>
 
         <p>Questa sezione spiega i concetti generali per navigare nel programma e accedere ai vari elementi.</p>
 
@@ -576,9 +580,9 @@
         <p class="nota">Attenzione! Quando si riattiva una prenotazione congelata, non è garantito che i posti siano
             ancora disponibili! Prima di riattivarla, controlla di avere posti disponibili a sufficienza!</p>
 
-        <h2>Controllo delle posizioni scadute</h2>
+        <h2>Visualizzazione delle posizioni scadute</h2>
 
-        <p>Esistono 2 tipi di posizioni scadute:</p>
+        <p>Esistono 3 tipi di posizioni scadute:</p>
         <ul>
             <li><strong>Conferma prenotazione scaduta:</strong> sono trascorsi i termini per l'invio della conferma
                 prenotazione (un simbolo rosso viene visualizzato nella colonna <strong>stato</strong>).
@@ -603,7 +607,7 @@
         <h2>Controllo automatico delle scadenze</h2>
 
         <p>Ogni giorno il sistema può controllare automaticamente le scadenze delle prenotazioni ed inviare delle e-mail di sollecito personalizzate al referente e/o alla scuola.</p>
-        <p>Questo controllo avviene a un'ora del giorno prestabilita, e viene eseguito dal server. Non è necessario collegarsi al programma per eseguire il controllo.</p>
+        <p>Questo controllo avviene una volta al giorno, a un'ora prestabilita, e viene eseguito dal server. Non è necessario collegarsi al programma perché il controllo venga eseguito.</p>
 
         <p>Ogni giorno all'ora prestabilita il sistema esegue i seguenti controlli:</p>
         <ol>
@@ -611,11 +615,24 @@
             <li><strong>Scadenze conferma - secondo sollecito:</strong> identifica le prenotazioni con conferma scaduta e già precedentemente sollecitate, invia una seconda email di sollecito e le congela.</li>
             <li><strong>Scadenze pagamento - sollecito:</strong> identifica le prenotazioni con pagamento scaduto e invia una email di sollecito.
         </ol>
-        <p>Dopo avere inviato le email di sollecito, un apposito indicatore (campanella) viene visualizzato nella lista delle prenotazioni.</p>
+        <p>Dopo avere inviato le email di sollecito, un apposito indicatore (campanella) viene visualizzato nella lista delle prenotazioni, ad indicare che il referente è stato sollecitato.</p>
+
+        <p>Il diagramma seguente illustra il flusso dei controlli nel tempo, con gli effetti sullo stato delle prenotazioni.</p>
 
         <img src="img/controllo_scadenze_draw.io.png"/>
-
+        <p class="dida">Flusso di controllo delle posizioni scadute</p>
         <p>Il sistema di controllo può essere attivato, disattivato e configurato tramite l'apposita pagina di configurazione che si trova nella sezione <a href="#config-daemon">Configurazione -> Programmazione controlli automatici</a></p>
+
+        <h2>Invio manuale dei solleciti</h2>
+        <p>I solleciti si possono inviare anche manualmente.</p>
+        <p>Per inviare manualmente un sollecito:</p>
+        <ul>
+            <li>Selezionare la prenotazione nella lista</li>
+            <li>Premere il pulsante Altro (o cliccare col tasto destro sulla prenotazione), e selezionare il tipo di sollecito da inviare.</li>
+        </ul>
+        <p>Normalmente non è necessario inviare manualmente i solleciti perché vengono già inviati in automatico. Potrebbe rendersi necessaro se il sistema di invio automatico è rimasto disattivato per un certo tempo, o se ci sono stati altri problemi che hanno impedito l'invio automatico dei solleciti.</p>
+
+        <p class="nota">I solleciti si possono inviare manualmente solo se non sono già stati inviati. Se un sollecito di un certo tipo è già stato inviato e lo si vuole reinviare, lo si può fare dalla pagina Eventi della scheda Prenotazione.</p>
 
         <h1>Referenti</h1>
 
@@ -844,6 +861,9 @@
         <h2>Registro eventi Prenotazioni</h2>
 
         <h2>Registro spedizioni</h2>
+        <p>Il Registro Spedizioni è un registro che riporta un elenco di tutte le spedizioni di e-mail (riuscite o fallite) effettuate dal programma.<p>
+        <p>Puoi accedere al Registro spedizioni tramite il menu Altro... -> Registro spedizioni.</p>
+        <p>Qui puoi controllare se tutte le email sono state spedite correttamente ed eventualmente ottenere i codici di errore per le mail che non hanno potuto essere spedite.</p>
 
         <h1>Altre tabelle</h1>
 

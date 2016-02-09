@@ -81,7 +81,7 @@ p.dida {
     line-height: 120%;
     /*img ha 1.5em di bottom, questo tag esiste 
     solo sotto a <img> quindi riduco il margine bottom*/
-    margin-top: -1em;
+    margin-top: -0.9em;
 }
 
 code{
