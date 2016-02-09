@@ -1,16 +1,14 @@
 package it.algos.evento.config;
 
+import com.vaadin.data.Property;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 import it.algos.evento.EventoApp;
 import it.algos.evento.daemons.DaemonPrenScadute;
 import it.algos.evento.pref.EventoPrefs;
@@ -22,6 +20,8 @@ import javax.servlet.ServletContext;
 public class GeneralDaemonConfigComponent extends BaseConfigPanel implements View {
 
 	private static final String KEY_SERVICE_START = "servicestart";
+
+
 
 	private Label serviceStatus;
 	private Button bStartDaemon;
@@ -70,7 +70,8 @@ public class GeneralDaemonConfigComponent extends BaseConfigPanel implements Vie
 		layout.addComponent(bStartDaemon);
 		layout.addComponent(bStopDaemon);
 		layout.addComponent(checkbox);
-		
+
+
 		addComponent(layout);
 		addComponent(createButtonPanel());
 
@@ -158,6 +159,9 @@ public class GeneralDaemonConfigComponent extends BaseConfigPanel implements Vie
 		}
 
 	}
+
+
+
 
 
 }

@@ -602,24 +602,20 @@
 
         <h2>Controllo automatico delle scadenze</h2>
 
-        <p>Ogni giorno il sistema può controllare automaticamente le scadenze delle prenotazioni ed inviare e-mail di sollecito personalizzate al referente e/o alla scuola.</p>
-        <p>Questo controllo avviene a una certa ora del giorno ed esegue sul server. Non è necessario collegarsi perché il controllo venga eseguito.</p>
+        <p>Ogni giorno il sistema può controllare automaticamente le scadenze delle prenotazioni ed inviare delle e-mail di sollecito personalizzate al referente e/o alla scuola.</p>
+        <p>Questo controllo avviene a un'ora del giorno prestabilita, e viene eseguito dal server. Non è necessario collegarsi al programma per eseguire il controllo.</p>
 
-        <p>Il sistema esegue i seguenti controlli:</p>
-        <ul>
-            <li>
-
-            </li>
-        </ul>
-        <p>Dopo avere inviato le email di sollecito, un apposito indicatore viene visualizzato nella lista delle prenotazioni.</p>
+        <p>Ogni giorno all'ora prestabilita il sistema esegue i seguenti controlli:</p>
+        <ol>
+            <li><strong>Scadenze conferma - primo sollecito:</strong> identifica le prenotazioni con conferma scaduta, invia una email di sollecito e posticipa la scadenza di un certo numero di giorni.</li>
+            <li><strong>Scadenze conferma - secondo sollecito:</strong> identifica le prenotazioni con conferma scaduta e già precedentemente sollecitate, invia una seconda email di sollecito e le congela.</li>
+            <li><strong>Scadenze pagamento - sollecito:</strong> identifica le prenotazioni con pagamento scaduto e invia una email di sollecito.
+        </ol>
+        <p>Dopo avere inviato le email di sollecito, un apposito indicatore (campanella) viene visualizzato nella lista delle prenotazioni.</p>
 
         <img src="img/controllo_scadenze_draw.io.png"/>
 
-        <p>Qui schema dei controlli</p>
-
-        <p>Il sistema può essere attivato, disattivato e configurato tramite l'apposita pagina di configurazione che si trova nel menu Configurazione -> Programmazione controlli automatici.</p>
-
-        <p>Qui spiega la configurazione!!</p>
+        <p>Il sistema di controllo può essere attivato, disattivato e configurato tramite l'apposita pagina di configurazione che si trova nella sezione <a href="#config-daemon">Configurazione -> Programmazione controlli automatici</a></p>
 
         <h1>Referenti</h1>
 
@@ -852,6 +848,25 @@
         <h1>Altre tabelle</h1>
 
         <h1>Configurazione</h1>
+        <p>Questo modulo permette di configurare le varie funzionalità del programma per adattarlo al meglio alle tue esigenze.</p>
+
+        <a name="config-daemon"></a><h2>Programmazione controlli automatici</h2>
+        <p>Qui puoi configurare il comportamento del sistema di controllo automatico delle scadenze e di invio delle email di sollecito.</p>
+        <img src="img/daemon_config.png"/>
+        <p class="dida">La finestra di configurazione del sistema di controllo scadenze</p>
+<ul>
+    <li><strong>Attiva il servizio:</strong> consente di attivare o disattivare globalmente il servizio di controllo. Se il servizio è disattivato i controlli non vengono eseguiti e le e-mail di sollecito non vengono inviate.</li>
+    <li><strong>Esegui il controllo alle ore:</strong> specifica l'ora del giorno (o della notte) alla quale effettuare il controllo e inviare le e-mail.</li>
+</ul>
+
+        <p>Invio automatico e-mail di sollecito:</p>
+        <ul>
+            <li><strong>Alla scadenza di una prenotazione:</strong> invia le e-mail alla scadenza della data di conferma prenotazione, se la prenotazione non è confermata.</li>
+            <li><strong>Alla scadenza dei termini di pagamento:</strong> invia le e-mail alla scadenza della data di conferma pagamento, se il pagamento non è confermato.</li>
+        </ul>
+
+        <p>Per ognuna delle precedenti opzioni è possibile specificare se le e-mail vanno inviate al referente, alla scuola o a entrambi.:</p>
+        <p>L'ultima opzione consente di non inviare la e-mail se si tratta di prenotazione di un privato.</p>
 
 
     </div>

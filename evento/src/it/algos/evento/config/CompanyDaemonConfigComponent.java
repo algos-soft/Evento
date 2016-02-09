@@ -1,5 +1,6 @@
 package it.algos.evento.config;
 
+import com.vaadin.data.Property;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -14,9 +15,32 @@ public class CompanyDaemonConfigComponent extends BaseConfigPanel {
 	private static final String KEY_SERVICE_ACTIVE = "serviceactive";
 	private static final String KEY_SERVICE_TIME = "servicetime";
 
+	private static final String KEY_CHECK_MAIL_SCAD_PREN = "checkMailScadPren";
+	private static final String KEY_CHECK_MAIL_SCAD_PAGA = "checkMailScadPaga";
+
+	private static final String KEY_REF_MAIL_SCAD_PREN = "checkRefScadPren";
+	private static final String KEY_REF_MAIL_SCAD_PAGA = "checkRefScadPaga";
+
+	private static final String KEY_SCUOLA_MAIL_SCAD_PREN = "checkScuolaScadPren";
+	private static final String KEY_SCUOLA_MAIL_SCAD_PAGA = "checkScuolaScadPaga";
+
+	private static final String KEY_NP_MAIL_SCAD_PREN = "checkNPScadPren";
+	private static final String KEY_NP_MAIL_SCAD_PAGA = "checkNPScadPaga";
+
+
 	private ArrayComboField hourField;
 	private Field<?> serviceField;
 	private String[] aHours;
+
+	private CheckBoxField checkMailScadPrenField;
+	private CheckBoxField checkMailScadPagaField;
+	private CheckBoxField checkRefScadPrenField;
+	private CheckBoxField checkRefScadPagaField;
+	private CheckBoxField checkScuolaScadPrenField;
+	private CheckBoxField checkScuolaScadPagaField;
+	private CheckBoxField checkNPScadPrenField;
+	private CheckBoxField checkNPScadPagaField;
+
 
 	public CompanyDaemonConfigComponent() {
 		super();
@@ -37,7 +61,9 @@ public class CompanyDaemonConfigComponent extends BaseConfigPanel {
 		layout.addComponent(infoLabel);
 		layout.addComponent(serviceField);
 		layout.addComponent(hourField);
-		
+
+		layout.addComponent(creaComponenteChecks());
+
 		addComponent(layout);
 		addComponent(createButtonPanel());
 
@@ -53,7 +79,79 @@ public class CompanyDaemonConfigComponent extends BaseConfigPanel {
 		aHours = new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
 				"13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" };
 		hourField = new ArrayComboField(aHours, "Esegui controllo alle ore:");
-		//hourField.setImmediate(true);
+
+
+		checkMailScadPrenField = new CheckBoxField("Alla scadenza di una prenotazione");
+		checkMailScadPrenField.setDescription("Invia una email di promemoria alla scadenza della prenotazione");
+		checkMailScadPrenField.addValueChangeListener(new Property.ValueChangeListener() {
+			@Override
+			public void valueChange(Property.ValueChangeEvent event) {
+				boolean b = (Boolean) checkMailScadPrenField.getValue();
+				checkRefScadPrenField.setVisible(b);
+				checkScuolaScadPrenField.setVisible(b);
+				checkNPScadPrenField.setVisible(checkRefScadPrenField.getValue()&b);
+			}
+		});
+
+
+		checkMailScadPagaField= new CheckBoxField("Alla scadenza dei termini di pagamento");
+		checkMailScadPagaField.setDescription("Invia una email quando scadono i termini di pagamento");
+		checkMailScadPagaField.addValueChangeListener(new Property.ValueChangeListener() {
+			@Override
+			public void valueChange(Property.ValueChangeEvent event) {
+				boolean b = (Boolean) checkMailScadPagaField.getValue();
+				checkRefScadPagaField.setVisible(b);
+				checkScuolaScadPagaField.setVisible(b);
+				checkNPScadPagaField.setVisible(checkRefScadPagaField.getValue()&b);
+			}
+		});
+
+		String tooltip="Invia la mail alla scuola";
+		checkScuolaScadPrenField= new CheckBoxField();
+		checkScuolaScadPrenField.setDescription(tooltip);
+
+		checkScuolaScadPagaField= new CheckBoxField();
+		checkScuolaScadPagaField.setDescription(tooltip);
+
+		tooltip="Invia la mail al referente";
+		checkRefScadPrenField= new CheckBoxField();
+		checkRefScadPrenField.setDescription(tooltip);
+		checkRefScadPrenField.addValueChangeListener(new Property.ValueChangeListener() {
+			@Override
+			public void valueChange(Property.ValueChangeEvent event) {
+				boolean b = (Boolean) checkRefScadPrenField.getValue();
+				checkNPScadPrenField.setVisible(b);
+			}
+		});
+
+		checkRefScadPagaField= new CheckBoxField();
+		checkRefScadPagaField.setDescription(tooltip);
+		checkRefScadPagaField.addValueChangeListener(new Property.ValueChangeListener() {
+			@Override
+			public void valueChange(Property.ValueChangeEvent event) {
+				boolean b = (Boolean) checkRefScadPagaField.getValue();
+				checkNPScadPagaField.setVisible(b);
+			}
+		});
+
+		checkNPScadPrenField= new CheckBoxField();
+		checkNPScadPrenField.setDescription(tooltip);
+
+		checkNPScadPagaField= new CheckBoxField();
+		checkNPScadPagaField.setDescription(tooltip);
+
+		// bind fields to properties
+		getGroup().bind(checkMailScadPrenField, KEY_CHECK_MAIL_SCAD_PREN);
+		getGroup().bind(checkMailScadPagaField, KEY_CHECK_MAIL_SCAD_PAGA);
+		getGroup().bind(checkRefScadPrenField, KEY_REF_MAIL_SCAD_PREN);
+		getGroup().bind(checkRefScadPagaField, KEY_REF_MAIL_SCAD_PAGA);
+
+		getGroup().bind(checkScuolaScadPagaField, KEY_SCUOLA_MAIL_SCAD_PAGA);
+		getGroup().bind(checkScuolaScadPrenField, KEY_SCUOLA_MAIL_SCAD_PREN);
+
+		getGroup().bind(checkNPScadPrenField, KEY_NP_MAIL_SCAD_PREN);
+		getGroup().bind(checkNPScadPagaField, KEY_NP_MAIL_SCAD_PAGA);
+
 
 		// bind fields to properties
 		getGroup().bind(serviceField, KEY_SERVICE_ACTIVE);
@@ -93,6 +191,15 @@ public class CompanyDaemonConfigComponent extends BaseConfigPanel {
 				sOra = aHours[nOra];				
 			}
 			addItemProperty(KEY_SERVICE_TIME, new ObjectProperty<String>(sOra));
+
+			addItemProperty(KEY_CHECK_MAIL_SCAD_PREN, new ObjectProperty<Boolean>(CompanyPrefs.sendMailScadPren.getBool()));
+			addItemProperty(KEY_CHECK_MAIL_SCAD_PAGA, new ObjectProperty<Boolean>(CompanyPrefs.sendMailScadPaga.getBool()));
+			addItemProperty(KEY_REF_MAIL_SCAD_PREN, new ObjectProperty<Boolean>(CompanyPrefs.sendMailScadPrenRef.getBool()));
+			addItemProperty(KEY_REF_MAIL_SCAD_PAGA, new ObjectProperty<Boolean>(CompanyPrefs.sendMailScadPagaRef.getBool()));
+			addItemProperty(KEY_SCUOLA_MAIL_SCAD_PREN, new ObjectProperty<Boolean>(CompanyPrefs.sendMailScadPrenScuola.getBool()));
+			addItemProperty(KEY_SCUOLA_MAIL_SCAD_PAGA, new ObjectProperty<Boolean>(CompanyPrefs.sendMailScadPagaScuola.getBool()));
+			addItemProperty(KEY_NP_MAIL_SCAD_PREN, new ObjectProperty<Boolean>(CompanyPrefs.sendMailScadPrenNP.getBool()));
+			addItemProperty(KEY_NP_MAIL_SCAD_PAGA, new ObjectProperty<Boolean>(CompanyPrefs.sendMailScadPagaNP.getBool()));
 
 		}
 		
@@ -136,11 +243,78 @@ public class CompanyDaemonConfigComponent extends BaseConfigPanel {
 				obj = getItemProperty(KEY_SERVICE_TIME).getValue();
 				CompanyPrefs.oraRunSolleciti.put(getIntHour());
 
+				obj = getItemProperty(KEY_CHECK_MAIL_SCAD_PREN).getValue();
+				CompanyPrefs.sendMailScadPren.put(obj);
+				obj = getItemProperty(KEY_CHECK_MAIL_SCAD_PAGA).getValue();
+				CompanyPrefs.sendMailScadPaga.put(obj);
+
+				obj = getItemProperty(KEY_REF_MAIL_SCAD_PREN).getValue();
+				CompanyPrefs.sendMailScadPrenRef.put(obj);
+				obj = getItemProperty(KEY_REF_MAIL_SCAD_PAGA).getValue();
+				CompanyPrefs.sendMailScadPagaRef.put(obj);
+
+				obj = getItemProperty(KEY_SCUOLA_MAIL_SCAD_PREN).getValue();
+				CompanyPrefs.sendMailScadPrenScuola.put(obj);
+				obj = getItemProperty(KEY_SCUOLA_MAIL_SCAD_PAGA).getValue();
+				CompanyPrefs.sendMailScadPagaScuola.put(obj);
+
+				obj = getItemProperty(KEY_NP_MAIL_SCAD_PREN).getValue();
+				CompanyPrefs.sendMailScadPrenNP.put(obj);
+				obj = getItemProperty(KEY_NP_MAIL_SCAD_PAGA).getValue();
+				CompanyPrefs.sendMailScadPagaNP.put(obj);
+
 			}
 
 		}
 
 	}
+
+
+	// Crea il GridLayout con i check boxes di abilitazione delle varie spedizioni
+	private Component creaComponenteChecks(){
+		Component comp;
+		GridLayout layout = new GridLayout(4,8);
+		layout.setSpacing(true);
+
+		Alignment align=Alignment.MIDDLE_LEFT;
+
+		comp = new Label("<strong>Invio automatico email di sollecito</strong>", ContentMode.HTML);
+		layout.addComponent(comp, 0, 0);
+		layout.setComponentAlignment(comp, align);
+		layout.addComponent(checkMailScadPrenField, 0, 2);
+		layout.addComponent(checkMailScadPagaField,0,4);
+
+		comp = new Label("Alla scuola");
+		comp.setWidth("80px");
+		layout.addComponent(comp, 1, 0);
+		layout.setComponentAlignment(comp, align);
+		layout.addComponent(checkScuolaScadPrenField, 1, 2);
+		layout.setComponentAlignment(checkScuolaScadPrenField, align);
+		layout.addComponent(checkScuolaScadPagaField, 1, 4);
+		layout.setComponentAlignment(checkScuolaScadPagaField, align);
+
+		comp = new Label("Al referente");
+		comp.setWidth("80px");
+		layout.addComponent(comp, 2, 0);
+		layout.setComponentAlignment(comp, align);
+		layout.addComponent(checkRefScadPrenField, 2, 2);
+		layout.setComponentAlignment(checkRefScadPrenField, align);
+		layout.addComponent(checkRefScadPagaField, 2, 4);
+		layout.setComponentAlignment(checkRefScadPagaField, align);
+
+		comp=new Label("Non inviare a privati");
+		comp.setWidth("100px");
+		layout.addComponent(comp, 3, 0);
+		layout.setComponentAlignment(comp, align);
+		layout.addComponent(checkNPScadPrenField, 3, 2);
+		layout.setComponentAlignment(checkNPScadPrenField, align);
+		layout.addComponent(checkNPScadPagaField, 3, 4);
+		layout.setComponentAlignment(checkNPScadPagaField, align);
+
+
+		return layout;
+	}
+
 
 
 }
