@@ -42,10 +42,10 @@
 
         <h1>Avvio rapido</h1>
         <p>Ciao,</p>
-        <p>Se hai già confidenza con programmi gestionali e vuoi partire immediatamente ad utilizzare eVento, qui sono elencati i punti chiave per una configurazione di base.</p>
+        <p>Se hai già pratica di programmi gestionali e vuoi inizare subito ad utilizzare eVento, nella <a href="#avvio-rapido">Procedura di avvio rapido</a> trovi le istruzioni per una configurazione di base.</p>
         <p>Se invece vuoi prendere confidenza con le varie funzionalità prima di cominciare, ti consigliamo di non eseguire subito queste procedure, ma di esplorare le varie funzioni seguendo il percorso suggerito da questo manuale, partendo dalla sezione <a href="#per-iniziare">Per iniziare.</a></p>
         <p>Buon lavoro!</p>
-        <p>Procedura rapida di avvio:</p>
+        <a name="avvio-rapido"></a><h2>Procedura di avvio rapido:</h2>
         <ol>
             <li><strong>Cancella i dati dimostrativi.</strong><br>Appena attivato, il programma contiene dei dati dimostrativi.
                 Cancellali per partire da una situazione pulita.<br>Parti dalle prenotazioni. Seleziona tutto (clicca
@@ -248,17 +248,16 @@
 
         <p class="dida">La scheda di una Rappresentazione</p>
 
-        <p>Il campo <strong>Data</strong> è la data della rappresentazione e comprende data e ora</p>
+        <p>Il campo <strong>Data</strong> comprende data e ora.</p>
 
         <p>Nel campo <strong>Evento</strong> devi selezionare l'evento che viene rappresentato.</p>
 
         <p>La <strong>Sala</strong> indica il luogo dove viene rappresentato l'evento. &Egrave; possibile rappresentare
-            l'evento in luoghi diversi, e ogni luogo può avere una diversa <strong>capienza</strong>. In base al luogo
-            selezionato, viene inserita automaticamente la capienza per la rappresentazione (che se necessario può
-            essere modificata). Questa indicazione serve per controllare l'eventuale overbooking in fase di ricevimento
+            l'evento in luoghi diversi, e ogni luogo può avere una diversa <strong>capienza</strong>. In base alla sala
+            selezionata, viene inserita automaticamente la capienza (che puoi sempre modificare per la singola rappresentazione). Questa indicazione serve per controllare l'eventuale overbooking in fase di ricevimento
             delle prenotazioni.</p>
 
-        <p class="nota">Per definire nuovi luoghi con le relative capienze, vai alla tabella Sale (Menu Altro ->
+        <p class="nota">Per definire nuove sale e le relative capienze, vai alla tabella Sale (Menu Altro ->
             Sale)</p>
 
 
@@ -315,7 +314,7 @@
         <h2>Relazioni tra scuola, referente e prenotazione</h2>
 
         <p>La mobilità degli insegnanti è frequente. Per questo motivo gli insegnanti non sono legati alla scuola ma
-            possono prenotare (in momenti diversi) a nome e per conto di diverse scuole. Un insegnante/referente è
+            possono prenotare (in momenti diversi) a nome e per conto di diverse scuole. Un insegnante (o referente) è
             associato a una scuola solo nell'ambito di una singola Prenotazione.</p>
 
         <p>Ogni prenotazione è sempre legata a un Referente.</p>
@@ -334,7 +333,7 @@
 
         <p class="dida">La scheda di una Prenotazione</p>
 
-        <h3>Creare e modificare Referenti e Scuole dalla prenotazione</h3>
+        <h3>Creare Referenti e Scuole dalla prenotazione</h3>
 
         <p>Quando si inserisce una nuova prenotazione, se il referente o la scuola non sono presenti in anagrafica, puoi
             aggiungerli direttamente.</p>
@@ -350,9 +349,14 @@
 
         <p>Nello stesso modo puoi aggiungere e modificare anche la Scuola.</p>
 
+        <a name="prenotazioni-di-privati"></a><h3>Prenotazioni di privati</h3>
+
+        <p>La spunta <strong>Privato</strong> vicino al nome del referente indica che la prenotazione è effettuata da un privato anziché da una scuola. Se il referente è un privato, la spunta viene automaticamente accesa. Ma anche se è un insegnante che vuole per questa volta partecipare a titolo personale (da solo o con conoscenti, ma non con la classe) è possibile marcare la prenotazione come Privato.</p>
+        <p>Quando la prenotazione è di un privato, non è più necessario indicare la scuola ed è possibile omettere l'invio delle email di conferma e/o sollecito.</p>
+
         <h3>Prenotazioni con prezzi personalizzati</h3>
 
-        <p>Puoi modificare prezzi per ogni singola prenotazione, per esempio in caso di abbonamenti, promozioni, o
+        <p>Puoi modificare prezzi per ogni singola prenotazione. Per esempio, in caso di abbonamenti, promozioni, o
             gruppi numerosi, puoi praticare prezzi personalizzati.</p>
 
         <p>Per farlo, basta modificare i prezzi all'interno della scheda prenotazione. I nuovi prezzi saranno applicati
@@ -377,11 +381,15 @@
             prenotazioni, e della capacità della sala.
 
         <p>
-        </p> Se questo numero diventa negativo significa che si sta effettuando overbooking.</p>
+        </p>Se questo numero diventa negativo significa che si sta effettuando overbooking.</p>
         <p>Il programma non pone alcun vincolo in caso di overbooking, ma si limita a segnalare la situazione. La
             politica di overbooking è decisa da voi.</p>
 
-        <h3>Invio e-mail di riepilogo</h3>
+        <h3>Informazioni di pagamento</h3>
+        <p>La scheda prenotazione ha una pagina dedicata alle le informazioni relative al pagamento. Per vederla clicca sulla linguetta "Pagamento" nella parte superiore della scheda.</p>
+        <p>La maggior parte delle informazioni che trovi su questa pagina sono movimentate automaticamente dalla procedura di registrazione pagamento, quindi in genere non è necessario inserirle manualmente. Le sole informazioni da inserire manualmente sono <strong>Modo pagamento</strong> (se noto in anticipo) e <strong>Tipo ricevuta</strong> (come richiesto dalla scuola).</p>
+
+        <h3>Invio e-mail di riepilogo prenotazione</h3>
 
         <p>Subito dopo aver inserito una nuova prenotazione, viene automaticamente inviata al referente una e-mail di
             riepilogo e istruzioni per i passaggi successivi. Viene usato l'indirizzo email inserito nella prenotazione,
@@ -652,11 +660,8 @@
 
         <h2>Gestione di privati</h2>
 
-        <p>&Egrave; possibile gestire anche prenotazioni di privati identificando il referente come
-            <strong>Privato</strong> tramite l'apposita indicatore nella scheda del referente. Le prenotazioni di
-            privati sono riconoscibili tramite una apposita icona nella lista, non richiedono di specificare la scuola e
-            possono essere escluse dalle notifiche via e-mail. Per maggiori informazioni vedi la sezione Notifiche via
-            e-mail.</p>
+        <p>&Egrave; possibile identificare un referente come <strong>Privato</strong> tramite l'apposito indicatore nella scheda del referente. Questo consente di gestire anche anagrafiche di privati e non solo di insegnanti.</p>
+        <p>A livello di anagrafica del referente, non sono più presenti i campi Ordine scuola e Classe, e il sogetto ha una icona diversa nella lsta. Mentre se si seleziona un privato quando si inserisce una prenotazione, la prenotazione viene automaticamente marcata come <strong>Privato</strong>. Questo a sua volta disattiva alcune funzionalità della prenotazione, come spiegato nella sezione <a href="#prenotazioni-di-privati">Prenotazioni di privati</a>.</p>
 
         <h2>Importare nominativi da un file</h2>
 
@@ -675,7 +680,7 @@
 
         <h1>Scuole</h1>
 
-        <p>Questo è l'archivio delle scuole che effettuano le prenotazioni e partecipano agli eventi.</p>
+        <p>Questo modulo mantiene l'archivio delle scuole che effettuano le prenotazioni e partecipano agli eventi.</p>
 
         <h2>Inserire le scuole</h2>
 
@@ -703,6 +708,16 @@
 
 
         <h1>Le Stagioni</h1>
+        <p>Il sistema mantiene sempre in linea i dati della stagione corrente e di tutte quelle passate. Ma per non appesantire le liste con dati inutili, filtra tutti i dati sulla <strong>Stagione corrente</strong>.</p>
+        <p>A questo scopo, gli Eventi sono associati a una Stagione, e di conseguenza lo sono anche tutte le Rappresentazioni e Prenotazioni collegate.</p>
+        <p>Quando si effettua una ricerca di Eventi, Rappresentazioni o Prenotazioni, nel dialogo delle condizioni di ricerca c'è la spunta <strong>Solo stagione corrente</strong>, che è automaticamente selezionata. In questo modo, tutti i risultati sono filtrati sulla stagione corrente.
+        <p>Se si vogliono effettuare ricerche anche sulle stagioni precedenti è necessario togliere questa spunta nel dialogo di ricerca.</p>
+        <img src="img/checkbox_stagione_corrente.png"/>
+        <h2>La tabella Stagioni</h2>
+        <p>Per utilizzare questo meccanismo è necessario inserire le stagioni nella tabella Stagioni, e identificare qual'è la stagione corrente.</p>
+        <p>Ogni anno, all'inizio della stagione, si inserisce una nuova riga in questa tabella e si definisce come Stagione Corrente.</p>
+        <p>&Egrave; possibile in qualsiasi momento selezionare una diversa Stagione Corrente, e tutto il programma risulterà filtrato sulla Stagione selezionata.</p>
+        <p class="nota">Non è possibile eliminare una Stagione se ci sono degli eventi collegati.</p>
 
         <h1>Statistiche</h1>
 
