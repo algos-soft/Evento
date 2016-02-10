@@ -7,6 +7,7 @@ import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.multiazienda.CompanyQuery;
 
 import javax.persistence.metamodel.SingularAttribute;
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class StatisticaPerScuola extends StatisticaBase {
 		ArrayList<Prenotazione> listaPren;
 
 		for (Rappresentazione rapp : rappresentazioni) {
-			prenotazioni = (List<Prenotazione>) EQuery.queryList(Prenotazione.class, attr, rapp);
+			prenotazioni = (List<Prenotazione>) CompanyQuery.queryList(Prenotazione.class, attr, rapp);
 			if (prenotazioni != null) {
 				for (Prenotazione prenot : prenotazioni) {
 					scuola = null;

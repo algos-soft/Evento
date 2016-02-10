@@ -8,7 +8,7 @@ import it.algos.evento.entities.comune.Comune_;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
 import it.algos.evento.entities.ordinescuola.OrdineScuola_;
 import it.algos.evento.multiazienda.ELazyContainer;
-import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.dialog.AlertDialog;
 import it.algos.webbase.web.dialog.BaseDialog;
 import it.algos.webbase.web.dialog.ConfirmDialog;
@@ -318,7 +318,7 @@ public class ScuolaImport {
 
 
 	private OrdineScuola getOrdine(String sigla){
-		OrdineScuola ordine = (OrdineScuola)EQuery.queryFirst(OrdineScuola.class, OrdineScuola_.sigla, sigla);
+		OrdineScuola ordine = (OrdineScuola) CompanyQuery.queryFirst(OrdineScuola.class, OrdineScuola_.sigla, sigla);
 		return ordine;
 	}
 

@@ -1,7 +1,6 @@
 package it.algos.evento.entities.modopagamento;
 
 import com.vaadin.data.Item;
-import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.module.ModulePop;
 

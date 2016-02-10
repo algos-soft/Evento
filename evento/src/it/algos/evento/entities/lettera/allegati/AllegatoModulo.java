@@ -7,17 +7,13 @@ import com.vaadin.data.util.filter.Compare;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import eu.medsea.mimeutil.MimeType;
-import it.algos.evento.entities.company.Company;
-import it.algos.evento.entities.lettera.Lettera_;
-import it.algos.evento.entities.lettera.ModelliLettere;
 import it.algos.evento.multiazienda.EModulePop;
-import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.AlgosApp;
 import it.algos.webbase.web.entity.BaseEntity;
-import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.lib.LibFile;
-import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.query.AQuery;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.updown.FileUploader;
@@ -26,8 +22,6 @@ import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.collections.comparators.TransformingComparator;
 
-import javax.activation.DataSource;
-import javax.mail.util.ByteArrayDataSource;
 import javax.persistence.metamodel.Attribute;
 import java.io.File;
 import java.io.IOException;
@@ -126,7 +120,7 @@ public class AllegatoModulo extends EModulePop {
 				if (length<=2048000) {
 					
 					String name = file.getName();
-					Object result = EQuery.queryFirst(Allegato.class, Allegato_.name, name);
+					Object result = CompanyQuery.queryFirst(Allegato.class, Allegato_.name, name);
 					if (result == null) {
 						try {
 					    	Allegato allegato = fileToAllegato(file);
@@ -202,7 +196,7 @@ public class AllegatoModulo extends EModulePop {
 	 */
 	public static Allegato getAllegato(String name) {
 		Allegato allegato = null;
-		Object result = EQuery.queryFirst(Allegato.class, Allegato_.name, name);
+		Object result = CompanyQuery.queryFirst(Allegato.class, Allegato_.name, name);
 		if ((result != null) && (result instanceof Allegato)) {
 			allegato = (Allegato) result;
 		}
@@ -239,7 +233,7 @@ public class AllegatoModulo extends EModulePop {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static ArrayList<Allegato> getList() {
 		ArrayList<Allegato> allegati = new ArrayList<Allegato>();
-		List<?> lista = EQuery.getList(Allegato.class);
+		List<?> lista = CompanyQuery.getList(Allegato.class);
 		for (Object obj : lista) {
 			if ((obj != null) && (obj instanceof Allegato)) {
 				Allegato allegato = (Allegato) obj;

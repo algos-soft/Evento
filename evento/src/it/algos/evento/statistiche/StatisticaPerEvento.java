@@ -8,6 +8,7 @@ import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.multiazienda.CompanyQuery;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -65,7 +66,7 @@ public class StatisticaPerEvento extends StatisticaBase {
             wrapper.addNumRappresentazioni(1);
 
             // spazzola le prenotazioni e aggiunge i valori
-            List<Prenotazione> listaPren = (List<Prenotazione>) EQuery.queryList(Prenotazione.class, Prenotazione_.rappresentazione, rapp);
+            List<Prenotazione> listaPren = (List<Prenotazione>) CompanyQuery.queryList(Prenotazione.class, Prenotazione_.rappresentazione, rapp);
             List<Scuola> scuole = new ArrayList<Scuola>();
             int numScuole = 0;
             for (Prenotazione pren : listaPren) {

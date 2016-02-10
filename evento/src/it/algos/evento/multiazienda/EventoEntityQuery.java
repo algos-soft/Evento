@@ -1,6 +1,8 @@
 package it.algos.evento.multiazienda;
 
 import com.vaadin.data.Container.Filter;
+import it.algos.webbase.multiazienda.CompanyEntity;
+import it.algos.webbase.multiazienda.CompanyQuery;
 
 import javax.persistence.metamodel.SingularAttribute;
 import java.util.List;
@@ -17,40 +19,40 @@ import java.util.List;
  * 2) perform the query like this:<br>
  * <code>List<MyClass> entities = MyClass.query.queryList(MyClass_.myField, aValue);</code>
  */
-public class EventoEntityQuery <T extends EventoEntity>{
+public class EventoEntityQuery <T extends CompanyEntity>{
 
-	final Class<EventoEntity> type;
+	final Class<CompanyEntity> type;
 
-	public EventoEntityQuery(Class<EventoEntity> type) {
+	public EventoEntityQuery(Class<CompanyEntity> type) {
 		this.type = type;
 	}
 
 	public List<T> queryList(SingularAttribute attr, Object value) {
-		return (List<T>) EQuery.queryList(type, attr, value);
+		return (List<T>) CompanyQuery.queryList(type, attr, value);
 	}
 
 	public T queryFirst(SingularAttribute attr, Object value) {
-		return (T) EQuery.queryFirst(type, attr, value);
+		return (T) CompanyQuery.queryFirst(type, attr, value);
 	}
 	
 	public T queryOne(SingularAttribute attr, Object value) {
-		return (T) EQuery.queryOne(type, attr, value);
+		return (T) CompanyQuery.queryOne(type, attr, value);
 	}
 	
 	public long getCount() {
-		return EQuery.getCount(type);
+		return CompanyQuery.getCount(type);
 	}
 
 	public List<T> getList() {
-		return (List<T>) EQuery.getList(type);
+		return (List<T>) CompanyQuery.getList(type);
 	}
 
 	public List<T> getList(Filter... filters) {
-		return (List<T>) EQuery.getList(type, filters);
+		return (List<T>) CompanyQuery.getList(type, filters);
 	}
 
 	public T getEntity(Filter... filters) {
-		return (T) EQuery.getEntity(type, filters);
+		return (T) CompanyQuery.getEntity(type, filters);
 	}
 
 }

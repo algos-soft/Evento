@@ -1,6 +1,6 @@
 package it.algos.evento.entities.tiporicevuta;
 
-import it.algos.evento.multiazienda.EventoEntity;
+import it.algos.webbase.multiazienda.CompanyEntity;
 import it.algos.webbase.web.entity.DefaultSort;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @DefaultSort({"sigla"})
-public class TipoRicevuta extends EventoEntity {
+public class TipoRicevuta extends CompanyEntity {
 
     @NotEmpty
     @Size(min = 2, max = 30)

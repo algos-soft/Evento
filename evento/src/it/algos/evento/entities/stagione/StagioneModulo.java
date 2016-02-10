@@ -4,10 +4,10 @@ import com.vaadin.data.Item;
 import com.vaadin.ui.Notification;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.evento.Evento_;
-import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.multiazienda.EModulePop;
-import it.algos.evento.multiazienda.EQuery;
-import it.algos.evento.multiazienda.EventoEntity_;
+import it.algos.webbase.multiazienda.CompanyEntity_;
+import it.algos.webbase.multiazienda.CompanyQuery;
+import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.form.ModuleForm;
@@ -95,7 +95,7 @@ public class StagioneModulo extends EModulePop {
         root = update.from(Stagione.class);
 
         // set where clause
-        condition = cb.equal(root.get(EventoEntity_.company), EventoSessionLib.getCompany());
+        condition = cb.equal(root.get(CompanyEntity_.company), CompanySessionLib.getCompany());
         update.where(condition);
 
         // what to update
@@ -131,7 +131,7 @@ public class StagioneModulo extends EModulePop {
         boolean cont=true;
         for (Object id : getTable().getSelectedIds()) {
             BaseEntity entity = getTable().getEntity((Long)id);
-            List lista = EQuery.queryList(Evento.class, Evento_.stagione, entity);
+            List lista = CompanyQuery.queryList(Evento.class, Evento_.stagione, entity);
             if (lista.size()>0) {
                 Notification.show("Impossibile eliminare le stagioni selezionate perché ci sono degli eventi collegati.\nEliminate prima gli eventi.", Notification.Type.WARNING_MESSAGE);
                 cont=false;

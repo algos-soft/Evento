@@ -1,16 +1,13 @@
 package it.algos.evento.entities.progetto;
 
 import com.vaadin.data.Item;
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Notification;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.multiazienda.EModulePop;
-import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.entity.BaseEntity;
-import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.ModuleForm;
-import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.search.SearchManager;
 
 import javax.persistence.metamodel.Attribute;
@@ -62,7 +59,7 @@ public class ProgettoModulo extends EModulePop {
 		boolean cont=true;
 		for (Object id : getTable().getSelectedIds()) {
 			BaseEntity entity = getTable().getEntity((Long)id);
-			List lista = EQuery.queryList(Evento.class, Evento_.progetto, entity);
+			List lista = CompanyQuery.queryList(Evento.class, Evento_.progetto, entity);
 			if (lista.size()>0) {
 				Notification.show("Impossibile eliminare i progetti selezionati perché sono collegati a degli eventi.\nEliminate prima gli eventi collegati o assegnateli ad altri progetti.", Notification.Type.WARNING_MESSAGE);
 				cont=false;

@@ -1,18 +1,14 @@
 package it.algos.evento.entities.prenotazione;
 
-import com.sibvisions.vaadin.server.DownloaderExtension;
 import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
-import com.vaadin.server.DownloadStream;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.StreamResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
 import it.algos.evento.entities.mailing.MailingModulo;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.importexport.ExportConfiguration;
-import it.algos.webbase.web.importexport.ExportFactory;
 import it.algos.webbase.web.importexport.ExportManager;
 import it.algos.webbase.web.importexport.ExportProvider;
 import it.algos.webbase.web.lib.LibSession;
@@ -20,8 +16,6 @@ import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
 import it.algos.webbase.web.toolbar.Toolbar;
-import it.algos.webbase.web.updown.ExportStreamResource;
-import it.algos.webbase.web.updown.ExportStreamSource;
 
 import java.util.ArrayList;
 

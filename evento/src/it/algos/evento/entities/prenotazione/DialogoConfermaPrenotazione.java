@@ -1,9 +1,10 @@
 package it.algos.evento.entities.prenotazione;
 
 import com.vaadin.server.Page;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import it.algos.evento.EventoBootStrap;
-import it.algos.evento.entities.lettera.ModelliLettere;
 import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.field.DateField;

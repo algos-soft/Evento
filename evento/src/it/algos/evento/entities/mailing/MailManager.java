@@ -1,11 +1,10 @@
 package it.algos.evento.entities.mailing;
 
-import it.algos.evento.entities.company.Company;
+import it.algos.evento.entities.destinatario.Destinatario;
 import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.entities.lettera.LetteraService;
+import it.algos.webbase.domain.company.Company;
 import it.algos.webbase.web.lib.LibDate;
-import it.algos.webbase.web.lib.LibSession;
-import it.algos.evento.entities.destinatario.Destinatario;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -114,7 +113,9 @@ public class MailManager {
         destinatario = registra(mailing, indirizzo);
 
         if (destinatario != null) {
-            spedita = spedisce(mailing.getCompany(), null, destinatario, wrap);
+            Company comp = mailing.getCompany();
+            Company eComp = (Company)comp;
+            spedita = spedisce(eComp, null, destinatario, wrap);
         }// fine del blocco if
 
         if (spedita) {

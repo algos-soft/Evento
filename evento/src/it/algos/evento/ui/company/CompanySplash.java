@@ -5,8 +5,8 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
 import it.algos.evento.EventoApp;
-import it.algos.evento.entities.company.Company;
 import it.algos.evento.pref.CompanyPrefs;
+import it.algos.webbase.domain.company.Company;
 import it.algos.webbase.web.lib.LibImage;
 
 /**

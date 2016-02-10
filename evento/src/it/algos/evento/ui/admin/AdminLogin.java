@@ -3,9 +3,9 @@ package it.algos.evento.ui.admin;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import it.algos.evento.lib.EventoSessionLib;
 import it.algos.webbase.domain.ruolo.Ruolo;
 import it.algos.webbase.domain.utente.Utente;
+import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.lib.LibImage;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.login.LoginListener;
@@ -70,7 +70,7 @@ public class AdminLogin extends VerticalLayout {
 				// (lo faccio qui perché l'oggetto Login potrebbe
 				// essere annullato a causa di un login fallito,
 				// quindi non posso farlo una volta sola alla costruzione della GUI)
-				EventoSessionLib.getAdminLogin().setLoginListener(new LoginListener() {
+				CompanySessionLib.getAdminLogin().setLoginListener(new LoginListener() {
 
 					@Override
 					public void onUserLogin(Utente utente, boolean b) {
@@ -78,7 +78,7 @@ public class AdminLogin extends VerticalLayout {
 					}
 				});
 
-				EventoSessionLib.getAdminLogin().showLoginForm();
+				CompanySessionLib.getAdminLogin().showLoginForm();
 			}
 		});
 		return button;
@@ -105,14 +105,14 @@ public class AdminLogin extends VerticalLayout {
 
 		// controlla se l'utente ha ruolo di admin
 		Ruolo adminRole = Ruolo.read("admin");
-		Utente user= EventoSessionLib.getAdminLogin().getUser();
+		Utente user= CompanySessionLib.getAdminLogin().getUser();
 		if(user.hasRole(adminRole)) {
 			// Avvia la UI dell'admin
 			Component comp = new AdminHome();
 			UI.getCurrent().setContent(comp);
 		}else{
 			// annulla il login e mostra una notifica
-			EventoSessionLib.setLogin(null);
+			CompanySessionLib.setLogin(null);
 			Notification.show("L'utente "+user+" non è abilitato all'accesso come admin.", Notification.Type.ERROR_MESSAGE);
 		}
 

@@ -5,7 +5,7 @@ import it.algos.evento.entities.modopagamento.ModoPagamento;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
-import it.algos.evento.multiazienda.EventoEntity_;
+import it.algos.webbase.multiazienda.CompanyEntity_;
 
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @StaticMetamodel(Prenotazione.class)
-public class Prenotazione_ extends EventoEntity_ {
+public class Prenotazione_ extends CompanyEntity_ {
 
 	public static volatile SingularAttribute<Prenotazione, Integer> numPrenotazione;
 	public static volatile SingularAttribute<Prenotazione, String> uuid;

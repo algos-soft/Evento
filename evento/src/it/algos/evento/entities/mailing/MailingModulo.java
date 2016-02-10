@@ -5,7 +5,6 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import it.algos.evento.entities.prenotazione.MailDialog;
 import it.algos.evento.multiazienda.EModulePop;
-import it.algos.webbase.web.module.ModulePop;
 
 import javax.persistence.metamodel.Attribute;
 import java.util.ArrayList;

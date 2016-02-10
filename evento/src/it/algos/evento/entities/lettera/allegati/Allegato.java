@@ -1,6 +1,6 @@
 package it.algos.evento.entities.lettera.allegati;
 
-import it.algos.evento.multiazienda.EventoEntity;
+import it.algos.webbase.multiazienda.CompanyEntity;
 import it.algos.webbase.web.lib.LibFile;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -12,7 +12,7 @@ import javax.persistence.UniqueConstraint;
 @Table(uniqueConstraints = {
 	    @UniqueConstraint(columnNames = {"company_id", "name"})
 	})
-public class Allegato extends EventoEntity{
+public class Allegato extends CompanyEntity {
 	
 	private static final long serialVersionUID = 4097054721132658859L;
 

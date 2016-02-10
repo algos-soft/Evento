@@ -1,7 +1,7 @@
 package it.algos.evento.entities.sala;
 
-import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.pref.CompanyPrefs;
+import it.algos.webbase.multiazienda.CompanyEntity;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.DefaultSort;
 import it.algos.webbase.web.query.AQuery;
@@ -13,7 +13,7 @@ import javax.validation.constraints.Min;
 
 @Entity
 @DefaultSort({"nome"})
-public class Sala extends EventoEntity {
+public class Sala extends CompanyEntity {
 
 	private static final long serialVersionUID = 8238775575826490450L;
 

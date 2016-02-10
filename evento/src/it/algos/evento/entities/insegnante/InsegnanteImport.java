@@ -3,7 +3,7 @@ package it.algos.evento.entities.insegnante;
 import com.vaadin.ui.UI;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
 import it.algos.evento.entities.ordinescuola.OrdineScuola_;
-import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.dialog.AlertDialog;
 import it.algos.webbase.web.dialog.BaseDialog;
 import it.algos.webbase.web.dialog.ConfirmDialog;
@@ -239,7 +239,7 @@ public class InsegnanteImport {
     }
 
     private OrdineScuola getOrdine(String sigla) {
-        OrdineScuola ordine = (OrdineScuola) EQuery.queryFirst(OrdineScuola.class, OrdineScuola_.sigla, sigla);
+        OrdineScuola ordine = (OrdineScuola) CompanyQuery.queryFirst(OrdineScuola.class, OrdineScuola_.sigla, sigla);
         return ordine;
     }
 

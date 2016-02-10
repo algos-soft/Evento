@@ -18,7 +18,6 @@ import it.algos.webbase.web.field.ComboNewItemHandler;
 import it.algos.webbase.web.field.RelatedComboField;
 import org.joda.time.DateTime;
 
-import javax.persistence.EntityManager;
 import java.util.Collection;
 
 /**

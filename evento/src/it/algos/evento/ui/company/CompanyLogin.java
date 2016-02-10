@@ -3,8 +3,8 @@ package it.algos.evento.ui.company;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import it.algos.evento.lib.EventoSessionLib;
 import it.algos.webbase.domain.utente.Utente;
+import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.lib.LibImage;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.login.Login;
@@ -100,13 +100,13 @@ public class CompanyLogin extends VerticalLayout {
 
 		// registra la company nella sessione in base all'utente loggato
 		Utente user = Login.getLogin().getUser();
-		boolean success= EventoSessionLib.registerCompanyByUser(user);
+		boolean success= CompanySessionLib.registerCompanyByUser(user);
 
 		if(success){
 			UI.getCurrent().setContent(new CompanyHome());
 		}else{
-			EventoSessionLib.setCompany(null);
-			EventoSessionLib.setLogin(null);
+			CompanySessionLib.setCompany(null);
+			CompanySessionLib.setLogin(null);
 			Notification.show("L'utente "+user+" è registrato ma non c'è l'azienda corrispondente.\nContattateci per creare la vostra azienda.", Notification.Type.ERROR_MESSAGE);
 		}
 

@@ -1,8 +1,7 @@
 package it.algos.evento.entities.insegnante;
 
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
-import it.algos.evento.entities.prenotazione.Prenotazione_;
-import it.algos.evento.multiazienda.EventoEntity;
+import it.algos.webbase.multiazienda.CompanyEntity;
 import it.algos.webbase.web.entity.DefaultSort;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -13,7 +12,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @DefaultSort({"cognome","nome"})
-public class Insegnante extends EventoEntity {
+public class Insegnante extends CompanyEntity {
 
 	private static final long serialVersionUID = -6289325251948554824L;
 

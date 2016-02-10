@@ -10,7 +10,6 @@ import it.algos.webbase.web.dialog.PopDialog;
 import it.algos.webbase.web.field.CheckBoxField;
 import it.algos.webbase.web.field.TextArea;
 import it.algos.webbase.web.field.TextField;
-import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.AFormLayout;
 import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.module.ModulePop;

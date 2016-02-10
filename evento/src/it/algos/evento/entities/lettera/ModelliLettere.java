@@ -1,18 +1,12 @@
 package it.algos.evento.entities.lettera;
 
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.And;
-import com.vaadin.data.util.filter.Compare;
-import it.algos.evento.entities.company.Company;
-import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.scuola.Scuola;
-import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.pref.CompanyPrefs;
+import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.entity.BaseEntity;
-import it.algos.webbase.web.query.AQuery;
 
-import javax.persistence.metamodel.SingularAttribute;
 import java.util.ArrayList;
 
 public enum ModelliLettere {
@@ -65,7 +59,7 @@ public enum ModelliLettere {
      */
     public String getOggetto() {
         String stringa = "";
-        BaseEntity entity = EQuery.queryFirst(Lettera.class, Lettera_.sigla, getDbCode());
+        BaseEntity entity = CompanyQuery.queryFirst(Lettera.class, Lettera_.sigla, getDbCode());
         if (entity != null) {
             Lettera lett = (Lettera) entity;
             stringa = lett.getOggetto();
@@ -79,7 +73,7 @@ public enum ModelliLettere {
      */
     public String getTesto() {
         String stringa = "";
-        BaseEntity entity = EQuery.queryFirst(Lettera.class, Lettera_.sigla, getDbCode());
+        BaseEntity entity = CompanyQuery.queryFirst(Lettera.class, Lettera_.sigla, getDbCode());
         if (entity != null) {
             Lettera lett = (Lettera) entity;
             stringa = lett.getTesto();
@@ -93,7 +87,7 @@ public enum ModelliLettere {
      */
     public Lettera getLettera() {
         Lettera lettera = null;
-        BaseEntity entity = EQuery.queryFirst(Lettera.class, Lettera_.sigla, getDbCode());
+        BaseEntity entity = CompanyQuery.queryFirst(Lettera.class, Lettera_.sigla, getDbCode());
         if (entity != null) {
             lettera = (Lettera) entity;
         }// end of if cycle

@@ -24,11 +24,11 @@ import it.algos.evento.entities.tiporicevuta.TipoRicevutaModulo;
 import it.algos.evento.help.HelpModulo;
 import it.algos.evento.help.HelpModuloOld;
 import it.algos.evento.info.InfoModulo;
-import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.pref.EventoPrefs;
 import it.algos.evento.statistiche.StatisticheModulo;
 import it.algos.evento.ui.*;
 import it.algos.webbase.domain.vers.VersMod;
+import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.lib.LibSession;
@@ -240,7 +240,7 @@ public class CompanyHome extends VerticalLayout {
                 LibSession.setAttribute(Login.LOGIN_KEY_IN_SESSION, null);
 
                 // annulla l'oggetto Company nella sessione
-                EventoSessionLib.setCompany(null);
+                CompanySessionLib.setCompany(null);
 
                 // Rimetti il login screen in tutte le UI della sessione
                 // (serve se la sessione è aperta in diversi tab o finestre del browser)

@@ -1,6 +1,6 @@
 package it.algos.evento.entities.comune;
 
-import it.algos.evento.entities.company.Company;
+import it.algos.webbase.domain.company.Company;
 import it.algos.webbase.web.dialog.AlertDialog;
 import it.algos.webbase.web.dialog.BaseDialog;
 import it.algos.webbase.web.dialog.ConfirmDialog;

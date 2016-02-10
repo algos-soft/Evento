@@ -1,7 +1,5 @@
 package it.algos.evento.entities.prenotazione;
 
-import com.vaadin.server.Page;
-import com.vaadin.ui.Notification;
 import it.algos.evento.pref.CompanyPrefs;
 
 /**

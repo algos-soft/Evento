@@ -4,8 +4,10 @@ import com.vaadin.addon.jpacontainer.EntityProvider;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.provider.LocalEntityProvider;
 import com.vaadin.data.util.filter.Compare;
-import it.algos.evento.entities.company.Company;
-import it.algos.evento.lib.EventoSessionLib;
+import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.multiazienda.CompanyEntity;
+import it.algos.webbase.multiazienda.CompanyEntity_;
+import it.algos.webbase.multiazienda.CompanySessionLib;
 
 import javax.persistence.EntityManager;
 
@@ -13,7 +15,7 @@ import javax.persistence.EntityManager;
  * JPAContainer automatically filtered on a company.
  */
 @SuppressWarnings("serial")
-public class EJPAContainer extends JPAContainer<EventoEntity> {
+public class EJPAContainer extends JPAContainer<CompanyEntity> {
 
     private static Company company;
 
@@ -28,7 +30,7 @@ public class EJPAContainer extends JPAContainer<EventoEntity> {
     public EJPAContainer(Class entityClass, EntityManager manager, Company company) {
         super(entityClass);
         EJPAContainer.company = company;
-        EntityProvider entityProvider = new LocalEntityProvider<EventoEntity>(entityClass, manager);
+        EntityProvider entityProvider = new LocalEntityProvider<CompanyEntity>(entityClass, manager);
         setEntityProvider(entityProvider);
         addContainerFilter(createCompanyFilter());
     }
@@ -41,13 +43,13 @@ public class EJPAContainer extends JPAContainer<EventoEntity> {
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
     public EJPAContainer(Class entityClass, EntityManager manager) {
-        this(entityClass, manager, EventoSessionLib.getCompany());
+        this(entityClass, manager, CompanySessionLib.getCompany());
     }
 
 
 
     private static Filter createCompanyFilter() {
-        return new Compare.Equal(EventoEntity_.company.getName(), company);
+        return new Compare.Equal(CompanyEntity_.company.getName(), company);
     }
 
     /**

@@ -12,15 +12,13 @@ import it.algos.evento.EventoApp;
 import it.algos.evento.config.AccessControlConfigComponent;
 import it.algos.evento.config.GeneralDaemonConfigComponent;
 import it.algos.evento.config.SMTPServerConfigComponent;
-import it.algos.evento.entities.company.CompanyModule;
-import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.ui.*;
-import it.algos.evento.ui.company.CompanySplash;
+import it.algos.webbase.domain.company.CompanyModule;
 import it.algos.webbase.domain.ruolo.RuoloModulo;
 import it.algos.webbase.domain.utente.UtenteModulo;
 import it.algos.webbase.domain.utenteruolo.UtenteRuoloModulo;
+import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.dialog.ConfirmDialog;
-import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
 import it.algos.webbase.web.navigator.AlgosNavigator;
@@ -153,7 +151,7 @@ public class AdminHome extends VerticalLayout {
     private MenuBar createLoginMenuBar() {
         MenuBar menubar = new MenuBar();
         Resource icon = FontAwesome.USER;
-        String username = EventoSessionLib.getAdminLogin().getUser().getNickname();
+        String username = CompanySessionLib.getAdminLogin().getUser().getNickname();
         loginItem = menubar.addItem(username, icon, null);
         loginItem.addItem("Logout", new MenuBar.Command() {
             @Override

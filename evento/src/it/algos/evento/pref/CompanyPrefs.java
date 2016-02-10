@@ -6,9 +6,9 @@ import com.vaadin.data.util.filter.Compare;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Image;
 import it.algos.evento.EventoApp;
-import it.algos.evento.lib.EventoSessionLib;
-import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.evento.Evento_;
+import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.lib.LibImage;
@@ -150,7 +150,7 @@ public enum CompanyPrefs implements PrefIF {
      * @return il valore della preferenza
      */
     public Object get() {
-        return get(EventoSessionLib.getCompany());
+        return get(CompanySessionLib.getCompany());
     }
 
 
@@ -283,7 +283,7 @@ public enum CompanyPrefs implements PrefIF {
      * @param value il valore da scrivere
      */
     public void put(Object value) {
-        put(EventoSessionLib.getCompany(), value);
+        put(CompanySessionLib.getCompany(), value);
     }
 
     /**
@@ -318,7 +318,7 @@ public enum CompanyPrefs implements PrefIF {
      */
     public void remove() {
         //remove(EventoApp.COMPANY);
-        remove(EventoSessionLib.getCompany());
+        remove(CompanySessionLib.getCompany());
     }
 
     /**
@@ -336,7 +336,7 @@ public enum CompanyPrefs implements PrefIF {
      */
     public void reset() {
         //Company comp=EventoApp.COMPANY;
-        Company comp = EventoSessionLib.getCompany();
+        Company comp = CompanySessionLib.getCompany();
         put(comp, getDefaultValue());
     }
 

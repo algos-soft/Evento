@@ -1,13 +1,13 @@
 package it.algos.evento.pref;
 
-import it.algos.evento.multiazienda.EventoEntity;
+import it.algos.webbase.multiazienda.CompanyEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Table(name = "companyprefs")
 @Entity
-public class PrefEventoEntity extends EventoEntity {
+public class PrefEventoEntity extends CompanyEntity {
 
 	private static final long serialVersionUID = -325887743609301921L;
 	

@@ -4,8 +4,6 @@ import com.vaadin.data.Container;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.MenuBar.MenuItem;
-import it.algos.evento.entities.prenotazione.PrenExportProvider;
-import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.importexport.ExportConfiguration;
 import it.algos.webbase.web.importexport.ExportManager;

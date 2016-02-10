@@ -1,6 +1,5 @@
 package it.algos.evento.entities.company;
 
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -9,19 +8,20 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import it.algos.evento.daemons.PrenChecker;
 import it.algos.evento.demo.DemoDataGenerator;
+import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.CompanyTablePortal;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.module.ModulePop;
-import it.algos.webbase.web.table.TablePortal;
 import it.algos.webbase.web.toolbar.Toolbar;
 
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class CompanyTablePortal extends TablePortal {
+public class ECompanyTablePortal extends CompanyTablePortal {
 
-    public CompanyTablePortal(ModulePop modulo) {
+    public ECompanyTablePortal(ModulePop modulo) {
         super(modulo);
 
         Toolbar toolbar = getToolbar();

@@ -6,8 +6,6 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.Or;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
@@ -18,6 +16,7 @@ import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.BaseEntity_;
 import it.algos.webbase.web.entity.EM;
@@ -374,7 +373,7 @@ public class RappresentazioneModulo extends EModulePop {
 
         // qui potrei usare AQuery o EQuery indifferentemente tanto le
         // prenotazioni sono legate direttamente alla rappresentazione
-        listaBean = EQuery.queryList(Prenotazione.class, Prenotazione_.rappresentazione, rappresentazione);
+        listaBean = CompanyQuery.queryList(Prenotazione.class, Prenotazione_.rappresentazione, rappresentazione);
 
         if (listaBean != null) {
             lista = new ArrayList<Prenotazione>();
@@ -440,7 +439,7 @@ public class RappresentazioneModulo extends EModulePop {
         boolean cont = true;
         for (Object id : getTable().getSelectedIds()) {
             BaseEntity entity = getTable().getEntity((Long) id);
-            List listaPren = EQuery.queryList(Prenotazione.class, Prenotazione_.rappresentazione, entity);
+            List listaPren = CompanyQuery.queryList(Prenotazione.class, Prenotazione_.rappresentazione, entity);
             if (listaPren.size() > 0) {
                 Notification.show("Impossibile eliminare le rappresentazioni selezionate perché ci sono delle prenotazioni.\nEliminate prima le prenotazioni collegate o  assegnatele a un'altra rappresentazione.", Notification.Type.WARNING_MESSAGE);
                 cont = false;

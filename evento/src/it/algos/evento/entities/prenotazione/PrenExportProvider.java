@@ -1,11 +1,7 @@
 package it.algos.evento.entities.prenotazione;
 
-import com.vaadin.addon.jpacontainer.EntityItem;
-import com.vaadin.data.Item;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.importexport.BaseEntityExportProvider;
-import it.algos.webbase.web.importexport.ExportProvider;
-import org.vaadin.addons.lazyquerycontainer.CompositeItem;
 
 import java.util.ArrayList;
 

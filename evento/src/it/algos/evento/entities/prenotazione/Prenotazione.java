@@ -1,25 +1,21 @@
 package it.algos.evento.entities.prenotazione;
 
-import com.vaadin.data.*;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.Notification;
-import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.modopagamento.ModoPagamento;
 import it.algos.evento.entities.prenotazione.eventi.EventoPren;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
-import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
-import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.pref.CompanyPrefs;
+import it.algos.webbase.multiazienda.CompanyEntity;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.DefaultSort;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.query.AQuery;
-import org.eclipse.persistence.annotations.*;
+import org.eclipse.persistence.annotations.CascadeOnDelete;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
@@ -45,7 +41,7 @@ import java.util.logging.Logger;
 
 
 @DefaultSort({"numPrenotazione"})
-public class Prenotazione extends EventoEntity {
+public class Prenotazione extends CompanyEntity {
 
     public static final String CMD_CONFERMA_PRENOTAZIONE = "Conferma prenotazione";
     public static final Resource ICON_CONFERMA_PRENOTAZIONE = FontAwesome.THUMBS_O_UP;

@@ -5,9 +5,8 @@ import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.BrowserFrame;
 import com.vaadin.ui.Component;
 import it.algos.evento.EventoApp;
-import it.algos.evento.entities.company.Company;
+import it.algos.webbase.domain.company.Company;
 import it.algos.webbase.web.module.Module;
-import it.algos.webbase.web.module.ModulePop;
 
 @SuppressWarnings("serial")
 public class InfoModulo extends Module {

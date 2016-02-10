@@ -2,6 +2,7 @@ package it.algos.evento.entities.company;
 
 import com.vaadin.ui.Notification;
 import it.algos.evento.demo.DemoDataGenerator;
+import it.algos.webbase.domain.company.Company;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.web.lib.LibCrypto;
 

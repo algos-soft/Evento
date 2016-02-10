@@ -5,7 +5,6 @@ import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
 import it.algos.evento.EventoApp;
 import it.algos.evento.EventoBootStrap;
-import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.comune.ComuneImport;
 import it.algos.evento.entities.evento.Evento;
@@ -29,9 +28,10 @@ import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.stagione.Stagione_;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
-import it.algos.evento.multiazienda.EventoEntity;
-import it.algos.evento.multiazienda.EventoEntity_;
 import it.algos.evento.pref.CompanyPrefs;
+import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.multiazienda.CompanyEntity;
+import it.algos.webbase.multiazienda.CompanyEntity_;
 import it.algos.webbase.web.AlgosApp;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
@@ -44,7 +44,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.Predicate;
 import javax.servlet.ServletContext;
 import java.math.BigDecimal;
-import java.time.Month;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
@@ -317,7 +316,7 @@ public class DemoDataGenerator {
 
         // cerca l'ordine "SUP"
         CQuery<OrdineScuola> q = new CQuery<>(manager, OrdineScuola.class);
-        q.addFilter(EventoEntity_.company, company);
+        q.addFilter(CompanyEntity_.company, company);
         q.addFilter(OrdineScuola_.sigla, "SUP");
         List<OrdineScuola> entities = q.getResultList();
 
@@ -375,7 +374,7 @@ public class DemoDataGenerator {
     /**
      * Assegna la company e salva
      */
-    private static void save(EventoEntity entity, Company company, EntityManager manager) {
+    private static void save(CompanyEntity entity, Company company, EntityManager manager) {
         entity.setCompany(company);
         manager.persist(entity);
     }
@@ -406,7 +405,7 @@ public class DemoDataGenerator {
 //        List<EventoEntity> entities = (List<EventoEntity>) query.getResultList();
 
         CQuery q = new CQuery(manager, clazz);
-        q.addFilter(EventoEntity_.company, company);
+        q.addFilter(CompanyEntity_.company, company);
         List entities = q.getResultList();
 
         BaseEntity entity=null;
@@ -503,7 +502,7 @@ public class DemoDataGenerator {
 
         // recupera la stagione corrente
         CQuery<Stagione> q = new CQuery<>(manager, Stagione.class);
-        q.addFilter(EventoEntity_.company, company);
+        q.addFilter(CompanyEntity_.company, company);
         q.addFilter(Stagione_.corrente, true);
         List<Stagione> entities = q.getResultList();
 
@@ -661,7 +660,7 @@ public class DemoDataGenerator {
 
         // tutte le rappresentazioni dopo la data spedificata
         CQuery<Rappresentazione> q = new CQuery<>(manager, Rappresentazione.class);
-        q.addFilter(EventoEntity_.company, company);
+        q.addFilter(CompanyEntity_.company, company);
         Predicate p = q.getCB().greaterThan(q.getPath(Rappresentazione_.dataRappresentazione), dt.toDate());
         q.addFilter(p);
         List<Rappresentazione> entities=q.getResultList();

@@ -1,8 +1,9 @@
 package it.algos.evento.multiazienda;
 
 import com.vaadin.data.util.filter.Compare;
-import it.algos.evento.entities.company.Company;
-import it.algos.evento.lib.EventoSessionLib;
+import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.multiazienda.CompanyEntity_;
+import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.entity.BaseEntity_;
 import org.vaadin.addons.lazyquerycontainer.LazyEntityContainer;
 
@@ -42,7 +43,7 @@ public class ELazyContainer extends LazyEntityContainer {
      * @param batchSize     the paging size
      */
     public ELazyContainer(EntityManager entityManager, Class entityClass, int batchSize) {
-        this(entityManager, entityClass, batchSize, EventoSessionLib.getCompany());
+        this(entityManager, entityClass, batchSize, CompanySessionLib.getCompany());
     }
 
     /**
@@ -63,13 +64,13 @@ public class ELazyContainer extends LazyEntityContainer {
      * @param entityClass   the entity class
      */
     public ELazyContainer(EntityManager entityManager, Class entityClass) {
-        this(entityManager, entityClass, EventoSessionLib.getCompany());
+        this(entityManager, entityClass, CompanySessionLib.getCompany());
     }
 
 
 
     private static Filter createCompanyFilter() {
-        return new Compare.Equal(EventoEntity_.company.getName(), company);
+        return new Compare.Equal(CompanyEntity_.company.getName(), company);
     }
 
     /**

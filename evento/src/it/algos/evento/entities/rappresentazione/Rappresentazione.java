@@ -1,7 +1,5 @@
 package it.algos.evento.entities.rappresentazione;
 
-import com.vaadin.data.Container;
-import com.vaadin.data.Item;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import it.algos.evento.entities.evento.Evento;
@@ -9,17 +7,18 @@ import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.entities.sala.Sala;
-import it.algos.evento.multiazienda.EQuery;
-import it.algos.evento.multiazienda.EventoEntity;
+import it.algos.webbase.multiazienda.CompanyEntity;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.DefaultSort;
 import it.algos.webbase.web.entity.EM;
-import it.algos.webbase.web.lib.LibFilter;
 import it.algos.webbase.web.query.AQuery;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 
 import javax.persistence.*;
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ import java.util.List;
 
 @Entity
 @DefaultSort({"dataRappresentazione"})
-public class Rappresentazione extends EventoEntity {
+public class Rappresentazione extends CompanyEntity {
 
     public static final String CMD_PRENOTAZIONI_EXPORT = "Esporta prenotazioni...";
     public static final Resource ICON_PRENOTAZIONI_EXPORT = FontAwesome.DOWNLOAD;

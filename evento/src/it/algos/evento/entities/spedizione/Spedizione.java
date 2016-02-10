@@ -1,7 +1,7 @@
 package it.algos.evento.entities.spedizione;
 
 import it.algos.evento.entities.lettera.Lettera;
-import it.algos.evento.multiazienda.EventoEntity;
+import it.algos.webbase.multiazienda.CompanyEntity;
 import it.algos.webbase.web.entity.DefaultSort;
 
 import javax.persistence.Entity;
@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Entity
 @DefaultSort({"dataSpedizione"})
-public class Spedizione extends EventoEntity {
+public class Spedizione extends CompanyEntity {
 
 	private static final long serialVersionUID = 5331901372570434340L;
 

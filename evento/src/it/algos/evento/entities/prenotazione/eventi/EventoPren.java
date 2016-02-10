@@ -1,7 +1,7 @@
 package it.algos.evento.entities.prenotazione.eventi;
 
 import it.algos.evento.entities.prenotazione.Prenotazione;
-import it.algos.evento.multiazienda.EventoEntity;
+import it.algos.webbase.multiazienda.CompanyEntity;
 import it.algos.webbase.web.entity.DefaultSort;
 
 import javax.persistence.Entity;
@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Entity
 @DefaultSort({"timestamp"})
-public class EventoPren extends EventoEntity {
+public class EventoPren extends CompanyEntity {
 
 	private static final long serialVersionUID = -4029444656977204712L;
 	

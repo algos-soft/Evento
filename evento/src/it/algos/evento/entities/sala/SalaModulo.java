@@ -1,13 +1,11 @@
 package it.algos.evento.entities.sala;
 
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Notification;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 import it.algos.evento.multiazienda.EModulePop;
-import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.entity.BaseEntity;
-import it.algos.webbase.web.module.ModulePop;
 
 import javax.persistence.metamodel.Attribute;
 import java.util.List;
@@ -47,7 +45,7 @@ public class SalaModulo extends EModulePop {
 		boolean cont=true;
 		for (Object id : getTable().getSelectedIds()) {
 			BaseEntity entity = getTable().getEntity((Long)id);
-			List lista = EQuery.queryList(Rappresentazione.class, Rappresentazione_.sala, entity);
+			List lista = CompanyQuery.queryList(Rappresentazione.class, Rappresentazione_.sala, entity);
 			if (lista.size()>0) {
 				Notification.show("Impossibile eliminare le sale selezionate perché ci sono delle rappresentazioni collegate.\nEliminate prima le rappresentazioni collegate o cambiate sala.", Notification.Type.WARNING_MESSAGE);
 				cont=false;

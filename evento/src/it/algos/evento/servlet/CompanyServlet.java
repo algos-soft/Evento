@@ -2,9 +2,9 @@ package it.algos.evento.servlet;
 
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.*;
-import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.ui.company.CompanyUI;
 import it.algos.webbase.domain.utente.Utente;
+import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.login.Login;
 import it.algos.webbase.web.servlet.AlgosServlet;
 
@@ -44,8 +44,8 @@ public class CompanyServlet extends AlgosServlet {
 
             // registra la company nella sessione in base all'utente loggato
             Utente user = Login.getLogin().getUser();
-            if(!EventoSessionLib.registerCompanyByUser(user)) {
-                EventoSessionLib.setLogin(null);
+            if(!CompanySessionLib.registerCompanyByUser(user)) {
+                CompanySessionLib.setLogin(null);
                 String err="L'utente " + user + " (loggato dai cookies) è registrato ma non c'è l'azienda corrispondente. Login fallito.";
                 logger.log(Level.SEVERE, err);
             }

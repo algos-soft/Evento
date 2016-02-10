@@ -3,18 +3,17 @@ package it.algos.evento.entities.lettera;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
-import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.spedizione.Spedizione;
-import it.algos.evento.multiazienda.EQuery;
-import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.multiazienda.EventoEntityQuery;
+import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.multiazienda.CompanyEntity;
+import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.DefaultSort;
 import it.algos.webbase.web.query.AQuery;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
@@ -25,7 +24,7 @@ import java.util.Set;
 
 @Entity
 @DefaultSort({"sigla"})
-public class Lettera extends EventoEntity {
+public class Lettera extends CompanyEntity {
 
 	private static final long serialVersionUID = 5232130836430670798L;
 
@@ -180,7 +179,7 @@ public class Lettera extends EventoEntity {
 		ArrayList<Lettera> lista = null;
 
 		try { // prova ad eseguire il codice
-			lista = (ArrayList<Lettera>) EQuery.getList(Lettera.class);
+			lista = (ArrayList<Lettera>) CompanyQuery.getList(Lettera.class);
 		} catch (Exception unErrore) { // intercetta l'errore
 		}// fine del blocco try-catch
 

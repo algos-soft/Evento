@@ -1,16 +1,13 @@
 package it.algos.evento.entities.scuola;
 
 import com.vaadin.data.Item;
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Notification;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.multiazienda.EModulePop;
-import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.entity.BaseEntity;
-import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.ModuleForm;
-import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
@@ -91,7 +88,7 @@ public class ScuolaModulo extends EModulePop {
 		boolean cont=true;
 		for (Object id : getTable().getSelectedIds()) {
 			BaseEntity entity=getTable().getEntity((Long)id);
-			List listaPren = EQuery.queryList(Prenotazione.class, Prenotazione_.scuola, entity);
+			List listaPren = CompanyQuery.queryList(Prenotazione.class, Prenotazione_.scuola, entity);
 			if (listaPren.size()>0) {
 				Notification.show("Impossibile eliminare le scuole selezionate perché ci sono delle prenotazioni.\nEliminate prima le prenotazioni collegate.", Notification.Type.WARNING_MESSAGE);
 				cont=false;

@@ -1,6 +1,6 @@
 package it.algos.evento.entities.ordinescuola;
 
-import it.algos.evento.multiazienda.EventoEntity;
+import it.algos.webbase.multiazienda.CompanyEntity;
 import it.algos.webbase.web.entity.DefaultSort;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @DefaultSort({"sigla"})
-public class OrdineScuola extends EventoEntity {
+public class OrdineScuola extends CompanyEntity {
 
     @NotEmpty
     @Size(min = 2, max = 30)

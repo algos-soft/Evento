@@ -1,6 +1,6 @@
 package it.algos.evento.entities.comune;
 
-import it.algos.evento.multiazienda.EventoEntity;
+import it.algos.webbase.multiazienda.CompanyEntity;
 import it.algos.webbase.web.entity.DefaultSort;
 
 import javax.persistence.Entity;
@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @DefaultSort({"nome"})
-public class Comune extends EventoEntity {
+public class Comune extends CompanyEntity {
 
 	private static final long serialVersionUID = 2134838403438690707L;
 

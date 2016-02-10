@@ -2,13 +2,10 @@ package it.algos.evento.entities.company;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.Layout;
+import it.algos.webbase.domain.company.CompanyForm;
 import it.algos.webbase.web.field.CheckBoxField;
-import it.algos.webbase.web.field.EmailField;
 import it.algos.webbase.web.field.TextField;
-import it.algos.webbase.web.form.AFormLayout;
 import it.algos.webbase.web.module.ModulePop;
 
 import java.util.ArrayList;

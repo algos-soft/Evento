@@ -3,7 +3,7 @@ package it.algos.evento.entities.rappresentazione;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.sala.Sala;
-import it.algos.evento.multiazienda.EventoEntity_;
+import it.algos.webbase.multiazienda.CompanyEntity_;
 
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
@@ -11,7 +11,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import java.util.Date;
 
 @StaticMetamodel(Rappresentazione.class)
-public class Rappresentazione_ extends EventoEntity_ {
+public class Rappresentazione_ extends CompanyEntity_ {
 	public static volatile SingularAttribute<Rappresentazione, Evento> evento;
 	public static volatile SingularAttribute<Rappresentazione, Sala> sala;
 	public static volatile SingularAttribute<Rappresentazione, Integer> capienza;

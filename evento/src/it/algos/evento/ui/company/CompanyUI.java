@@ -1,19 +1,14 @@
 package it.algos.evento.ui.company;
 
-import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.Widgetset;
-import com.vaadin.server.ClientConnector;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.ui.UI;
-import it.algos.evento.entities.company.Company;
-import it.algos.evento.entities.company.Company_;
-import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.pref.EventoPrefs;
-import it.algos.evento.ui.DevPassDialog;
+import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.Company_;
 import it.algos.webbase.domain.utente.Utente;
-import it.algos.webbase.web.dialog.ConfirmDialog;
+import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
 import it.algos.webbase.web.ui.AlgosUI;
@@ -69,7 +64,7 @@ public class CompanyUI extends AlgosUI {
             // e mostra direttamente la home
             Company company = Company.query.queryOne(Company_.id, autoCompanyId);
             if(company!=null){
-                EventoSessionLib.setCompany(company);
+                CompanySessionLib.setCompany(company);
                 setContent(new CompanyHome());
             }
         }
@@ -133,17 +128,17 @@ public class CompanyUI extends AlgosUI {
                 if(user!=null) {
 
                     // registra la company nella sessione in base all'utente
-                    if(EventoSessionLib.registerCompanyByUser(user)) {
+                    if(CompanySessionLib.registerCompanyByUser(user)) {
                         Login.getLogin().setUser(user);
-                        EventoSessionLib.setLogin(Login.getLogin());
+                        CompanySessionLib.setLogin(Login.getLogin());
                     }else{
-                        EventoSessionLib.setLogin(null);
+                        CompanySessionLib.setLogin(null);
                         String err = "L'utente " + user + " (loggato tramite parametri url) è registrato, ma non c'è l'azienda corrispondente. Login fallito.";
                         logger.log(Level.SEVERE, err);
                     }
 
                 }else{
-                    EventoSessionLib.setLogin(null);
+                    CompanySessionLib.setLogin(null);
                 }
             }
         }

@@ -2,10 +2,10 @@ package it.algos.evento.test;
 
 import com.vaadin.ui.Notification;
 import it.algos.evento.demo.DemoDataGenerator;
-import it.algos.evento.lib.EventoSessionLib;
-import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.prenotazione.Prenotazione;
-import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.multiazienda.CompanyQuery;
+import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
 
@@ -19,7 +19,7 @@ public class StressTest implements Runnable {
 	@Override
 	public void run() {
 		//Company comp=EventoApp.COMPANY;
-		Company comp= EventoSessionLib.getCompany();
+		Company comp= CompanySessionLib.getCompany();
 		if (comp!=null) {
 			ArrayList<Prenotazione> prenotazioni = testCreate();
 			testRead();
@@ -58,7 +58,7 @@ public class StressTest implements Runnable {
 	// test read
 	private void testRead(){
 		int iterations = 2000;
-		List<Prenotazione> lista = (List<Prenotazione>)EQuery.getList(Prenotazione.class);
+		List<Prenotazione> lista = (List<Prenotazione>) CompanyQuery.getList(Prenotazione.class);
 		for(int i=0; i<iterations; i++){
 			Prenotazione pren = (Prenotazione)getEntityRandom(lista);
 			System.out.println("read "+i+" -> "+pren);
@@ -69,7 +69,7 @@ public class StressTest implements Runnable {
 	// test modify
 	private void testModify(){
 		int iterations = 200;
-		List<Prenotazione> lista = (List<Prenotazione>)EQuery.getList(Prenotazione.class);
+		List<Prenotazione> lista = (List<Prenotazione>)CompanyQuery.getList(Prenotazione.class);
 		for(int i=0; i<iterations; i++){
 			Prenotazione pren = (Prenotazione)getEntityRandom(lista);
 			pren.setTelRiferimento(""+i);

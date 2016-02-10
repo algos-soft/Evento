@@ -15,7 +15,6 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
 import it.algos.evento.EventoApp;
 import it.algos.evento.EventoBootStrap;
-import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;
@@ -25,11 +24,12 @@ import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
-import it.algos.evento.lib.EventoSessionLib;
 import it.algos.evento.multiazienda.ELazyContainer;
-import it.algos.evento.multiazienda.EQuery;
-import it.algos.evento.multiazienda.EventoEntity;
 import it.algos.evento.pref.CompanyPrefs;
+import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.multiazienda.CompanyEntity;
+import it.algos.webbase.multiazienda.CompanyQuery;
+import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.entity.BaseEntity;
@@ -40,9 +40,15 @@ import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.table.ModuleTable;
 
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Locale;
 
 @SuppressWarnings("serial")
 public abstract class PrenotazioneBaseTable extends ModuleTable {
@@ -167,7 +173,7 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
     @SuppressWarnings("unchecked")
     @Override
     public Container createContainer() {
-        Company company = EventoSessionLib.getCompany();
+        Company company = CompanySessionLib.getCompany();
         ELazyContainer entityContainer = new ELazyContainer(getEntityManager(), getEntityClass(), getContainerPageSize(), company);
         return entityContainer;
     }// end of method
@@ -180,8 +186,8 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
      */
     @SuppressWarnings("unchecked")
     public long getTotalRows() {
-        Class<EventoEntity> entityClass = (Class<EventoEntity>)getEntityClass();
-        return EQuery.getCount(entityClass);
+        Class<CompanyEntity> entityClass = (Class<CompanyEntity>)getEntityClass();
+        return CompanyQuery.getCount(entityClass);
     }// end of method
 
 

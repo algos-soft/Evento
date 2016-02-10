@@ -1,18 +1,13 @@
 package it.algos.evento.entities.insegnante;
 
-import com.vaadin.data.Container;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
-import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import it.algos.evento.entities.insegnante.InsegnanteImport.DoneListener;
-import it.algos.evento.entities.prenotazione.PrenExportProvider;
-import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.webbase.web.dialog.BaseDialog;
 import it.algos.webbase.web.importexport.ExportConfiguration;
 import it.algos.webbase.web.importexport.ExportManager;
-import it.algos.webbase.web.importexport.ExportProvider;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.TablePortal;
 import it.algos.webbase.web.toolbar.TableToolbar;

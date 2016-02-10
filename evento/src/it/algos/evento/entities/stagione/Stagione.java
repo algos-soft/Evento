@@ -2,8 +2,8 @@ package it.algos.evento.entities.stagione;
 
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.Compare;
-import it.algos.evento.multiazienda.EQuery;
-import it.algos.evento.multiazienda.EventoEntity;
+import it.algos.webbase.multiazienda.CompanyEntity;
+import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.entity.DefaultSort;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -19,7 +19,7 @@ import java.util.Date;
  */
 @Entity
 @DefaultSort({"datainizio"})
-public class Stagione extends EventoEntity {
+public class Stagione extends CompanyEntity {
 
     @NotEmpty
     @Size(min = 2, max = 30)
@@ -87,7 +87,7 @@ public class Stagione extends EventoEntity {
         try {
             String attrName=Stagione_.corrente.getName();
             Container.Filter filter =  new Compare.Equal(attrName, true);
-            EventoEntity e = EQuery.getEntity(Stagione.class, filter);
+            CompanyEntity e = CompanyQuery.getEntity(Stagione.class, filter);
             if (e!=null){
                 stagione=(Stagione)e;
             }

@@ -1,15 +1,12 @@
 package it.algos.evento.multiazienda;
 
 import com.vaadin.data.Container;
-import it.algos.evento.entities.company.Company;
-import it.algos.evento.lib.EventoSessionLib;
-import it.algos.webbase.web.entity.BaseEntity;
-import it.algos.webbase.web.entity.BaseEntity_;
-import it.algos.webbase.web.entity.EM;
+import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.multiazienda.CompanyEntity;
+import it.algos.webbase.multiazienda.CompanyQuery;
+import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.module.ModulePop;
-import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.ModuleTable;
-import org.vaadin.addons.lazyquerycontainer.LazyEntityContainer;
 
 /**
  * Una ModuleTable con Container già filtrato sulla Company corrente
@@ -34,8 +31,8 @@ public class ETable extends ModuleTable{
 	@SuppressWarnings("unchecked")
 	@Override
 	public Container createContainer() {
-		Class<EventoEntity> entityClass = (Class<EventoEntity>)getEntityClass();
-		Company company = EventoSessionLib.getCompany();
+		Class<CompanyEntity> entityClass = (Class<CompanyEntity>)getEntityClass();
+		Company company = CompanySessionLib.getCompany();
 		ELazyContainer entityContainer = new ELazyContainer(getEntityManager(), entityClass, getContainerPageSize() , company);
 		return entityContainer;
 	}// end of method
@@ -47,8 +44,8 @@ public class ETable extends ModuleTable{
 	 */
 	@SuppressWarnings("unchecked")
 	public long getTotalRows() {
-		Class<EventoEntity> entityClass = (Class<EventoEntity>)getEntityClass();
-		return EQuery.getCount(entityClass);
+		Class<CompanyEntity> entityClass = (Class<CompanyEntity>)getEntityClass();
+		return CompanyQuery.getCount(entityClass);
 	}// end of method
 
 }

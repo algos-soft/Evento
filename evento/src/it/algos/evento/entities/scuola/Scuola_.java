@@ -1,13 +1,13 @@
 package it.algos.evento.entities.scuola;
 
 import it.algos.evento.entities.comune.Comune;
-import it.algos.evento.multiazienda.EventoEntity_;
+import it.algos.webbase.multiazienda.CompanyEntity_;
 
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
 @StaticMetamodel(Scuola.class)
-public class Scuola_ extends EventoEntity_ {
+public class Scuola_ extends CompanyEntity_ {
 	public static volatile SingularAttribute<Scuola, String> sigla;
 	public static volatile SingularAttribute<Scuola, String> nome;
 	public static volatile SingularAttribute<Scuola, Integer> ordine;

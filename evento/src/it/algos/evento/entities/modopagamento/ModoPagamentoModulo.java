@@ -1,16 +1,13 @@
 package it.algos.evento.entities.modopagamento;
 
 import com.vaadin.data.Item;
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Notification;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.multiazienda.EModulePop;
-import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.entity.BaseEntity;
-import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.ModuleForm;
-import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
 
 import javax.persistence.metamodel.Attribute;
@@ -57,7 +54,7 @@ public class ModoPagamentoModulo extends EModulePop {
 		boolean cont=true;
 		for (Object id : getTable().getSelectedIds()) {
 			BaseEntity entity = getTable().getEntity((Long)id);
-			List lista = EQuery.queryList(Prenotazione.class, Prenotazione_.modoPagamento, entity);
+			List lista = CompanyQuery.queryList(Prenotazione.class, Prenotazione_.modoPagamento, entity);
 			if (lista.size()>0) {
 				Notification.show("Impossibile eliminare i tipi di pagamento selezionati perché ci sono delle prenotazioni collegate.\nEliminate prima le prenotazioni collegate o cambiate il tipo di pagamento.", Notification.Type.WARNING_MESSAGE);
 				cont=false;

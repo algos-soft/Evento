@@ -2,9 +2,7 @@ package it.algos.evento.entities.prenotazione.eventi;
 
 import com.vaadin.data.Item;
 import it.algos.evento.multiazienda.EModulePop;
-import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.form.ModuleForm;
-import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;

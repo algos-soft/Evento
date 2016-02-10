@@ -1,17 +1,20 @@
 package it.algos.evento.entities.mailing;
 
 import it.algos.evento.entities.lettera.Lettera;
-import it.algos.evento.multiazienda.EventoEntity;
+import it.algos.webbase.multiazienda.CompanyEntity;
 import it.algos.webbase.web.lib.LibDate;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.HashMap;
 
 @Entity
-public class Mailing extends EventoEntity {
+public class Mailing extends CompanyEntity {
 
 //    public static EventoEntityQuery<Mailing> query = new EventoEntityQuery(Mailing.class);
 

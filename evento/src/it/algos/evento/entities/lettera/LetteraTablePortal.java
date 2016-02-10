@@ -1,7 +1,6 @@
 package it.algos.evento.entities.lettera;
 
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import it.algos.evento.entities.lettera.allegati.GestoreAllegati;

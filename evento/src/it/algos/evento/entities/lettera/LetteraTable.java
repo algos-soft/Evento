@@ -2,15 +2,11 @@ package it.algos.evento.entities.lettera;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.FontIcon;
-import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
-import it.algos.evento.EventoApp;
 import it.algos.evento.multiazienda.ETable;
-import it.algos.webbase.web.lib.LibResource;
-import it.algos.webbase.web.lib.LibResourceOld;
 import it.algos.webbase.web.module.ModulePop;
 
 @SuppressWarnings("serial")

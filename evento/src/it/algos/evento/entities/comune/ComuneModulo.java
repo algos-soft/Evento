@@ -1,13 +1,11 @@
 package it.algos.evento.entities.comune;
 
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Notification;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.scuola.Scuola_;
 import it.algos.evento.multiazienda.EModulePop;
-import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.entity.BaseEntity;
-import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.search.SearchManager;
 import it.algos.webbase.web.table.ATable;
 
@@ -63,7 +61,7 @@ public class ComuneModulo extends EModulePop {
 		boolean cont=true;
 		for (Object id : getTable().getSelectedIds()) {
 			BaseEntity entity=getTable().getEntity((Long)id);
-			List lista = EQuery.queryList(Scuola.class, Scuola_.comune, entity);
+			List lista = CompanyQuery.queryList(Scuola.class, Scuola_.comune, entity);
 			if (lista.size()>0) {
 				Notification.show("Impossibile eliminare i comuni selezionati perché ci sono delle scuole collegate.\nEliminate prima le scuole collegate o cambiate il comune nelle scuole.", Notification.Type.WARNING_MESSAGE);
 				cont=false;

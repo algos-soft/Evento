@@ -3,6 +3,7 @@ package it.algos.evento.revisioni;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.multiazienda.CompanyQuery;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,14 +20,14 @@ public class RevInteriRidotti implements Runnable {
 	@Override
 	public void run() {
 
-		List<Evento> eventi = (List<Evento>) EQuery.getList(Evento.class);
+		List<Evento> eventi = (List<Evento>) CompanyQuery.getList(Evento.class);
 		for (Evento evento : eventi) {
 			evento.setImportoRidotto(evento.getImportoIntero());
 			evento.setImportoIntero(new BigDecimal(0));
 			evento.save();
 		}
 		
-		List<Prenotazione> prenotazioni = (List<Prenotazione>) EQuery.getList(Prenotazione.class);
+		List<Prenotazione> prenotazioni = (List<Prenotazione>) CompanyQuery.getList(Prenotazione.class);
 		for (Prenotazione pren : prenotazioni) {
 
 			// aggiunge i ridotti (ex disabili) agli omaggi, aggiungendoli agli accompagnatori, e azzera i ridotti

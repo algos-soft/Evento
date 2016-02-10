@@ -1,12 +1,12 @@
 package it.algos.evento.entities.lettera;
 
-import it.algos.evento.multiazienda.EventoEntity_;
+import it.algos.webbase.multiazienda.CompanyEntity_;
 
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
 @StaticMetamodel(Lettera.class)
-public class Lettera_ extends EventoEntity_ {
+public class Lettera_ extends CompanyEntity_ {
 	public static volatile SingularAttribute<Lettera, String> sigla;
 	public static volatile SingularAttribute<Lettera, String> oggetto;
 	public static volatile SingularAttribute<Lettera, String> testo;

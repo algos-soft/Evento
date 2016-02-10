@@ -1,8 +1,8 @@
 package it.algos.evento.entities.destinatario;
 
-import it.algos.evento.multiazienda.EventoEntity;
-import it.algos.evento.multiazienda.EventoEntityQuery;
 import it.algos.evento.entities.mailing.Mailing;
+import it.algos.evento.multiazienda.EventoEntityQuery;
+import it.algos.webbase.multiazienda.CompanyEntity;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 @Entity
-public class Destinatario extends EventoEntity {
+public class Destinatario extends CompanyEntity {
 
     public static EventoEntityQuery<Destinatario> query = new EventoEntityQuery(Destinatario.class);
 

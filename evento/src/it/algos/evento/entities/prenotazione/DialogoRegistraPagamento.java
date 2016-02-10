@@ -1,6 +1,5 @@
 package it.algos.evento.entities.prenotazione;
 
-import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.Validator;
@@ -19,7 +18,6 @@ import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.multiazienda.ERelatedComboField;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.web.component.HorizontalLine;
-import it.algos.webbase.web.component.Spacer;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.field.*;
 import it.algos.webbase.web.lib.Lib;
