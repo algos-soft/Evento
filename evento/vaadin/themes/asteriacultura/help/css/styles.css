@@ -27,9 +27,38 @@ li {
 }
 
 img {
-    margin-top: 1em;
-    margin-bottom: 1.5em;
+    display:block;
+    margin: auto;
+    margin-top: 2em;
+    margin-bottom: 3.5em;
 }
+
+p.dida {
+    font-style: italic;
+    line-height: 120%;
+    /*<img> ha 3.5em di bottom. Questo tag esiste
+    solo sotto a <img> quindi riduco il margine top e aumento il margine bottom.
+    In pratica tolgo margine sopra e lo rimetto sotto.*/
+    margin-top: -2.5em;
+    margin-bottom: 2.5em;
+}
+
+
+/*img{*/
+    /*/!*position: absolute;*!/*/
+    /*display:block;*/
+    /*margin: auto;*/
+    /*margin-top: 1em;*/
+    /*margin-bottom: 1.5em;*/
+
+    /*margin-left: auto;*/
+    /*margin-right: auto*/
+
+/*top: 0;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*bottom: 0;*/
+/*}*/
 
 p,
 ul {
@@ -77,13 +106,6 @@ p.nota {
     margin-right: 2em;
 }
 
-p.dida {
-    font-style: italic;
-    line-height: 120%;
-    /*img ha 1.5em di bottom, questo tag esiste 
-    solo sotto a <img> quindi riduco il margine bottom*/
-    margin-top: -0.9em;
-}
 
 code{
         margin-bottom: 0.7em;
