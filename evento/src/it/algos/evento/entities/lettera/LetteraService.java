@@ -8,7 +8,8 @@ import it.algos.evento.entities.lettera.allegati.Allegato_;
 import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.evento.pref.EventoPrefs;
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.query.AQuery;
 import org.apache.commons.mail.DefaultAuthenticator;
@@ -133,7 +134,7 @@ public class LetteraService {
      * @param testo   il corpo della mail
      * @return true se spedita correttamente
      */
-    public static boolean sendMail(Company company, String from, String dest, String oggetto, String testo) throws EmailException {
+    public static boolean sendMail(BaseCompany company, String from, String dest, String oggetto, String testo) throws EmailException {
         return sendMail(company, from, dest, oggetto, testo, true);
     }// end of method
 
@@ -148,7 +149,7 @@ public class LetteraService {
      * @param html   true se è una mail html
      * @return true se spedita correttamente
      */
-    public static boolean sendMail(Company company, String from, String dest, String oggetto, String testo, boolean html) throws EmailException {
+    public static boolean sendMail(BaseCompany company, String from, String dest, String oggetto, String testo, boolean html) throws EmailException {
         return sendMail(company, from, dest, oggetto, testo, html, null);
     }// end of method
 
@@ -165,7 +166,7 @@ public class LetteraService {
      * @param allegati elenco degli allegati
      * @return true se spedita correttamente
      */
-    public static boolean sendMail(Company company, String from, String dest, String oggetto, String testo, boolean html, Allegato[] allegati) throws EmailException {
+    public static boolean sendMail(BaseCompany company, String from, String dest, String oggetto, String testo, boolean html, Allegato[] allegati) throws EmailException {
         boolean spedita = false;
         String hostName = "";
         String username = "";
@@ -195,7 +196,7 @@ public class LetteraService {
     }// end of method
 
 
-    public static boolean sendMail(Company company, String hostName, int smtpPort, boolean useAuth, String nickName,
+    public static boolean sendMail(BaseCompany company, String hostName, int smtpPort, boolean useAuth, String nickName,
                                    String password, String from, String dest, String oggetto,
                                    String testo, boolean html, Allegato[] allegati) throws EmailException {
         boolean spedita = false;

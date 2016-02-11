@@ -1,9 +1,10 @@
 package it.algos.evento.entities.mailing;
 
+import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.destinatario.Destinatario;
 import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.entities.lettera.LetteraService;
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.web.lib.LibDate;
 
 import java.util.ArrayList;
@@ -113,7 +114,7 @@ public class MailManager {
         destinatario = registra(mailing, indirizzo);
 
         if (destinatario != null) {
-            Company comp = mailing.getCompany();
+            BaseCompany comp = mailing.getCompany();
             Company eComp = (Company)comp;
             spedita = spedisce(eComp, null, destinatario, wrap);
         }// fine del blocco if
@@ -147,7 +148,7 @@ public class MailManager {
      * @param destinatario il destinatario
      * @param wrap         il wrapper con indirizzo e mappa sostituzione
      */
-    private boolean spedisce(Company company, String from, Destinatario destinatario, DestWrap wrap) {
+    private boolean spedisce(BaseCompany company, String from, Destinatario destinatario, DestWrap wrap) {
         boolean spedita = false;
         String oggetto = "";
         String titolo = "";

@@ -3,7 +3,7 @@ package it.algos.evento.entities.company;
 import com.vaadin.data.Item;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.Layout;
-import it.algos.webbase.domain.company.CompanyForm;
+import it.algos.webbase.domain.company.BaseCompanyForm;
 import it.algos.webbase.web.field.CheckBoxField;
 import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.module.ModulePop;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Allows to input additional data
  * needed for full activation.
  */
-public class ActivateCompanyForm extends CompanyForm {
+public class ActivateCompanyForm extends BaseCompanyForm {
 
     private TextField passwordField;
     private CheckBoxField createDataField;

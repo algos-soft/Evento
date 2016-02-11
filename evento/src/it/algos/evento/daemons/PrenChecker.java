@@ -6,6 +6,7 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.filter.Compare;
 import it.algos.evento.EventoApp;
+import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.lettera.ModelliLettere;
 import it.algos.evento.entities.prenotazione.EmailFailedException;
 import it.algos.evento.entities.prenotazione.Prenotazione;
@@ -13,7 +14,7 @@ import it.algos.evento.entities.prenotazione.PrenotazioneModulo;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.multiazienda.ELazyContainer;
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.lib.Lib;
 import org.joda.time.DateTime;
@@ -70,7 +71,7 @@ public class PrenChecker implements Runnable {
 
             Object itemId = i.next();
             EntityItem<Company> item = companies.getItem(itemId);
-            Company company = item.getEntity();
+            BaseCompany company = item.getEntity();
             boolean doChecks = Lib.getBool(CompanyPrefs.doRunSolleciti.get(company));
             if (doChecks) {
                 int checkHour = Lib.getInt(CompanyPrefs.oraRunSolleciti.get(company));
@@ -92,7 +93,7 @@ public class PrenChecker implements Runnable {
      *
      * @param company l'azienda
      */
-    public void run(Company company) {
+    public void run(BaseCompany company) {
 
         logger.log(Level.INFO, "Azienda " + company + ": start esecuzione controlli posizioni scadute");
 
@@ -127,7 +128,7 @@ public class PrenChecker implements Runnable {
      *
      * @param company - l'azienda da controllare
      */
-    private void checkMemoSchedaPren(Company company) {
+    private void checkMemoSchedaPren(BaseCompany company) {
         EntityManager manager = EM.createEntityManager();
 
 //		EROContainer cont = new EROContainer(Prenotazione.class, manager, company);
@@ -180,7 +181,7 @@ public class PrenChecker implements Runnable {
      *
      * @param company - l'azienda da controllare
      */
-    private void checkCongelamentoPrenotazioni(Company company) {
+    private void checkCongelamentoPrenotazioni(BaseCompany company) {
         EntityManager manager = EM.createEntityManager();
 //		EROContainer cont = new EROContainer(Prenotazione.class, manager, company);
         ELazyContainer cont = new ELazyContainer(manager, Prenotazione.class, company);
@@ -222,7 +223,7 @@ public class PrenChecker implements Runnable {
      *
      * @param company - l'azienda da controllare
      */
-    private void checkMemoScadenzaPagamento(Company company) {
+    private void checkMemoScadenzaPagamento(BaseCompany company) {
         EntityManager manager = EM.createEntityManager();
 
         ELazyContainer cont = new ELazyContainer(manager, Prenotazione.class, company);

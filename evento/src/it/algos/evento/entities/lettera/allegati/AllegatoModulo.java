@@ -8,7 +8,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import eu.medsea.mimeutil.MimeType;
 import it.algos.evento.multiazienda.EModulePop;
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.AlgosApp;
 import it.algos.webbase.web.entity.BaseEntity;
@@ -211,7 +211,7 @@ public class AllegatoModulo extends EModulePop {
 	 * @param company la company
 	 * @return l'allegato
 	 */
-	public static Allegato getAllegato(String name, Company company) {
+	public static Allegato getAllegato(String name, BaseCompany company) {
 		Allegato allegato = null;
 		Container.Filter f1 = new Compare.Equal(Allegato_.name.getName(), name);
 		Container.Filter f2 = new Compare.Equal(Allegato_.company.getName(), company);

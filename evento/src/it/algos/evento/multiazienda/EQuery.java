@@ -7,7 +7,7 @@ import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 import it.algos.evento.entities.stagione.Stagione;
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.multiazienda.CompanyEntity_;
 import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.entity.EM;
@@ -919,7 +919,7 @@ public class EQuery {
      * Crea un filtro sulla company corrente a una query.
      */
     private static Predicate creaFiltroCompany(Root root, CriteriaBuilder cb) {
-        Company company = CompanySessionLib.getCompany();
+        BaseCompany company = CompanySessionLib.getCompany();
         return cb.equal(root.get(CompanyEntity_.company), company);
     }
 

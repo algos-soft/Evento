@@ -10,9 +10,9 @@
 		
 	    <class>it.algos.webbase.web.entity.BaseEntity</class>
 	    <class>it.algos.webbase.web.pref.PrefEntity</class>
-	    <class>it.algos.webbase.multiazienda.CompanyEntity</class>
 	    <class>it.algos.evento.pref.PrefEventoEntity</class>
-	    <class>it.algos.evento.entities.company.ECompany</class>
+		<class>it.algos.webbase.domain.company.BaseCompany</class>
+		<class>it.algos.evento.entities.company.Company</class>
 		<class>it.algos.evento.entities.insegnante.Insegnante</class>
 		<class>it.algos.evento.entities.evento.Evento</class>
 		<class>it.algos.evento.entities.progetto.Progetto</class>

@@ -6,7 +6,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.*;
 import it.algos.evento.EventoApp;
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.web.lib.LibImage;
 
 /**
@@ -33,7 +33,7 @@ public class CompanySplash extends VerticalLayout implements View {
         // crea la UI
         // personalizzazione Asteria per non fornire la dashboard
         Component comp;
-        if (Company.getCurrent().getCompanyCode().equals(EventoApp.ASTERIA_COMPANY_CODE)) {
+        if (BaseCompany.getCurrent().getCompanyCode().equals(EventoApp.ASTERIA_COMPANY_CODE)) {
 //            comp = createUI();
             comp = createUIComponentOld();
         } else {

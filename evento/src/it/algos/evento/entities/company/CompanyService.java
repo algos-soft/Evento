@@ -2,7 +2,7 @@ package it.algos.evento.entities.company;
 
 import com.vaadin.ui.Notification;
 import it.algos.evento.demo.DemoDataGenerator;
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.web.lib.LibCrypto;
 
@@ -20,7 +20,7 @@ public class CompanyService {
      * @param password   the password for the user (in clear text)
      * @param createData true to create demo data
      */
-    public static boolean activateCompany(Company company, String password, boolean createData) {
+    public static boolean activateCompany(BaseCompany company, String password, boolean createData) {
 
         // create a new user or update existing user
         String username=company.getCompanyCode();

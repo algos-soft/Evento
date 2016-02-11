@@ -25,7 +25,7 @@ import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.field.ArrayComboField;
@@ -680,7 +680,7 @@ public class PrenotazioneModulo extends EModulePop {
         }
 
         // from: dalla company della prenotazione
-        Company company = pren.getCompany();
+        BaseCompany company = pren.getCompany();
         String from = CompanyPrefs.senderEmailAddress.getString(company);
 
         map.put(MailKeys.from.getKey(), from);

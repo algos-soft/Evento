@@ -20,23 +20,25 @@ import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
 import it.algos.evento.pref.PrefEventoEntity;
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.domain.ruolo.Ruolo;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.domain.utenteruolo.UtenteRuolo;
 import it.algos.webbase.multiazienda.CompanyEntity_;
 import it.algos.webbase.web.entity.DefaultSort;
 import it.algos.webbase.web.query.AQuery;
+import it.algos.webbase.web.query.EntityQuery;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 
 @Entity
 @DefaultSort({"companyCode"})
-public class ECompany extends Company {
+public class Company extends BaseCompany {
 
 	private static final long serialVersionUID = 8238775575826490450L;
 
@@ -80,11 +82,13 @@ public class ECompany extends Company {
     @CascadeOnDelete
     private List<PrefEventoEntity> prefs;
 
-	public ECompany() {
+	public Company() {
 		super();
 	}// end of constructor
-	
-	
+
+	public static EntityQuery<Company> query = new EntityQuery(Company.class);
+
+
 	public void createDemoData(){
 		DemoDataGenerator.createDemoData(this);
 	};

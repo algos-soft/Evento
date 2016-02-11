@@ -8,8 +8,8 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import it.algos.evento.entities.company.Company;
 import it.algos.evento.pref.EventoPrefs;
-import it.algos.webbase.domain.company.Company;
 import it.algos.webbase.web.field.RelatedComboField;
 import it.algos.webbase.web.lib.Lib;
 

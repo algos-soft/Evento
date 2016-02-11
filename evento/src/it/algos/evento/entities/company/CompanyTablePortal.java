@@ -8,20 +8,20 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import it.algos.evento.daemons.PrenChecker;
 import it.algos.evento.demo.DemoDataGenerator;
-import it.algos.webbase.domain.company.Company;
-import it.algos.webbase.domain.company.CompanyTablePortal;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.table.TablePortal;
 import it.algos.webbase.web.toolbar.Toolbar;
 
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class ECompanyTablePortal extends CompanyTablePortal {
+public class CompanyTablePortal extends TablePortal {
 
-    public ECompanyTablePortal(ModulePop modulo) {
+    public CompanyTablePortal(ModulePop modulo) {
         super(modulo);
 
         Toolbar toolbar = getToolbar();
@@ -45,7 +45,7 @@ public class ECompanyTablePortal extends CompanyTablePortal {
                     @Override
                     public void commit_() {
                         form.getWindow().close();
-                        Company company = (Company)form.getEntity();
+                        BaseCompany company = (BaseCompany)form.getEntity();
                         CompanyService.activateCompany(company, form.getPassword(), form.isCreateData());
                         getTable().refresh();
                     }
@@ -68,7 +68,7 @@ public class ECompanyTablePortal extends CompanyTablePortal {
         item.addItem("Crea dati demo", FontAwesome.GEARS, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
 
-                Company company = (Company)getTable().getSelectedEntity();
+                BaseCompany company = (BaseCompany)getTable().getSelectedEntity();
                 if (company != null) {
                     ConfirmDialog dialog = new ConfirmDialog("Crazione dati","Confermi la creazione dei dati demo per l'azienda "+company+"?",new ConfirmDialog.Listener() {
                         @Override
@@ -94,7 +94,7 @@ public class ECompanyTablePortal extends CompanyTablePortal {
 
         item.addItem("Cancella dati azienda", FontAwesome.TRASH_O, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Company company = (Company)getTable().getSelectedEntity();
+                BaseCompany company = (BaseCompany)getTable().getSelectedEntity();
                 if (company != null) {
                     ConfirmDialog dialog = new ConfirmDialog("Eliminazione dati","Confermi l'eliminazione di tutti dati dell'azienda "+company+"?",new ConfirmDialog.Listener() {
                         @Override
@@ -116,7 +116,7 @@ public class ECompanyTablePortal extends CompanyTablePortal {
 
         item.addItem("Esegui PrenChecker per l'azienda selezionata", FontAwesome.GEARS, new MenuBar.Command() {
             public void menuSelected(MenuItem selectedItem) {
-                Company company = (Company)getTable().getSelectedEntity();
+                BaseCompany company = (BaseCompany)getTable().getSelectedEntity();
                 if (company != null) {
                     ConfirmDialog dialog = new ConfirmDialog("Controllo prenotazioni","Vuoi eseguire il controllo prenotazioni per l'azienda "+company+"?<br>(Attenzione, potrebbe inviare i solleciti e congelare delle prenotazioni!)",new ConfirmDialog.Listener() {
                         @Override

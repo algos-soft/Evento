@@ -4,13 +4,17 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
+import it.algos.evento.entities.company.Company;
+import it.algos.evento.entities.company.Company_;
 import it.algos.evento.pref.EventoPrefs;
-import it.algos.webbase.domain.company.Company;
-import it.algos.webbase.domain.company.Company_;
+import it.algos.webbase.domain.company.BaseCompany;
+import it.algos.webbase.domain.company.BaseCompany_;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.multiazienda.CompanySessionLib;
+import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
+import it.algos.webbase.web.query.AQuery;
 import it.algos.webbase.web.ui.AlgosUI;
 
 import java.util.logging.Level;
@@ -49,32 +53,40 @@ public class CompanyUI extends AlgosUI {
         // la UI da un thread separato sul server
         setPollInterval(1000);
 
-        int autoCompanyId= EventoPrefs.autoLoginCompany.getInt();
-        if(autoCompanyId==0) {
+        int autoCompanyId = EventoPrefs.autoLoginCompany.getInt();
+        if (autoCompanyId == 0) {
 
             // display the login page or the main page if already logged
-            if(LibSession.isLogged()){
+            if (LibSession.isLogged()) {
                 setContent(new CompanyHome());
-            }else{
+            } else {
                 setContent(new CompanyLogin());
             }
 
-        }else{
+        } else {
             // user login disabilitato, effettua automaticamente il login alla azienda di default
             // e mostra direttamente la home
-            Company company = Company.query.queryOne(Company_.id, autoCompanyId);
-            if(company!=null){
-                CompanySessionLib.setCompany(company);
-                setContent(new CompanyHome());
+//            Company company = Company.query.queryOne(Company_.id, autoCompanyId);
+//            if(company!=null){
+//                CompanySessionLib.setCompany(company);
+//                setContent(new CompanyHome());
+//            }
+
+            BaseEntity entity = AQuery.queryOne(Company.class, Company_.id, autoCompanyId);
+            if (entity != null) {
+                if (entity instanceof Company) {
+                    Company company = (Company) entity;
+                    CompanySessionLib.setCompany(company);
+                    setContent(new CompanyHome());
+                }
             }
         }
-
 
 
         addAttachListener(new AttachListener() {
             @Override
             public void attach(AttachEvent attachEvent) {
-                logger.log(Level.INFO, "UI attached: "+CompanyUI.this);
+                logger.log(Level.INFO, "UI attached: " + CompanyUI.this);
             }
         });
 
@@ -82,7 +94,7 @@ public class CompanyUI extends AlgosUI {
         addDetachListener(new DetachListener() {
             @Override
             public void detach(DetachEvent detachEvent) {
-                logger.log(Level.INFO, "UI detached: "+CompanyUI.this);
+                logger.log(Level.INFO, "UI detached: " + CompanyUI.this);
             }
         });
 
@@ -125,19 +137,19 @@ public class CompanyUI extends AlgosUI {
                 String login = request.getParameter("user");
                 String pass = request.getParameter("password");
                 Utente user = Utente.validate(login, pass);
-                if(user!=null) {
+                if (user != null) {
 
                     // registra la company nella sessione in base all'utente
-                    if(CompanySessionLib.registerCompanyByUser(user)) {
+                    if (CompanySessionLib.registerCompanyByUser(user)) {
                         Login.getLogin().setUser(user);
                         CompanySessionLib.setLogin(Login.getLogin());
-                    }else{
+                    } else {
                         CompanySessionLib.setLogin(null);
                         String err = "L'utente " + user + " (loggato tramite parametri url) è registrato, ma non c'è l'azienda corrispondente. Login fallito.";
                         logger.log(Level.SEVERE, err);
                     }
 
-                }else{
+                } else {
                     CompanySessionLib.setLogin(null);
                 }
             }

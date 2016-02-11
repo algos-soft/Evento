@@ -1,6 +1,6 @@
 package it.algos.evento.entities.comune;
 
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.web.dialog.AlertDialog;
 import it.algos.webbase.web.dialog.BaseDialog;
 import it.algos.webbase.web.dialog.ConfirmDialog;
@@ -28,7 +28,7 @@ public class ComuneImport {
 	private ATable table;
 	private Path file;
 	private DoneListener listener;
-	private Company company;
+	private BaseCompany company;
 
 //	public ComuneImport(ATable table, DoneListener listener, Company company) {
 //		super();
@@ -38,7 +38,7 @@ public class ComuneImport {
 //		start();
 //	}
 	
-	public ComuneImport(Company company) {
+	public ComuneImport(BaseCompany company) {
 		super();
 		this.company=company;
 	}
@@ -76,7 +76,7 @@ public class ComuneImport {
 	 * <p>
 	 * Nessuna GUI visualizzata (esegue su server)
 	 */
-	public static void doImport(String fullPath, Company company, EntityManager manager) {
+	public static void doImport(String fullPath, BaseCompany company, EntityManager manager) {
 		final ComuneImport imp = new ComuneImport(company);
 		
 		Path file = Paths.get(fullPath);

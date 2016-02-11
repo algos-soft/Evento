@@ -1,7 +1,7 @@
 package it.algos.evento.multiazienda;
 
 import com.vaadin.ui.Field;
-import it.algos.webbase.domain.company.Company;
+import it.algos.evento.entities.company.Company;
 import it.algos.webbase.web.field.RelatedComboField;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.search.SearchManager;

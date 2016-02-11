@@ -5,7 +5,7 @@ import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
 import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.multiazienda.EventoEntityQuery;
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.multiazienda.CompanyEntity;
 import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.entity.BaseEntity;
@@ -205,7 +205,7 @@ public class Lettera extends CompanyEntity {
 	 * @param company la company
 	 * @return la lettera
 	 */
-	public static Lettera getLettera(ModelliLettere modello, Company company) {
+	public static Lettera getLettera(ModelliLettere modello, BaseCompany company) {
 		Lettera lettera = null;
 		Container.Filter f1 = new Compare.Equal(Lettera_.sigla.getName(), modello.getDbCode());
 		Container.Filter f2 = new Compare.Equal(Lettera_.company.getName(), company);

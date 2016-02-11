@@ -3,7 +3,7 @@ package it.algos.evento.entities.lettera;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.entity.BaseEntity;
 
@@ -163,7 +163,7 @@ public enum ModelliLettere {
     public boolean isSendReferente(Prenotazione pren) {
         boolean send = false;
 
-        Company company = pren.getCompany();
+        BaseCompany company = pren.getCompany();
 
         if (prefReferente != null && prefReferente.getBool(company)) {
             send = true;
@@ -185,7 +185,7 @@ public enum ModelliLettere {
     public boolean isSend(Prenotazione pren) {
         boolean send = false;
 
-        Company company = pren.getCompany();
+        BaseCompany company = pren.getCompany();
 
         if (prefSend.getBool(company)) {
 

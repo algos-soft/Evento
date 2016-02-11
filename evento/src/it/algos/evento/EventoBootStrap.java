@@ -4,18 +4,26 @@ import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
 import it.algos.evento.daemons.DaemonPrenScadute;
+import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.lettera.Lettera;
 import it.algos.evento.entities.lettera.LetteraKeys;
 import it.algos.evento.entities.lettera.Lettera_;
 import it.algos.evento.entities.lettera.ModelliLettere;
 import it.algos.evento.pref.EventoPrefs;
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.web.bootstrap.ABootStrap;
 import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.lib.LibVers;
 import it.algos.webbase.web.query.AQuery;
 import it.algos.webbase.web.toolbar.Toolbar;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.criteria.Root;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import java.util.List;
@@ -56,7 +64,7 @@ public class EventoBootStrap extends ABootStrap {
         EventoApp.setServletContext(svltCtx);
 
         // imposto alcune costanti
-        Toolbar.ALTEZZA_BOTTONI=30;
+        Toolbar.ALTEZZA_BOTTONI = 30;
         Toolbar.LARGHEZZA_BOTTONI = 100;
 
         // Controllo, aggiunta, esecuzione di pacth e versioni (principalmente dei dati)
@@ -68,8 +76,8 @@ public class EventoBootStrap extends ABootStrap {
         }// fine del blocco if
 
         //esegue qualcosa per ogni Company
-        List<Company> comps = Company.query.getList();
-        for (Company company : comps) {
+        List<BaseCompany> comps = BaseCompany.query.getList();
+        for (BaseCompany company : comps) {
             doForCompany(company);
         } // fine del ciclo for
 
@@ -82,7 +90,7 @@ public class EventoBootStrap extends ABootStrap {
     /**
      * Esegue per ogni company allo startup del server
      */
-    public static void doForCompany(Company company) {
+    public static void doForCompany(BaseCompany company) {
 
         // Controlla che esista la lettera demoSostituzioni con elencate
         // le sostituzioni della Enumeration LetteraKeys.
@@ -136,6 +144,9 @@ public class EventoBootStrap extends ABootStrap {
             LibVers.nuova("Setup", "Installazione iniziale");
         }// fine del blocco if
 
+        // controlla che tutte le Company siano di classe Company
+        checkCompanyClass();
+
 //        //--eliminazione del trattino basso nelle lettere
 //        if (LibVers.installa(2)) {
 //            eliminaTrattinoLettera();
@@ -145,6 +156,32 @@ public class EventoBootStrap extends ABootStrap {
         logger.log(Level.INFO, "Controllo revisioni iniziali terminato");
 
     }// end of method
+
+
+
+    /**
+     * Mette il valore di DTYPE a 'Company' in tutti i record dove è nullo.
+     * Per transizione da Company specifica a Company generica (sottoclasse)
+     * 11-02-2016
+     */
+    private void checkCompanyClass() {
+
+        try {
+
+            EntityManager em = EM.createEntityManager();
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+            String sql="UPDATE Company SET DTYPE = 'Company' WHERE DTYPE is null";
+            Query query = em.createNativeQuery(sql);
+            query.executeUpdate();
+            tx.commit();
+            em.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
 
     /**
      * eliminazione del trattino basso nelle lettere

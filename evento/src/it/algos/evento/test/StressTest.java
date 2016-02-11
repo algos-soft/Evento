@@ -3,7 +3,7 @@ package it.algos.evento.test;
 import com.vaadin.ui.Notification;
 import it.algos.evento.demo.DemoDataGenerator;
 import it.algos.evento.entities.prenotazione.Prenotazione;
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.entity.BaseEntity;
@@ -19,7 +19,7 @@ public class StressTest implements Runnable {
 	@Override
 	public void run() {
 		//Company comp=EventoApp.COMPANY;
-		Company comp= CompanySessionLib.getCompany();
+		BaseCompany comp= CompanySessionLib.getCompany();
 		if (comp!=null) {
 			ArrayList<Prenotazione> prenotazioni = testCreate();
 			testRead();

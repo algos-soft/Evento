@@ -7,7 +7,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.Image;
 import it.algos.evento.EventoApp;
 import it.algos.evento.entities.evento.Evento_;
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
@@ -128,7 +128,7 @@ public enum CompanyPrefs implements PrefIF {
      * @return il valore della preferenza
      * <p>
      */
-    public Object get(Company company) {
+    public Object get(BaseCompany company) {
         Object obj = null;
         PrefEventoEntity entity = getPreference(company);
 
@@ -159,7 +159,7 @@ public enum CompanyPrefs implements PrefIF {
         return (boolean) get();
     }
 
-    public boolean getBool(Company company) {
+    public boolean getBool(BaseCompany company) {
         return (boolean) get(company);
     }
 
@@ -189,7 +189,7 @@ public enum CompanyPrefs implements PrefIF {
         return (int) get();
     }
 
-    public int getInt(Company company) {
+    public int getInt(BaseCompany company) {
         return (int) get(company);
     }
 
@@ -206,7 +206,7 @@ public enum CompanyPrefs implements PrefIF {
         return (String) get();
     }
 
-    public String getString(Company company) {
+    public String getString(BaseCompany company) {
         return (String) get(company);
     }
 
@@ -220,7 +220,7 @@ public enum CompanyPrefs implements PrefIF {
      * @param company l'azienda di riferimento
      * @param value   il valore da scrivere
      */
-    public void put(Company company, Object value) {
+    public void put(BaseCompany company, Object value) {
         PrefEventoEntity entity = getPreference(company);
         if (entity == null) {
             entity = new PrefEventoEntity();
@@ -256,7 +256,7 @@ public enum CompanyPrefs implements PrefIF {
      * @param company l'azienda di riferimento
      * @param value   il valore da scrivere
      */
-    public void put(Company company, Object value, EntityManager manager) {
+    public void put(BaseCompany company, Object value, EntityManager manager) {
         PrefEventoEntity entity = getPreference(company);
         if (entity == null) {
             entity = new PrefEventoEntity();
@@ -293,7 +293,7 @@ public enum CompanyPrefs implements PrefIF {
      * @param company l'azienda di riferimento
      */
 
-    private void remove(Company company) {
+    private void remove(BaseCompany company) {
         PrefEventoEntity entity = getPreference(company);
         if (entity != null) {
 
@@ -327,7 +327,7 @@ public enum CompanyPrefs implements PrefIF {
      *
      * @param company l'azienda di riferimento
      */
-    public void reset(Company company) {
+    public void reset(BaseCompany company) {
         put(company, getDefaultValue());
     }
 
@@ -336,7 +336,7 @@ public enum CompanyPrefs implements PrefIF {
      */
     public void reset() {
         //Company comp=EventoApp.COMPANY;
-        Company comp = CompanySessionLib.getCompany();
+        BaseCompany comp = CompanySessionLib.getCompany();
         put(comp, getDefaultValue());
     }
 
@@ -348,7 +348,7 @@ public enum CompanyPrefs implements PrefIF {
      *
      * @return la preferenza, null se non trovata
      */
-    private PrefEventoEntity getPreference(Company company) {
+    private PrefEventoEntity getPreference(BaseCompany company) {
         PrefEventoEntity entity = null;
         Filter f1 = new Compare.Equal(Evento_.company.getName(), company);
         Filter f2 = new Compare.Equal(PrefEventoEntity_.code.getName(), getCode());

@@ -26,7 +26,7 @@ import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
 import it.algos.evento.multiazienda.ELazyContainer;
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.multiazienda.CompanyEntity;
 import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.multiazienda.CompanySessionLib;
@@ -173,7 +173,7 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
     @SuppressWarnings("unchecked")
     @Override
     public Container createContainer() {
-        Company company = CompanySessionLib.getCompany();
+        BaseCompany company = CompanySessionLib.getCompany();
         ELazyContainer entityContainer = new ELazyContainer(getEntityManager(), getEntityClass(), getContainerPageSize(), company);
         return entityContainer;
     }// end of method

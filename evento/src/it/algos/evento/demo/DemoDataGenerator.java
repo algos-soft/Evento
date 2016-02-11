@@ -29,7 +29,7 @@ import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.stagione.Stagione_;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.multiazienda.CompanyEntity;
 import it.algos.webbase.multiazienda.CompanyEntity_;
 import it.algos.webbase.web.AlgosApp;
@@ -69,7 +69,7 @@ public class DemoDataGenerator {
      *                relazioni che esistono tra di esse. <br>
      * @return true se la company è stata creata correttamente
      */
-    public static boolean createDemoData(Company company) {
+    public static boolean createDemoData(BaseCompany company) {
         boolean success=false;
 
         EntityManager manager = EM.createEntityManager();
@@ -156,7 +156,7 @@ public class DemoDataGenerator {
     /**
      * Create some demo data only if the table is empty
      */
-    private static void creaSale(Company company, EntityManager manager) {
+    private static void creaSale(BaseCompany company, EntityManager manager) {
         Sala sala;
 
         sala = new Sala("Auditorium", 430);
@@ -172,7 +172,7 @@ public class DemoDataGenerator {
     /**
      * Create some demo data only if the table is empty
      */
-    private static void creaProgetti(Company company, EntityManager manager) {
+    private static void creaProgetti(BaseCompany company, EntityManager manager) {
         Progetto p;
 
         p = new Progetto("La scienza della vita");
@@ -192,7 +192,7 @@ public class DemoDataGenerator {
     /**
      * Create some demo data only if the table is empty
      */
-    public static void creaPagamenti(Company company, EntityManager manager) {
+    public static void creaPagamenti(BaseCompany company, EntityManager manager) {
         ModoPagamento m;
 
         m = new ModoPagamento("BB", "Bonifico bancario");
@@ -212,7 +212,7 @@ public class DemoDataGenerator {
     /**
      * Create some demo data only if the table is empty
      */
-    public static void creaTipiRicevuta(Company company, EntityManager manager) {
+    public static void creaTipiRicevuta(BaseCompany company, EntityManager manager) {
         save(new TipoRicevuta("RIC", "Ricevuta"), company, manager);
         save(new TipoRicevuta("FATT", "Fattura"), company, manager);
         save(new TipoRicevuta("FE", "Fattura Elettronica"), company, manager);
@@ -222,7 +222,7 @@ public class DemoDataGenerator {
     /**
      * Create some demo data only if the table is empty
      */
-    public static void creaOrdiniScuola(Company company, EntityManager manager) {
+    public static void creaOrdiniScuola(BaseCompany company, EntityManager manager) {
         save(new OrdineScuola("INF", "Scuola dell'Infanzia"), company, manager);
         save(new OrdineScuola("PRI", "Primaria"), company, manager);
         save(new OrdineScuola("MED", "Secondaria I grado (medie)"), company, manager);
@@ -234,7 +234,7 @@ public class DemoDataGenerator {
     /**
      * Create some demo data only if the table is empty
      */
-    public static void creaInsegnanti(Company company, EntityManager manager) {
+    public static void creaInsegnanti(BaseCompany company, EntityManager manager) {
         Insegnante ins;
 
         ins = new Insegnante("Lovecchio", "Luigi", "Prof.",
@@ -287,7 +287,7 @@ public class DemoDataGenerator {
     /**
      * Crea i comuni
      */
-    public static void creaComuni(Company company, EntityManager manager) {
+    public static void creaComuni(BaseCompany company, EntityManager manager) {
         ServletContext svlContext = EventoApp.getServletContext();
         String path = "/" + AlgosApp.DEMODATA_FOLDER_NAME + "comuni/comuni.xls";
         String fullPath = svlContext.getRealPath(path);
@@ -299,7 +299,7 @@ public class DemoDataGenerator {
     /**
      * Create some demo data only if the table is empty
      */
-    public static void creaScuole(Company company, EntityManager manager) {
+    public static void creaScuole(BaseCompany company, EntityManager manager) {
         Scuola scuola;
 
 //        // cerca l'ordine "SUP"
@@ -374,26 +374,26 @@ public class DemoDataGenerator {
     /**
      * Assegna la company e salva
      */
-    private static void save(CompanyEntity entity, Company company, EntityManager manager) {
+    private static void save(CompanyEntity entity, BaseCompany company, EntityManager manager) {
         entity.setCompany(company);
         manager.persist(entity);
     }
 
 
-    private static Comune getComuneRandom(Company company, EntityManager manager) {
+    private static Comune getComuneRandom(BaseCompany company, EntityManager manager) {
         return (Comune) getEntityRandom(Comune.class, company, manager);
     }
 
-    private static OrdineScuola getOrdineScuolaRandom(Company company, EntityManager manager) {
+    private static OrdineScuola getOrdineScuolaRandom(BaseCompany company, EntityManager manager) {
         return (OrdineScuola) getEntityRandom(OrdineScuola.class, company, manager);
     }
 
 
-    private static Progetto getProgettoRandom(Company company, EntityManager manager) {
+    private static Progetto getProgettoRandom(BaseCompany company, EntityManager manager) {
         return (Progetto) getEntityRandom(Progetto.class, company, manager);
     }
 
-    private static BaseEntity getEntityRandom(Class clazz, Company company, EntityManager manager) {
+    private static BaseEntity getEntityRandom(Class clazz, BaseCompany company, EntityManager manager) {
 
 //        CriteriaBuilder cb = manager.getCriteriaBuilder();
 //        CriteriaQuery<? extends BaseEntity> cq = cb.createQuery(clazz);
@@ -432,7 +432,7 @@ public class DemoDataGenerator {
      * Crea stagioni demo
      * Crea la stagione corrente
      */
-    public static void creaStagioni(Company company, EntityManager manager) {
+    public static void creaStagioni(BaseCompany company, EntityManager manager) {
 
         // fino a fine maggio crea la stagione iniziata l'anno precedente
         // da giugno crea la stagione che inizia quest'anno
@@ -463,7 +463,7 @@ public class DemoDataGenerator {
     /**
      * Create some demo data only if the table is empty
      */
-    public static void creaEventi(Company company, EntityManager manager) {
+    public static void creaEventi(BaseCompany company, EntityManager manager) {
 
         Evento evento;
         evento = new Evento("Vivarelli", "Un ricordo di Roberto Vivarelli", 16,
@@ -498,7 +498,7 @@ public class DemoDataGenerator {
 
     }// end of method
 
-    private static void saveEvento(Evento evento, Company company, EntityManager manager) {
+    private static void saveEvento(Evento evento, BaseCompany company, EntityManager manager) {
 
         // recupera la stagione corrente
         CQuery<Stagione> q = new CQuery<>(manager, Stagione.class);
@@ -518,12 +518,12 @@ public class DemoDataGenerator {
     }
 
 
-    private static int getCount(Class<?> clazz, Company company) {
+    private static int getCount(Class<?> clazz, BaseCompany company) {
         long num = AQuery.getCount(clazz, Evento_.company, company);
         return (int) num;
     }
 
-    private static void creaRappresentazioni(Company company, EntityManager manager) {
+    private static void creaRappresentazioni(BaseCompany company, EntityManager manager) {
         Rappresentazione rapp;
 
         // cominciamo a creare rappresentazioni dal 1 novembre dell'anno corrente
@@ -559,7 +559,7 @@ public class DemoDataGenerator {
      *
      * @return una lista delle prenotazioni create
      */
-    public static ArrayList<Prenotazione> creaPrenotazioni(Company company, EntityManager manager) {
+    public static ArrayList<Prenotazione> creaPrenotazioni(BaseCompany company, EntityManager manager) {
         ArrayList<Prenotazione> prenotazioni = new ArrayList<Prenotazione>();
         int quante = 50;
         Prenotazione pren;
@@ -654,7 +654,7 @@ public class DemoDataGenerator {
 
     // Recupera una rappresentazione a caso tra quelle che sono
     // almeno 1 mese più avanti della data fornita
-    private static Rappresentazione getRappresentazionePost(Date date, Company company, EntityManager manager) {
+    private static Rappresentazione getRappresentazionePost(Date date, BaseCompany company, EntityManager manager) {
         Rappresentazione rapp = null;
         DateTime dt = new DateTime(date).plusDays(30);
 
@@ -676,7 +676,7 @@ public class DemoDataGenerator {
     /**
      * Crea gli allegati
      */
-    public static void creaAllegati(Company company, EntityManager manager) {
+    public static void creaAllegati(BaseCompany company, EntityManager manager) {
         ArrayList<Allegato> lista = AllegatoModulo.getDemoData();
         for (Allegato allegato : lista) {
             allegato.setCompany(company);
@@ -688,7 +688,7 @@ public class DemoDataGenerator {
     /**
      * Crea le lettere mancanti
      */
-    public static void creaLettere(Company company, EntityManager manager) {
+    public static void creaLettere(BaseCompany company, EntityManager manager) {
         Lettera lettera;
 
         // controlla che esistano tutti i modelli previsti, se non esistono li crea
@@ -710,7 +710,7 @@ public class DemoDataGenerator {
     /**
      * Crea le preferenze
      */
-    private static void creaPreferenze(Company company, EntityManager manager) {
+    private static void creaPreferenze(BaseCompany company, EntityManager manager) {
         // registra l'indirizzo della company come mittente delle email
         CompanyPrefs.senderEmailAddress.put(company, company.getEmail(), manager);
     }

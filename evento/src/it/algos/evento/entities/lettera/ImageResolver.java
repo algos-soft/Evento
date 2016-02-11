@@ -5,7 +5,7 @@ import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Compare;
 import it.algos.evento.entities.lettera.allegati.Allegato;
 import it.algos.evento.entities.lettera.allegati.Allegato_;
-import it.algos.webbase.domain.company.Company;
+import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.query.AQuery;
 import org.apache.commons.mail.DataSourceResolver;
@@ -17,9 +17,9 @@ import java.util.ArrayList;
 
 public class ImageResolver implements DataSourceResolver {
 
-	private Company company;
+	private BaseCompany company;
 
-	public ImageResolver(Company company) {
+	public ImageResolver(BaseCompany company) {
 		this.company = company;
 	}
 
