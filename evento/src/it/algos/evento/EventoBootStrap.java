@@ -144,7 +144,7 @@ public class EventoBootStrap extends ABootStrap {
             LibVers.nuova("Setup", "Installazione iniziale");
         }// fine del blocco if
 
-        // controlla che tutte le Company siano di classe Company
+        // controlla la validità dela colonna DTYPE nelle Company
         checkCompanyClass();
 
 //        //--eliminazione del trattino basso nelle lettere
