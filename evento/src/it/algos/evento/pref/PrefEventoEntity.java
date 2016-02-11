@@ -5,7 +5,7 @@ import it.algos.webbase.multiazienda.CompanyEntity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Table(name = "companyprefs")
+@Table(name = "COMPANYPREFS")
 @Entity
 public class PrefEventoEntity extends CompanyEntity {
 

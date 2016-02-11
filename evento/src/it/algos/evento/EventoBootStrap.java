@@ -171,7 +171,7 @@ public class EventoBootStrap extends ABootStrap {
             EntityManager em = EM.createEntityManager();
             EntityTransaction tx = em.getTransaction();
             tx.begin();
-            String sql="UPDATE Company SET DTYPE = 'Company' WHERE DTYPE is null";
+            String sql="UPDATE COMPANY SET DTYPE = 'Company' WHERE DTYPE is null";
             Query query = em.createNativeQuery(sql);
             query.executeUpdate();
             tx.commit();
