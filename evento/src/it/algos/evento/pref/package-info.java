@@ -2,7 +2,8 @@
  * Questo package fornisce le classi necessarie a rappresentare e gestire le preferenze.
  * Le preferenze sono rappresentate dalla classe PrefEventoEntity, che ha una chiave String e memorizza i valori
  * nel database come byte[].
- * Può contenere qualsiasi tipo di dato (anche immagini, o in generale qualsiasi oggetto serializzabile).
+ * Può contenere qualsiasi tipo di dato (anche immagini, o in generale qualsiasi oggetto serializzabile come
+ * oggetti Java, pagine web, documenti pdf o altro).
  * <p>
  * Gli elenchi di preferenze vengono rappresentati con delle enum che implementano l'interfaccia PrefIF.
  * Si possono creare quante enum si desiderano (preferenze generali, preferenze dell'azienda,
