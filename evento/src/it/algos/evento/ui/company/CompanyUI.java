@@ -66,12 +66,6 @@ public class CompanyUI extends AlgosUI {
         } else {
             // user login disabilitato, effettua automaticamente il login alla azienda di default
             // e mostra direttamente la home
-//            Company company = Company.query.queryOne(Company_.id, autoCompanyId);
-//            if(company!=null){
-//                CompanySessionLib.setCompany(company);
-//                setContent(new CompanyHome());
-//            }
-
             BaseEntity entity = AQuery.queryOne(Company.class, Company_.id, autoCompanyId);
             if (entity != null) {
                 if (entity instanceof Company) {
