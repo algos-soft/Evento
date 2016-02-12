@@ -999,6 +999,30 @@ public class PrenotazioneModulo extends EModulePop {
     }// end of method
 
 
+
+    /**
+     * Ritorna un filtro che seleziona tutte le prenotazioni
+     * con pagamento confermato ma non ricevuto della stagione corrente
+     */
+    public static Filter getFiltroPrenPagamentoNonRicevuto() {
+        return getFiltroPrenPagamentoNonRicevuto(Stagione.getStagioneCorrente());
+    }// end of method
+
+    /**
+     * Ritorna un filtro che seleziona tutte le prenotazioni
+     * con pagamento confermato ma non ricevuto di una stagione
+     */
+    public static Filter getFiltroPrenPagamentoNonRicevuto(Stagione stagione) {
+        ArrayList<Filter> filters = new ArrayList<Filter>();
+        filters.add(new Compare.Equal(PROP_STAGIONE, stagione));
+        filters.add(new Compare.Equal(Prenotazione_.pagamentoConfermato.getName(), true));
+        filters.add(new Compare.Equal(Prenotazione_.pagamentoRicevuto.getName(), false));
+        Filter outFilter = new And(filters.toArray(new Filter[0]));
+        return outFilter;
+    }// end of method
+
+
+
     private static String getUsername() {
         return EventoBootStrap.getUsername();
     }

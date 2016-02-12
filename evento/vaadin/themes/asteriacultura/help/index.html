@@ -623,9 +623,11 @@
         <p class="nota">Attenzione! Quando si riattiva una prenotazione congelata, non è garantito che i posti siano
             ancora disponibili! Prima di riattivarla, controlla di avere posti disponibili a sufficienza!</p>
 
+        <a name="visualizzazione-pos-scadute"></a>
+
         <h2>Visualizzazione delle posizioni scadute</h2>
 
-        <p>Esistono 3 tipi di posizioni scadute:</p>
+        <p>Esistono 4 tipi di posizioni scadute:</p>
         <ul>
             <li><strong>Conferma prenotazione scaduta:</strong> sono trascorsi i termini per l'invio della conferma
                 prenotazione (un simbolo rosso viene visualizzato nella colonna <strong>stato</strong>).
@@ -633,9 +635,15 @@
             <li><strong>Conferma pagamento scaduta:</strong> sono trascorsi i termini per l'invio della conferma del
                 pagamento (un simbolo rosso viene visualizzato nella colonna <strong>pagato</strong>)
             </li>
-            <li><strong>Prenotazione congelata:</strong> La prenotazione è stata congelata ed è sospesa (un ghiacciolo
+            <li><strong>Prenotazione congelata:</strong> la prenotazione è stata congelata ed è sospesa (un ghiacciolo
                 azzurro viene visualizzato nella colonna <strong>stato</strong>)
             </li>
+            <li>
+                <strong>Prenotazioni con pagamento non ricevuto:</strong> è stato confermato il pagamento ma questo non
+                è ancora effettivamente pervenuto (un simbolo metà rosso e metà verde viene visualizzato nella colonna
+                Pagato).
+            </li>
+
         </ul>
         <p>Puoi avere immediatamente sotto controllo i vari tipi di situazioni scadute tramite le funzioni di ricerca
             posizioni scadute. Premi il pulsante Altro in fondo alla lista delle prenotazioni:</p>
@@ -884,6 +892,7 @@
         <p class="dida">Statistica per mese</p>
 
         <p>Le statistiche analizzano un periodo temporale che va sempre specificato prima di avviare l'elaborazione.</p>
+
         <p>Sono disponibili le seguenti statistiche:</p>
         <ul>
             <li><strong>Statistica per Evento:</strong> numero di posti e incassi suddivisi per Evento</li>
@@ -899,6 +908,8 @@
 
         </ul>
 
+
+        <a name="lettere-base"></a>
 
         <h1>Lettere base</h1>
 
@@ -1048,7 +1059,111 @@
             consiglia di usare i formati .png, .gif o .jpg</p>
 
 
-        <h1>Notifiche via e-mail</h1>
+        <h1>Notifiche e solleciti via e-mail</h1>
+
+        <p>eVento dispone di un sistema di notifiche via e-mail che che automatizza e facilita la gestione della
+            comunicazione con il referente.</p>
+
+        <p>Ci sono due categorie di notifiche:</p>
+        <ul>
+            <li><strong>Notifiche immediate:</strong> sono notifiche che vengono inviate nel momento in cui si
+                effettuano determinate procedure, per esempio la conferma di una prenotazione;
+            </li>
+            <li><strong>Notifiche giornaliere:</strong> sono notifiche che vengono inviate automaticamente dalla
+                piattaforma centrale quando rileva prenotazioni scadute.
+            </li>
+        </ul>
+
+        <h2>Notifiche immediate</h2>
+
+        <p>Quando si effettuano determinate operazioni, significative nella gestione del flusso della prenotazione,
+            viene immediatamente inviata una e-mail.</p>
+
+        <p>Le operazioni che possono inviare una e-mail sono le seguenti:</p>
+        <ul>
+            <li>
+                <strong>Registrazione di una nuova prenotazione:</strong> viene inviata una e-mail che riepiloga i dati
+                della prenotazione, e invita il referente a verificarli e a confermare.
+            </li>
+            <li><strong>Conferma della prenotazione:</strong> viene inviata una e-mail che comunica che la prenotazione
+                è stata confermata, e invita a pagare entro un termine prestabilito.
+            </li>
+            <li><strong>Ricezione del pagamento:</strong> viene inviata una e-mail che comunica che la conferma del
+                pagamento è stata ricevuta.
+            </li>
+            <li><strong>Registrazione del pagamento:</strong> viene inviata una e-mail che comunica che il pagamento è
+                stato effettivamente ricevuto e registrato.
+            </li>
+            <li><strong>Congelamento prenotazione:</strong> viene inviata una e-mail che comunica che la prenotazione è
+                stata congelata e i posti non sono più riservati, e invita il referente a mettersi in contatto.
+            </li>
+        </ul>
+
+        <p>Non è obbligatorio inviare tutte le e-mail. Nella pagina <a href="#config-invio-email">Configurazione invio
+            e-mail</a>
+            puoi decidere quali di queste e-mail vanno inviate, e a chi (referente, scuola o entrambi).</p>
+
+        <p>In ogni caso, quando queste e-mail stanno per essere inviate, si apre una finestra dove puoi verificare o
+            modificare i
+            destinatari e gli indirizzi.</p>
+
+        <p>Puoi personalizzare i contenuti delle varie e-mail tramite il modulo <a href="#lettere-base">Lettere Base</a>.
+        </p>
+
+
+        <h2>Notifiche giornaliere</h2>
+
+        <p>Ogni giorno la piattaforma centrale controlla la presenza di <strong>prenotazioni scadute</strong>, ovvero
+            prenotazioni che dovevano essere confermate o pagate entro il giorno precedente ma ancora non risultano
+            tali. Per ogni prenotazione scaduta, invia una e-mail di sollecito.</p>
+
+        <p>I controlli che vengono effettuati sono i seguenti:</p>
+        <ul>
+            <li>
+                <strong>Alla scadenza una prenotazione:</strong> viene inviata una e-mail per tutte le prenotazioni che
+                hanno <i>conferma scaduta</i> (data scadenza conferma precedente la data di oggi).
+            </li>
+            <li><strong>Alla scadenza dei termini di pagamento:</strong> viene inviata una e-mail per tutte le
+                prenotazioni che hanno <i>conferma di pagamento scaduta</i> (data scadenza conferma pagamento precedente
+                la data di oggi).
+            </li>
+        </ul>
+
+        <p class="nota">Non vengono inviati solleciti per le prenotazioni che hanno confermato il pagamento ma questo
+            non è ancora effettivamente pervenuto. Questo tipo di posizioni sono piuttosto evidenti e possono essere
+            facilmente
+            tenute sotto controllo tramite la funzione <a href="#visualizzazione-pos-scadute">Visualizzazione posizioni
+                scadute</a>.</p>
+
+        <p>Questo controllo viene eseguito una volta al giorno, all'ora che desideri. Non è necessario essere collegati
+            perché questo avvenga, quindi potrebbe avvenire anche di notte.</p>
+
+        <p class="nota">Le prenotazioni congelate non sono soggette a questo tipo di controllo.</p>
+
+        <p>Le e-mail vengono inviate al referente, alla scuola o a entrambi.</p>
+
+        <p>Per il referente, viene utilizzato l'indirizzo e-mail registrato nella prenotazione. Per la scuola,
+            l'indirizzo e-mail della scuola. Se un indirizzo e-mail manca, la notifica non viene inviata.</p>
+
+        <p>Quano il programma viene attivato, questo controllo è inizialmente disabilitato. Per attivare il sistema e
+            configurare l'orario e i destinatari, vai alla pagina <a href="#config-controlli-auto">Programmazione
+                controlli
+                automatici</a>.</p>
+
+        <p>Puoi personalizzare i contenuti delle varie e-mail tramite il modulo <a href="#lettere-base">Lettere Base</a>.
+        </p>
+
+        <p>Se vuoi puoi inviare queste e-mail anche manualmente, usando le funzioni <strong>Invia sollecito conferma
+            prenotazione</strong> e <strong>Invia sollecito conferma pagamento</strong> che trovi nel pulsante Altro...
+            al piede della lista delle Prenotazioni.</p>
+
+        <h3>Contatore dei solleciti</h3>
+
+        <p>Sia che vengano invate automaticamente che manualmente, ogni volta che si invia una e-mail di sollecito vengono
+            incrementati i contatori <strong>Livello sollecito conferma</strong> e <strong>Livello sollecito pagamento</strong> che si trovano nella
+            scheda della prenotazione. Questo consente al sistema di determinare se il sollecito è già stato inviato (e
+            non inviarlo più volte) e di tenere traccia del numero di solleciti già inviati.</p>
+
 
         <h1>Registri degli eventi</h1>
 
@@ -1087,7 +1202,7 @@
         <p>Qui puoi controllare se tutte le email sono state spedite correttamente ed eventualmente ottenere i codici di
             errore per le mail che non hanno potuto essere spedite.</p>
 
-        <h1>Altre tabelle</h1>
+        <h1>Altre funzioni</h1>
 
         <h1>Configurazione</h1>
 
@@ -1127,6 +1242,15 @@
             scuola o a entrambi.:</p>
 
         <p>L'ultima opzione consente di non inviare la e-mail se si tratta di prenotazione di un privato.</p>
+
+
+        <a name="config-invio-email"></a>
+
+        <h2>Configurazione invio e-mail</h2>
+
+        <p>bla bla...</p>
+
+        <a name="config-controlli-auto"></a>
 
 
     </div>
