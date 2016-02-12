@@ -11,7 +11,7 @@
  * Queste enum definiscono le preferenze disponibili e implementano i metodi per leggere e scrivere i valori.
  * Tipicamente definiscono i metodi più comuni (per string, bool, integer, decimal, date, bytes) ma possono
  * implementare metodi specifici per memorizzare qualsiasi tipo di dato serializzabile (per esempio putIndirizzo,
- * getIndirizzo, putCertificato, getCertificato ecc...).
+ * getIndirizzo, putPdf, getPdf ecc...).
  * Il supporto per gestire i tipi più comuni è centralizzato nella classe AbsPref.
  */
 package it.algos.evento.pref;
