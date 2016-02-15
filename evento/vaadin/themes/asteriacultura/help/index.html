@@ -273,13 +273,22 @@
 
         <p>Nel campo <strong>Evento</strong> devi selezionare l'evento che viene rappresentato.</p>
 
+        <h3>Sala e Capienza</h3>
+
         <p>La <strong>Sala</strong> indica il luogo dove viene rappresentato l'evento. &Egrave; possibile rappresentare
-            l'evento in luoghi diversi, e ogni luogo può avere una diversa <strong>capienza</strong>. In base alla sala
-            selezionata, viene inserita automaticamente la capienza (che puoi sempre modificare per la singola
-            rappresentazione). Questa indicazione serve per controllare l'eventuale overbooking in fase di ricevimento
+            l'evento in luoghi diversi (non necessariamente facenti parte della propria struttura), e ogni luogo può
+            avere una diversa <strong>capienza</strong>. In base alla sala
+            selezionata, viene inserita automaticamente la capienza nella rappresentazione.</p>
+
+        <p>Questa informazione serve per controllare l'eventuale overbooking in fase di ricevimento
             delle prenotazioni.</p>
 
-        <p class="nota">Per definire nuove sale e le relative capienze, vai alla tabella Sale (Menu Altro ->
+        <p>La capienza può essere ancora modificata a livello di singola
+            rappresentazione; per esempio alcuni spettacoli per loro natura possono porre dei vincoli (per esempio le
+            prime file devono essere vuote) che limitano il numero di posti utilizzabili.</p>
+
+        <p class="nota">Per definire nuove sale e le relative capienze, vai alla <a href="#tabella-sale">Tabella
+            Sale</a> (Menu Altro ->
             Sale)</p>
 
 
@@ -838,6 +847,8 @@
         <p>Tutti gli elementi grafici sono attivi. Posizionando il puntatore su un elemento vengono visualizzati
             ulteriori dettagli, e cliccando sull'elemento si apre la lista delle relative prenotazioni.</p>
 
+        <a name="stagioni"></a>
+
         <h1>Le Stagioni</h1>
 
         <p>Il sistema mantiene sempre in linea i dati della stagione corrente e di tutte quelle passate. Ma per
@@ -1169,9 +1180,12 @@
 
         <h1>Registri degli eventi</h1>
 
+        <a name="registro-eventi-prenotazioni"></a>
+
         <h2>Registro eventi Prenotazioni</h2>
 
-        <p>Questo registro contiene tutti gli eventi significativi che si sono verificati nelle Prenotazioni. Ogni volta
+        <p>Questo registro contiene traccia di tutti gli eventi significativi che si sono verificati nelle Prenotazioni.
+            Ogni volta
             che si effettua la conferma prenotazione, la registrazione di un pagamento, il congelamento della
             prenotazione ecc... dei nuovi eventi vengono registrati in questa tabella. Analizzando questi eventi si può
             ricostruire la storia della prenotazione.</p>
@@ -1184,13 +1198,15 @@
             può facilmente reinviare la e-mail quando il funzionamento è stato ripristinato.</p>
 
         <p>L'elenco degli eventi qui riportato è lo stesso che si vede dall'interno della scheda prenotazione, alla
-            pagina <strong>Eventi e Note</strong>.</p>
+            pagina <strong>Eventi e Note</strong>. Qui però si ha una visione globale degli eventi di tutte le
+            prenotazioni.</p>
 
-        <p>Le operazioni sulla prenotazione che comportano l'invio di e-mail (per esempio la conferma prenotazione)
+        <p class="nota">Le operazioni sulla prenotazione che comportano l'invio di e-mail (per esempio la conferma
+            prenotazione)
             generano due eventi nel Registro eventi prenotazione: un evento per l'operazione e uno per la spedizione
-            della e-mail.</p>
+            della e-mail. La spedizione inoltre genera un ulteriore evento nel Registro spedizioni generale.</p>
 
-        <p>La spedizione inoltre genera un ulteriore evento nel Registro spedizioni generale.</p>
+        <a name="registro-spedizioni"></a>
 
         <h2>Registro spedizioni</h2>
 
@@ -1205,6 +1221,87 @@
             errore per le mail che non hanno potuto essere spedite.</p>
 
         <h1>Altre funzioni</h1>
+
+        <p>Il menu <strong>Altro...</strong> contiene varie funzioni di supporto e configurazione del programma.</p>
+        <p>Alcune di queste sono descritte qui; ad altre è dedicata una
+        apposita sezione del manuale, in questo caso troverai il rimando alla relativa sezione.</p>
+
+        <h2>Progetti</h2>
+
+        <p>La tabella Progetti consente di definire i progetti che consentono di raggruppare gli Eventi in diverse
+            categorie.</p>
+
+        <p class="nota">L'uso dei Progetti è facoltativo.</p>
+
+        <h2>Stagioni</h2>
+
+        <p>Vedi sezione <a href="#stagioni">Stagioni</a></p>
+
+        <a name="tabella-sale"></a>
+
+        <h2>Sale</h2>
+
+        <p>La tabella Sale consente di definire le sale utilizzate per rappresentare gli eventi. Puoi definire una o più
+            sale nele quali si possono rappresentare gli eventi. Le sale non devono necessariamente appartenere alla
+            propria struttura ma possono anche essere affittate o messe a disposizione da altri.</p>
+
+        <h3>Capienza della sala</h3>
+
+        <p>Per ogni Sala puoi definire una capienza. Questa capienza verrà automaticamente inserita nella
+            rappresentazione quando si seleziona la Sala (la capienza può comunque essere modificata per ogni
+            rappresentazione).</p>
+
+        <h3>Impostare la sala di default</h3>
+
+        <p>La sala di utilizzo più frequente (o l'unica della struttura) si può definire come sala di default. In questo
+            caso verrà selezionata automaticamente quando si crea una nuova rapresentazione.</p>
+
+        <p>Puoi definire la sala di default in <a href="#config-eventi-rapp">Configurazione Eventi e
+            Rappresentazioni</a></p>
+
+        <h2>Comuni</h2>
+
+        <p>Questa tabella contiene l'elenco completo degli oltre 8.000 comuni italiani ed è utilizzata dall'anagrafica
+            delle scuole..</p>
+
+        <p>Potete anche aggiungere altre voci se necessario (es. località estere).</p>
+
+        <h2>Modi di pagamento</h2>
+
+        <p>Questa tabella contiene l'elenco delle modalità di pagamento previste dalla vostra struttura.</p>
+
+        <p>Viene utilizzata per compilare il campo <strong>Modo di pagamento</strong> nella scheda della Prenotazione.
+        </p>
+
+        <h2>Tipi di ricevuta</h2>
+
+        <p>Questa tabella contiene l'elenco dei tipi di ricevuta previsti dalla vostra struttura.</p>
+
+        <p>Viene utilizzata per compilare il campo <strong>Tipo ricevuta</strong> nella scheda della Prenotazione.</p>
+
+        <h2>Ordini scuola</h2>
+
+        <p>Questa tabella contiene i vari ordini delle scuole ed è usata per compilare il campo Ordine nella anagrafica
+            delle scuole.</p>
+
+        <h2>Lettere base</h2>
+
+        <p>Vedi sezione <a href="#lettere-base">Lettere base</a></p>
+
+        <h2>Registro eventi prenotazioni</h2>
+
+        <p>Vedi sezione <a href="#registro-eventi-prenotazioni">Registro eventi prenotazioni</a></p>
+
+        <h2>Registro spedizioni</h2>
+
+        <p>Vedi sezione <a href="#registro-spedizioni">Registro spedizioni</a></p>
+
+        <h2>Configurazione</h2>
+
+        <p>Vedi sezione <a href="#configurazione">Configurazione</a></p>
+
+
+        <a name="configurazione"></a>
 
         <h1>Configurazione</h1>
 
@@ -1252,11 +1349,29 @@
 
         <p>bla bla...</p>
 
-        <a name="config-controlli-auto"></a>
+        <a name="config-prenotazioni"></a>
+
+        <h2>Configurazione Prenotazioni</h2>
+
+        <p>bla bla...</p>
+
+
+        <a name="config-eventi-rapp"></a>
+
+        <h2>Configurazione Eventi e Rappresentazioni</h2>
+
+        <p>bla bla...</p>
+
+        <a name="config-presonalizzazione"></a>
+
+        <h2>Configurazione Personalizzazione</h2>
+
+        <p>bla bla...</p>
 
 
     </div>
 
+</div>
 
 </body>
 
