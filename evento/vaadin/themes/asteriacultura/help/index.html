@@ -45,13 +45,15 @@
         <p>Ciao,</p>
 
         <p>Se hai già pratica di programmi gestionali e vuoi inizare subito ad utilizzare eVento, nella <a
-                href="#avvio-rapido">Procedura di avvio rapido</a> trovi le istruzioni per una configurazione di base.
+                href="#avvio-rapido">Procedura di avvio rapido</a> trovi le istruzioni per una configurazione di base
+            che ti consente di iniziare ad usare il programma al più presto.
         </p>
 
         <p>Se invece vuoi prendere confidenza con le varie funzionalità prima di cominciare, ti consigliamo di <strong>non</strong>
             eseguire subito la procedura di avvio rapido, ma di esplorare le varie funzioni del programma seguendo il
             percorso suggerito da questo
-            manuale, partendo dalla sezione <a href="#per-iniziare">Per iniziare.</a></p>
+            manuale, partendo dalla sezione <a href="#per-iniziare">Per iniziare.</a> Una volta esplorate le funzioni
+            del programma con l'aiuto dei dati dimostrativi, cancellali e segui la procedura di avvio rapido.</p>
 
         <p>Buon lavoro!</p>
         <a name="avvio-rapido"></a>
@@ -65,26 +67,27 @@
                 Rappresentazioni e per gli Eventi, rispettando questo ordine.</strong></li>
             <li><strong>Imposta il contatore delle prenotazioni.</strong> Il contatore delle prenotazioni deve ripartire
                 da 1 (o dal
-                numero che vuoi tu). Vai nel menu Altro... -> Configurazione -> Configurazione Prenotazioni, imposta il
+                numero che preferisci). Vai alla pagina <a href="#config-prenotazioni">Configurazione Prenotazioni</a>,
+                imposta il
                 prossimo numero di prenotazione a 1 e registra.
             </li>
-            <li><strong>Imposta la stagione.</strong> Vai nella tabella Stagioni (Menu Altro... -> Stagioni) e verifica
+            <li><strong>Imposta la stagione.</strong> Vai alla tabella <a href="#stagioni">Stagioni</a> e verifica
                 che esista la
                 stagione corrente. Se non esiste creala. Controlla che ci sia la spunta sulla la stagione giusta. Se non
                 è corretta, seleziona quella giusta e premi il pulsante <strong>Corrente</strong> in fondo alla lista.
             </li>
-            <li><strong>Inserisci le Sale.</strong> Vai alla tabella Sale (Altro... -> Sale) e inserisci la/e sala/e
-                della tua struttura con la relativa
-                capienza.
+            <li><strong>Inserisci le Sale.</strong> Vai alla tabella <a href="#tabella-sale">Sale</a> e inserisci la/e
+                sala/e della tua struttura con la relativa capienza.
             </li>
-            <li><strong>Configura l'e-mail:</strong> vai in Configurazione -> Configurazione invio e-maile inserisci
+            <li><strong>Configura l'e-mail:</strong> vai in <a href="#config-invio-email">Configurazione invio e-mail</a> e inserisci
                 l'indirizzo del mittente (è l'indirizzo a cui risponderà chi riceve le e-mail dal sistema) e l'eventuale
                 indirizzo dove inviare un backup di tutte le e-mail. Al termine ricordati di registrare.
             </li>
             <li><strong>Crea gli eventi della stagione</strong></li>
             <li><strong>Crea le rappresentazioni della stagione</strong></li>
         </ol>
-        <p>Hai eseguito tutte le preparazioni indispensabili e puoi iniziare a lavorare! Puoi esplorare le altre
+        <p>Hai eseguito tutte le preparazioni indispensabili e puoi iniziare a creare le prenotazioni! Le scuole e i
+            referenti possono essere creati durante la registrazione delle prenotazioni. Puoi esplorare le altre
             funzionalità man mano che servono.</p>
 
         <a name="per-iniziare"></a>
@@ -448,10 +451,12 @@
 
         <p>
 
+            <a name="numerazione-delle-prenotazioni"></a>
+
         <h2>Numerazione delle Prenotazioni</h2>
 
         <p>Il numero della prenotazione viene attribuito automaticamente e viene usato come riferimento in tutte le
-            comunicazioni.</p>
+            comunicazioni con il referente o con la scuola.</p>
 
         <p>Il numero delle nuove prenotazioni viene attribuito in base a un contatore mantenuto nelle preferenze
             dell'applicazione. Il contatore comincia a contare da 1 e viene incrementato ad ogni nuova prenotazione.</p>
@@ -460,11 +465,14 @@
             numero desiderato (menu Altro -> Configurazione -> Configurazione Prenotazioni). In tal caso fai molta
             attenzione a non generare doppioni nella stessa stagione!</p>
 
-        <p>Se devi partire da un numero esistente, modifica il contatore nelle preferenze.</p>
+        <p>Se devi partire da un numero esistente, modifica il contatore nelle preferenze (vedi <a
+                href="#config-prenotazioni">Configurazione prenotazioni</a>).</p>
 
         <p>Non è necessario far ripartire la numerazione ad ogni nuova stagione, si può proseguire la serie della
             stagione precedente. Ma se preferisci resettare la numerazione a inizio stagione, basta reimpostare il
-            contatore.</p>
+            contatore a 1 prima di cominciare a registrare le prenotazioni. Il fatto che ci siano due prenotazioni con
+            lo
+            stess numero in stagioni diverse non crea alcun problema.</p>
 
         <h2>Flusso della Prenotazione</h2>
 
@@ -1223,8 +1231,9 @@
         <h1>Altre funzioni</h1>
 
         <p>Il menu <strong>Altro...</strong> contiene varie funzioni di supporto e configurazione del programma.</p>
+
         <p>Alcune di queste sono descritte qui; ad altre è dedicata una
-        apposita sezione del manuale, in questo caso troverai il rimando alla relativa sezione.</p>
+            apposita sezione del manuale, in questo caso troverai il rimando alla relativa sezione.</p>
 
         <h2>Progetti</h2>
 
@@ -1312,11 +1321,11 @@
 
         <h2>Programmazione controlli automatici</h2>
 
-        <p>Qui puoi configurare il comportamento del sistema di controllo automatico delle scadenze e di invio delle
+        <p>Qui puoi configurare il comportamento dei servizi di controllo automatico delle scadenze e di invio delle
             email di sollecito.</p>
         <img src="img/daemon_config.png"/>
 
-        <p class="dida">La finestra di configurazione del sistema di controllo scadenze</p>
+        <p class="dida">La pagina di configurazione del sistema di controllo scadenze</p>
         <ul>
             <li><strong>Attiva il servizio:</strong> consente di attivare o disattivare globalmente il servizio di
                 controllo. Se il servizio è disattivato i controlli non vengono eseguiti e le e-mail di sollecito non
@@ -1329,44 +1338,129 @@
 
         <p>Invio automatico e-mail di sollecito:</p>
         <ul>
-            <li><strong>Alla scadenza di una prenotazione:</strong> invia le e-mail alla scadenza della data di conferma
-                prenotazione, se la prenotazione non è confermata.
+            <li><strong>Alla scadenza di una prenotazione:</strong> se il giorno dopo la scadenza la prenotazione non è
+                confermata, invia una e-mail.
             </li>
-            <li><strong>Alla scadenza dei termini di pagamento:</strong> invia le e-mail alla scadenza della data di
-                conferma pagamento, se il pagamento non è confermato.
+            <li><strong>Alla scadenza dei termini di pagamento:</strong> se il giorno dopo la scadenza il pagamento non
+                è confermato, invia una e-mail.
             </li>
         </ul>
 
         <p>Per ognuna delle precedenti opzioni è possibile specificare se le e-mail vanno inviate al referente, alla
             scuola o a entrambi.:</p>
 
-        <p>L'ultima opzione consente di non inviare la e-mail se si tratta di prenotazione di un privato.</p>
-
+        <p>L'opzione <i>non inviare a privati</i> evita l'invio della e-mail se si tratta di prenotazione di un privato.
+        </p>
 
         <a name="config-invio-email"></a>
 
+
         <h2>Configurazione invio e-mail</h2>
 
-        <p>bla bla...</p>
+        <p>In questa pagina puoi attivare o disattivare l'invio delle e-mail nei vari momenti del ciclo di vita della
+            prenotazione, configurare i destinatari e gli indirizzi di posta da usare.</p>
+
+        <img src="img/config-invio-email.png"/>
+
+        <p class="dida">La pagina di configurazione invio e-mail</p>
+
+
+        <ul>
+            <li><strong>Alla registrazione di una nuova prenotazione:</strong> invia una email quando si inserisce una
+                nuova prenotazione.
+            </li>
+            <li><strong>Alla conferma prenotazione:</strong> invia una email al momento della conferma della
+                prenotazione.
+            </li>
+            <li><strong>Alla ricezione del pagamento:</strong> invia una email alla ricezione della conferma di
+                pagamento.
+            </li>
+            <li><strong>Alla registrazione del pagamento:</strong> invia una email alla registrazione del pagamento.
+            </li>
+            <li><strong>Quando si congela una opzione:</strong> invia una e-mail quando si congela una prenotazione</li>
+        </ul>
+
+        <p>Per ognuna delle precedenti opzioni è possibile specificare se le e-mail vanno inviate al referente, alla
+            scuola o a entrambi. L'opzione <i>non inviare a privati</i> evita l'invio della e-mail se si tratta di
+            prenotazione di un privato.
+        </p>
+
+        <ul>
+            <li><strong>Invia una copia di tutte le e-mail:</strong> se attivato, invia tutte le e-mail in copia a un
+                indirizzo specificato. Serve per creare una casella di backup con la copia di tutte le e-mail inviate.
+            </li>
+            <li><strong>Indirizzo mittente:</strong> è l'indirizzo che appare come mittente ai destinatari delle e-mail.
+                Se il destinatario risponde alla e-mail, la risposta arriverà a questo indirizzo.
+            </li>
+
+        </ul>
+
 
         <a name="config-prenotazioni"></a>
 
         <h2>Configurazione Prenotazioni</h2>
 
-        <p>bla bla...</p>
+        <p>Qui puoi configurare alcuni parametri relativi alla gestione delle prenotazioni.</p>
+
+        <img src="img/config-prenotazioni.png"/>
+
+        <p class="dida">La pagina di configurazione prenotazioni</p>
+
+        <ul>
+            <li><strong>Prossimo numero di prenotazione:</strong> imposta il numero che verrà utilizzato per la prossima
+                prenotazione. La numerazione delle prenotazioni è automatica e prosegue sempre con la stessa serie. Se
+                si desidera ripartire dall'inizio a ogni stagione, occorre modificare questo contatore (resettandolo a
+                1) prima di
+                iniziare a registrare le prenotazioni della nuova stagione. Vedi anche <a
+                        href="#numerazione-delle-prenotazioni">Numerazione delle prenotazioni</a>.
+            </li>
+            <li><strong>Conferma prenotazione: entro quanti giorni dalla richiesta:</strong> imposta il tempo che ha a
+                disposizione il referente per confermare la prenotazione. Oltre questo tempo la prenotazione è
+                considerata scaduta e il sistema inizia a inviare le e-mail di sollecito.
+            </li>
+            <li><strong>Conferma pagamento: entro quanti giorni prima della rappresentazione:</strong> imposta entro
+                quanto tempo prima della rappresentazione il pagamento va confermato. Oltre questo tempo la conferma del
+                pagamento
+                è considerata scaduta e il sistema inizia a inviare le e-mail di sollecito.
+            </li>
+            <li><strong>Giorni prolungamento dopo sollecito conferma:</strong> di quanti giorni viene prolungata la
+                scadenza conferma quando viene inviato il primo sollecito.
+            </li>
+            <li><strong>Giorni prolungamento dopo sollecito pagamento:</strong> di quanti giorni viene prolungata la
+                scadenza della conferma di pagamento quando viene inviato il primo sollecito.
+            </li>
+
+        </ul>
 
 
         <a name="config-eventi-rapp"></a>
 
         <h2>Configurazione Eventi e Rappresentazioni</h2>
 
-        <p>bla bla...</p>
+        <p>Impostazioni relative ad eventi e rappresentazioni.</p>
+
+        <img src="img/config-eventi-e-rapp.png"/>
+
+        <p class="dida">La pagina di configurazione eventi e rappresentazioni</p>
+
+        <ul>
+            <li><strong>Importo interi, ridotti, disabili, accompagnatori:</strong> sono gli importi standard usati alla
+                creazione di un nuovo evento. Si possono modificare per il singolo evento e anche
+                per la singola prenotazione.
+            </li>
+            <li><strong>Sala di default:</strong> la sala usata alla creazione di una nuova rappresentazione. Si può
+                modificare per la singola rappresentazione.
+            </li>
+
+        </ul>
+
 
         <a name="config-presonalizzazione"></a>
 
         <h2>Configurazione Personalizzazione</h2>
 
-        <p>bla bla...</p>
+        <p>Consente di caricare le immagini usate per personalizzare l'applicazione con il vostro logo. Vengono usate
+            nella scherama Home dell'applicazione.</p>
 
 
     </div>

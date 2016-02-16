@@ -154,8 +154,8 @@ public class EmailConfigComponent extends BaseConfigPanel {
 				checkNPRegisPagaField.setVisible(checkRefRegisPagaField.getValue()&b);
 			}
 		});
-		checkMailCongOpzioneField= new CheckBoxField("Quando si congela una opzione");
-		checkMailCongOpzioneField.setDescription("Invia una email quando si congela una opzione");
+		checkMailCongOpzioneField= new CheckBoxField("Quando si congela una prenotazione");
+		checkMailCongOpzioneField.setDescription("Invia una email quando si congela una prenotazione");
 		checkMailCongOpzioneField.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
 			public void valueChange(Property.ValueChangeEvent event) {
