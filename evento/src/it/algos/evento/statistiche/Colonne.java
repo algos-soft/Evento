@@ -18,7 +18,7 @@ public enum Colonne {
 	
 	ora("Ora", String.class, ""),
 
-	mese("Mese", String.class, ""),
+	mese("MeseEnum", String.class, ""),
 
 	scuola("Scuola", Scuola.class, 0),
 

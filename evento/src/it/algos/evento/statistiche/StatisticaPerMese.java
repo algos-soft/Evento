@@ -7,7 +7,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.webbase.web.lib.LibDate;
-import it.algos.webbase.web.lib.Mese;
+import it.algos.webbase.web.lib.MeseEnum;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -129,12 +129,12 @@ public class StatisticaPerMese extends StatisticaBase {
 
 		for (int i = 1; i <= mesiRichiesti; i++) {
 			listaMesi.add(new WrapMese(meseTmp, annoTmp));
-			numMese = Mese.getOrd(meseTmp);
+			numMese = MeseEnum.getOrd(meseTmp);
 			numMese++;
-			meseTmp = Mese.getLong(numMese);
+			meseTmp = MeseEnum.getLong(numMese);
 			if (numMese > 12) {
 				annoTmp++;
-				meseTmp = Mese.getLong(1);
+				meseTmp = MeseEnum.getLong(1);
 			}// fine del blocco if
 		}// end of for cycle
 
@@ -196,7 +196,7 @@ public class StatisticaPerMese extends StatisticaBase {
 		ComboBox combo = null;
 		String width = "105px";
 
-		combo = new ComboBox(titolo, Mese.getAllLongList());
+		combo = new ComboBox(titolo, MeseEnum.getAllLongList());
 		combo.setWidth(width);
 		combo.setInvalidAllowed(false);
 		combo.setNullSelectionAllowed(false);
@@ -296,7 +296,7 @@ public class StatisticaPerMese extends StatisticaBase {
 	 */
 	private int mesiCristo(String mese, int anno) {
 		int mesiCristo = 0;
-		int numMese = Mese.getOrd(mese);
+		int numMese = MeseEnum.getOrd(mese);
 
 		return anno * 12 + numMese;
 	}// end of method
