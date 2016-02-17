@@ -79,7 +79,8 @@
             <li><strong>Inserisci le Sale.</strong> Vai alla tabella <a href="#tabella-sale">Sale</a> e inserisci la/e
                 sala/e della tua struttura con la relativa capienza.
             </li>
-            <li><strong>Configura l'e-mail:</strong> vai in <a href="#config-invio-email">Configurazione invio e-mail</a> e inserisci
+            <li><strong>Configura l'e-mail:</strong> vai in <a href="#config-invio-email">Configurazione invio
+                e-mail</a> e inserisci
                 l'indirizzo del mittente (è l'indirizzo a cui risponderà chi riceve le e-mail dal sistema) e l'eventuale
                 indirizzo dove inviare un backup di tutte le e-mail. Al termine ricordati di registrare.
             </li>
@@ -102,17 +103,19 @@
             funzioni del programma.</p>
         <img src="img/menubar.png"/>
 
-        <p>La prima pagina visualizzata accedendo al programma è la <a href="#dashboard">Dashboard</a>, che riporta un
+        <p>La prima pagina che viene visualizzata quando si accede al programma è la <a href="#dashboard">Dashboard</a>,
+            che riporta un
             insieme di indicatori che riepilogano l'andamento della stagione. La Dashboard è accessibile tramite il
             pulsante <strong>Home</strong>.</p>
 
-        <p>I moduli principali <strong>(Eventi, Rappresentazioni, Prenotazioni)</strong> si invocano cliccando
+        <p>I moduli principali <strong>(Eventi, Rappresentazioni, Prenotazioni, Scuole, Referenti, Statistiche)</strong>
+            si invocano cliccando
             direttamente sui rispettivi menu, mentre tutte le altre funzioni sono contenute nel menu
             <strong>Altro...</strong></p>
 
         <h2>Usare le liste</h2>
 
-        <p>Quando si accede a un modulo del programma, per esempio le prenotazioni, viene presentata una
+        <p>Quando si accede a un modulo del programma, per esempio le prenotazioni, per prima cosa viene presentata una
             <strong>lista</strong>.
 
         <p>Sulla lista si possono eseguire diverse operazioni:</p>
@@ -194,26 +197,29 @@
         <p>Utilizzando queste opzioni è possibile effettuare ricerche combinate, affinando progressivamente il risultato
             con più passaggi di ricerca successivi.</p>
 
-        <p>Per mostrare nuovamente tutti i record nella lista, fai una ricerca e premere <strong>Conferma</strong> senza
+        <p>Per mostrare nuovamente tutti i record nella lista, fai una ricerca e premi <strong>Conferma</strong> senza
             inserire condizioni, oppure seleziona <strong>mostra tutti</strong> dal menu <strong>Seleziona</strong>
             della lista.</p>
 
         <h2>Esportare i dati</h2>
 
-        <p>Alcuni moduli (Rappresentazioni, Prenotazioni, Scuole, Referenti...) consentono di esportare i dati su file
+        <p>Alcuni moduli (Rappresentazioni, Prenotazioni, Scuole, Referenti...) consentono di esportare i dati su un
+            file
             esterno per effettuare ulteriori elaborazioni.</p>
 
         <p>Per esportare i dati procedi in questo modo:</p>
         <ol>
             <li>Carica nella lista le righe da esportare, tramite una ricerca o una selezione manuale;</li>
-            <li>Seleziona il comando Esporta (in genere si trova nel pulsante Altro della lista);</li>
+            <li>Seleziona il comando Esporta (in genere si trova nel pulsante <strong>Altro...</strong> della lista);
+            </li>
             <li>Dopo la conferma viene scaricato un file in formato Excel nella cartella dei download.</li>
 
         </ol>
 
         <h2>Lavorare in finestre diverse</h2>
 
-        <p>A volte è utile aprire <strong>più di una finestra</strong> per accedere contemporaneamente a diverse parti
+        <p>A volte è utile tenere aperta <strong>più di una finestra</strong> per accedere contemporaneamente a diverse
+            parti
             del programma senza dover abbandonare quella in cui si sta lavorando. Per fare questo, apri una nuova
             finestra (o un nuovo pannello) del browser e collegati all'indirizzo del programma.</p>
 
@@ -225,7 +231,8 @@
 
         <p>In genere gli eventi sono definiti all'inizio della stagione, e contengono i dati generali relativi allo
             spettacolo o all'attività programmata. Un evento non definisce né luogo né data, perché può essere replicato
-            più volte in una stagione, nello stesso luogo o in luoghi diversi (vedi Rappresentazioni).</p>
+            più volte in una stagione, nello stesso luogo o in luoghi diversi (vedi <a href="#rappresentazioni">Rappresentazioni</a>).
+        </p>
 
         <h2>Creare un nuovo Evento</h2>
 
@@ -241,7 +248,7 @@
 
         <p>Il <strong>Progetto</strong> è un campo che puoi usare per raggruppare gli eventi in diverse categorie. Ha un
             uso interno a soli fini statistici, ed è facoltativo. Se vuoi usarlo, devi prima definire i tuoi progetti
-            nella apposita tabella Progetti (menu Altro -> Progetti).</p>
+            nella apposita tabella <a href="#progetti">Progetti</a>).</p>
 
         <p>Ogni progetto è relativo a una <strong>Stagione</strong>, che in genere per le scuole va da ottobre a
             maggio/giugno. Le Stagioni si trovano nella tabella Stagioni (menu Altro -> Stagioni). All'inizio di ogni
@@ -258,6 +265,8 @@
 
         <p class="nota">Puoi eliminare un Evento solo se non hai definito alcuna Rappresentazione che si riferisce
             all'Evento. In caso contrario devi prima eliminare le rappresentazioni.</p>
+
+        <a name="rappresentazioni"></a>
 
         <h1>Rappresentazioni</h1>
 
@@ -347,14 +356,18 @@
 
         <h2>Relazioni tra scuola, referente e prenotazione</h2>
 
-        <p>La mobilità degli insegnanti è frequente. Per questo motivo gli insegnanti non sono legati alla scuola ma
+        <p>La mobilità degli insegnanti è frequente. Per questo motivo gli insegnanti non sono legati a una particolare
+            scuola ma
             possono prenotare (in momenti diversi) a nome e per conto di diverse scuole. Un insegnante (o referente) è
             associato a una scuola solo nell'ambito di una singola Prenotazione.</p>
 
-        <p>Ogni prenotazione è sempre legata a un Referente.</p>
-
-        <p>Ogni prenotazione è legata a una Scuola, a meno che non sia una prenotazione di privato, nel qual caso la
-            scuola non è specificata.</p>
+        <ul>
+            <li>Ogni prenotazione è sempre associata a un Referente.</li>
+            <li>Ogni prenotazione è associata anche a una Scuola, a meno che non sia una prenotazione di privato, nel
+                qual caso la
+                scuola non viene specificata.
+            </li>
+        </ul>
 
         <h2>Inserire una nuova Prenotazione</h2>
 
@@ -377,7 +390,8 @@
             compilato. Compila il resto dei dati e registra. Il nuovo referente viene registrato in anagrafica e
             inserito nella prenotazione.</p>
 
-        <p>Allo stesso modo, inserendo una prenotazione può essere necessario modificare alcuni dati del referente
+        <p>Allo stesso modo, inserendo una prenotazione può essere necessario controllare o modificare alcuni dati del
+            referente
             (telefono, e-mail o altro). In questo caso dopo aver selezionato il referente premi il pulsante <strong>Modifica</strong>
             a fianco del selettore. Viene presentata la scheda del referente che puoi modificare.</p>
 
@@ -388,7 +402,8 @@
         <h3>Prenotazioni di privati</h3>
 
         <p>La spunta <strong>Privato</strong> vicino al nome del referente indica che la prenotazione è effettuata da un
-            privato anziché da una scuola. Se il referente è un privato, la spunta viene automaticamente accesa. Ma
+            privato anziché da una scuola. Se il referente è registrato in anagrafica come privato, la spunta viene
+            automaticamente accesa. Ma
             anche se è un insegnante che vuole per questa volta partecipare a titolo personale (da solo o con
             conoscenti, ma non con la classe) è possibile marcare la prenotazione come Privato.</p>
 
@@ -397,22 +412,28 @@
 
         <h3>Prenotazioni con prezzi personalizzati</h3>
 
-        <p>Puoi modificare prezzi per ogni singola prenotazione. Per esempio, in caso di abbonamenti, promozioni, o
-            gruppi numerosi, puoi praticare prezzi personalizzati.</p>
+        <p>Puoi modificare i prezzi per ogni singola prenotazione. Per esempio, in caso di abbonamenti, promozioni, o
+            gruppi numerosi, puoi praticare sconti o prezzi particolari.</p>
 
         <p>Per farlo, basta modificare i prezzi all'interno della scheda prenotazione. I nuovi prezzi saranno applicati
             solo alla prenotazione modificata.</p>
 
         <h3>Date di scadenza</h3>
 
-        <p>Quando si inserisce una nuova prenotazione, vengono automaticamente calcolate le date di scadenza conferma e
-            scadenza pagamento. Queste date sono usate dal sistema per evidenziare le posizioni in ritardo e determinano
+        <p>Quando si inserisce una nuova prenotazione, vengono automaticamente calcolate le date di <strong>scadenza
+            conferma</strong> e
+            <strong>scadenza pagamento</strong>. Queste date sono usate dal sistema per evidenziare le posizioni in
+            ritardo e determinano
             l'invio automatico delle e-mail di sollecito.</p>
         <ul>
             <li>La scadenza conferma è posta a 7 giorni dopo la data della prenotazione.</li>
             <li>La scadenza pagamento è posta a 30 giorni prima della rappresentazione.</li>
         </ul>
-        <p>Il numero di giorni è configurabile in Configurazione -> Prenotazioni. &Egrave; sempre possibile inserire le
+
+        <p>Il numero di giorni è configurabile (vedi <a href="#config-prenotazioni">Configurazione prenotazioni</a>).
+        </p>
+
+        <p>&Egrave; sempre possibile inserire le
             date di scadenza manualmente.</p>
 
         <h3>Verifica della disponibilità e overbooking</h3>
@@ -422,9 +443,12 @@
             prenotazioni, e della capacità della sala.
 
         <p>
+
+        <p class="nota">Questo numero non tiene conto delle prenotazioni congelate, che non contribuiscono alla
+            occupazione dei posti</p>
         </p>Se questo numero diventa negativo significa che si sta effettuando overbooking.</p>
         <p>Il programma non pone alcun vincolo in caso di overbooking, ma si limita a segnalare la situazione. La
-            politica di overbooking è decisa da voi.</p>
+            gestione della politica di overbooking è lasciata a voi.</p>
 
         <h3>Informazioni di pagamento</h3>
 
@@ -433,21 +457,23 @@
 
         <p>La maggior parte delle informazioni che trovi su questa pagina sono movimentate automaticamente dalla
             procedura di registrazione pagamento, quindi in genere non è necessario inserirle manualmente. Le sole
-            informazioni da inserire manualmente sono <strong>Modo pagamento</strong> (se noto in anticipo) e <strong>Tipo
+            informazioni da inserire manualmente sono <strong>Modo pagamento</strong> (se noto in anticipo, altrimenti
+            viene inserito al momento della conferma pagamento) e <strong>Tipo
                 ricevuta</strong> (come richiesto dalla scuola).</p>
 
         <h3>Invio e-mail di riepilogo prenotazione</h3>
 
         <p>Subito dopo aver inserito una nuova prenotazione, viene automaticamente inviata al referente una e-mail di
-            riepilogo e istruzioni per i passaggi successivi. Viene usato l'indirizzo email inserito nella prenotazione,
+            riepilogo e istruzioni per i passaggi successivi. Viene usato l'indirizzo inserito nella prenotazione,
             che inizialmente è quello del referente ma può essere cambiato.</p>
 
-        <p>&Egrave; possibile inviare la stessa e-mail anche alla scuola (vedi Altro...-> Configurazione ->
-            Configurazione invio e-mail).
+        <p>&Egrave; possibile inviare la stessa e-mail anche alla scuola (vedi <a href="#config-invio-email">Configurazione
+            invio e-mail</a>).
 
         <p>
 
-        <p>Il contenuto di questa e-mail si può personalizzare tramite la funzione Altro... -> Lettere Base.
+        <p>Il contenuto di questa e-mail si può personalizzare tramite la funzione <a href="#lettere-base">Lettere
+            base</a>.
 
         <p>
 
@@ -461,18 +487,18 @@
         <p>Il numero delle nuove prenotazioni viene attribuito in base a un contatore mantenuto nelle preferenze
             dell'applicazione. Il contatore comincia a contare da 1 e viene incrementato ad ogni nuova prenotazione.</p>
 
-        <p class="nota">In caso di necessità puoi accedere al contatore e modificarlo per far partire la numerazione dal
-            numero desiderato (menu Altro -> Configurazione -> Configurazione Prenotazioni). In tal caso fai molta
-            attenzione a non generare doppioni nella stessa stagione!</p>
 
-        <p>Se devi partire da un numero esistente, modifica il contatore nelle preferenze (vedi <a
+        <p>Se devi partire da un numero esistente, puoi modificare il contatore nelle preferenze (vedi <a
                 href="#config-prenotazioni">Configurazione prenotazioni</a>).</p>
+
+        <p class="nota">Se modifichi manualmente il contatore fai molta
+            attenzione a non generare prenotazioni con lo stesso numero nella stessa stagione!</p>
 
         <p>Non è necessario far ripartire la numerazione ad ogni nuova stagione, si può proseguire la serie della
             stagione precedente. Ma se preferisci resettare la numerazione a inizio stagione, basta reimpostare il
             contatore a 1 prima di cominciare a registrare le prenotazioni. Il fatto che ci siano due prenotazioni con
             lo
-            stess numero in stagioni diverse non crea alcun problema.</p>
+            stesso numero in stagioni diverse non crea alcun problema.</p>
 
         <h2>Flusso della Prenotazione</h2>
 
@@ -501,14 +527,16 @@
                     di pagamento</strong>. La conferma di pagamento non rappresenta ancora una prova dell'effettivo
                 incasso.
             </li>
-            <li><strong>Registrazione del pagamento:</strong> trascorsi i tempi tecnici l'ente (banca/posta...)
-                trasmette una notifica di incasso. L'incasso è effettivamente avvenuto e si <strong>registra il
+            <li><strong>Registrazione del pagamento:</strong> trascorsi i tempi tecnici l'ente pagatore (banca/posta...)
+                trasmette una notifica di incasso. A questo punto l'incasso è effettivamente avvenuto e si <strong>registra
+                    il
                     pagamento</strong>.
             </li>
         </ol>
 
         <p class="nota">Se non interessa differenziare le fasi di conferma e di registrazione del pagamento (3 e 4),
-            queste possono essere unificate in una sola operazione (vedi Registrazione del pagamento).</p>
+            queste possono essere unificate in una sola operazione (vedi <a
+                    href="#registrare-il-pagamento">Registrare il pagamento</a>).</p>
 
         <p>Il diagramma seguente illustra graficamente i vari passaggi:</p>
 
@@ -540,10 +568,12 @@
             vedere a chi sta per essere inviata l'e-mail, ed eventualmente puoi modificare i destinatari e gli indirizzi
             e-mail.</p>
 
-        <p class="nota">Puoi modificare i destinatari di default delle email andando sul menu Altro... -> Configurazione
-            -> Configuazione invio email</p>
+        <p class="nota">Puoi modificare i destinatari di default delle email andando su <a
+                href="#config-invio-email">Configurazione invio e-mail</a>.</p>
 
         <p>Quando una prenotazione viene confermata, tutte le modifiche vengono registrate automaticamente.</p>
+
+        <a name="registrare-il-pagamento"></a>
 
 
         <h2>Registrare il pagamento</h2>
@@ -600,8 +630,9 @@
         </ul>
 
         <p>Sta a voi decidere se utilizzare le due fasi separatamente o gestire solo la fase di registrazione del
-            pagamento. Se decidete di gestire una fase unica, mettendo la spunta su Pagamento Ricevuto viene
-            automaticamente acceso anche Pagamento Confermato.</p>
+            pagamento. Se decidete di gestire una fase unica, mettendo la spunta su <strong>Pagamento Ricevuto</strong>
+            viene
+            automaticamente acceso anche <strong>Pagamento Confermato</strong>.</p>
 
         <p>Se si conferma e registra il pagamento in una sola fase, solo la e-mail relativa alla registrazione del
             pagamento viene inviata (e solo se previsto in configurazione invio e-mail).</p>
@@ -643,6 +674,9 @@
         <a name="visualizzazione-pos-scadute"></a>
 
         <h2>Visualizzazione delle posizioni scadute</h2>
+
+        <p>Le posizioni scadute sono situazioni anomale che richiedono attenzione. Le funzioni di ricerca posizioni
+            scadute mettono in evidenza le prenotazioni che presentano queste situazioni.</p>
 
         <p>Esistono 4 tipi di posizioni scadute:</p>
         <ul>
@@ -1234,6 +1268,8 @@
 
         <p>Alcune di queste sono descritte qui; ad altre è dedicata una
             apposita sezione del manuale, in questo caso troverai il rimando alla relativa sezione.</p>
+
+        <a name="progetti"></a>
 
         <h2>Progetti</h2>
 
