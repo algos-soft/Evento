@@ -22,7 +22,6 @@ import it.algos.evento.entities.spedizione.SpedizioneModulo;
 import it.algos.evento.entities.stagione.StagioneModulo;
 import it.algos.evento.entities.tiporicevuta.TipoRicevutaModulo;
 import it.algos.evento.help.HelpModulo;
-import it.algos.evento.help.HelpModuloOld;
 import it.algos.evento.info.InfoModulo;
 import it.algos.evento.pref.EventoPrefs;
 import it.algos.evento.statistiche.StatisticheModulo;
@@ -151,8 +150,7 @@ public class CompanyHome extends VerticalLayout {
         // Menu aiuto
         item = menubar.addItem("Aiuto", null, null);
         item.addItem("Informazioni", null, new MenuCommand(menubar,  InfoModulo.class));
-        item.addItem("Manuale", null, new MenuCommand(menubar, HelpModuloOld.class));
-        item.addItem("ManualeNew", null, new MenuCommand(menubar, HelpModulo.class));
+        item.addItem("Manuale Utente", null, new MenuCommand(menubar, HelpModulo.class));
 
         // Modo Programmatore
         if (LibSession.isDeveloper()) {
