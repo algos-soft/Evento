@@ -59,4 +59,8 @@ public class SalaModulo extends EModulePop {
 		}
 	}// end of method
 
+	@Override
+	public void search() {
+		super.search();
+	}
 }// end of class

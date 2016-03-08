@@ -15,6 +15,7 @@ public class Comune extends CompanyEntity {
 	@NotNull
 	private String nome;
 
+
 	private String siglaProvincia;
 
 	public Comune() {
