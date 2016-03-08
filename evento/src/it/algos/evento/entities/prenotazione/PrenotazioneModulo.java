@@ -23,9 +23,9 @@ import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.entities.stagione.Stagione;
-import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.domain.company.BaseCompany;
+import it.algos.webbase.multiazienda.CompanyModule;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.field.ArrayComboField;
@@ -47,7 +47,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @SuppressWarnings("serial")
-public class PrenotazioneModulo extends EModulePop {
+public class PrenotazioneModulo extends CompanyModule {
 
 
     public static final String PROP_PROGETTO = Rappresentazione.class.getSimpleName().toLowerCase() + "." + Rappresentazione_.evento.getName() + "." + Evento_.progetto.getName();

@@ -1,7 +1,7 @@
 package it.algos.evento.entities.spedizione;
 
 import com.vaadin.data.Property;
-import it.algos.evento.multiazienda.ETable;
+import it.algos.webbase.multiazienda.ETable;
 import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.module.ModulePop;
 

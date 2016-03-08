@@ -7,8 +7,8 @@ import com.vaadin.data.util.filter.Compare;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import eu.medsea.mimeutil.MimeType;
-import it.algos.evento.multiazienda.EModulePop;
 import it.algos.webbase.domain.company.BaseCompany;
+import it.algos.webbase.multiazienda.CompanyModule;
 import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.AlgosApp;
 import it.algos.webbase.web.entity.BaseEntity;
@@ -34,7 +34,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public class AllegatoModulo extends EModulePop {
+public class AllegatoModulo extends CompanyModule {
 
 	private ArrayList<AllegatoListener> listeners = new ArrayList<AllegatoListener>();
 

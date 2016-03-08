@@ -3,7 +3,7 @@ package it.algos.evento.entities.comune;
 import com.vaadin.ui.Notification;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.scuola.Scuola_;
-import it.algos.evento.multiazienda.EModulePop;
+import it.algos.webbase.multiazienda.CompanyModule;
 import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.search.SearchManager;
@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @SuppressWarnings("serial")
-public class ComuneModulo extends EModulePop {
+public class ComuneModulo extends CompanyModule {
 
 	/**
 	 * Costruttore senza parametri

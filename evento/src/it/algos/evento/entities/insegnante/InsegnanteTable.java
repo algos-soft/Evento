@@ -4,7 +4,7 @@ import com.vaadin.data.Property;
 import com.vaadin.ui.Image;
 import it.algos.evento.EventoApp;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
-import it.algos.evento.multiazienda.ETable;
+import it.algos.webbase.multiazienda.ETable;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.module.ModulePop;

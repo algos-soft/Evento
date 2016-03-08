@@ -4,7 +4,7 @@ import com.vaadin.data.Item;
 import com.vaadin.event.Action;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
-import it.algos.evento.multiazienda.ETable;
+import it.algos.webbase.multiazienda.ETable;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.Lib;
 import it.algos.webbase.web.module.ModulePop;

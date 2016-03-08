@@ -2,7 +2,7 @@ package it.algos.evento.entities.scuola;
 
 import com.vaadin.data.Property;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
-import it.algos.evento.multiazienda.ETable;
+import it.algos.webbase.multiazienda.ETable;
 import it.algos.webbase.web.module.ModulePop;
 
 @SuppressWarnings("serial")

@@ -7,8 +7,8 @@ import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.entities.sala.Sala;
 import it.algos.evento.entities.stagione.Stagione;
-import it.algos.evento.multiazienda.ERelatedComboField;
 import it.algos.evento.search.StagioneSearchManager;
+import it.algos.webbase.multiazienda.ERelatedComboField;
 import it.algos.webbase.web.component.DateRangeComponent;
 import it.algos.webbase.web.field.RelatedComboField;
 

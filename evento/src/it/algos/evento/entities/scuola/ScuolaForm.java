@@ -6,7 +6,7 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
-import it.algos.evento.multiazienda.ERelatedComboField;
+import it.algos.webbase.multiazienda.ERelatedComboField;
 import it.algos.webbase.web.field.ArrayComboField;
 import it.algos.webbase.web.field.EmailField;
 import it.algos.webbase.web.field.TextField;

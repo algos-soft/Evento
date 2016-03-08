@@ -12,7 +12,7 @@ import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.stagione.Stagione;
-import it.algos.evento.multiazienda.ETable;
+import it.algos.webbase.multiazienda.ETable;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.BaseEntity_;
 import it.algos.webbase.web.module.ModulePop;

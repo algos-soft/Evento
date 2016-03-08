@@ -1,7 +1,7 @@
 package it.algos.evento.search;
 
 import com.vaadin.data.Container;
-import it.algos.evento.multiazienda.ESearchManager;
+import it.algos.webbase.multiazienda.ESearchManager;
 import it.algos.webbase.web.dialog.DialogToolbar;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Search Manager con funzionalità di filtraggio per Stagione
  * Created by Alex on 02/06/15.
  */
-public class StagioneSearchManager extends ESearchManager{
+public class StagioneSearchManager extends ESearchManager {
 
     public StagioneSearchManager() {
         setStagioneCorrente(true);

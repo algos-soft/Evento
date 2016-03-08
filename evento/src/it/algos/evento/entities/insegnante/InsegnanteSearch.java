@@ -2,7 +2,7 @@ package it.algos.evento.entities.insegnante;
 
 import com.vaadin.data.Container.Filter;
 import com.vaadin.ui.FormLayout;
-import it.algos.evento.multiazienda.ESearchManager;
+import it.algos.webbase.multiazienda.ESearchManager;
 import it.algos.webbase.web.component.YesNoCheckboxComponent;
 import it.algos.webbase.web.field.RelatedComboField;
 import it.algos.webbase.web.module.ModulePop;

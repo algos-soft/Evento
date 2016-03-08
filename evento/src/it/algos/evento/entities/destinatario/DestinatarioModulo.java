@@ -1,11 +1,12 @@
 package it.algos.evento.entities.destinatario;
 
-import it.algos.evento.multiazienda.EModulePop;
+
+import it.algos.webbase.multiazienda.CompanyModule;
 
 import javax.persistence.metamodel.Attribute;
 
 @SuppressWarnings("serial")
-public class DestinatarioModulo extends EModulePop {
+public class DestinatarioModulo extends CompanyModule {
 
     /**
      * Costruttore senza parametri

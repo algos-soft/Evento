@@ -1,6 +1,7 @@
 package it.algos.evento.entities.ordinescuola;
 
-import it.algos.evento.multiazienda.EModulePop;
+
+import it.algos.webbase.multiazienda.CompanyModule;
 
 import javax.persistence.metamodel.Attribute;
 
@@ -8,7 +9,7 @@ import javax.persistence.metamodel.Attribute;
  * Created by alex on 30-05-2015.
  *
  */
-public class OrdineScuolaModulo extends EModulePop {
+public class OrdineScuolaModulo extends CompanyModule {
 
 
     /**

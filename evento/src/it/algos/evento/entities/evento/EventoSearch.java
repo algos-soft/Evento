@@ -6,8 +6,8 @@ import com.vaadin.ui.FormLayout;
 import it.algos.evento.entities.progetto.Progetto;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.stagione.Stagione_;
-import it.algos.evento.multiazienda.ERelatedComboField;
 import it.algos.evento.search.StagioneSearchManager;
+import it.algos.webbase.multiazienda.ERelatedComboField;
 import it.algos.webbase.web.field.RelatedComboField;
 import it.algos.webbase.web.field.TextField;
 

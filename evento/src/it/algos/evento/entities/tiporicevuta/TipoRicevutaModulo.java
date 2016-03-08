@@ -1,6 +1,7 @@
 package it.algos.evento.entities.tiporicevuta;
 
-import it.algos.evento.multiazienda.EModulePop;
+
+import it.algos.webbase.multiazienda.CompanyModule;
 
 import javax.persistence.metamodel.Attribute;
 
@@ -8,7 +9,7 @@ import javax.persistence.metamodel.Attribute;
  * Created by alex on 30-05-2015.
  * .
  */
-public class TipoRicevutaModulo extends EModulePop {
+public class TipoRicevutaModulo extends CompanyModule {
 
     /**
      * Costruttore senza parametri

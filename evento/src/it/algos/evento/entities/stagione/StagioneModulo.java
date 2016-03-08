@@ -4,8 +4,8 @@ import com.vaadin.data.Item;
 import com.vaadin.ui.Notification;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.evento.Evento_;
-import it.algos.evento.multiazienda.EModulePop;
 import it.algos.webbase.multiazienda.CompanyEntity_;
+import it.algos.webbase.multiazienda.CompanyModule;
 import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.entity.BaseEntity;
@@ -27,7 +27,7 @@ import java.util.List;
  * Created by Alex on 31/05/15.
  * .
  */
-public class StagioneModulo extends EModulePop {
+public class StagioneModulo extends CompanyModule {
 
 
     /**

@@ -14,8 +14,8 @@ import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
-import it.algos.evento.multiazienda.EModulePop;
 import it.algos.evento.multiazienda.EQuery;
+import it.algos.webbase.multiazienda.CompanyModule;
 import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.BaseEntity_;
@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public class RappresentazioneModulo extends EModulePop {
+public class RappresentazioneModulo extends CompanyModule {
 
     /**
      * Costruttore senza parametri

@@ -23,7 +23,7 @@ import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.evento.entities.sala.Sala;
 import it.algos.evento.entities.sala.Sala_;
 import it.algos.evento.entities.stagione.Stagione;
-import it.algos.evento.multiazienda.ERelatedComboField;
+import it.algos.webbase.multiazienda.ERelatedComboField;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.field.DateField;
 import it.algos.webbase.web.field.IntegerField;

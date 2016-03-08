@@ -8,7 +8,7 @@ import it.algos.evento.EventoBootStrap;
 import it.algos.evento.entities.prenotazione.EmailFailedException;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.PrenotazioneModulo;
-import it.algos.evento.multiazienda.ETable;
+import it.algos.webbase.multiazienda.ETable;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.lib.LibDate;
 import it.algos.webbase.web.module.ModulePop;

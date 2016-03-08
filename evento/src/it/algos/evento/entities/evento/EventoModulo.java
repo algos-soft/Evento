@@ -3,10 +3,10 @@ package it.algos.evento.entities.evento;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Notification;
+import it.algos.webbase.multiazienda.CompanyModule;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.rappresentazione.Rappresentazione_;
 import it.algos.evento.entities.stagione.Stagione;
-import it.algos.evento.multiazienda.EModulePop;
 import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.form.ModuleForm;
@@ -17,7 +17,7 @@ import javax.persistence.metamodel.Attribute;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public class EventoModulo extends EModulePop  {
+public class EventoModulo extends CompanyModule {
 
 	/**
 	 * Costruttore senza parametri

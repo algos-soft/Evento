@@ -4,13 +4,13 @@ import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import it.algos.evento.entities.prenotazione.MailDialog;
-import it.algos.evento.multiazienda.EModulePop;
+import it.algos.webbase.multiazienda.CompanyModule;
 
 import javax.persistence.metamodel.Attribute;
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class MailingModulo extends EModulePop {
+public class MailingModulo extends CompanyModule {
 
     /**
      * Costruttore senza parametri

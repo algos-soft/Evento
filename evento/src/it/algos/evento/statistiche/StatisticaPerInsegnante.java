@@ -9,7 +9,7 @@ import it.algos.evento.entities.insegnante.Insegnante;
 import it.algos.evento.entities.insegnante.Insegnante_;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.rappresentazione.Rappresentazione_;
-import it.algos.evento.multiazienda.ELazyContainer;
+import it.algos.webbase.multiazienda.ELazyContainer;
 import it.algos.webbase.web.component.DateRangeComponent;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.lib.LibDate;

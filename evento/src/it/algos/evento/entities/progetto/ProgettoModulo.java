@@ -4,7 +4,7 @@ import com.vaadin.data.Item;
 import com.vaadin.ui.Notification;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.evento.Evento_;
-import it.algos.evento.multiazienda.EModulePop;
+import it.algos.webbase.multiazienda.CompanyModule;
 import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.form.ModuleForm;
@@ -14,7 +14,7 @@ import javax.persistence.metamodel.Attribute;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public class ProgettoModulo extends EModulePop {
+public class ProgettoModulo extends CompanyModule {
 
 	/**
 	 * Costruttore senza parametri

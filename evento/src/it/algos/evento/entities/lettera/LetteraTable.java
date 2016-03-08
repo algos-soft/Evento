@@ -6,7 +6,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
-import it.algos.evento.multiazienda.ETable;
+import it.algos.webbase.multiazienda.ETable;
 import it.algos.webbase.web.module.ModulePop;
 
 @SuppressWarnings("serial")

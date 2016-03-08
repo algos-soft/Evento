@@ -1,6 +1,6 @@
 package it.algos.evento.entities.modopagamento;
 
-import it.algos.evento.multiazienda.ETable;
+import it.algos.webbase.multiazienda.ETable;
 import it.algos.webbase.web.module.ModulePop;
 
 @SuppressWarnings("serial")

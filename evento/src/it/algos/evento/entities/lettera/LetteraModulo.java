@@ -2,7 +2,7 @@ package it.algos.evento.entities.lettera;
 
 import com.vaadin.data.Item;
 import it.algos.evento.EventoApp;
-import it.algos.evento.multiazienda.EModulePop;
+import it.algos.webbase.multiazienda.CompanyModule;
 import it.algos.webbase.web.AlgosApp;
 import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.table.ATable;
@@ -19,7 +19,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public class LetteraModulo extends EModulePop {
+public class LetteraModulo extends CompanyModule {
 
     private static final String ATTACHMENTS_PREFIX = "[ATTACHMENTS]";
 
