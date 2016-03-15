@@ -67,7 +67,7 @@ public class EventoBootStrap extends ABootStrap {
         Toolbar.ALTEZZA_BOTTONI = 30;
         Toolbar.LARGHEZZA_BOTTONI = 100;
 
-        // Controllo, aggiunta, esecuzione di pacth e versioni (principalmente dei dati)
+        // Controllo, aggiunta, esecuzione di patch e versioni (principalmente dei dati)
         this.versioneBootStrap(svltCtx);
 
         // avvia lo scheduler controllo solleciti che esegue ogni ora

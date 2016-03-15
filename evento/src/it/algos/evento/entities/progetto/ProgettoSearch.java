@@ -14,10 +14,15 @@ public class ProgettoSearch extends ESearchManager {
 		super(module);
 	}// end of constructor
 
+//	public ArrayList<Filter> createFilters() {
+//		ArrayList<Filter> filters = new ArrayList<Filter>();
+//		filters.add(createStringFilter(Progetto_.descrizione, SearchManager.SearchType.CONTAINS));
+//		return filters;
+//	}// end of method
+
 	public ArrayList<Filter> createFilters() {
-		ArrayList<Filter> filters = new ArrayList<Filter>();
-		filters.add(createStringFilter(Progetto_.descrizione, SearchManager.SearchType.CONTAINS));
-		return filters;
+		return super.createFilters();
 	}// end of method
+
 
 }// end of Search class
