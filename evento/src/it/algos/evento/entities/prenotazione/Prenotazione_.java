@@ -35,6 +35,7 @@ public class Prenotazione_ extends CompanyEntity_ {
 	public static volatile SingularAttribute<Prenotazione, BigDecimal> importoRidotto;
 	public static volatile SingularAttribute<Prenotazione, BigDecimal> importoDisabili;
 	public static volatile SingularAttribute<Prenotazione, BigDecimal> importoAccomp;
+	public static volatile SingularAttribute<Prenotazione, BigDecimal> importoFisso;
 	public static volatile SingularAttribute<Prenotazione, BigDecimal> importoDaPagare;
 	
 	public static volatile SingularAttribute<Prenotazione, ModoPagamento> modoPagamento;

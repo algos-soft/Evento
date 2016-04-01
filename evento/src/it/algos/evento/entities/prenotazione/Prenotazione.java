@@ -144,6 +144,9 @@ public class Prenotazione extends CompanyEntity {
     private BigDecimal importoAccomp=new BigDecimal(0);
 
     @Column(precision = 8, scale = 2)
+    private BigDecimal importoFisso=new BigDecimal(0); // importo fisso (gruppi)
+
+    @Column(precision = 8, scale = 2)
     private BigDecimal importoDaPagare; // importo totale da pagare (calcolato!)
 
     @ManyToOne
@@ -411,6 +414,17 @@ public class Prenotazione extends CompanyEntity {
         this.importoAccomp = importo;
     }
 
+    public BigDecimal getImportoFisso() {
+        return importoFisso;
+    }
+
+    public void setImportoFisso(BigDecimal importo) {
+        if(importo==null){
+            importo=new BigDecimal(0);
+        }
+        this.importoFisso = importo;
+    }
+
     // questo è un campo calcolato, il getter
     // ritorna sempre il risultato del calcolo
     public BigDecimal getImportoDaPagare() {
@@ -424,6 +438,7 @@ public class Prenotazione extends CompanyEntity {
         BigDecimal iRidotti = Lib.getBigDecimal(getImportoRidotto());
         BigDecimal iDisabili = Lib.getBigDecimal(getImportoDisabili());
         BigDecimal iAccomp = Lib.getBigDecimal(getImportoAccomp());
+        BigDecimal iFisso = Lib.getBigDecimal(getImportoFisso());
 //		(Prenotazione_.importoIntero);
 //		BigDecimal iRidotti=getBigDecimalValue(Prenotazione_.importoRidotto);
 //		BigDecimal iDisabili=getBigDecimalValue(Prenotazione_.importoDisabili);
@@ -431,7 +446,7 @@ public class Prenotazione extends CompanyEntity {
 
 
         totale = Prenotazione.getTotImporto(nInteri, nRidotti, nDisabili, nAccomp,
-                iInteri, iRidotti, iDisabili, iAccomp);
+                iInteri, iRidotti, iDisabili, iAccomp, iFisso);
         return totale;
     }
 
@@ -634,7 +649,7 @@ public class Prenotazione extends CompanyEntity {
      *
      * @return l'importo totale
      */
-    public static BigDecimal getTotImporto(int nInteri, int nRidotti, int nDisabili, int nAccomp, BigDecimal iInteri, BigDecimal iRidotti, BigDecimal iDisabili, BigDecimal iAccomp) {
+    public static BigDecimal getTotImporto(int nInteri, int nRidotti, int nDisabili, int nAccomp, BigDecimal iInteri, BigDecimal iRidotti, BigDecimal iDisabili, BigDecimal iAccomp, BigDecimal iFisso) {
         BigDecimal totImporto = new BigDecimal(0);
 
         try {
@@ -664,6 +679,7 @@ public class Prenotazione extends CompanyEntity {
             totImporto = totImporto.add(totRidotti);
             totImporto = totImporto.add(totDisabili);
             totImporto = totImporto.add(totAccomp);
+            totImporto = totImporto.add(iFisso);
 
         } catch (Exception e) {
             logger.log(Level.WARNING, "Errore nel calcolo totale importo prenotazione: " + e.getMessage());

@@ -838,8 +838,9 @@ public class PrenotazioneForm extends ModuleForm {
         BigDecimal iRidotti = getBigDecimalValue(Prenotazione_.importoRidotto);
         BigDecimal iDisabili = getBigDecimalValue(Prenotazione_.importoDisabili);
         BigDecimal iAccomp = getBigDecimalValue(Prenotazione_.importoAccomp);
+        BigDecimal iFisso = getBigDecimalValue(Prenotazione_.importoFisso);
 
-        BigDecimal totPren = Prenotazione.getTotImporto(nInteri, nRidotti, nDisabili, nAccomp, iInteri, iRidotti, iDisabili, iAccomp);
+        BigDecimal totPren = Prenotazione.getTotImporto(nInteri, nRidotti, nDisabili, nAccomp, iInteri, iRidotti, iDisabili, iAccomp, iFisso);
 
         // scrive il valore nei campi totale
         Field field;
