@@ -78,7 +78,16 @@ public class Prenotazione extends CompanyEntity {
         setNumPrenotazione(nextnum);
         CompanyPrefs.nextNumPren.put(nextnum + 1);
 
+        syncTotalizzatori();
+
     }
+
+
+    @PreUpdate
+    public void preUpdate(){
+        syncTotalizzatori();
+    }
+
 
     @PostPersist
     protected void postPersist() {
@@ -89,6 +98,30 @@ public class Prenotazione extends CompanyEntity {
     protected void postUpdate() {
         super.postUpdate(Prenotazione.class, getId());
     }
+
+
+    /**
+     * Sincronizza i campi totalizzatori delle persone e dell'importo.
+     * Anche se per ora non li uso (i relativi getter fanno il calcolo al volo)
+     * li tengo sincronizzati per eventuale uso futuro.
+     */
+    private void syncTotalizzatori(){
+
+        //persone totali
+        numTotali = numInteri + numRidotti + numDisabili + numAccomp;
+
+        // importo totale
+        BigDecimal iInteri = Lib.getBigDecimal(importoIntero);
+        BigDecimal iRidotti = Lib.getBigDecimal(importoRidotto);
+        BigDecimal iDisabili = Lib.getBigDecimal(importoDisabili);
+        BigDecimal iAccomp = Lib.getBigDecimal(importoAccomp);
+        BigDecimal iFisso = Lib.getBigDecimal(importoFisso);
+        importoDaPagare = Prenotazione.getTotImporto(numInteri, numRidotti, numDisabili, numAccomp,
+                iInteri, iRidotti, iDisabili, iAccomp, iFisso);
+
+
+    }
+
 
     // @GeneratedValue(strategy = GenerationType.AUTO)
    // @org.eclipse.persistence.annotations.Index
