@@ -14,8 +14,10 @@ public class Evento_ extends CompanyEntity_ {
 	public static volatile SingularAttribute<Evento, Stagione> stagione;
 	public static volatile SingularAttribute<Evento, String> sigla;
 	public static volatile SingularAttribute<Evento, String> titolo;
+	public static volatile SingularAttribute<Evento, Boolean> prezzoPerGruppi;
 	public static volatile SingularAttribute<Evento, BigDecimal> importoIntero;
 	public static volatile SingularAttribute<Evento, BigDecimal> importoRidotto;
 	public static volatile SingularAttribute<Evento, BigDecimal> importoDisabili;
 	public static volatile SingularAttribute<Evento, BigDecimal> importoAccomp;
+	public static volatile SingularAttribute<Evento, BigDecimal> importoGruppo;
 }// end of entity class

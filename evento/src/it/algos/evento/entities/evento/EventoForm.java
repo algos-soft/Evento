@@ -1,24 +1,30 @@
 package it.algos.evento.entities.evento;
 
 import com.vaadin.data.Item;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
+import com.vaadin.data.Property;
+import com.vaadin.ui.*;
 import it.algos.evento.entities.progetto.Progetto;
 import it.algos.evento.entities.progetto.ProgettoForm;
 import it.algos.evento.entities.progetto.Progetto_;
 import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.multiazienda.ERelatedComboField;
-import it.algos.webbase.web.field.DecimalField;
-import it.algos.webbase.web.field.RelatedComboField;
+import it.algos.webbase.web.field.*;
 import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AFormLayout;
 import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.module.ModulePop;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 @SuppressWarnings("serial")
 public class EventoForm extends ModuleForm {
+
+
+	private FormLayout compPrezziSingoli;
+	private FormLayout compPrezziGruppo;
+	private HorizontalLayout placeholderPrezzi;
 
 
 	public EventoForm(ModulePop modulo, Item item) {
@@ -27,6 +33,7 @@ public class EventoForm extends ModuleForm {
 	}
 
 	private void doInit(){
+
 		//setWidth("500px");
 
 		// se nuovo record mette importi di default
@@ -66,6 +73,9 @@ public class EventoForm extends ModuleForm {
 		combo.setWidth("220px");
 		addField(Evento_.stagione, combo);
 
+		field = new CheckBoxField("prezzopergruppi");
+		addField(Evento_.prezzoPerGruppi, field);
+
 		field = new DecimalField("Importo intero");
 		addField(Evento_.importoIntero, field);
 
@@ -78,6 +88,8 @@ public class EventoForm extends ModuleForm {
 		field = new DecimalField("Importo accompagnatori");
 		addField(Evento_.importoAccomp, field);
 
+		field = new DecimalField("Importo gruppi");
+		addField(Evento_.importoGruppo, field);
 
 
 	}
@@ -89,12 +101,72 @@ public class EventoForm extends ModuleForm {
 		layout.addComponent(getField(Evento_.titolo));
 		layout.addComponent(getField(Evento_.progetto));
 		layout.addComponent(getField(Evento_.stagione));
-		layout.addComponent(getField(Evento_.importoIntero));
-		layout.addComponent(getField(Evento_.importoRidotto));
-		layout.addComponent(getField(Evento_.importoDisabili));
-		layout.addComponent(getField(Evento_.importoAccomp));
+
+		// optionGroup che pilota i valori del campo prezzoPerGruppi
+		ArrayList<String> values = new ArrayList(2);
+		values.add("S");
+		values.add("G");
+		OptionGroup gprezzo = new OptionGroup("Tipo di prezzo",values);
+		gprezzo.setItemCaption("S", "Prezzo per singoli");
+		gprezzo.setItemCaption("G", "Prezzo per gruppi");
+		layout.addComponent(gprezzo);
+		if(isPrezziSingoli()){
+			gprezzo.setValue("S");
+		}else{
+			gprezzo.setValue("G");
+		}
+		gprezzo.addValueChangeListener(new Property.ValueChangeListener() {
+			@Override
+			public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+				Object value=valueChangeEvent.getProperty().getValue();
+				getField(Evento_.prezzoPerGruppi).setValue(value=="G");
+				syncCompPrezzi();
+			}
+		});
+
+		creaComponentiPrezzo();
+		layout.addComponent(placeholderPrezzi);
+		syncCompPrezzi();
 
 		return layout;
-	}// end of method
+	}
+
+	private void creaComponentiPrezzo(){
+		placeholderPrezzi=new HorizontalLayout();
+		placeholderPrezzi.setMargin(false);
+
+		compPrezziSingoli=new FormLayout();
+		compPrezziSingoli.setMargin(false);
+		compPrezziSingoli.addComponent(getField(Evento_.importoIntero));
+		compPrezziSingoli.addComponent(getField(Evento_.importoRidotto));
+		compPrezziSingoli.addComponent(getField(Evento_.importoDisabili));
+		compPrezziSingoli.addComponent(getField(Evento_.importoAccomp));
+
+		compPrezziGruppo=new FormLayout();
+		compPrezziGruppo.setMargin(false);
+		compPrezziGruppo.addComponent(getField(Evento_.importoGruppo));
+
+	}
+
+
+	private void syncCompPrezzi(){
+		placeholderPrezzi.removeAllComponents();
+		if(isPrezziSingoli()){
+			placeholderPrezzi.addComponent(compPrezziSingoli);
+		}else{
+			placeholderPrezzi.addComponent(compPrezziGruppo);
+		}
+	}
+
+
+	private Evento getEvento(){
+		return (Evento)getEntity();
+	}
+
+	private boolean isPrezziSingoli(){
+		Object value = getField(Evento_.prezzoPerGruppi).getValue();
+		return !(Boolean)value;
+	}
+
 
 }

@@ -53,12 +53,9 @@ public class Evento extends CompanyEntity {
 	@Column(precision = 8, scale = 2)
 	private BigDecimal importoGruppo =new BigDecimal(0); // importo fisso (gruppi)
 
-
 	@OneToMany(mappedBy = "evento")
     @CascadeOnDelete
     private List<Rappresentazione> rappresentazioni;
-
-
 
 	public Evento(){
 		super();
@@ -119,6 +116,14 @@ public class Evento extends CompanyEntity {
 
 	public void setTitolo(String titolo) {
 		this.titolo = titolo;
+	}
+
+	public boolean isPrezzoPerGruppi() {
+		return prezzoPerGruppi;
+	}
+
+	public void setPrezzoPerGruppi(boolean prezzoPerGruppi) {
+		this.prezzoPerGruppi = prezzoPerGruppi;
 	}
 
 	public BigDecimal getImportoGruppo() {
