@@ -36,6 +36,8 @@ public class Evento extends CompanyEntity {
 	@NotNull
 	private Stagione stagione;
 
+	private boolean prezzoPerGruppi;// false se prezzi a persona, true se prezzi a gruppo
+
 	@Column(precision = 6, scale = 2)
 	private BigDecimal importoIntero=new BigDecimal(0);
 
@@ -47,8 +49,12 @@ public class Evento extends CompanyEntity {
 
 	@Column(precision = 6, scale = 2)
 	private BigDecimal importoAccomp=new BigDecimal(0);
-	
-    @OneToMany(mappedBy = "evento")
+
+	@Column(precision = 8, scale = 2)
+	private BigDecimal importoGruppo =new BigDecimal(0); // importo fisso (gruppi)
+
+
+	@OneToMany(mappedBy = "evento")
     @CascadeOnDelete
     private List<Rappresentazione> rappresentazioni;
 
@@ -113,6 +119,14 @@ public class Evento extends CompanyEntity {
 
 	public void setTitolo(String titolo) {
 		this.titolo = titolo;
+	}
+
+	public BigDecimal getImportoGruppo() {
+		return importoGruppo;
+	}
+
+	public void setImportoGruppo(BigDecimal importoGruppo) {
+		this.importoGruppo = importoGruppo;
 	}
 
 	public BigDecimal getImportoIntero() {

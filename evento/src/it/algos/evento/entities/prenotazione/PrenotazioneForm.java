@@ -70,6 +70,9 @@ public class PrenotazioneForm extends ModuleForm {
     private RelatedComboField comboScuola;
     private CheckBoxField fieldPrivato;
     private Label dettaglioInsegnante;
+    private Component compPrezziSingoli;
+    private Component compPrezziGruppo;
+    private HorizontalLayout placeholderPrezzi;
 
     private boolean inValueChange = false;   // flag per evitare di reagire ricorsivamente agli eventi di cambio valore di alcuni campi
 
@@ -219,6 +222,7 @@ public class PrenotazioneForm extends ModuleForm {
             public void valueChange(ValueChangeEvent event) {
                 copyPrezziDaEvento();
                 syncTotImporto();
+                syncCompPrezzi();
             }
         });
 
@@ -511,10 +515,10 @@ public class PrenotazioneForm extends ModuleForm {
         layout.addComponent(getField(Prenotazione_.emailRiferimento));
 
         // grid persone e prezzi
-        //layout.addComponent(creaGridPersonePrezzi());
-        layout.addComponent(creaRigaPersone());
-        layout.addComponent(creaRigaPrezzi());
-
+        layout.addComponent(creaCompPersone());
+        creaCompPrezzi();
+        placeholderPrezzi=new HorizontalLayout();
+        layout.addComponent(placeholderPrezzi);
 
         // pannello conferma prenotazione
         HorizontalLayout confermaPanel = new HorizontalLayout();
@@ -537,7 +541,7 @@ public class PrenotazioneForm extends ModuleForm {
     }
 
 
-    private Component creaRigaPersone() {
+    private Component creaCompPersone() {
 
         // recupera i Fields
         Field fldNumInt = getField(Prenotazione_.numInteri);
@@ -561,7 +565,12 @@ public class PrenotazioneForm extends ModuleForm {
 
     }
 
-    private Component creaRigaPrezzi() {
+
+    /**
+     * Crea i componenti per l'editing dei prezzi
+     * per entrambi i casi: singoli o gruppo
+     */
+    private void creaCompPrezzi() {
 
         // recupera i Fields
         Field fldImpInt = getField(Prenotazione_.importoIntero);
@@ -579,23 +588,28 @@ public class PrenotazioneForm extends ModuleForm {
         Field fldImpGru = getField(Prenotazione_.importoGruppo);
         fldImpGru.setCaption(null);
 
-
         Field fldImpTot = fieldImportoTotale;
         fldImpTot.setCaption(null);
 
-//        GridLayout grid = new GridLayout(5, 1);
-        GridLayout grid = new GridLayout(5, 2);
+        GridLayout grid;
+
+        // componente usato nel caso di prezzi singoli
+        grid = new GridLayout(5, 1);
         grid.setSpacing(true);
-        grid.setCaption("prezzo");
+        grid.setCaption("prezzo/pers");
         grid.addComponent(fldImpInt);
         grid.addComponent(fldImpRid);
         grid.addComponent(fldImpDis);
         grid.addComponent(fldImpAcc);
         grid.addComponent(fldImpTot);
+        compPrezziSingoli=grid;
 
-        grid.addComponent(fldImpGru, 0,1);
-
-        return grid;
+        // componente usato nel caso di prezzi per gruppo
+        grid = new GridLayout(5, 1);
+        grid.setSpacing(true);
+        grid.setCaption("prezzo/gruppo");
+        grid.addComponent(fldImpGru);
+        compPrezziGruppo=grid;
 
     }
 
@@ -768,6 +782,14 @@ public class PrenotazioneForm extends ModuleForm {
                 syncTotImporto();
             }
         });
+        field = getField(Prenotazione_.importoGruppo);
+        field.addValueChangeListener(new ValueChangeListener() {
+            @Override
+            public void valueChange(ValueChangeEvent event) {
+                syncTotImporto();
+            }
+        });
+
 
 
         field = getField(Prenotazione_.congelata);
@@ -871,6 +893,22 @@ public class PrenotazioneForm extends ModuleForm {
         field.setReadOnly(roState);
 
 
+    }
+
+
+    /**
+     * Inserisce nel placeholder il componente adeguato in base al tipo
+     * di rappresentazione (prezzi singoli o per gruppo)
+     */
+    private void syncCompPrezzi(){
+        placeholderPrezzi.removeAllComponents();
+
+        // todo da completare
+        if(true){
+            placeholderPrezzi.addComponent(compPrezziSingoli);
+        }else {
+            placeholderPrezzi.addComponent(compPrezziGruppo);
+        }
     }
 
 

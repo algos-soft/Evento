@@ -24,6 +24,7 @@ import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.spedizione.Spedizione;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
+import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.multiazienda.CompanyEntity;
@@ -229,11 +230,8 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
 
         if (propertyId.equals(Prenotazione_.numTotali.getName())) {
 
-            Expression<Integer> e1 = cb.sum(root.get(Prenotazione_.numInteri), root.get(Prenotazione_.numRidotti));
-            Expression<Integer> e2 = cb.sum(root.get(Prenotazione_.numDisabili), root.get(Prenotazione_.numAccomp));
-            Expression<Integer> exp = cb.sum(e1, e2);
-
-            cq.select(cb.sum(exp));
+            Expression expr= EQuery.getExprPostiPrenotati(cb, root);
+            cq.select(cb.sum(expr));
 
             TypedQuery<Number> q = getEntityManager().createQuery(cq);
             Integer num = (Integer)q.getSingleResult();
@@ -246,18 +244,7 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
 
         if (propertyId.equals(Prenotazione_.importoDaPagare.getName())) {
 
-            CriteriaBuilder.Coalesce zero = cb.coalesce().value(0); // creo una Expression che rappresenta lo zero, che uso nei coalesce() successivi
-
-            Expression<Number> e1 = cb.prod(cb.coalesce(root.get(Prenotazione_.numInteri), zero), cb.coalesce(root.get(Prenotazione_.importoIntero), zero));
-            Expression<Number> e2 = cb.prod(cb.coalesce(root.get(Prenotazione_.numRidotti), zero), cb.coalesce(root.get(Prenotazione_.importoRidotto), zero));
-            Expression<Number> e3 = cb.prod(cb.coalesce(root.get(Prenotazione_.numDisabili), zero), cb.coalesce(root.get(Prenotazione_.importoDisabili), zero));
-            Expression<Number> e4 = cb.prod(cb.coalesce(root.get(Prenotazione_.numAccomp), zero), cb.coalesce(root.get(Prenotazione_.importoAccomp), zero));
-            Expression<Number> e1e2 = cb.sum(e1, e2);   //int+rid
-            Expression<Number> e3e4 = cb.sum(e3, e4);   //dis+accomp
-            Expression<Number> e1234 = cb.sum(e1e2, e3e4);  //tutti
-            Expression<Number> eGruppo = cb.coalesce(root.get(Prenotazione_.importoGruppo), zero);   //imp fisso gruppo
-            Expression<Number> expr = cb.sum(e1234, eGruppo);   // totale
-
+            Expression expr= EQuery.getExprImportoPrevisto(cb, root);
             cq.select(cb.sum(expr));
 
             Number num = getEntityManager().createQuery(cq).getSingleResult();
