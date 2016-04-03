@@ -305,6 +305,11 @@ public class PrenotazioneForm extends ModuleForm {
         field.setWidth(WF);
         addField(Prenotazione_.importoAccomp, field);
 
+        field = new DecimalField("Importo per gruppo");
+        field.setWidth(WF);
+        addField(Prenotazione_.importoGruppo, field);
+
+
         field = new ERelatedComboField(ModoPagamento.class, "Modo");
         field.setWidth("14em");
         addField(Prenotazione_.modoPagamento, field);
@@ -571,10 +576,15 @@ public class PrenotazioneForm extends ModuleForm {
         Field fldImpAcc = getField(Prenotazione_.importoAccomp);
         fldImpAcc.setCaption(null);
 
+        Field fldImpGru = getField(Prenotazione_.importoGruppo);
+        fldImpGru.setCaption(null);
+
+
         Field fldImpTot = fieldImportoTotale;
         fldImpTot.setCaption(null);
 
-        GridLayout grid = new GridLayout(5, 1);
+//        GridLayout grid = new GridLayout(5, 1);
+        GridLayout grid = new GridLayout(5, 2);
         grid.setSpacing(true);
         grid.setCaption("prezzo");
         grid.addComponent(fldImpInt);
@@ -582,6 +592,8 @@ public class PrenotazioneForm extends ModuleForm {
         grid.addComponent(fldImpDis);
         grid.addComponent(fldImpAcc);
         grid.addComponent(fldImpTot);
+
+        grid.addComponent(fldImpGru, 0,1);
 
         return grid;
 
@@ -838,7 +850,7 @@ public class PrenotazioneForm extends ModuleForm {
         BigDecimal iRidotti = getBigDecimalValue(Prenotazione_.importoRidotto);
         BigDecimal iDisabili = getBigDecimalValue(Prenotazione_.importoDisabili);
         BigDecimal iAccomp = getBigDecimalValue(Prenotazione_.importoAccomp);
-        BigDecimal iFisso = getBigDecimalValue(Prenotazione_.importoFisso);
+        BigDecimal iFisso = getBigDecimalValue(Prenotazione_.importoGruppo);
 
         BigDecimal totPren = Prenotazione.getTotImporto(nInteri, nRidotti, nDisabili, nAccomp, iInteri, iRidotti, iDisabili, iAccomp, iFisso);
 

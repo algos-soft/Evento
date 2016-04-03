@@ -108,17 +108,10 @@ public class Prenotazione extends CompanyEntity {
     private void syncTotalizzatori(){
 
         //persone totali
-        numTotali = numInteri + numRidotti + numDisabili + numAccomp;
+        numTotali = getNumTotali();
 
         // importo totale
-        BigDecimal iInteri = Lib.getBigDecimal(importoIntero);
-        BigDecimal iRidotti = Lib.getBigDecimal(importoRidotto);
-        BigDecimal iDisabili = Lib.getBigDecimal(importoDisabili);
-        BigDecimal iAccomp = Lib.getBigDecimal(importoAccomp);
-        BigDecimal iFisso = Lib.getBigDecimal(importoFisso);
-        importoDaPagare = Prenotazione.getTotImporto(numInteri, numRidotti, numDisabili, numAccomp,
-                iInteri, iRidotti, iDisabili, iAccomp, iFisso);
-
+        importoDaPagare=getImportoDaPagare();
 
     }
 
@@ -177,7 +170,7 @@ public class Prenotazione extends CompanyEntity {
     private BigDecimal importoAccomp=new BigDecimal(0);
 
     @Column(precision = 8, scale = 2)
-    private BigDecimal importoFisso=new BigDecimal(0); // importo fisso (gruppi)
+    private BigDecimal importoGruppo =new BigDecimal(0); // importo fisso (gruppi)
 
     @Column(precision = 8, scale = 2)
     private BigDecimal importoDaPagare; // importo totale da pagare (calcolato!)
@@ -447,15 +440,15 @@ public class Prenotazione extends CompanyEntity {
         this.importoAccomp = importo;
     }
 
-    public BigDecimal getImportoFisso() {
-        return importoFisso;
+    public BigDecimal getImportoGruppo() {
+        return importoGruppo;
     }
 
-    public void setImportoFisso(BigDecimal importo) {
+    public void setImportoGruppo(BigDecimal importo) {
         if(importo==null){
             importo=new BigDecimal(0);
         }
-        this.importoFisso = importo;
+        this.importoGruppo = importo;
     }
 
     // questo è un campo calcolato, il getter
@@ -471,7 +464,7 @@ public class Prenotazione extends CompanyEntity {
         BigDecimal iRidotti = Lib.getBigDecimal(getImportoRidotto());
         BigDecimal iDisabili = Lib.getBigDecimal(getImportoDisabili());
         BigDecimal iAccomp = Lib.getBigDecimal(getImportoAccomp());
-        BigDecimal iFisso = Lib.getBigDecimal(getImportoFisso());
+        BigDecimal iFisso = Lib.getBigDecimal(getImportoGruppo());
 //		(Prenotazione_.importoIntero);
 //		BigDecimal iRidotti=getBigDecimalValue(Prenotazione_.importoRidotto);
 //		BigDecimal iDisabili=getBigDecimalValue(Prenotazione_.importoDisabili);

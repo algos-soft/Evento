@@ -252,9 +252,11 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
             Expression<Number> e2 = cb.prod(cb.coalesce(root.get(Prenotazione_.numRidotti), zero), cb.coalesce(root.get(Prenotazione_.importoRidotto), zero));
             Expression<Number> e3 = cb.prod(cb.coalesce(root.get(Prenotazione_.numDisabili), zero), cb.coalesce(root.get(Prenotazione_.importoDisabili), zero));
             Expression<Number> e4 = cb.prod(cb.coalesce(root.get(Prenotazione_.numAccomp), zero), cb.coalesce(root.get(Prenotazione_.importoAccomp), zero));
-            Expression<Number> e1e2 = cb.sum(e1, e2);
-            Expression<Number> e3e4 = cb.sum(e3, e4);
-            Expression<Number> expr = cb.sum(e1e2, e3e4);
+            Expression<Number> e1e2 = cb.sum(e1, e2);   //int+rid
+            Expression<Number> e3e4 = cb.sum(e3, e4);   //dis+accomp
+            Expression<Number> e1234 = cb.sum(e1e2, e3e4);  //tutti
+            Expression<Number> eGruppo = cb.coalesce(root.get(Prenotazione_.importoGruppo), zero);   //imp fisso gruppo
+            Expression<Number> expr = cb.sum(e1234, eGruppo);   // totale
 
             cq.select(cb.sum(expr));
 
