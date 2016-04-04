@@ -77,5 +77,7 @@ public abstract class BaseConfigPanel extends FormLayout implements ConfigCompon
 		return this;
 	}
 
-
+	public PrefSetItem getItem() {
+		return item;
+	}
 }

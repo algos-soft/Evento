@@ -58,7 +58,7 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class PrenotazioneForm extends ModuleForm {
 
-    private static final String WF = "4em"; // larghezza dei campi numerici
+    private static final String WF = "5em"; // larghezza dei campi numerici
     private static final String WT = "6em"; // larghezza dei totali
     private IntegerField fieldNumTotale;
     private IntegerField fieldDisponibili;
@@ -514,11 +514,15 @@ public class PrenotazioneForm extends ModuleForm {
         layout.addComponent(getField(Prenotazione_.telRiferimento));
         layout.addComponent(getField(Prenotazione_.emailRiferimento));
 
-        // grid persone e prezzi
+        // componente numero persone
         layout.addComponent(creaCompPersone());
+
+        // componente prezzi
         creaCompPrezzi();
         placeholderPrezzi=new HorizontalLayout();
         layout.addComponent(placeholderPrezzi);
+        syncCompPrezzi();
+
 
         // pannello conferma prenotazione
         HorizontalLayout confermaPanel = new HorizontalLayout();
@@ -596,7 +600,6 @@ public class PrenotazioneForm extends ModuleForm {
         // componente usato nel caso di prezzi singoli
         grid = new GridLayout(5, 1);
         grid.setSpacing(true);
-        grid.setCaption("prezzo/pers");
         grid.addComponent(fldImpInt);
         grid.addComponent(fldImpRid);
         grid.addComponent(fldImpDis);
@@ -605,9 +608,8 @@ public class PrenotazioneForm extends ModuleForm {
         compPrezziSingoli=grid;
 
         // componente usato nel caso di prezzi per gruppo
-        grid = new GridLayout(5, 1);
+        grid = new GridLayout(1, 1);
         grid.setSpacing(true);
-        grid.setCaption("prezzo/gruppo");
         grid.addComponent(fldImpGru);
         compPrezziGruppo=grid;
 
@@ -902,13 +904,21 @@ public class PrenotazioneForm extends ModuleForm {
      */
     private void syncCompPrezzi(){
         placeholderPrezzi.removeAllComponents();
+        placeholderPrezzi.setCaption("");
 
-        // todo da completare
-        if(true){
-            placeholderPrezzi.addComponent(compPrezziSingoli);
-        }else {
-            placeholderPrezzi.addComponent(compPrezziGruppo);
+        RelatedComboField field = (RelatedComboField)getField(Prenotazione_.rappresentazione);
+        Object bean = field.getSelectedBean();
+        if(bean!=null){
+            Rappresentazione rapp=(Rappresentazione)bean;
+            if(rapp.getEvento().isPrezzoPerGruppi()){
+                placeholderPrezzi.addComponent(compPrezziGruppo);
+                placeholderPrezzi.setCaption("Prezzo per gruppo");
+            }else {
+                placeholderPrezzi.addComponent(compPrezziSingoli);
+                placeholderPrezzi.setCaption("Prezzo per persona");
+            }
         }
+
     }
 
 
@@ -921,10 +931,25 @@ public class PrenotazioneForm extends ModuleForm {
         if (bean != null) {
             Rappresentazione rapp = (Rappresentazione) bean;
             Evento evento = rapp.getEvento();
-            getField(Prenotazione_.importoIntero).setValue(evento.getImportoIntero());
-            getField(Prenotazione_.importoRidotto).setValue(evento.getImportoRidotto());
-            getField(Prenotazione_.importoDisabili).setValue(evento.getImportoDisabili());
-            getField(Prenotazione_.importoAccomp).setValue(evento.getImportoAccomp());
+
+            // azzera tutto
+            BigDecimal zero = new BigDecimal(0);
+            getField(Prenotazione_.importoIntero).setValue(zero);
+            getField(Prenotazione_.importoRidotto).setValue(zero);
+            getField(Prenotazione_.importoDisabili).setValue(zero);
+            getField(Prenotazione_.importoAccomp).setValue(zero);
+            getField(Prenotazione_.importoGruppo).setValue(zero);
+
+            // valorizza dall'evento in base al tipo di prezzo
+            if(evento.isPrezzoPerGruppi()){
+                getField(Prenotazione_.importoGruppo).setValue(evento.getImportoGruppo());
+            }else{
+                getField(Prenotazione_.importoIntero).setValue(evento.getImportoIntero());
+                getField(Prenotazione_.importoRidotto).setValue(evento.getImportoRidotto());
+                getField(Prenotazione_.importoDisabili).setValue(evento.getImportoDisabili());
+                getField(Prenotazione_.importoAccomp).setValue(evento.getImportoAccomp());
+            }
+
         }
     }
 

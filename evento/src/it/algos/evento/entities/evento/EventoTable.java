@@ -65,25 +65,37 @@ public class EventoTable extends ETable {
 		 * Genera la cella dei prezzi.
 		 */
 		public Component generateCell(Table source, Object itemId, Object columnId) {
+
 			Property prop;
 			Item item = source.getItem(itemId);
-			prop = item.getItemProperty(Evento_.importoIntero.getName());
-			String intero = conv.convertToPresentation((BigDecimal) prop.getValue(), String.class, locale);
-			if (intero==null)intero="0";
-			prop = item.getItemProperty(Evento_.importoRidotto.getName());
-			String ridotto = conv.convertToPresentation((BigDecimal) prop.getValue(), String.class, locale);
-			if (ridotto==null)intero="0";
-			prop = item.getItemProperty(Evento_.importoDisabili.getName());
-			String disabile = conv.convertToPresentation((BigDecimal) prop.getValue(), String.class, locale);
-			if (disabile==null)disabile="0";
-			prop = item.getItemProperty(Evento_.importoAccomp.getName());
-			String accomp = conv.convertToPresentation((BigDecimal) prop.getValue(), String.class, locale);
-			if (accomp==null)accomp="0";
 
-			String string = intero + " | " + ridotto+" | "+disabile+" | "+accomp;
+			prop = item.getItemProperty(Evento_.prezzoPerGruppi.getName());
+			boolean gruppi = (Boolean)prop.getValue();
+
+			String string;
+			if(gruppi){
+				prop = item.getItemProperty(Evento_.importoGruppo.getName());
+				String importo = conv.convertToPresentation((BigDecimal) prop.getValue(), String.class, locale);
+				if (importo==null)importo="0";
+				string = importo;
+			}else{
+				prop = item.getItemProperty(Evento_.importoIntero.getName());
+				String intero = conv.convertToPresentation((BigDecimal) prop.getValue(), String.class, locale);
+				if (intero==null)intero="0";
+				prop = item.getItemProperty(Evento_.importoRidotto.getName());
+				String ridotto = conv.convertToPresentation((BigDecimal) prop.getValue(), String.class, locale);
+				if (ridotto==null)intero="0";
+				prop = item.getItemProperty(Evento_.importoDisabili.getName());
+				String disabile = conv.convertToPresentation((BigDecimal) prop.getValue(), String.class, locale);
+				if (disabile==null)disabile="0";
+				prop = item.getItemProperty(Evento_.importoAccomp.getName());
+				String accomp = conv.convertToPresentation((BigDecimal) prop.getValue(), String.class, locale);
+				if (accomp==null)accomp="0";
+				string = intero + " | " + ridotto+" | "+disabile+" | "+accomp;
+			}
 
 			return new Label(string);
-		}// end of method
-	}// end of internal class
+		}
+	}
 
-}// end of class
+}

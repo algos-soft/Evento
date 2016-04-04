@@ -62,6 +62,8 @@ public enum LetteraKeys {
 
 	importoAccomp("importoAccomp","Importo posto accompagnatore"),
 
+	importoGruppo("importoGruppo","Importo per gruppo"),
+
 	importoTotale("importoTotale","Importo totale a pagare"),
 
 	modoPagamento("modoPagamento","Modalità di pagamento"),

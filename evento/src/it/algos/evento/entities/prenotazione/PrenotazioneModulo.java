@@ -772,10 +772,6 @@ public class PrenotazioneModulo extends CompanyModule {
 
         escapeMap.add(LetteraKeys.classe, pren.getClasse());
 
-        String sImpInteri = "";
-        String sImpRidotti = "";
-        String sImpDisabili = "";
-        String sImpAccomp = "";
         String sData = "";
         String sOra = "";
         String titoloEvento = "";
@@ -784,23 +780,22 @@ public class PrenotazioneModulo extends CompanyModule {
         if (rapp != null) {
             Evento evento = rapp.getEvento();
             if (evento != null) {
-
-                sImpInteri = bdConv.convertToPresentation(evento.getImportoIntero());
-                sImpRidotti = bdConv.convertToPresentation(evento.getImportoRidotto());
-                sImpDisabili = bdConv.convertToPresentation(evento.getImportoDisabili());
-                sImpAccomp = bdConv.convertToPresentation(evento.getImportoAccomp());
-
                 string = evento.getTitolo();
                 if (string != null && !string.equals("")) {
                     titoloEvento = string;
                 }
-
             }
             sData = LibDate.toStringDDMMYYYY(rapp.getDataRappresentazione());
             sOra = LibDate.toStringHHMM(rapp.getDataRappresentazione());
             nomeSala = rapp.getSala().getNome();
-
         }
+
+        String sImpInteri = bdConv.convertToPresentation(pren.getImportoIntero());
+        String sImpRidotti = bdConv.convertToPresentation(pren.getImportoRidotto());
+        String sImpDisabili = bdConv.convertToPresentation(pren.getImportoDisabili());
+        String sImpAccomp = bdConv.convertToPresentation(pren.getImportoAccomp());
+        String sImpGruppo = bdConv.convertToPresentation(pren.getImportoGruppo());
+
         escapeMap.add(LetteraKeys.dataRappresentazione, sData);
         escapeMap.add(LetteraKeys.oraRappresentazione, sOra);
         escapeMap.add(LetteraKeys.nomeSala, nomeSala);
@@ -810,6 +805,7 @@ public class PrenotazioneModulo extends CompanyModule {
         escapeMap.add(LetteraKeys.importoRidotto, sImpRidotti);
         escapeMap.add(LetteraKeys.importoDisabile, sImpDisabili);
         escapeMap.add(LetteraKeys.importoAccomp, sImpAccomp);
+        escapeMap.add(LetteraKeys.importoGruppo, sImpGruppo);
 
         escapeMap.add(LetteraKeys.numPostiInteri, "" + pren.getNumInteri());
         escapeMap.add(LetteraKeys.numPostiRidotti, "" + pren.getNumRidotti());

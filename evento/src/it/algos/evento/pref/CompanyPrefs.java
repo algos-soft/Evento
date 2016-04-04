@@ -46,6 +46,8 @@ public enum CompanyPrefs implements PrefIF {
 
     backupEmailAddress("backupEmailAddress", PrefType.string, ""),
 
+    prezzoPerGruppi("prezzoPerGruppi", PrefType.bool, false),
+
     importoBaseInteri("importoBaseInteri", PrefType.decimal, new BigDecimal(10)),
 
     importoBaseRidotti("importoBaseRidotti", PrefType.decimal, new BigDecimal(0)),
@@ -53,6 +55,8 @@ public enum CompanyPrefs implements PrefIF {
     importoBaseDisabili("importoBaseDisabili", PrefType.decimal, new BigDecimal(0)),
 
     importoBaseAccomp("importoBaseAccomp", PrefType.decimal, new BigDecimal(0)),
+
+    importoBaseGruppi("importoBaseGruppi", PrefType.decimal, new BigDecimal(0)),
 
     idSalaDefault("idSalaDefault", PrefType.integer, 0),
 

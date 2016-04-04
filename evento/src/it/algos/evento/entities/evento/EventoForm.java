@@ -16,7 +16,6 @@ import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.module.ModulePop;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 @SuppressWarnings("serial")
 public class EventoForm extends ModuleForm {
@@ -38,6 +37,10 @@ public class EventoForm extends ModuleForm {
 
 		// se nuovo record mette importi di default
 		if (isNewRecord()) {
+
+			Field fTipoPrezzo = getField(Evento_.prezzoPerGruppi);
+			fTipoPrezzo.setValue(CompanyPrefs.prezzoPerGruppi.getBool());
+
 			Field fIntero = getField(Evento_.importoIntero);
 			fIntero.setValue(CompanyPrefs.importoBaseInteri.getDecimal());
 			Field fRidotto = getField(Evento_.importoRidotto);
@@ -46,6 +49,9 @@ public class EventoForm extends ModuleForm {
 			fDisabili.setValue(CompanyPrefs.importoBaseDisabili.getDecimal());
 			Field fAccomp = getField(Evento_.importoAccomp);
 			fAccomp.setValue(CompanyPrefs.importoBaseAccomp.getDecimal());
+			Field fGruppi = getField(Evento_.importoGruppo);
+			fGruppi.setValue(CompanyPrefs.importoBaseGruppi.getDecimal());
+
 		}
 
 	}
@@ -110,10 +116,17 @@ public class EventoForm extends ModuleForm {
 		gprezzo.setItemCaption("S", "Prezzo per singoli");
 		gprezzo.setItemCaption("G", "Prezzo per gruppi");
 		layout.addComponent(gprezzo);
-		if(isPrezziSingoli()){
-			gprezzo.setValue("S");
+		boolean gruppi;
+		if(isNewRecord()){
+			gruppi=CompanyPrefs.prezzoPerGruppi.getBool();
+			getField(Evento_.prezzoPerGruppi).setValue(gruppi);
 		}else{
+			gruppi=!isPrezziSingoli();
+		}
+		if(gruppi){
 			gprezzo.setValue("G");
+		}else{
+			gprezzo.setValue("S");
 		}
 		gprezzo.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
