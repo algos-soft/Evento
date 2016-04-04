@@ -62,15 +62,15 @@ public class EventiConfigComponent extends BaseConfigPanel {
 		});
 		layout.addComponent(gprezzo);
 
-		Field importoInteri = new DecimalField("Importo interi");
+		Field importoInteri = new DecimalField("Importo default interi");
 		layout.addComponent(importoInteri);
-		Field importoRidotti = new DecimalField("Importo ridotti");
+		Field importoRidotti = new DecimalField("Importo default ridotti");
 		layout.addComponent(importoRidotti);
-		Field importoDisabili = new DecimalField("Importo disabili");
+		Field importoDisabili = new DecimalField("Importo default disabili");
 		layout.addComponent(importoDisabili);
-		Field importoAccomp = new DecimalField("Importo accompagnatori");
+		Field importoAccomp = new DecimalField("Importo default accompagnatori");
 		layout.addComponent(importoAccomp);
-		Field importoGruppi = new DecimalField("Importo gruppi");
+		Field importoGruppi = new DecimalField("Importo default gruppi");
 		layout.addComponent(importoGruppi);
 
 		Field salaDefault = new ERelatedComboField(Sala.class, "Sala di default");
