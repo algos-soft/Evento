@@ -1,29 +1,51 @@
 package it.algos.evento.entities.scuola;
 
+import com.vaadin.data.Container;
 import com.vaadin.data.Item;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.FormLayout;
+import com.vaadin.data.util.filter.Compare;
+import com.vaadin.ui.*;
 import it.algos.evento.entities.comune.Comune;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
+import it.algos.evento.entities.prenotazione.PrenotazioneBaseTable;
+import it.algos.evento.entities.prenotazione.PrenotazioneModulo;
+import it.algos.evento.entities.prenotazione.Prenotazione_;
+import it.algos.evento.entities.rappresentazione.Rappresentazione;
+import it.algos.evento.entities.rappresentazione.RappresentazioneModulo;
+import it.algos.evento.entities.rappresentazione.RappresentazioneTable;
+import it.algos.evento.entities.rappresentazione.Rappresentazione_;
+import it.algos.webbase.multiazienda.ELazyContainer;
 import it.algos.webbase.multiazienda.ERelatedComboField;
+import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.BaseEntity_;
+import it.algos.webbase.web.entity.SortProperties;
 import it.algos.webbase.web.field.ArrayComboField;
 import it.algos.webbase.web.field.EmailField;
 import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AFormLayout;
 import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.table.ATable;
+
+import javax.persistence.EntityManager;
 
 @SuppressWarnings("serial")
 public class ScuolaForm extends ModuleForm {
+
+
+	// Modulo Prenotazioni interno per la gestione
+	// della lista prenotazioni interna alla scheda
+	private PrenotazioneModulo modPren;
 
 
 	public ScuolaForm( Item item, ModulePop modulo) {
 		super(item, modulo);
 	}
 
-
-
+	@Override
+	protected void init() {
+		modPren = new PrenotazioneModuloInterno();
+		super.init();
+	}
 
 	@Override
 	public void createFields() {
@@ -79,7 +101,45 @@ public class ScuolaForm extends ModuleForm {
 
 	}
 
+//	protected Component createComponent() {
+//		FormLayout layout = new AFormLayout();
+//		layout.setMargin(true);
+//
+//		layout.addComponent(getField(Scuola_.sigla));
+//		layout.addComponent(getField(Scuola_.nome));
+//		layout.addComponent(getField(Scuola_.ordine));
+//		layout.addComponent(getField(Scuola_.tipo));
+//		layout.addComponent(getField(Scuola_.indirizzo));
+//		layout.addComponent(getField(Scuola_.cap));
+//		layout.addComponent(getField(Scuola_.comune));
+//		layout.addComponent(getField(Scuola_.telefono));
+//		layout.addComponent(getField(Scuola_.fax));
+//		layout.addComponent(getField(Scuola_.email));
+//		layout.addComponent(getField(Scuola_.note));
+//
+//		return layout;
+//	}
+
 	protected Component createComponent() {
+		TabSheet tabsheet = new TabSheet();
+		tabsheet.setWidth("60em");
+
+		Component tab;
+
+		tab = creaTabGenerale();
+		tabsheet.addTab(tab, "Generale");
+
+		tab = creaTabPrenotazioni();
+		tab.setHeight("36em");
+		tabsheet.addTab(tab, "Prenotazioni");
+
+
+		return tabsheet;
+
+	}
+
+	private Component creaTabGenerale() {
+
 		FormLayout layout = new AFormLayout();
 		layout.setMargin(true);
 
@@ -97,5 +157,119 @@ public class ScuolaForm extends ModuleForm {
 
 		return layout;
 	}
+
+	private Component creaTabPrenotazioni() {
+		VerticalLayout layout = new VerticalLayout();
+		layout.setMargin(true);
+
+		ATable tablePrenotazioni = modPren.getTable();
+
+		layout.addComponent(new Label("Elenco delle prenotazioni"));
+		tablePrenotazioni.setWidth("100%");
+		layout.addComponent(tablePrenotazioni);
+		layout.setExpandRatio(tablePrenotazioni, 1);
+
+		return layout;
+	}
+
+
+	/**
+	 * Modulo Prenotazioni dedicato alla gestione Prenotazioni
+	 * all'interno della scheda Scuola.
+	 * Usato per la gestione della lista e della scheda interne.
+	 */
+	private class PrenotazioneModuloInterno extends PrenotazioneModulo{
+
+		/**
+		 * Usa una tabella specifica
+		 */
+		@Override
+		public ATable createTable() {
+			return new TablePrenotazioniInterna(this);
+		}
+
+		/**
+		 * Questo modulo non è inserito graficamente in nessuna UI
+		 * perciò ritorna la UI della scheda che lo contiene.
+		 * La UI è richiesta quando deve mostrare la scheda.
+		 */
+		@Override
+		public UI getUI() {
+			return ScuolaForm.this.getUI();
+		}
+
+		/**
+		 * Questo modulo lo stesso EntityManager della
+		 * scheda che lo contiene
+		 */
+		@Override
+		public EntityManager getEntityManager() {
+			return ScuolaForm.this.getEntityManager();
+		}
+	}
+
+	/**
+	 * Tabella Prenotazioni del modulo Prenotazioni interno
+	 */
+	private class TablePrenotazioniInterna extends PrenotazioneBaseTable {
+
+		public TablePrenotazioniInterna(PrenotazioneModulo modulo) {
+			super(modulo);
+		}
+
+		/**
+		 * Filtra il container sulla prenotazione corrente
+		 */
+		@Override
+		public Container createContainer() {
+			Filterable cont = (Filterable)super.createContainer();
+			Scuola scuola = getScuola();
+			cont.addContainerFilter(new Compare.Equal(Prenotazione_.scuola.getName(), scuola));
+			return cont;
+		}
+
+		/**
+		 * Custom sort order
+		 */
+		@Override
+		protected void sortContainer() {
+			Container cont = getContainerDataSource();
+			if (cont instanceof com.vaadin.data.Container.Sortable) {
+				com.vaadin.data.Container.Sortable csortable = (com.vaadin.data.Container.Sortable) cont;
+				csortable.sort(new String[]{Prenotazione_.dataPrenotazione.getName()}, new boolean[]{false});
+			}
+		}
+
+		/**
+		 * Mostra solo alcune colonne
+		 */
+		protected Object[] getDisplayColumns() {
+			return new Object[]{
+					Prenotazione_.numPrenotazione,
+					Prenotazione_.dataPrenotazione,
+					Prenotazione_.rappresentazione,
+					Prenotazione_.insegnante,
+					Prenotazione_.numTotali,
+					COL_STATUS,
+					COL_PAGAM,
+			};
+		}
+
+
+	}
+
+	/**
+	 * Ritorna la Scuola gestita da questa scheda
+	 */
+	private Scuola getScuola() {
+		Scuola scuola = null;
+		BaseEntity entity = getEntity();
+		if (entity != null) {
+			scuola = (Scuola) entity;
+		}
+		return scuola;
+	}
+
+
 
 }
