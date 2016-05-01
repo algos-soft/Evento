@@ -139,22 +139,29 @@ public class ScuolaForm extends ModuleForm {
 
 	private Component creaTabGenerale() {
 
-		FormLayout layout = new AFormLayout();
-		layout.setMargin(true);
+		HorizontalLayout hl = new HorizontalLayout();
+		hl.setSpacing(true);
+		hl.setMargin(true);
 
-		layout.addComponent(getField(Scuola_.sigla));
-		layout.addComponent(getField(Scuola_.nome));
-		layout.addComponent(getField(Scuola_.ordine));
-		layout.addComponent(getField(Scuola_.tipo));
-		layout.addComponent(getField(Scuola_.indirizzo));
-		layout.addComponent(getField(Scuola_.cap));
-		layout.addComponent(getField(Scuola_.comune));
-		layout.addComponent(getField(Scuola_.telefono));
-		layout.addComponent(getField(Scuola_.fax));
-		layout.addComponent(getField(Scuola_.email));
-		layout.addComponent(getField(Scuola_.note));
+		FormLayout layout1 = new AFormLayout();
+		layout1.addComponent(getField(Scuola_.sigla));
+		layout1.addComponent(getField(Scuola_.nome));
+		layout1.addComponent(getField(Scuola_.ordine));
+		layout1.addComponent(getField(Scuola_.tipo));
+		layout1.addComponent(getField(Scuola_.email));
+		layout1.addComponent(getField(Scuola_.note));
 
-		return layout;
+		FormLayout layout2 = new AFormLayout();
+		layout2.addComponent(getField(Scuola_.indirizzo));
+		layout2.addComponent(getField(Scuola_.cap));
+		layout2.addComponent(getField(Scuola_.comune));
+		layout2.addComponent(getField(Scuola_.telefono));
+		layout2.addComponent(getField(Scuola_.fax));
+
+		hl.addComponent(layout1);
+		hl.addComponent(layout2);
+
+		return hl;
 	}
 
 

@@ -23,9 +23,6 @@
       </element>
       <element id="directory" name="VAADIN">
         <element id="dir-copy" path="$PROJECT_DIR$/evento/vaadin" />
-        <element id="directory" name="widgetsets">
-          <element id="dir-copy" path="$PROJECT_DIR$/../webbase/vaadin/widgetsets" />
-        </element>
       </element>
     </root>
   </artifact>

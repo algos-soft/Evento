@@ -137,24 +137,32 @@ public class InsegnanteForm extends ModuleForm {
 
 	private Component creaTabGenerale() {
 
-		AFormLayout layout = new AFormLayout();
-		layout.setMargin(true);
-		layout.addComponent(getField(Insegnante_.titolo));
-		layout.addComponent(getField(Insegnante_.cognome));
-		layout.addComponent(getField(Insegnante_.nome));
-		layout.addComponent(getField(Insegnante_.privato));
-		layout.addComponent(fieldOrdineScuola);
-		layout.addComponent(fieldMaterie);
-		layout.addComponent(getField(Insegnante_.email));
-		layout.addComponent(getField(Insegnante_.telefono));
-		layout.addComponent(getField(Insegnante_.indirizzo1));
-		layout.addComponent(getField(Insegnante_.indirizzo2));
-		layout.addComponent(getField(Insegnante_.note));
+		HorizontalLayout hl = new HorizontalLayout();
+		hl.setSpacing(true);
+		hl.setMargin(true);
+
+		AFormLayout layout1 = new AFormLayout();
+		layout1.addComponent(getField(Insegnante_.titolo));
+		layout1.addComponent(getField(Insegnante_.cognome));
+		layout1.addComponent(getField(Insegnante_.nome));
+		layout1.addComponent(getField(Insegnante_.privato));
+		layout1.addComponent(fieldOrdineScuola);
+		layout1.addComponent(fieldMaterie);
+
+		AFormLayout layout2 = new AFormLayout();
+		layout2.addComponent(getField(Insegnante_.email));
+		layout2.addComponent(getField(Insegnante_.telefono));
+		layout2.addComponent(getField(Insegnante_.indirizzo1));
+		layout2.addComponent(getField(Insegnante_.indirizzo2));
+		layout2.addComponent(getField(Insegnante_.note));
 
 		// dopo aver creato i componenti simula un change di privato per sincronizzare la UI
 		onPrivatoChange();
 
-		return layout;
+		hl.addComponent(layout1);
+		hl.addComponent(layout2);
+
+		return hl;
 	}
 
 

@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  */
 @Theme("asteriacultura")
 @Title("eVento")
-@Widgetset("com.sibvisions.vaadin.Widgetset")
+//@Widgetset("com.sibvisions.vaadin.Widgetset")
 
 //@PreserveOnRefresh
 public class CompanyUI extends AlgosUI {
