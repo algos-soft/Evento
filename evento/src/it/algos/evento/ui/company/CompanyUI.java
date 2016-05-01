@@ -7,8 +7,6 @@ import com.vaadin.server.VaadinRequest;
 import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.company.Company_;
 import it.algos.evento.pref.EventoPrefs;
-import it.algos.webbase.domain.company.BaseCompany;
-import it.algos.webbase.domain.company.BaseCompany_;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.entity.BaseEntity;
