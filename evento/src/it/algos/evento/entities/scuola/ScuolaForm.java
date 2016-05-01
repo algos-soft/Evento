@@ -43,7 +43,11 @@ public class ScuolaForm extends ModuleForm {
 
 	@Override
 	protected void init() {
-		modPren = new PrenotazioneModuloInterno();
+		// crea un nuovo modulo prenotazioni per mostrare la pagina prenotazioni
+		// (ma se questo modulo è null la scheda è creata da un combo e in questo caso non lo crea)
+		if(getModule()!=null){
+			modPren = new PrenotazioneModuloInterno();
+		}
 		super.init();
 	}
 
@@ -101,40 +105,35 @@ public class ScuolaForm extends ModuleForm {
 
 	}
 
-//	protected Component createComponent() {
-//		FormLayout layout = new AFormLayout();
-//		layout.setMargin(true);
-//
-//		layout.addComponent(getField(Scuola_.sigla));
-//		layout.addComponent(getField(Scuola_.nome));
-//		layout.addComponent(getField(Scuola_.ordine));
-//		layout.addComponent(getField(Scuola_.tipo));
-//		layout.addComponent(getField(Scuola_.indirizzo));
-//		layout.addComponent(getField(Scuola_.cap));
-//		layout.addComponent(getField(Scuola_.comune));
-//		layout.addComponent(getField(Scuola_.telefono));
-//		layout.addComponent(getField(Scuola_.fax));
-//		layout.addComponent(getField(Scuola_.email));
-//		layout.addComponent(getField(Scuola_.note));
-//
-//		return layout;
-//	}
 
+	/**
+	 * Crea il componente.
+	 * Se c'è il modulo, crea anche la pagina per la lista prenotazioni.
+	 * Se manca il modulo (scheda creata da combo) crea solo la pagina Generale.
+	 */
 	protected Component createComponent() {
-		TabSheet tabsheet = new TabSheet();
-		tabsheet.setWidth("60em");
 
-		Component tab;
+		Component comp;
 
-		tab = creaTabGenerale();
-		tabsheet.addTab(tab, "Generale");
+		if(getModule()!=null){
+			TabSheet tabsheet = new TabSheet();
+			tabsheet.setWidth("60em");
 
-		tab = creaTabPrenotazioni();
-		tab.setHeight("36em");
-		tabsheet.addTab(tab, "Prenotazioni");
+			Component tab;
 
+			tab = creaTabGenerale();
+			tabsheet.addTab(tab, "Generale");
 
-		return tabsheet;
+			tab = creaTabPrenotazioni();
+			//tab.setHeight("36em");
+			tabsheet.addTab(tab, "Prenotazioni");
+			comp=tabsheet;
+
+		}else{
+			comp=creaTabGenerale();
+		}
+
+		return comp;
 
 	}
 
@@ -158,13 +157,14 @@ public class ScuolaForm extends ModuleForm {
 		return layout;
 	}
 
+
 	private Component creaTabPrenotazioni() {
 		VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(true);
 
 		ATable tablePrenotazioni = modPren.getTable();
 
-		layout.addComponent(new Label("Elenco delle prenotazioni"));
+		//layout.addComponent(new Label("Elenco delle prenotazioni"));
 		tablePrenotazioni.setWidth("100%");
 		layout.addComponent(tablePrenotazioni);
 		layout.setExpandRatio(tablePrenotazioni, 1);

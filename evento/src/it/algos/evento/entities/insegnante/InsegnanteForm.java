@@ -1,17 +1,25 @@
 package it.algos.evento.entities.insegnante;
 
+import com.vaadin.data.Container;
 import com.vaadin.data.Item;
+import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.validator.NullValidator;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
+import com.vaadin.ui.*;
 import it.algos.evento.entities.ordinescuola.OrdineScuola;
+import it.algos.evento.entities.prenotazione.PrenotazioneBaseTable;
+import it.algos.evento.entities.prenotazione.PrenotazioneModulo;
+import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.webbase.multiazienda.ERelatedComboField;
+import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.field.CheckBoxField;
 import it.algos.webbase.web.field.EmailField;
 import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AFormLayout;
 import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.module.ModulePop;
+import it.algos.webbase.web.table.ATable;
+
+import javax.persistence.EntityManager;
 
 @SuppressWarnings("serial")
 public class InsegnanteForm extends ModuleForm {
@@ -20,17 +28,23 @@ public class InsegnanteForm extends ModuleForm {
 	private ERelatedComboField fieldOrdineScuola;
 	private TextField fieldMaterie;
 
-//	public InsegnanteForm(Item item) {
-//		this(null, item);
-//	}
+	// Modulo Prenotazioni interno per la gestione
+	// della lista prenotazioni interna alla scheda
+	private PrenotazioneModulo modPren;
 
 	public InsegnanteForm(Item item, ModulePop modulo) {
 		super(item, modulo);
-		doInit();
 	}// end of constructor
-	
-	private void doInit(){
-		//setMargin(true);
+
+	@Override
+	protected void init() {
+
+		// crea un nuovo modulo prenotazioni per mostrare la pagina prenotazioni
+		// (ma se questo modulo è null la scheda è creata da un combo e in questo caso non lo crea)
+		if(getModule()!=null){
+			modPren = new PrenotazioneModuloInterno();
+		}
+		super.init();
 	}
 
 	@Override
@@ -88,7 +102,41 @@ public class InsegnanteForm extends ModuleForm {
 
 	}
 
+
+
+	/**
+	 * Crea il componente.
+	 * Se c'è il modulo, crea anche la pagina per la lista prenotazioni.
+	 * Se manca il modulo (scheda creata da combo) crea solo la pagina Generale.
+	 */
 	protected Component createComponent() {
+
+		Component comp;
+
+		if(getModule()!=null){
+			TabSheet tabsheet = new TabSheet();
+			tabsheet.setWidth("60em");
+
+			Component tab;
+
+			tab = creaTabGenerale();
+			tabsheet.addTab(tab, "Generale");
+
+			tab = creaTabPrenotazioni();
+			//tab.setHeight("36em");
+			tabsheet.addTab(tab, "Prenotazioni");
+			comp=tabsheet;
+
+		}else{
+			comp=creaTabGenerale();
+		}
+
+		return comp;
+
+	}
+
+	private Component creaTabGenerale() {
+
 		AFormLayout layout = new AFormLayout();
 		layout.setMargin(true);
 		layout.addComponent(getField(Insegnante_.titolo));
@@ -107,7 +155,23 @@ public class InsegnanteForm extends ModuleForm {
 		onPrivatoChange();
 
 		return layout;
-	}// end of method
+	}
+
+
+	private Component creaTabPrenotazioni() {
+		VerticalLayout layout = new VerticalLayout();
+		layout.setMargin(true);
+
+		ATable tablePrenotazioni = modPren.getTable();
+
+		//layout.addComponent(new Label("Elenco delle prenotazioni"));
+		tablePrenotazioni.setWidth("100%");
+		layout.addComponent(tablePrenotazioni);
+		layout.setExpandRatio(tablePrenotazioni, 1);
+
+		return layout;
+	}
+
 
 	/**
 	 * Invocato quando il valore del flag privato cambia.
@@ -122,5 +186,103 @@ public class InsegnanteForm extends ModuleForm {
 			fieldOrdineScuola.addValidator(new NullValidator("L'ordine della scuola è obbligatorio", false));
 		}
 	}
+
+
+	/**
+	 * Modulo Prenotazioni dedicato alla gestione Prenotazioni
+	 * all'interno della scheda Scuola.
+	 * Usato per la gestione della lista e della scheda interne.
+	 */
+	private class PrenotazioneModuloInterno extends PrenotazioneModulo{
+
+		/**
+		 * Usa una tabella specifica
+		 */
+		@Override
+		public ATable createTable() {
+			return new TablePrenotazioniInterna(this);
+		}
+
+		/**
+		 * Questo modulo non è inserito graficamente in nessuna UI
+		 * perciò ritorna la UI della scheda che lo contiene.
+		 * La UI è richiesta quando deve mostrare la scheda.
+		 */
+		@Override
+		public UI getUI() {
+			return InsegnanteForm.this.getUI();
+		}
+
+		/**
+		 * Questo modulo lo stesso EntityManager della
+		 * scheda che lo contiene
+		 */
+		@Override
+		public EntityManager getEntityManager() {
+			return InsegnanteForm.this.getEntityManager();
+		}
+	}
+
+	/**
+	 * Tabella Prenotazioni del modulo Prenotazioni interno
+	 */
+	private class TablePrenotazioniInterna extends PrenotazioneBaseTable {
+
+		public TablePrenotazioniInterna(PrenotazioneModulo modulo) {
+			super(modulo);
+		}
+
+		/**
+		 * Filtra il container sulla prenotazione corrente
+		 */
+		@Override
+		public Container createContainer() {
+			Filterable cont = (Filterable)super.createContainer();
+			cont.addContainerFilter(new Compare.Equal(Prenotazione_.insegnante.getName(), getInsegnante()));
+			return cont;
+		}
+
+		/**
+		 * Custom sort order
+		 */
+		@Override
+		protected void sortContainer() {
+			Container cont = getContainerDataSource();
+			if (cont instanceof com.vaadin.data.Container.Sortable) {
+				com.vaadin.data.Container.Sortable csortable = (com.vaadin.data.Container.Sortable) cont;
+				csortable.sort(new String[]{Prenotazione_.dataPrenotazione.getName()}, new boolean[]{false});
+			}
+		}
+
+		/**
+		 * Mostra solo alcune colonne
+		 */
+		protected Object[] getDisplayColumns() {
+			return new Object[]{
+					Prenotazione_.numPrenotazione,
+					Prenotazione_.dataPrenotazione,
+					Prenotazione_.rappresentazione,
+					Prenotazione_.scuola,
+					Prenotazione_.numTotali,
+					COL_STATUS,
+					COL_PAGAM,
+			};
+		}
+
+
+	}
+
+	/**
+	 * Ritorna il referente gestito da questa scheda
+	 */
+	private Insegnante getInsegnante() {
+		Insegnante ref = null;
+		BaseEntity entity = getEntity();
+		if (entity != null) {
+			ref = (Insegnante) entity;
+		}
+		return ref;
+	}
+
 
 }
