@@ -109,6 +109,8 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
         setColumnHeader(Prenotazione_.scadenzaPagamento, "pagam. entro");
         setColumnHeader(Prenotazione_.modoPagamento, "modo pag");
         setColumnHeader(Prenotazione_.tipoRicevuta, "tipo ricev");
+        setColumnHeader(Prenotazione_.richiestoBus, "Bus R");
+        setColumnHeader(Prenotazione_.pagatoBus, "Bus P");
 
         setColumnWidth(Prenotazione_.dataPrenotazione, 80);
         setColumnWidth(Prenotazione_.numTotali, 46);
@@ -144,6 +146,8 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
         setColumnCollapsed(Prenotazione_.numRidotti.getName(), true);
         setColumnCollapsed(Prenotazione_.numDisabili.getName(), true);
         setColumnCollapsed(Prenotazione_.numAccomp.getName(), true);
+        setColumnCollapsed(Prenotazione_.richiestoBus.getName(), true);
+        setColumnCollapsed(Prenotazione_.pagatoBus.getName(), true);
 
 
         // generatore di stili per le singole celle
@@ -831,7 +835,9 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
                 Prenotazione_.numInteri,
                 Prenotazione_.numRidotti,
                 Prenotazione_.numDisabili,
-                Prenotazione_.numAccomp
+                Prenotazione_.numAccomp,
+                Prenotazione_.richiestoBus,
+                Prenotazione_.pagatoBus
         };
 
 

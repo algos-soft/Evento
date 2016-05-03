@@ -69,6 +69,10 @@ public class PrenotazioneForm extends ModuleForm {
     private TextField fieldClasse;
     private RelatedComboField comboScuola;
     private CheckBoxField fieldPrivato;
+//    private CheckBoxField fieldRichiestoBus;
+//    private CheckBoxField fieldPagatoBus;
+
+
     private Label dettaglioInsegnante;
     private Component compPrezziSingoli;
     private Component compPrezziGruppo;
@@ -351,7 +355,7 @@ public class PrenotazioneForm extends ModuleForm {
         fieldCongelata.addValueChangeListener(event -> {
             if (!inValueChange) {
                 boolean newValue = Lib.getBool(event.getProperty().getValue());
-                if(newValue==true){
+                if (newValue == true) {
                     ConfirmDialog dialog = new ConfirmDialog(null, "Questo campo è gestito automaticamente.<br>Sei sicuro di volerlo modificare manualmente?", (dialog1, confirmed) -> {
                         if (!confirmed) {
                             inValueChange = true;
@@ -401,6 +405,21 @@ public class PrenotazioneForm extends ModuleForm {
             onPrivatoChange();
         });
 
+        field = new CheckBoxField("Richiesto bus");
+        addField(Prenotazione_.richiestoBus, field);
+
+        area = new TextArea("Dettagli");
+        area.setRows(4);
+        addField(Prenotazione_.dettagliBus, area);
+
+        field = new DecimalField("Importo");
+        field.setWidth(WF);
+        addField(Prenotazione_.importoBus, field);
+
+        field = new CheckBoxField("Pagato");
+        addField(Prenotazione_.pagatoBus, field);
+
+
     }
 
 
@@ -432,6 +451,8 @@ public class PrenotazioneForm extends ModuleForm {
         tab = tabsheet.addTab(creaTabPagamento(), "Pagamento");
         tab.getComponent().setWidth(width);
         tab = tabsheet.addTab(creaTabEventi(), "Eventi e note");
+        tab.getComponent().setWidth(width);
+        tab = tabsheet.addTab(creaTabAltro(), "Altro");
         tab.getComponent().setWidth(width);
 
         postLayout();
@@ -706,6 +727,39 @@ public class PrenotazioneForm extends ModuleForm {
 
         return layout;
     }
+
+    private Component creaTabAltro() {
+        Component comp;
+
+        VerticalLayout layout = new VerticalLayout();
+        layout.setMargin(true);
+        layout.setSpacing(true);
+
+        comp = getField(Prenotazione_.richiestoBus);
+        layout.addComponent(comp);
+
+        comp = getField(Prenotazione_.dettagliBus);
+        comp.setWidth("100%");
+        layout.addComponent(comp);
+
+        HorizontalLayout hl = new HorizontalLayout();
+        hl.setSpacing(true);
+        hl.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
+        comp = getField(Prenotazione_.importoBus);
+        hl.addComponent(comp);
+        comp = getField(Prenotazione_.pagatoBus);
+        hl.addComponent(comp);
+        layout.addComponent(hl);
+
+
+        Panel panel = new Panel(layout);
+        panel.setCaption("Gestione Bus");
+
+        return panel;
+    }
+
+
+
 
 
     /**

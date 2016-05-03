@@ -56,4 +56,9 @@ public class Prenotazione_ extends CompanyEntity_ {
 	public static volatile SingularAttribute<Prenotazione, Date> dataPagamentoRicevuto;
 	public static volatile SingularAttribute<Prenotazione, Boolean> privato;
 
+	public static volatile SingularAttribute<Prenotazione, Boolean> richiestoBus;
+	public static volatile SingularAttribute<Prenotazione, String> dettagliBus;
+	public static volatile SingularAttribute<Prenotazione, BigDecimal> importoBus;
+	public static volatile SingularAttribute<Prenotazione, Boolean> pagatoBus;
+
 }// end of entity class

@@ -21,6 +21,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.persistence.metamodel.SingularAttribute;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -215,6 +216,16 @@ public class Prenotazione extends CompanyEntity {
     private Date dataPagamentoRicevuto;
 
     private boolean privato;
+
+    private boolean richiestoBus;
+
+    @Lob
+    private String dettagliBus = "";
+
+    @Column(precision = 8, scale = 2)
+    private BigDecimal importoBus =new BigDecimal(0); // importo fisso (gruppi)
+
+    private boolean pagatoBus;
 
 
     @OneToMany(mappedBy = "prenotazione")
@@ -529,7 +540,11 @@ public class Prenotazione extends CompanyEntity {
     }
 
     public String getNote() {
-        return note;
+        if(note!=null){
+            return note;
+        }else{
+            return "";
+        }
     }
 
     public void setNote(String note) {
@@ -619,8 +634,44 @@ public class Prenotazione extends CompanyEntity {
         this.privato = privato;
     }
 
+    public boolean isRichiestoBus() {
+        return richiestoBus;
+    }
 
-//	@Transient
+    public void setRichiestoBus(boolean richiestoBus) {
+        this.richiestoBus = richiestoBus;
+    }
+
+    public String getDettagliBus() {
+        if(dettagliBus!=null){
+            return dettagliBus;
+        }else{
+            return "";
+        }
+    }
+
+    public void setDettagliBus(String dettagliBus) {
+        this.dettagliBus = dettagliBus;
+    }
+
+    public BigDecimal getImportoBus() {
+        return importoBus;
+    }
+
+    public void setImportoBus(BigDecimal importoBus) {
+        this.importoBus = importoBus;
+    }
+
+    public boolean isPagatoBus() {
+        return pagatoBus;
+    }
+
+    public void setPagatoBus(boolean pagatoBus) {
+        this.pagatoBus = pagatoBus;
+    }
+
+
+    //	@Transient
 //	public Progetto progetto;
 //
 //	/**
