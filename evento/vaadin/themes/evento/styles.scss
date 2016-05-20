@@ -5,8 +5,8 @@ $v-font-weight: 400;
 
 
 @import "../valo/valo.scss";
+@import "../algos.scss";
 @import "evento.scss";
-@import "algos.scss";
 
 /* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
 /* The actual styles should be defined in .scss files */
