@@ -64,8 +64,8 @@ public class EventoBootStrap extends ABootStrap {
         EventoApp.setServletContext(svltCtx);
 
         // imposto alcune costanti
-        Toolbar.ALTEZZA_BOTTONI = 30;
-        Toolbar.LARGHEZZA_BOTTONI = 100;
+//        Toolbar.ALTEZZA_BOTTONI = 30;
+//        Toolbar.LARGHEZZA_BOTTONI = 100;
 
         // Controllo, aggiunta, esecuzione di patch e versioni (principalmente dei dati)
         this.versioneBootStrap(svltCtx);

@@ -49,7 +49,7 @@ public class AdminHome extends VerticalLayout {
 
         // aggiunge la menubar principale e la menubar login
         HorizontalLayout menuLayout = new HorizontalLayout();
-        menuLayout.setHeight("32px");
+        //menuLayout.setHeight("32px");
         menuLayout.setWidth("100%");
         menuLayout.addComponent(mainBar);
         mainBar.setHeight("100%");

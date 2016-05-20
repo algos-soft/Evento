@@ -14,7 +14,7 @@ import it.algos.webbase.web.query.AQuery;
 import it.algos.webbase.web.ui.AlgosUI;
 
 @SuppressWarnings("serial")
-@Theme("asteriacultura")
+@Theme("evento")
 @Title("eVento - conferma prenotazione")
 public class ConfermaPrenUI extends AlgosUI {
 

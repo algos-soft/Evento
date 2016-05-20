@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 /**
  * UI iniziale di Company.
  */
-@Theme("asteriacultura")
+@Theme("evento")
 @Title("eVento")
 //@Widgetset("com.sibvisions.vaadin.Widgetset")
 

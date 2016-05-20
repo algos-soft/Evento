@@ -10,7 +10,7 @@ import it.algos.webbase.web.ui.AlgosUI;
 /**
  * UI iniziale di Admin.
  */
-@Theme("asteriacultura")
+@Theme("evento")
 @Title("eVento - admin")
 public class AdminUI extends AlgosUI {
 

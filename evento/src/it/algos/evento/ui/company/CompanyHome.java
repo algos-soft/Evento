@@ -64,7 +64,7 @@ public class CompanyHome extends VerticalLayout {
 
         // aggiunge la menubar principale
         HorizontalLayout menuLayout = new HorizontalLayout();
-        menuLayout.setHeight("32px");
+        //menuLayout.setHeight("32px");
         menuLayout.setWidth("100%");
         menuLayout.addComponent(mainBar);
         menuLayout.setExpandRatio(mainBar, 1.0f);
