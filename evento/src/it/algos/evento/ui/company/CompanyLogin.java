@@ -8,7 +8,9 @@ import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.lib.LibImage;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.login.Login;
+import it.algos.webbase.web.login.LoginEvent;
 import it.algos.webbase.web.login.LoginListener;
+import it.algos.webbase.web.login.UserIF;
 
 public class CompanyLogin extends VerticalLayout {
 
@@ -69,9 +71,14 @@ public class CompanyLogin extends VerticalLayout {
 				// quindi non posso farlo una volta sola alla costruzione della GUI)
 				Login.getLogin().setLoginListener(new LoginListener() {
 					@Override
-					public void onUserLogin(Utente utente, boolean b) {
+					public void onUserLogin(LoginEvent e) {
 						doLogin();
 					}
+
+//					@Override
+//					public void onUserLogin(Utente utente, boolean b) {
+//						doLogin();
+//					}
 				});
 
 				Login.getLogin().showLoginForm();
@@ -99,7 +106,7 @@ public class CompanyLogin extends VerticalLayout {
 	private void doLogin(){
 
 		// registra la company nella sessione in base all'utente loggato
-		Utente user = Login.getLogin().getUser();
+		UserIF user = Login.getLogin().getUser();
 		boolean success= CompanySessionLib.registerCompanyByUser(user);
 
 		if(success){

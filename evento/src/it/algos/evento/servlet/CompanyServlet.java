@@ -6,6 +6,7 @@ import it.algos.evento.ui.company.CompanyUI;
 import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.login.Login;
+import it.algos.webbase.web.login.UserIF;
 import it.algos.webbase.web.servlet.AlgosServlet;
 
 import javax.servlet.annotation.WebServlet;
@@ -43,7 +44,7 @@ public class CompanyServlet extends AlgosServlet {
         if(Login.getLogin().loginFromCookies()){
 
             // registra la company nella sessione in base all'utente loggato
-            Utente user = Login.getLogin().getUser();
+            UserIF user = Login.getLogin().getUser();
             if(!CompanySessionLib.registerCompanyByUser(user)) {
                 CompanySessionLib.setLogin(null);
                 String err="L'utente " + user + " (loggato dai cookies) è registrato ma non c'è l'azienda corrispondente. Login fallito.";

@@ -8,6 +8,7 @@ import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.domain.utenteruolo.UtenteRuolo;
 import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.lib.LibCrypto;
+import it.algos.webbase.web.login.UserIF;
 import it.algos.webbase.web.servlet.AlgosServlet;
 
 import javax.servlet.annotation.WebServlet;
@@ -44,9 +45,8 @@ public class AdminServlet extends AlgosServlet {
         if(CompanySessionLib.getAdminLogin().loginFromCookies()){
 
             // controlla se l'utente ha ruolo di admin
-            Ruolo adminRole = Ruolo.read("admin");
-            Utente user= CompanySessionLib.getAdminLogin().getUser();
-            if(!user.hasRole(adminRole)) {
+            UserIF user= CompanySessionLib.getAdminLogin().getUser();
+            if(!user.isAdmin()) {
                 CompanySessionLib.setLogin(null);
                 String err="L'utente "+user+" (loggato dai cookies) non è abilitato all'accesso come admin. Login fallito.";
                 logger.log(Level.SEVERE, err);

@@ -5,6 +5,7 @@ import com.vaadin.annotations.Title;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 import it.algos.webbase.web.lib.LibSession;
+import it.algos.webbase.web.login.LoginEvent;
 import it.algos.webbase.web.ui.AlgosUI;
 
 /**
@@ -54,4 +55,8 @@ public class AdminUI extends AlgosUI {
     }// end of method
 
 
+    @Override
+    public void onUserLogin(LoginEvent e) {
+
+    }
 }

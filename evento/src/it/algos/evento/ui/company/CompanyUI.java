@@ -12,6 +12,7 @@ import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.login.Login;
+import it.algos.webbase.web.login.LoginEvent;
 import it.algos.webbase.web.query.AQuery;
 import it.algos.webbase.web.ui.AlgosUI;
 
@@ -150,4 +151,8 @@ public class CompanyUI extends AlgosUI {
 
     }
 
+    @Override
+    public void onUserLogin(LoginEvent e) {
+
+    }
 }

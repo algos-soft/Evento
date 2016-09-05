@@ -8,7 +8,9 @@ import it.algos.webbase.domain.utente.Utente;
 import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.lib.LibImage;
 import it.algos.webbase.web.lib.LibResource;
+import it.algos.webbase.web.login.LoginEvent;
 import it.algos.webbase.web.login.LoginListener;
+import it.algos.webbase.web.login.UserIF;
 
 /**
  * Login page for the Manager
@@ -73,9 +75,14 @@ public class AdminLogin extends VerticalLayout {
 				CompanySessionLib.getAdminLogin().setLoginListener(new LoginListener() {
 
 					@Override
-					public void onUserLogin(Utente utente, boolean b) {
+					public void onUserLogin(LoginEvent e) {
 						doLogin();
 					}
+
+//					@Override
+//					public void onUserLogin(Utente utente, boolean b) {
+//						doLogin();
+//					}
 				});
 
 				CompanySessionLib.getAdminLogin().showLoginForm();
@@ -105,8 +112,8 @@ public class AdminLogin extends VerticalLayout {
 
 		// controlla se l'utente ha ruolo di admin
 		Ruolo adminRole = Ruolo.read("admin");
-		Utente user= CompanySessionLib.getAdminLogin().getUser();
-		if(user.hasRole(adminRole)) {
+		UserIF user= CompanySessionLib.getAdminLogin().getUser();
+		if(user.isAdmin()) {
 			// Avvia la UI dell'admin
 			Component comp = new AdminHome();
 			UI.getCurrent().setContent(comp);

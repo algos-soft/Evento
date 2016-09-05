@@ -182,6 +182,7 @@ public class LetteraService {
         useAuth = EventoPrefs.smtpUseAuth.getBool();
         smtpPort = EventoPrefs.smtpPort.getInt();
 
+
         // se from non è specificato usa quello della company
         if ((from == null) || (from.equals(""))){
             if(company!=null){
