@@ -11,8 +11,8 @@ import it.algos.evento.entities.prenotazione.PrenotazioneModulo;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.webbase.multiazienda.ERelatedComboField;
 import it.algos.webbase.web.entity.BaseEntity;
-import it.algos.webbase.web.field.CheckBoxField;
-import it.algos.webbase.web.field.EmailField;
+import it.algos.webbase.web.field.*;
+import it.algos.webbase.web.field.TextArea;
 import it.algos.webbase.web.field.TextField;
 import it.algos.webbase.web.form.AFormLayout;
 import it.algos.webbase.web.form.ModuleForm;
@@ -88,7 +88,8 @@ public class InsegnanteForm extends ModuleForm {
 		field.setWidth("300px");
 		addField(Insegnante_.indirizzo2, field);
 
-		field = new TextField("Note");
+		field = new TextArea("Note");
+		field.setHeight("10em");
 		field.setWidth("300px");
 		addField(Insegnante_.note, field);
 

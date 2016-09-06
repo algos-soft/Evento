@@ -195,6 +195,7 @@ public class InsegnanteImport {
         insegnante.setMaterie(string);
 
         string = valueMap.get(Columns.email.getTitoloColonna()).toLowerCase();
+        string = string.trim();
         insegnante.setEmail(string);
 
         string = WordUtils.capitalizeFully(valueMap.get(Columns.indirizzo.getTitoloColonna()));
