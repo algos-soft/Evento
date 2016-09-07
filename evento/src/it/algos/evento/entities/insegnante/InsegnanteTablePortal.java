@@ -4,6 +4,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
+import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.insegnante.InsegnanteImport.DoneListener;
 import it.algos.webbase.web.dialog.BaseDialog;
 import it.algos.webbase.web.importexport.ExportConfiguration;
@@ -42,7 +43,16 @@ public class InsegnanteTablePortal extends TablePortal {
 						dialog.show(getUI());
 					}// end of method
 				};
-				new InsegnanteImport(getTable(), listener);
+
+
+				// personalizzazione Extrateatro - import referenti personalizzato
+				String companyName = Company.getCurrent().getName();
+				if(companyName.equalsIgnoreCase("extrateatro")){
+					new InsegnanteImportExtrateatro(getTable(), listener);
+				}else{
+					new InsegnanteImport(getTable(), listener);
+				}
+
 			}// end of method
 		});// end of anonymous class
 		

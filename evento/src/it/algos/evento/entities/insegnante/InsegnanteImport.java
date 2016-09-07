@@ -89,7 +89,7 @@ public class InsegnanteImport {
     private void mUploadFinished() {
 
 
-        ExcelImportProcessor processor = new ExcelImportProcessor(file, Columns.getColumnNames(), new ExcelImportListener() {
+        ExcelImportProcessor processor = new ExcelImportProcessor(file, getColumnNames(), new ExcelImportListener() {
 
             @Override
             public ConstraintViolationException rowReceived(HashMap<String, String> valueMap) {
@@ -105,6 +105,13 @@ public class InsegnanteImport {
 
         processor.start();
 
+    }
+
+    /**
+     * Ritorna l'array dei nomi delle colonne Excel da elaborare
+     */
+    public String[] getColumnNames(){
+        return Columns.getColumnNames();
     }
 
     /**
@@ -173,7 +180,7 @@ public class InsegnanteImport {
     /**
      * Create an entity from a row of the Excel file.
      */
-    private Insegnante insegnanteFromExcel(HashMap<String, String> valueMap) {
+    public Insegnante insegnanteFromExcel(HashMap<String, String> valueMap) {
 
         String string;
         Insegnante insegnante = new Insegnante();
