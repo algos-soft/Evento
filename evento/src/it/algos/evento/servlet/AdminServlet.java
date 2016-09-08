@@ -45,12 +45,12 @@ public class AdminServlet extends AlgosServlet {
 
             // controlla se l'utente ha ruolo di admin
             Ruolo adminRole = Ruolo.read("admin");
-            Utente user= CompanySessionLib.getAdminLogin().getUser();
-            if(!user.hasRole(adminRole)) {
-                CompanySessionLib.setLogin(null);
-                String err="L'utente "+user+" (loggato dai cookies) non è abilitato all'accesso come admin. Login fallito.";
-                logger.log(Level.SEVERE, err);
-            }
+//            Utente user= CompanySessionLib.getAdminLogin().getUser();
+//            if(!user.hasRole(adminRole)) {
+//                CompanySessionLib.setLogin(null);
+//                String err="L'utente "+user+" (loggato dai cookies) non è abilitato all'accesso come admin. Login fallito.";
+//                logger.log(Level.SEVERE, err);
+//            }
 
 
         }

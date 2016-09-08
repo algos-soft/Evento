@@ -66,17 +66,17 @@ public class AdminLogin extends VerticalLayout {
 			@Override
 			public void buttonClick(ClickEvent event) {
 
-				// attacco il listener al Login
-				// (lo faccio qui perché l'oggetto Login potrebbe
-				// essere annullato a causa di un login fallito,
-				// quindi non posso farlo una volta sola alla costruzione della GUI)
-				CompanySessionLib.getAdminLogin().setLoginListener(new LoginListener() {
-
-					@Override
-					public void onUserLogin(Utente utente, boolean b) {
-						doLogin();
-					}
-				});
+//				// attacco il listener al Login
+//				// (lo faccio qui perché l'oggetto Login potrebbe
+//				// essere annullato a causa di un login fallito,
+//				// quindi non posso farlo una volta sola alla costruzione della GUI)
+//				CompanySessionLib.getAdminLogin().setLoginListener(new LoginListener() {
+//
+//					@Override
+//					public void onUserLogin(Utente utente, boolean b) {
+//						doLogin();
+//					}
+//				});
 
 				CompanySessionLib.getAdminLogin().showLoginForm();
 			}
@@ -105,16 +105,16 @@ public class AdminLogin extends VerticalLayout {
 
 		// controlla se l'utente ha ruolo di admin
 		Ruolo adminRole = Ruolo.read("admin");
-		Utente user= CompanySessionLib.getAdminLogin().getUser();
-		if(user.hasRole(adminRole)) {
-			// Avvia la UI dell'admin
-			Component comp = new AdminHome();
-			UI.getCurrent().setContent(comp);
-		}else{
-			// annulla il login e mostra una notifica
-			CompanySessionLib.setLogin(null);
-			Notification.show("L'utente "+user+" non è abilitato all'accesso come admin.", Notification.Type.ERROR_MESSAGE);
-		}
+//		Utente user= CompanySessionLib.getAdminLogin().getUser();
+//		if(user.hasRole(adminRole)) {
+//			// Avvia la UI dell'admin
+//			Component comp = new AdminHome();
+//			UI.getCurrent().setContent(comp);
+//		}else{
+//			// annulla il login e mostra una notifica
+//			CompanySessionLib.setLogin(null);
+//			Notification.show("L'utente "+user+" non è abilitato all'accesso come admin.", Notification.Type.ERROR_MESSAGE);
+//		}
 
 	}
 

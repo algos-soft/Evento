@@ -10,6 +10,7 @@ import it.algos.evento.entities.prenotazione.ConfermaPrenClienteModulo;
 import it.algos.evento.entities.prenotazione.Prenotazione;
 import it.algos.evento.entities.prenotazione.Prenotazione_;
 import it.algos.webbase.web.lib.LibUUID;
+import it.algos.webbase.web.login.LoginEvent;
 import it.algos.webbase.web.query.AQuery;
 import it.algos.webbase.web.ui.AlgosUI;
 
@@ -52,4 +53,8 @@ public class ConfermaPrenUI extends AlgosUI {
 		setContent(comp);
 	}
 
+	@Override
+	public void onUserLogin(LoginEvent loginEvent) {
+
+	}
 }

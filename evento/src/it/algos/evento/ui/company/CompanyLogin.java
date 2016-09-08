@@ -67,12 +67,12 @@ public class CompanyLogin extends VerticalLayout {
 				// (lo faccio qui perché l'oggetto Login potrebbe
 				// essere annullato a causa di un login fallito,
 				// quindi non posso farlo una volta sola alla costruzione della GUI)
-				Login.getLogin().setLoginListener(new LoginListener() {
-					@Override
-					public void onUserLogin(Utente utente, boolean b) {
-						doLogin();
-					}
-				});
+//				Login.getLogin().setLoginListener(new LoginListener() {
+//					@Override
+//					public void onUserLogin(Utente utente, boolean b) {
+//						doLogin();
+//					}
+//				});
 
 				Login.getLogin().showLoginForm();
 			}
@@ -98,18 +98,18 @@ public class CompanyLogin extends VerticalLayout {
 
 	private void doLogin(){
 
-		// registra la company nella sessione in base all'utente loggato
-		Utente user = Login.getLogin().getUser();
-		boolean success= CompanySessionLib.registerCompanyByUser(user);
-
-		if(success){
-			UI.getCurrent().setContent(new CompanyHome());
-		}else{
-			CompanySessionLib.setCompany(null);
-			CompanySessionLib.setLogin(null);
-			Notification.show("L'utente "+user+" è registrato ma non c'è l'azienda corrispondente.\nContattateci per creare la vostra azienda.", Notification.Type.ERROR_MESSAGE);
-		}
-
+//		// registra la company nella sessione in base all'utente loggato
+//		Utente user = Login.getLogin().getUser();
+//		boolean success= CompanySessionLib.registerCompanyByUser(user);
+//
+//		if(success){
+//			UI.getCurrent().setContent(new CompanyHome());
+//		}else{
+//			CompanySessionLib.setCompany(null);
+//			CompanySessionLib.setLogin(null);
+//			Notification.show("L'utente "+user+" è registrato ma non c'è l'azienda corrispondente.\nContattateci per creare la vostra azienda.", Notification.Type.ERROR_MESSAGE);
+//		}
+//
 	}
 
 
