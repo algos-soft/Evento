@@ -2,6 +2,9 @@ package it.algos.evento.entities.scuola;
 
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
+import it.algos.evento.entities.company.Company;
+import it.algos.evento.entities.insegnante.InsegnanteImport;
+import it.algos.evento.entities.insegnante.InsegnanteImportExtrateatro;
 import it.algos.evento.entities.scuola.ScuolaImport.DoneListener;
 import it.algos.webbase.web.dialog.BaseDialog;
 import it.algos.webbase.web.importexport.ExportConfiguration;
@@ -30,7 +33,15 @@ public class ScuolaTablePortal extends TablePortal {
 						dialog.show(getUI());
 					}
 				};
-				new ScuolaImport(getTable(), listener);
+
+				// personalizzazione Extrateatro - import scuole personalizzato
+				String companyName = Company.getCurrent().getName();
+				if(companyName.equalsIgnoreCase("extrateatro")){
+					new ScuolaImportExtrateatro(getTable(), listener);
+				}else{
+					new ScuolaImport(getTable(), listener);
+				}
+
 
 				// ConfirmDialog dialog = new ConfirmDialog(null);
 				// dialog.show(getUI());

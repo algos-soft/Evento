@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 /**
  * Personalizzazione per Extrateatro
- * Mette tutti i dati aggiuntivi nel campo Note
  */
 public class InsegnanteImportExtrateatro extends InsegnanteImport {
 
