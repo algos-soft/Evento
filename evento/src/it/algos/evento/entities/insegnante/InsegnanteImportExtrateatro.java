@@ -37,39 +37,61 @@ public class InsegnanteImportExtrateatro extends InsegnanteImport {
     public Insegnante insegnanteFromExcel(HashMap<String, String> valueMap) {
         Insegnante ins = super.insegnanteFromExcel(valueMap);
         if (ins != null) {
-
             String s;
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb;
+
+
+            // mette tutto l'indirizzo (1 e 2) nell'indirizzo1
+            sb = new StringBuilder();
+            String ind1 = ins.getIndirizzo1();
+            String ind2 = ins.getIndirizzo2();
+            sb.append(ind1);
+            if(sb.length()>0){
+                sb.append(" ");
+            }
+            sb.append(ind2);
+            ins.setIndirizzo1(sb.toString());
+            ins.setIndirizzo2("");
+
+
+            // compone la stringa per Indirizzo2 con i dati della scuola
+            sb = new StringBuilder();
 
             s = valueMap.get(Columns.tipo.getTitoloColonna()).trim();
-            append(sb, "Tipo:", s);
+            appendPart(sb, "Tipo:", s);
 
             s = valueMap.get(Columns.scuola.getTitoloColonna()).trim();
-            append(sb, "Scuola:", s);
+            appendPart(sb, "Scuola:", s);
 
             s = valueMap.get(Columns.plessosede.getTitoloColonna()).trim();
-            append(sb, "Plesso/Sede:", s);
+            appendPart(sb, "Plesso/Sede:", s);
 
             s = valueMap.get(Columns.fax.getTitoloColonna()).trim();
-            append(sb, "Fax:", s);
+            appendPart(sb, "Fax:", s);
 
             s = valueMap.get(Columns.note.getTitoloColonna()).trim();
-            append(sb, "Note:", s);
+            appendPart(sb, "Note:", s);
+
+            ins.setIndirizzo2(sb.toString());
+
+
+            // compone la stringa per le note con i dati dello storico
+            sb = new StringBuilder();
 
             s = valueMap.get(Columns.stor1516.getTitoloColonna()).trim();
-            append(sb, "2015-2016:", s);
+            appendLine(sb, "2015-2016:", s);
 
             s = valueMap.get(Columns.stor1415.getTitoloColonna()).trim();
-            append(sb, "2014-2015:", s);
+            appendLine(sb, "2014-2015:", s);
 
             s = valueMap.get(Columns.stor1314.getTitoloColonna()).trim();
-            append(sb, "2013-2014:", s);
+            appendLine(sb, "2013-2014:", s);
 
             s = valueMap.get(Columns.stor1213.getTitoloColonna()).trim();
-            append(sb, "2012-2013:", s);
+            appendLine(sb, "2012-2013:", s);
 
             s = valueMap.get(Columns.stor1112.getTitoloColonna()).trim();
-            append(sb, "2011-2012:", s);
+            appendLine(sb, "2011-2012:", s);
 
             s = sb.toString();
             ins.setNote(s);
@@ -79,14 +101,24 @@ public class InsegnanteImportExtrateatro extends InsegnanteImport {
         return ins;
     }
 
-    private void append(StringBuilder sb, String t, String s) {
+    private void append(StringBuilder sb, String t, String s, String sep) {
         if (!s.isEmpty()) {
             if (sb.length() > 0) {
-                sb.append("\n");
+                sb.append(sep);
             }
             sb.append(t+" "+s);
         }
     }
+
+    private void appendLine(StringBuilder sb, String t, String s) {
+        append(sb, t, s, "\n");
+    }
+
+    private void appendPart(StringBuilder sb, String t, String s) {
+        append(sb, t, s, " - ");
+    }
+
+
 
 
     /**
