@@ -103,7 +103,7 @@ public class PrenotazioneForm extends ModuleForm {
 
     public PrenotazioneForm(ModulePop modulo, Item item) {
         super(item, modulo);
-    }// end of constructor
+    }
 
 
     protected void init() {
@@ -190,7 +190,7 @@ public class PrenotazioneForm extends ModuleForm {
         });
 
         return toolbar;
-    }// end of method
+    }
 
 
 

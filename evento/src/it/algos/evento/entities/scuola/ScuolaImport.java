@@ -97,7 +97,7 @@ public class ScuolaImport {
 	 * Create an Import Processor with the file and listen to its events
 	 */
 	private void mUploadFinished() {
-		ExcelImportProcessor processor = new ExcelImportProcessor(file, Columns.getColumnNames(), new ExcelImportListener() {
+		ExcelImportProcessor processor = new ExcelImportProcessor(file, getColumnNames(), new ExcelImportListener() {
 
 			@Override
 			public ConstraintViolationException rowReceived(HashMap<String, String> valueMap) {
@@ -172,6 +172,15 @@ public class ScuolaImport {
 		}
 
 	}
+
+
+	/**
+	 * Ritorna l'array dei nomi delle colonne Excel da elaborare
+	 */
+	public String[] getColumnNames(){
+		return Columns.getColumnNames();
+	}
+
 
 	/**
 	 * Enum of the desired coulmns to import.
@@ -253,7 +262,7 @@ public class ScuolaImport {
 	/**
 	 * Create an entity from a row of the Excel file.
 	 */
-	private Scuola scuolaFromExcel(HashMap<String, String> valueMap) {
+	public Scuola scuolaFromExcel(HashMap<String, String> valueMap) {
 
 		String string;
 		Scuola scuola = new Scuola();
