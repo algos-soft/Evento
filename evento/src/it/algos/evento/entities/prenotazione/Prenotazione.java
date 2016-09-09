@@ -141,7 +141,6 @@ public class Prenotazione extends CompanyEntity {
     //@org.eclipse.persistence.annotations.Index
     private String classe = "";
 
-    @NotEmpty
     private String telRiferimento = ""; // telefono della persona di riferimento
 
     @Email

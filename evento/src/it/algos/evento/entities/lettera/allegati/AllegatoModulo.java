@@ -12,6 +12,7 @@ import it.algos.webbase.multiazienda.CompanyModule;
 import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.web.AlgosApp;
 import it.algos.webbase.web.entity.BaseEntity;
+import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.form.ModuleForm;
 import it.algos.webbase.web.lib.LibFile;
 import it.algos.webbase.web.query.AQuery;
@@ -22,6 +23,7 @@ import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.collections.comparators.TransformingComparator;
 
+import javax.persistence.EntityManager;
 import javax.persistence.metamodel.Attribute;
 import java.io.File;
 import java.io.IOException;
@@ -124,7 +126,11 @@ public class AllegatoModulo extends CompanyModule {
 					if (result == null) {
 						try {
 					    	Allegato allegato = fileToAllegato(file);
-							allegato.save();
+
+							EntityManager manager = EM.createEntityManager();
+							allegato.save(manager);
+							manager.close();
+
 							fire(AllegatoEvent.added);
 						} catch (IOException e) {
 							Notification.show(e.getMessage());
@@ -167,9 +173,6 @@ public class AllegatoModulo extends CompanyModule {
 	/**
 	 * Rinomina un allegato
 	 * <p>
-	 * 
-	 * @param name
-	 *            il nuovo nome
 	 */
 	public void renameAllegato(String oldName, String newName) {
 		Allegato allegato = getAllegato(newName);
