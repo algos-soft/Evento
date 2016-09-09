@@ -24,17 +24,17 @@ public class GestoreAllegati extends AlertDialog {
 			
 			@Override
 			public void renamed_() {
-				table.reload();
+				table.showAll();
 			}
 			
 			@Override
 			public void deleted_() {
-				table.reload();
+				table.showAll();
 			}
 			
 			@Override
 			public void added_() {
-				table.reload();
+				table.showAll();
 			}
 		});
 		

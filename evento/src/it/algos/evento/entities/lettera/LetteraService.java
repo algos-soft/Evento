@@ -88,13 +88,14 @@ public class LetteraService {
         }
 
         // crea l'array degli allegati
+        // solo quelli che sono elencati nella stringa e che esistono in gestione allegati
         Allegato[] allegati=null;
         String sNomi=lettera.getAllegati();
         if(sNomi!=null && !sNomi.equals("")){
             String[] aNomi=sNomi.split(",");
-            allegati=new Allegato[aNomi.length];
+            ArrayList<Allegato> listaAlleg = new ArrayList<>();
             for(int i=0; i<aNomi.length; i++){
-                String nome = aNomi[i];
+                String nome = aNomi[i].trim();
                 Allegato allegato = null;
                 Container.Filter f1 = new Compare.Equal(Allegato_.name.getName(), nome);
                 Container.Filter f2 = new Compare.Equal(Allegato_.company.getName(), lettera.getCompany());
@@ -103,9 +104,14 @@ public class LetteraService {
                 if(listAllegati.size()==1){
                     BaseEntity entity=listAllegati.get(0);
                     allegato = (Allegato) entity;
+                    listaAlleg.add(allegato);
                 }
-                allegati[i]=allegato;
+
             }
+
+            // list to array
+            allegati=listaAlleg.toArray(new Allegato[0]);
+
         }
 
         try {
