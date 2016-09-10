@@ -1110,6 +1110,23 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
         }
     }
 
+
+    /**
+     * If this table remembers the column states (width, collapsed...) by saving and restoring them in a cookie.
+     * @return true if the table is remembering the states
+     */
+    public boolean isRememberColumnStates() {
+        return rememberColumnStates;
+    }
+
+    /**
+     * Set whether this table remembers the column states (width, collapsed...) by saving and restoring them in a cookie.
+     * @param rememberColumnStates true to remember the states
+     */
+    public void setRememberColumnStates(boolean rememberColumnStates) {
+        this.rememberColumnStates = rememberColumnStates;
+    }
+
     @Override
     protected String formatPropertyValue(Object rowId, Object colId, Property property) {
         String string = null;
