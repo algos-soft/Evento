@@ -81,7 +81,7 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
     protected static final String COL_PRIVATO = "tipo";
 
     // se registrare lo stato delle colonne nei cookies.
-    private boolean rememberColumnStates=true;
+    private boolean rememberColumnStates;
 
     // acceso quando inizia l'operazione di regolazione delle colonne dai cookies e spento quando termina.
     // durante questa fase le colonne vengono modificate e i listener non devono reagire.
@@ -98,6 +98,8 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
     @Override
     protected void init() {
         super.init();
+
+        rememberColumnStates=true;
 
         setColumnHeader(Prenotazione_.numPrenotazione, "N.");
         setColumnHeader(Prenotazione_.dataPrenotazione, "data");
