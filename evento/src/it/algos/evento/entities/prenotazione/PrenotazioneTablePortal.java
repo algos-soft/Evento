@@ -15,6 +15,7 @@ import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
+import it.algos.webbase.web.toolbar.TableToolbar;
 import it.algos.webbase.web.toolbar.Toolbar;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class PrenotazioneTablePortal extends TablePortal {
     public PrenotazioneTablePortal(ModulePop modulo) {
         super(modulo);
 
-        Toolbar toolbar = getToolbar();
+        TableToolbar toolbar = getToolbar();
 
         // bottone Altro...
         MenuBar.MenuItem item = toolbar.addButton("Altro...", FontAwesome.BARS, null);
@@ -191,7 +192,10 @@ public class PrenotazioneTablePortal extends TablePortal {
                     msgNoSelection();
                 }
             }
-        });// end of anonymous class
+        });
+
+        // questa tabella ha il bottone Opzioni
+        toolbar.setOptionsButtonVisible(true);
 
 
     }// end of method

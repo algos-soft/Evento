@@ -518,7 +518,7 @@ public class DemoDataGenerator {
     }
 
 
-    private static int getCount(Class<?> clazz, BaseCompany company) {
+    private static int getCount(Class<? extends BaseEntity> clazz, BaseCompany company) {
         long num = AQuery.getCount(clazz, Evento_.company, company);
         return (int) num;
     }

@@ -26,6 +26,10 @@ public class InsegnanteTablePortal extends TablePortal {
 
 	public InsegnanteTablePortal(ModulePop modulo) {
 		super(modulo);
+
+		// questa tabella ha il bottone Opzioni
+		getToolbar().setOptionsButtonVisible(true);
+
 	}// end of constructor
 
 	public TableToolbar createToolbar() {

@@ -11,7 +11,7 @@ public class EventoPrenTablePortal extends TablePortal {
 	}
 
 	public TableToolbar createToolbar() {
-		TableToolbar toolbar = new EventoPrenTableToolbar();
+		TableToolbar toolbar = new EventoPrenTableToolbar(this);
 		return toolbar;
 	}// end of method
 

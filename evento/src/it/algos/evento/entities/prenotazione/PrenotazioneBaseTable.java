@@ -80,12 +80,6 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
     // id della colonna generata "referente"
     protected static final String COL_PRIVATO = "tipo";
 
-    // se registrare lo stato delle colonne nei cookies.
-    private boolean rememberColumnStates;
-
-    // acceso quando inizia l'operazione di regolazione delle colonne dai cookies e spento quando termina.
-    // durante questa fase le colonne vengono modificate e i listener non devono reagire.
-    private boolean columnsAreSetting;
 
     /**
      * Classe base tabella prenotazioni
@@ -98,8 +92,6 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
     @Override
     protected void init() {
         super.init();
-
-        rememberColumnStates=true;
 
         setColumnHeader(Prenotazione_.numPrenotazione, "N.");
         setColumnHeader(Prenotazione_.dataPrenotazione, "data");
@@ -165,193 +157,6 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
             }
         });
 
-
-        addColumnCollapseListener(new ColumnCollapseListener() {
-            @Override
-            public void columnCollapseStateChange(ColumnCollapseEvent columnCollapseEvent) {
-                if (rememberColumnStates & !columnsAreSetting) {
-                    writeColumnStateCookie();
-                }
-            }
-        });
-
-        addColumnResizeListener(new ColumnResizeListener() {
-            @Override
-            public void columnResize(ColumnResizeEvent columnResizeEvent) {
-                if (rememberColumnStates & !columnsAreSetting) {
-                    writeColumnStateCookie();
-                }
-            }
-        });
-
-        if(rememberColumnStates){
-            readColumnStateCookie();
-        }
-
-    }
-
-    /**
-     * Writes the current columns state in a cookie
-     */
-    private void writeColumnStateCookie() {
-        Object[] columns = getVisibleColumns();
-        StringBuilder stateString = new StringBuilder();
-        for (Object column : columns) {
-            int collapsed;
-            if (isColumnCollapsed(column)) {
-                collapsed = 1;
-            } else {
-                collapsed = 0;
-            }
-            int width = getColumnWidth(column);
-            ColumnState state = new ColumnState(column.toString(), collapsed, width);
-            stateString.append(state.toString() + ";");
-        }
-        String cookieval = stateString.toString();
-        if (cookieval.substring(cookieval.length()).equals(";")) ;
-        {
-            cookieval = cookieval.substring(0, cookieval.length() - 1);
-        }
-        int cookietime = 10 * 365 * 24 * 60 * 60;    // 10 years
-        LibCookie.setCookie(getColumnsCookieKey(), cookieval, cookietime);
-    }
-
-    /**
-     * Reads the current columns state from the cookie
-     * and sets the columns state accordingly
-     */
-    private void readColumnStateCookie() {
-
-        String cookieval = LibCookie.getCookieValue(getColumnsCookieKey());
-        if (cookieval == null) {
-            return;
-        }
-
-        // create a hashmap with column states from the cookie
-        HashMap<String, ColumnState> statesmap = new HashMap<>();
-        String[] columnInfos = cookieval.split(";");
-        for (String info : columnInfos) {
-            String[] parts = info.split(",");
-            if (parts.length > 0) {
-                String columnId = parts[0];
-                int columnCollapsed = -1;    // unspecified
-                int columnWidth = -1;    // unspecified
-                if (parts.length > 1) {
-                    try {
-                        columnCollapsed = Integer.parseInt(parts[1]);
-                    }catch (Exception e){
-                    }
-                }
-                if (parts.length > 2) {
-                    try {
-                        columnWidth = Integer.parseInt(parts[2]);
-                    }catch (Exception e){
-                    }
-                }
-                ColumnState state = new ColumnState(columnId, columnCollapsed, columnWidth);
-                statesmap.put(columnId, state);
-            }
-        }
-
-        // iterate all the columns and set accordingly
-        columnsAreSetting=true;
-        Object[] columns = getVisibleColumns();
-        for (Object column : columns) {
-            String columnId = column.toString();
-            ColumnState state = statesmap.get(columnId);
-            if(state!=null){
-
-                // collapsed state
-                int collapsedCode=state.getCollapsed();
-                if(collapsedCode!=-1){
-                    boolean collapsed = (collapsedCode==1);
-                    try {
-                        setColumnCollapsed(columnId, collapsed);
-                    } catch (IllegalArgumentException e) {
-                        int a = 87;  // ignore
-                    }
-                }
-
-                // width
-                int width=state.getWitdh();
-                if(width!=-1){
-                    try {
-                        setColumnWidth(columnId, width);
-                    } catch (IllegalArgumentException e) {
-                        int a = 87;  // ignore
-                    }
-                }
-
-            }
-
-        }
-        columnsAreSetting=false;
-
-
-    }
-
-    /**
-     * Represents a table columns state
-     */
-    private class ColumnState {
-        private String columnId;
-        private int collapsed;  //0 = not collapsed, 1 = collapsed, -1 = unspecified
-        private int witdh;// -1 = unspecified
-
-        public ColumnState(String columnId, int collapsed, int witdh) {
-            this.columnId = columnId;
-            this.collapsed = collapsed;
-            this.witdh = witdh;
-        }
-
-        public int getCollapsed() {
-            return collapsed;
-        }
-
-        public void setCollapsed(int collapsed) {
-            this.collapsed = collapsed;
-        }
-
-        public int getWitdh() {
-            return witdh;
-        }
-
-        @Override
-        public String toString() {
-            StringBuilder builder = new StringBuilder();
-            builder.append(columnId + ",");
-            builder.append(collapsed+ ",");
-            builder.append(witdh);
-            return builder.toString();
-        }
-
-
-    }
-
-    /**
-     * Reads the current columns state from the cookie
-     * and sets the columns state accordingly
-     */
-    private void readColumnStateCookieOld() {
-        String cookiekey = getColumnsCookieKey();
-        String cookieval = LibCookie.getCookieValue(cookiekey);
-        if (cookieval != null) {
-            String[] columns = cookieval.split(",");
-            for (String column : columns) {
-                column = column.trim();
-                if (!column.isEmpty()) {
-                    try {
-                        setColumnCollapsed(column, true);
-                    } catch (IllegalArgumentException e) {
-                        int a = 87;  // ignore
-                    }
-                }
-            }
-        }
-    }
-
-    private String getColumnsCookieKey() {
-        return getClass().getName() + "-columnstate";
     }
 
 
@@ -1111,21 +916,6 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
     }
 
 
-    /**
-     * If this table remembers the column states (width, collapsed...) by saving and restoring them in a cookie.
-     * @return true if the table is remembering the states
-     */
-    public boolean isRememberColumnStates() {
-        return rememberColumnStates;
-    }
-
-    /**
-     * Set whether this table remembers the column states (width, collapsed...) by saving and restoring them in a cookie.
-     * @param rememberColumnStates true to remember the states
-     */
-    public void setRememberColumnStates(boolean rememberColumnStates) {
-        this.rememberColumnStates = rememberColumnStates;
-    }
 
     @Override
     protected String formatPropertyValue(Object rowId, Object colId, Property property) {
