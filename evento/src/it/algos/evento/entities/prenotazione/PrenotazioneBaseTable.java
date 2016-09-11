@@ -149,6 +149,22 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
         setColumnCollapsed(Prenotazione_.richiestoBus.getName(), true);
         setColumnCollapsed(Prenotazione_.pagatoBus.getName(), true);
 
+        // generatore di stili per le singole celle
+        setCellStyleGenerator(new CellStyleGenerator() {
+
+            @Override
+            public String getStyle(Table table, Object itemId, Object propertyId) {
+                // posti e importo in grigio se pren congelata
+                if (propertyId == Prenotazione_.numTotali.getName() | propertyId == Prenotazione_.importoDaPagare.getName()) {
+                    Prenotazione pren = (Prenotazione) getEntity(itemId);
+                    if (pren.isCongelata()) {
+                        return "cell-cong";
+                    }
+                }
+                return null;
+            }
+        });
+
 
         addColumnCollapseListener(new ColumnCollapseListener() {
             @Override
@@ -167,24 +183,6 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
                 }
             }
         });
-
-
-        // generatore di stili per le singole celle
-        setCellStyleGenerator(new CellStyleGenerator() {
-
-            @Override
-            public String getStyle(Table table, Object itemId, Object propertyId) {
-                // posti e importo in grigio se pren congelata
-                if (propertyId == Prenotazione_.numTotali.getName() | propertyId == Prenotazione_.importoDaPagare.getName()) {
-                    Prenotazione pren = (Prenotazione) getEntity(itemId);
-                    if (pren.isCongelata()) {
-                        return "cell-cong";
-                    }
-                }
-                return null;
-            }
-        });
-
 
         if(rememberColumnStates){
             readColumnStateCookie();
