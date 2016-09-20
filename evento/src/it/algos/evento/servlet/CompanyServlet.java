@@ -44,7 +44,7 @@ public class CompanyServlet extends AlgosServlet {
         if(Login.getLogin().loginFromCookies()){
 
             // registra la company nella sessione in base all'utente loggato
-            Utente user = Login.getLogin().getUser();
+            UserIF user = Login.getLogin().getUser();
             if(!CompanySessionLib.registerCompanyByUser(user)) {
                 CompanySessionLib.setLogin(null);
                 String err="L'utente " + user + " (loggato dai cookies) è registrato ma non c'è l'azienda corrispondente. Login fallito.";

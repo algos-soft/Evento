@@ -71,7 +71,7 @@ public class CompanyLogin extends VerticalLayout {
 				// quindi non posso farlo una volta sola alla costruzione della GUI)
 				Login.getLogin().setLoginListener(new LoginListener() {
 					@Override
-					public void onUserLogin(Utente utente, boolean b) {
+					public void onUserLogin(LoginEvent e) {
 						doLogin();
 					}
 				});
@@ -101,7 +101,7 @@ public class CompanyLogin extends VerticalLayout {
 	private void doLogin(){
 
 		// registra la company nella sessione in base all'utente loggato
-		Utente user = Login.getLogin().getUser();
+		UserIF user = Login.getLogin().getUser();
 		boolean success= CompanySessionLib.registerCompanyByUser(user);
 
 		if(success){
