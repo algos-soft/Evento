@@ -54,9 +54,8 @@ public class AdminUI extends AlgosUI {
 
     }// end of method
 
-
     @Override
-    public void onUserLogin(LoginEvent e) {
+    public void onUserLogin(LoginEvent loginEvent) {
 
     }
 }

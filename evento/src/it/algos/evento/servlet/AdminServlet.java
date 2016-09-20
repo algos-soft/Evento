@@ -45,8 +45,9 @@ public class AdminServlet extends AlgosServlet {
         if(CompanySessionLib.getAdminLogin().loginFromCookies()){
 
             // controlla se l'utente ha ruolo di admin
-            UserIF user= CompanySessionLib.getAdminLogin().getUser();
-            if(!user.isAdmin()) {
+            Ruolo adminRole = Ruolo.read("admin");
+            Utente user= CompanySessionLib.getAdminLogin().getUser();
+            if(!user.hasRole(adminRole)) {
                 CompanySessionLib.setLogin(null);
                 String err="L'utente "+user+" (loggato dai cookies) non è abilitato all'accesso come admin. Login fallito.";
                 logger.log(Level.SEVERE, err);

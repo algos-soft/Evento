@@ -75,14 +75,9 @@ public class AdminLogin extends VerticalLayout {
 				CompanySessionLib.getAdminLogin().setLoginListener(new LoginListener() {
 
 					@Override
-					public void onUserLogin(LoginEvent e) {
+					public void onUserLogin(Utente utente, boolean b) {
 						doLogin();
 					}
-
-//					@Override
-//					public void onUserLogin(Utente utente, boolean b) {
-//						doLogin();
-//					}
 				});
 
 				CompanySessionLib.getAdminLogin().showLoginForm();
@@ -112,8 +107,8 @@ public class AdminLogin extends VerticalLayout {
 
 		// controlla se l'utente ha ruolo di admin
 		Ruolo adminRole = Ruolo.read("admin");
-		UserIF user= CompanySessionLib.getAdminLogin().getUser();
-		if(user.isAdmin()) {
+		Utente user= CompanySessionLib.getAdminLogin().getUser();
+		if(user.hasRole(adminRole)) {
 			// Avvia la UI dell'admin
 			Component comp = new AdminHome();
 			UI.getCurrent().setContent(comp);
