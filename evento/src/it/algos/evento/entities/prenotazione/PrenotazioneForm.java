@@ -13,7 +13,9 @@ import com.vaadin.server.Page;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.TextArea;
+import it.algos.evento.EventoApp;
 import it.algos.evento.EventoBootStrap;
+import it.algos.evento.entities.company.Company;
 import it.algos.evento.entities.evento.Evento;
 import it.algos.evento.entities.evento.Evento_;
 import it.algos.evento.entities.insegnante.Insegnante;
@@ -452,8 +454,12 @@ public class PrenotazioneForm extends ModuleForm {
         tab.getComponent().setWidth(width);
         tab = tabsheet.addTab(creaTabEventi(), "Eventi e note");
         tab.getComponent().setWidth(width);
-        tab = tabsheet.addTab(creaTabAltro(), "Altro");
-        tab.getComponent().setWidth(width);
+
+        // tab bus (personalizzazione Extrateatro)
+        if (Company.getCurrent().getCompanyCode().equals(EventoApp.EXTRATEATRO_COMPANY_CODE)) {
+            tab = tabsheet.addTab(creaTabAltro(), "Bus");
+            tab.getComponent().setWidth(width);
+        }
 
         postLayout();
         return tabsheet;

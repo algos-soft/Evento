@@ -55,30 +55,6 @@ public class RappresentazioneModulo extends CompanyModule {
         return RappresentazioneModulo.countPostiPrenotati(rapp, getEntityManager());
     }
 
-//    /**
-//     * Ritorna i posti prenotati per una data rappresentazione.
-//     */
-//    public static int countPostiPrenotati(Rappresentazione rapp, EntityManager manager) {
-//        int quantiPrenotati = 0;
-//
-//        // prenotazioni esistenti sulla stassa rapresentazione
-//        // (escluse le congelate)
-//        Filter filtroRappresentazione = new Compare.Equal(Prenotazione_.rappresentazione.getName(), rapp);
-//        Filter filtroNonCongelata = new Compare.Equal(Prenotazione_.congelata.getName(), false);
-//        ELazyContainer cont = new ELazyContainer(manager, Prenotazione.class);
-//
-//        cont.addContainerFilter(filtroRappresentazione);
-//        cont.addContainerFilter(filtroNonCongelata);
-//
-//        // spazzola le prenotazioni e calcola il tatale posti prenotati
-//        Collection<?> ids = cont.getItemIds();
-//        for (Object id : ids) {
-//            Prenotazione pren = (Prenotazione) cont.getEntity(id);
-//            quantiPrenotati += pren.getNumTotali();
-//        }
-//
-//        return quantiPrenotati;
-//    }
 
 
     /**
@@ -149,13 +125,6 @@ public class RappresentazioneModulo extends CompanyModule {
     public int getPostiDisponibili(Rappresentazione rapp) {
         return countPostiDisponibili(rapp, getEntityManager());
     }
-
-
-//    public static void esportaRappresentazione(Object id) {
-//        ArrayList<Prenotazione> lista;
-//        lista = getListaPrenotazioni(id);
-//        tableExport(id, lista, UI.getCurrent());
-//    }// end of method
 
 
     /**

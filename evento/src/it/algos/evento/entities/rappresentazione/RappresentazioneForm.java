@@ -345,7 +345,7 @@ public class RappresentazioneForm extends ModuleForm {
             ArrayList<Attribute> columns = new ArrayList<Attribute>();
             columns.add(Insegnante_.cognome);
             columns.add(Insegnante_.nome);
-            columns.add(Insegnante_.indirizzo2);
+            columns.add(Insegnante_.email);
             columns.add(Insegnante_.materie);
             return columns.toArray(new Attribute[0]);
         }// end of method

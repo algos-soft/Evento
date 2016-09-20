@@ -148,10 +148,12 @@ public class RappresentazioneTable extends ETable {
         // aggiunge un filtro sulla stagione corrente
         Container cont = super.createContainer();
         Filter filter = new Compare.Equal(PROP_EVENTO_STAGIONE, Stagione.getStagioneCorrente());
-        getFilterableContainer().addContainerFilter(filter);
+        if(cont instanceof Filterable){
+            Filterable fcont=(Filterable)cont;
+            fcont.addContainerFilter(filter);
+        }
         return cont;
-    }// end of method
-
+    }
 
 
     @Override

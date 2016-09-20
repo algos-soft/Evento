@@ -22,6 +22,7 @@ import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Enum delle preferenze del programma con i relativi valori di default.
@@ -357,7 +358,7 @@ public enum CompanyPrefs implements PrefIF {
         Filter f1 = new Compare.Equal(Evento_.company.getName(), company);
         Filter f2 = new Compare.Equal(PrefEventoEntity_.code.getName(), getCode());
         Filter filter = new And(f1,f2);
-        ArrayList<BaseEntity> list=AQuery.getList(PrefEventoEntity.class, filter);
+        List<? extends BaseEntity> list=AQuery.getList(PrefEventoEntity.class, filter);
         if(list.size()>0){
             entity=(PrefEventoEntity)list.get(0);
         }

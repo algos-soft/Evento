@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -210,7 +211,7 @@ public class Lettera extends CompanyEntity {
 		Container.Filter f1 = new Compare.Equal(Lettera_.sigla.getName(), modello.getDbCode());
 		Container.Filter f2 = new Compare.Equal(Lettera_.company.getName(), company);
 		Container.Filter filter = new And(f1, f2);
-		ArrayList<BaseEntity> lettere = AQuery.getList(Lettera.class, filter);
+		List<? extends BaseEntity> lettere = AQuery.getList(Lettera.class, filter);
 		if(lettere.size()==1){
 			BaseEntity entity=lettere.get(0);
 			lettera = (Lettera) entity;

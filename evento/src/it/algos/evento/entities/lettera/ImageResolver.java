@@ -14,6 +14,7 @@ import javax.activation.DataSource;
 import javax.mail.util.ByteArrayDataSource;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ImageResolver implements DataSourceResolver {
 
@@ -29,7 +30,7 @@ public class ImageResolver implements DataSourceResolver {
 		Container.Filter f1 = new Compare.Equal(Allegato_.name.getName(), resourceLocation);
 		Container.Filter f2 = new Compare.Equal(Allegato_.company.getName(), company);
 		Container.Filter filter = new And(f1, f2);
-		ArrayList<BaseEntity> listAllegati = AQuery.getList(Allegato.class, filter);
+		List<? extends BaseEntity> listAllegati = AQuery.getList(Allegato.class, filter);
 		if(listAllegati.size()==1){
 			BaseEntity entity=listAllegati.get(0);
 			Allegato allegato = (Allegato) entity;

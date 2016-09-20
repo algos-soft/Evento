@@ -697,7 +697,7 @@ public class DemoDataGenerator {
             Filter f1 = new Compare.Equal(Evento_.company.getName(), company);
             Filter f2 = new Compare.Equal(Lettera_.sigla.getName(), code);
             Filter f3 = new And(f1, f2);
-            List<BaseEntity> entities = AQuery.getList(Lettera.class, f3);
+            List<? extends BaseEntity> entities = AQuery.getList(Lettera.class, f3);
             if (entities.size() == 0) {
                 lettera = LetteraModulo.getLetteraDemo(modello);
                 lettera.setCompany(company);

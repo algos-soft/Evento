@@ -219,7 +219,7 @@ public class AllegatoModulo extends CompanyModule {
 		Container.Filter f1 = new Compare.Equal(Allegato_.name.getName(), name);
 		Container.Filter f2 = new Compare.Equal(Allegato_.company.getName(), company);
 		Container.Filter filter = new And(f1, f2);
-		ArrayList<BaseEntity> allegati = AQuery.getList(Allegato.class, filter);
+		List<? extends BaseEntity> allegati = AQuery.getList(Allegato.class, filter);
 		if(allegati.size()==1){
 			BaseEntity entity=allegati.get(0);
 			allegato = (Allegato) entity;

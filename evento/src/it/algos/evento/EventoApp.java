@@ -18,20 +18,6 @@ public abstract class EventoApp extends AlgosApp {
      */
     public static final String BOT_USER = "SYS_ROBOT";
 
-//	/**
-//	 * modo programmatore
-//	 */
-//	public static Boolean MODO_PROG = false;
-
-//	/**
-//	 * modo admin
-//	 */
-//	public static Boolean MANAGER = false;
-
-//	/**
-//	 * La azienda corrente
-//	 */
-//	public static Company COMPANY = null;
 
     /**
      * Nome della pagina di conferma prenotazione
@@ -43,10 +29,6 @@ public abstract class EventoApp extends AlgosApp {
      */
     public static final String MANAGER_PAGE = "admin";
 
-//    /**
-//     * chiave per la property user id nella session
-//     */
-//    public static final String KEY_USERID = "userid";
 
     /**
      * chiave per il flag di utilizzo funzionalità Gestione Mailing Integrata
@@ -74,7 +56,9 @@ public abstract class EventoApp extends AlgosApp {
     public static final String KEY_MOSTRA_PREN_PAGAMENTO_NON_CONFERMATO = "mostraPrenPagamentoDaConfermare";
     public static final String KEY_MOSTRA_PREN_CONGELATE = "mostraPrenCongelate";
 
-    // company code della azienda Asteria - per gestire personalizzazioni specifiche
+    // company codes per identificare le personalizzazioni
     public static final String ASTERIA_COMPANY_CODE="asteria";
+    public static final String EXTRATEATRO_COMPANY_CODE="extrateatro";
+
 
 }// end of static abstract class

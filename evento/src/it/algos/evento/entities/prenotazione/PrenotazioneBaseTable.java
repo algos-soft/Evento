@@ -23,14 +23,12 @@ import it.algos.evento.entities.prenotazione.eventi.TipoEventoPren;
 import it.algos.evento.entities.rappresentazione.Rappresentazione;
 import it.algos.evento.entities.scuola.Scuola;
 import it.algos.evento.entities.spedizione.Spedizione;
+import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.pref.CompanyPrefs;
 import it.algos.webbase.domain.company.BaseCompany;
-import it.algos.webbase.multiazienda.CompanyEntity;
-import it.algos.webbase.multiazienda.CompanyQuery;
-import it.algos.webbase.multiazienda.CompanySessionLib;
-import it.algos.webbase.multiazienda.ELazyContainer;
+import it.algos.webbase.multiazienda.*;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.entity.BaseEntity;
@@ -46,7 +44,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @SuppressWarnings("serial")
-public abstract class PrenotazioneBaseTable extends ModuleTable {
+public abstract class PrenotazioneBaseTable extends ETable {
 
     protected final Action actConfermaPrenotazione = new Action(Prenotazione.CMD_CONFERMA_PRENOTAZIONE,
             Prenotazione.ICON_CONFERMA_PRENOTAZIONE);
@@ -160,20 +158,38 @@ public abstract class PrenotazioneBaseTable extends ModuleTable {
     }
 
 
+//    /**
+//     * Creates the container
+//     * <p>
+//     *
+//     * @return un container RW filtrato sulla azienda corrente
+//     */
+//    @SuppressWarnings("unchecked")
+//    @Override
+//    public Container createContainer() {
+//        BaseCompany company = CompanySessionLib.getCompany();
+//        ELazyContainer entityContainer = new ELazyContainer(getEntityManager(), getEntityClass(), getContainerPageSize(), company);
+//        return entityContainer;
+//    }// end of method
+
+
     /**
      * Creates the container
      * <p>
-     *
-     * @return un container RW filtrato sulla azienda corrente
+     * @return un container filtrato sulla azienda corrente
      */
     @SuppressWarnings("unchecked")
     @Override
     public Container createContainer() {
-        BaseCompany company = CompanySessionLib.getCompany();
-        ELazyContainer entityContainer = new ELazyContainer(getEntityManager(), getEntityClass(), getContainerPageSize(), company);
-        return entityContainer;
-    }// end of method
-
+        // aggiunge un filtro sulla stagione corrente
+        Container cont = super.createContainer();
+        Filter filter = new Compare.Equal(PrenotazioneModulo.PROP_STAGIONE, Stagione.getStagioneCorrente());
+        if(cont instanceof Filterable){
+            Filterable fcont=(Filterable)cont;
+            fcont.addContainerFilter(filter);
+        }
+        return cont;
+    }
 
     /**
      * Ritorna il numero di record di competenza della azienda corrente

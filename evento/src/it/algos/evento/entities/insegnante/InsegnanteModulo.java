@@ -54,12 +54,6 @@ public class InsegnanteModulo extends CompanyModule {
 				Insegnante_.note };
 	}// end of method
 
-	// come default spazzola tutti i campi della Entity
-	// può essere sovrascritto nelle sottoclassi specifiche
-	// serve anche per l'ordine con cui vengono presentati i campi
-	protected Attribute<?, ?>[] creaFieldsSearch() {
-		return new Attribute[] { Insegnante_.cognome, Insegnante_.email, Insegnante_.ordineScuola, Insegnante_.materie, Insegnante_.note , Insegnante_.privato};
-	}// end of method
 
 	@Override
 	public ATable createTable() {
