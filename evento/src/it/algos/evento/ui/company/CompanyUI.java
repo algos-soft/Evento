@@ -44,6 +44,10 @@ public class CompanyUI extends AlgosUI {
     @Override
     protected void init(VaadinRequest request) {
 
+//        // about 6 months expiry time for company login
+//        int time=60*60*24*7*4*6;
+//        Login.getLogin().setExpiryTime(time);
+
         // parse request parameters
         checkParams(request);
 

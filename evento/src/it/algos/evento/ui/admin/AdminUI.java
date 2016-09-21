@@ -5,6 +5,7 @@ import com.vaadin.annotations.Title;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 import it.algos.webbase.web.lib.LibSession;
+import it.algos.webbase.web.login.Login;
 import it.algos.webbase.web.login.LoginEvent;
 import it.algos.webbase.web.ui.AlgosUI;
 
@@ -18,6 +19,10 @@ public class AdminUI extends AlgosUI {
 
     @Override
     protected void init(VaadinRequest request) {
+
+//        // about 3 months expiry time for admin login
+//        int time=60*60*24*7*4*3;
+//        Login.getLogin().setExpiryTime(time);
 
         // parse request parameters
         checkParams(request);
