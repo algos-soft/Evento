@@ -112,6 +112,7 @@ public abstract class PrenotazioneBaseTable extends ETable {
         setColumnWidth(Prenotazione_.scadenzaPagamento, 80);
         setColumnWidth(Prenotazione_.modoPagamento, 70);
         setColumnWidth(Prenotazione_.tipoRicevuta, 70);
+        setColumnWidth(Prenotazione_.note, 120);
 
         setColumnAlignment(Prenotazione_.dataPrenotazione, Align.CENTER);
         setColumnAlignment(Prenotazione_.scadenzaConferma, Align.CENTER);
@@ -138,6 +139,7 @@ public abstract class PrenotazioneBaseTable extends ETable {
         setColumnCollapsed(Prenotazione_.numAccomp.getName(), true);
         setColumnCollapsed(Prenotazione_.richiestoBus.getName(), true);
         setColumnCollapsed(Prenotazione_.pagatoBus.getName(), true);
+        setColumnCollapsed(Prenotazione_.note.getName(), true);
 
         // generatore di stili per le singole celle
         setCellStyleGenerator(new CellStyleGenerator() {
@@ -842,7 +844,8 @@ public abstract class PrenotazioneBaseTable extends ETable {
                 Prenotazione_.numDisabili,
                 Prenotazione_.numAccomp,
                 Prenotazione_.richiestoBus,
-                Prenotazione_.pagatoBus
+                Prenotazione_.pagatoBus,
+                Prenotazione_.note
         };
 
 
