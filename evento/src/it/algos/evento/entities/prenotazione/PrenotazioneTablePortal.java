@@ -11,6 +11,7 @@ import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.importexport.ExportConfiguration;
 import it.algos.webbase.web.importexport.ExportManager;
 import it.algos.webbase.web.importexport.ExportProvider;
+import it.algos.webbase.web.lib.LibLocalStorage;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
@@ -193,6 +194,15 @@ public class PrenotazioneTablePortal extends TablePortal {
                 }
             }
         });
+
+
+        item.addItem("Test local storage", null, new MenuBar.Command() {
+            public void menuSelected(MenuItem selectedItem) {
+                boolean supported=LibLocalStorage.supportsLocalStorage();
+                int a = 87;
+            }
+        });
+
 
         // questa tabella ha il bottone Opzioni
         toolbar.setOptionsButtonVisible(true);
