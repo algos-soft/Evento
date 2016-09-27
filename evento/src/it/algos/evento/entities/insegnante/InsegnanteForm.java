@@ -59,10 +59,14 @@ public class InsegnanteForm extends ModuleForm {
 
 		field = new TextField("Cognome");
 		field.setWidth("200px");
+		field.setRequired(true);
+		field.setRequiredError("Il cognome è obbligatorio");
 		addField(Insegnante_.cognome, field);
 
 		field = new TextField("Nome");
 		field.setWidth("200px");
+		field.setRequired(true);
+		field.setRequiredError("Il nome è obbligatorio");
 		addField(Insegnante_.nome, field);
 
 		fieldOrdineScuola = new ERelatedComboField(OrdineScuola.class, "Ordine scuola");

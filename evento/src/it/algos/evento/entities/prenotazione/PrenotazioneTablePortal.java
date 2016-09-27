@@ -11,13 +11,11 @@ import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.importexport.ExportConfiguration;
 import it.algos.webbase.web.importexport.ExportManager;
 import it.algos.webbase.web.importexport.ExportProvider;
-import it.algos.webbase.web.lib.LibLocalStorage;
 import it.algos.webbase.web.lib.LibSession;
 import it.algos.webbase.web.module.ModulePop;
 import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
 import it.algos.webbase.web.toolbar.TableToolbar;
-import it.algos.webbase.web.toolbar.Toolbar;
 
 import java.util.ArrayList;
 
@@ -196,12 +194,11 @@ public class PrenotazioneTablePortal extends TablePortal {
         });
 
 
-        item.addItem("Test local storage", null, new MenuBar.Command() {
-            public void menuSelected(MenuItem selectedItem) {
-                boolean supported=LibLocalStorage.supportsLocalStorage();
-                int a = 87;
-            }
-        });
+//        item.addItem("Test local storage", null, new MenuBar.Command() {
+//            public void menuSelected(MenuItem selectedItem) {
+//                test();
+//            }
+//        });
 
 
         // questa tabella ha il bottone Opzioni
@@ -209,6 +206,38 @@ public class PrenotazioneTablePortal extends TablePortal {
 
 
     }// end of method
+
+
+//    private void test() {
+//
+//        LocalStorage s = LocalStorage.get();
+//        s.put("k1", "value1", new LocalStorageCallback() {
+//            @Override
+//            public void onSuccess(String value) {
+//                int a = 87;
+//            }
+//
+//            @Override
+//            public void onFailure(FailureEvent error) {
+//                int a = 87;
+//            }
+//        });
+//        s.put("k2", "value2");
+//        s.put("k3", "value3");
+//
+//        LocalStorage.detectValue("k1",
+//                new LocalStorageCallback() {
+//                    public void onSuccess(String value) {
+//                        Notification.show("Value received:" + value);
+//                    }
+//
+//                    public void onFailure(FailureEvent error) {
+//                        Notification.show("Value retrieval failed: " + error.getMessage());
+//                    }
+//                });
+//
+//
+//    }
 
 
     /**
