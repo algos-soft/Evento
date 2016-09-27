@@ -8,6 +8,7 @@ import com.vaadin.ui.Image;
 import it.algos.evento.EventoApp;
 import it.algos.evento.entities.evento.Evento_;
 import it.algos.webbase.domain.company.BaseCompany;
+import it.algos.webbase.multiazienda.CompanyQuery;
 import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
@@ -354,15 +355,7 @@ public enum CompanyPrefs implements PrefIF {
      * @return la preferenza, null se non trovata
      */
     private PrefEventoEntity getPreference(BaseCompany company) {
-        PrefEventoEntity entity = null;
-        Filter f1 = new Compare.Equal(Evento_.company.getName(), company);
-        Filter f2 = new Compare.Equal(PrefEventoEntity_.code.getName(), getCode());
-        Filter filter = new And(f1,f2);
-        List<? extends BaseEntity> list=AQuery.getList(PrefEventoEntity.class, filter);
-        if(list.size()>0){
-            entity=(PrefEventoEntity)list.get(0);
-        }
-        return entity;
+        return (PrefEventoEntity)CompanyQuery.getEntity(PrefEventoEntity.class, PrefEventoEntity_.code, getCode(), company);
     }
 
     /**
