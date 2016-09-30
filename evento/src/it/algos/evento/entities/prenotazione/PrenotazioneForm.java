@@ -7,6 +7,7 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.filter.Compare;
+import com.vaadin.data.util.filter.Or;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.server.Page;
@@ -219,6 +220,20 @@ public class PrenotazioneForm extends ModuleForm {
             Container.Filter filter = new Compare.Equal(prop, Stagione.getStagioneCorrente());
             rcField.getFilterableContainer().addContainerFilter(filter);
         }
+
+//        test- da metere a punto
+//        JPAContainer cont = rcField.getJPAContainer();
+//        String prop = Evento.class.getSimpleName().toLowerCase() + "." + Evento_.stagione.getName();
+//        cont.addNestedContainerProperty(prop);
+//        Container.Filter filter = new Compare.Equal(prop, Stagione.getStagioneCorrente());
+//        if (!isNewRecord()) {
+////            prop = Rappresentazione.class.getSimpleName().toLowerCase() + "." + Rappresentazione_.id.getName();
+//            Container.Filter filterSelf = new Compare.Equal(Rappresentazione_.id.getName(), getPrenotazione().getId());
+//            filter=new Or(filter, filterSelf);
+//        }
+//        rcField.getFilterableContainer().addContainerFilter(filter);
+//
+
 
 
         // invocato quando si seleziona una rappresentazione nel popup
