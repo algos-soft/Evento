@@ -212,27 +212,20 @@ public class PrenotazioneForm extends ModuleForm {
         rcField.sort(Rappresentazione_.dataRappresentazione);
         addField(Prenotazione_.rappresentazione, rcField);
 
-        // se nuovo record, il popup delle rappresentazioni mostra solo le rappresentazioni della stagione corrente
-        if (isNewRecord()) {
-            JPAContainer cont = rcField.getJPAContainer();
-            String prop = Evento.class.getSimpleName().toLowerCase() + "." + Evento_.stagione.getName();
-            cont.addNestedContainerProperty(prop);
-            Container.Filter filter = new Compare.Equal(prop, Stagione.getStagioneCorrente());
-            rcField.getFilterableContainer().addContainerFilter(filter);
+        // il popup delle rappresentazioni mostra solo le rappresentazioni della stagione corrente
+        JPAContainer cont = rcField.getJPAContainer();
+        String prop = Evento.class.getSimpleName().toLowerCase() + "." + Evento_.stagione.getName();
+        cont.addNestedContainerProperty(prop);
+        Container.Filter filter = new Compare.Equal(prop, Stagione.getStagioneCorrente());
+        // Se record esistente, aggiunge al filtro la rappresentazione della prenotazione.
+        // In questo modo, se si modifica una prenotazione che non è della stagione corrente
+        // si ha la possibilità di aprire il popup delle rappresentazioni senza perdere la selezione originale
+        if (!isNewRecord()) {
+            Container.Filter filterSelf = new Compare.Equal(Rappresentazione_.id.getName(), getPrenotazione().getRappresentazione().getId());
+            filter=new Or(filter, filterSelf);
         }
+        rcField.getFilterableContainer().addContainerFilter(filter);
 
-//        test- da metere a punto
-//        JPAContainer cont = rcField.getJPAContainer();
-//        String prop = Evento.class.getSimpleName().toLowerCase() + "." + Evento_.stagione.getName();
-//        cont.addNestedContainerProperty(prop);
-//        Container.Filter filter = new Compare.Equal(prop, Stagione.getStagioneCorrente());
-//        if (!isNewRecord()) {
-////            prop = Rappresentazione.class.getSimpleName().toLowerCase() + "." + Rappresentazione_.id.getName();
-//            Container.Filter filterSelf = new Compare.Equal(Rappresentazione_.id.getName(), getPrenotazione().getId());
-//            filter=new Or(filter, filterSelf);
-//        }
-//        rcField.getFilterableContainer().addContainerFilter(filter);
-//
 
 
 
