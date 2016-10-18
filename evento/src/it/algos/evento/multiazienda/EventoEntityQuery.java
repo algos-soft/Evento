@@ -40,7 +40,7 @@ public class EventoEntityQuery <T extends CompanyEntity>{
 	}
 	
 	public long getCount() {
-		return CompanyQuery.getCount(type);
+		return CompanyQuery.count(type);
 	}
 
 	public List<T> getList() {
