@@ -326,6 +326,7 @@ public enum CompanyPrefs implements PrefIF {
         remove(CompanySessionLib.getCompany());
     }
 
+
     /**
      * Resetta questa preferenza al valore di default per una data azienda.
      * <p>
