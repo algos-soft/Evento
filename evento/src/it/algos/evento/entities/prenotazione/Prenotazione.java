@@ -707,9 +707,9 @@ public class Prenotazione extends CompanyEntity {
      *
      * @return la Prenotazione, null se non trovato
      */
-    public static Prenotazione read(Object id) {
+    public static Prenotazione read(long id) {
         Prenotazione instance = null;
-        BaseEntity entity = AQuery.queryById(Prenotazione.class, id);
+        BaseEntity entity = AQuery.find(Prenotazione.class, id);
         if (entity != null) {
             if (entity instanceof Prenotazione) {
                 instance = (Prenotazione) entity;
