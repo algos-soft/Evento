@@ -88,7 +88,7 @@ public class InsegnanteModulo extends CompanyModule {
 		boolean cont=true;
 		for (Object id : getTable().getSelectedIds()) {
 			BaseEntity entity=getTable().getEntity((Long)id);
-			List listaPren = CompanyQuery.queryList(Prenotazione.class, Prenotazione_.insegnante, entity);
+			List listaPren = CompanyQuery.getList(Prenotazione.class, Prenotazione_.insegnante, entity);
 			if (listaPren.size()>0) {
 				Notification.show("Impossibile eliminare i referenti selezionati perché hanno delle prenotazioni.\nEliminate prima le prenotazioni collegate o assegnatele a un altro referente.", Notification.Type.WARNING_MESSAGE);
 				cont=false;

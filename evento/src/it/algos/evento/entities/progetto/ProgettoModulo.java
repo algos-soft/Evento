@@ -59,7 +59,7 @@ public class ProgettoModulo extends CompanyModule {
 		boolean cont=true;
 		for (Object id : getTable().getSelectedIds()) {
 			BaseEntity entity = getTable().getEntity((Long)id);
-			List lista = CompanyQuery.queryList(Evento.class, Evento_.progetto, entity);
+			List lista = CompanyQuery.getList(Evento.class, Evento_.progetto, entity);
 			if (lista.size()>0) {
 				Notification.show("Impossibile eliminare i progetti selezionati perché sono collegati a degli eventi.\nEliminate prima gli eventi collegati o assegnateli ad altri progetti.", Notification.Type.WARNING_MESSAGE);
 				cont=false;

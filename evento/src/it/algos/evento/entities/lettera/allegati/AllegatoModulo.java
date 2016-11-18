@@ -122,7 +122,7 @@ public class AllegatoModulo extends CompanyModule {
 				if (length<=2048000) {
 					
 					String name = file.getName();
-					Object result = CompanyQuery.queryFirst(Allegato.class, Allegato_.name, name);
+					Object result = CompanyQuery.getFirstEntity(Allegato.class, Allegato_.name, name);
 					if (result == null) {
 						try {
 					    	Allegato allegato = fileToAllegato(file);
@@ -199,7 +199,7 @@ public class AllegatoModulo extends CompanyModule {
 	 */
 	public static Allegato getAllegato(String name) {
 		Allegato allegato = null;
-		Object result = CompanyQuery.queryFirst(Allegato.class, Allegato_.name, name);
+		Object result = CompanyQuery.getFirstEntity(Allegato.class, Allegato_.name, name);
 		if ((result != null) && (result instanceof Allegato)) {
 			allegato = (Allegato) result;
 		}

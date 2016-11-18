@@ -200,7 +200,7 @@ public abstract class PrenotazioneBaseTable extends ETable {
     @SuppressWarnings("unchecked")
     public long getTotalRows() {
         Class<CompanyEntity> entityClass = (Class<CompanyEntity>) getEntityClass();
-        return CompanyQuery.getCount(entityClass);
+        return CompanyQuery.count(entityClass);
     }// end of method
 
 

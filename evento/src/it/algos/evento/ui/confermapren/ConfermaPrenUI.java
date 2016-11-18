@@ -29,7 +29,7 @@ public class ConfermaPrenUI extends AlgosUI {
 		String uuid = request.getParameter("uuid");
 		if (uuid != null) {
 			if (LibUUID.validateUUID(uuid)) {
-				pren = (Prenotazione) AQuery.queryOne(Prenotazione.class,
+				pren = (Prenotazione) AQuery.getEntity(Prenotazione.class,
 						Prenotazione_.uuid, uuid);
 				if (pren == null) {
 					error = "prenotazione non trovata";

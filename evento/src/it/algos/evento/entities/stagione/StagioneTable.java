@@ -81,7 +81,7 @@ public class StagioneTable extends ETable {
 
 		boolean cont = true;
 
-		final Stagione stagione = (Stagione)AQuery.queryById(Stagione.class, id);
+		final Stagione stagione = (Stagione)AQuery.find(Stagione.class, (long)id);
 		cont=(stagione!=null);
 
 		// controllo che sia confermata

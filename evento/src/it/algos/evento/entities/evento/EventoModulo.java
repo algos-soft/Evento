@@ -73,7 +73,7 @@ public class EventoModulo extends CompanyModule {
 		boolean cont=true;
 		for (Object id : getTable().getSelectedIds()) {
 			BaseEntity entity = getTable().getEntity((Long)id);
-			List lista = CompanyQuery.queryList(Rappresentazione.class, Rappresentazione_.evento, entity);
+			List lista = CompanyQuery.getList(Rappresentazione.class, Rappresentazione_.evento, entity);
 			if (lista.size()>0) {
 				Notification.show("Impossibile eliminare gli eventi selezionati perché ci sono delle rappresentazioni.\nEliminate prima le rappresentazioni collegate.", Notification.Type.WARNING_MESSAGE);
 				cont=false;

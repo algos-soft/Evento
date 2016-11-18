@@ -88,7 +88,7 @@ public class ScuolaModulo extends CompanyModule {
 		boolean cont=true;
 		for (Object id : getTable().getSelectedIds()) {
 			BaseEntity entity=getTable().getEntity((Long)id);
-			List listaPren = CompanyQuery.queryList(Prenotazione.class, Prenotazione_.scuola, entity);
+			List listaPren = CompanyQuery.getList(Prenotazione.class, Prenotazione_.scuola, entity);
 			if (listaPren.size()>0) {
 				Notification.show("Impossibile eliminare le scuole selezionate perché ci sono delle prenotazioni.\nEliminate prima le prenotazioni collegate.", Notification.Type.WARNING_MESSAGE);
 				cont=false;

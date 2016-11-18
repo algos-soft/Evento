@@ -45,7 +45,7 @@ public class SalaModulo extends CompanyModule {
 		boolean cont=true;
 		for (Object id : getTable().getSelectedIds()) {
 			BaseEntity entity = getTable().getEntity((Long)id);
-			List lista = CompanyQuery.queryList(Rappresentazione.class, Rappresentazione_.sala, entity);
+			List lista = CompanyQuery.getList(Rappresentazione.class, Rappresentazione_.sala, entity);
 			if (lista.size()>0) {
 				Notification.show("Impossibile eliminare le sale selezionate perché ci sono delle rappresentazioni collegate.\nEliminate prima le rappresentazioni collegate o cambiate sala.", Notification.Type.WARNING_MESSAGE);
 				cont=false;

@@ -54,7 +54,7 @@ public class ModoPagamentoModulo extends CompanyModule {
 		boolean cont=true;
 		for (Object id : getTable().getSelectedIds()) {
 			BaseEntity entity = getTable().getEntity((Long)id);
-			List lista = CompanyQuery.queryList(Prenotazione.class, Prenotazione_.modoPagamento, entity);
+			List lista = CompanyQuery.getList(Prenotazione.class, Prenotazione_.modoPagamento, entity);
 			if (lista.size()>0) {
 				Notification.show("Impossibile eliminare i tipi di pagamento selezionati perché ci sono delle prenotazioni collegate.\nEliminate prima le prenotazioni collegate o cambiate il tipo di pagamento.", Notification.Type.WARNING_MESSAGE);
 				cont=false;

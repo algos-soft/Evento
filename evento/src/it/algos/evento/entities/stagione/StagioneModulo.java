@@ -131,7 +131,7 @@ public class StagioneModulo extends CompanyModule {
         boolean cont=true;
         for (Object id : getTable().getSelectedIds()) {
             BaseEntity entity = getTable().getEntity((Long)id);
-            List lista = CompanyQuery.queryList(Evento.class, Evento_.stagione, entity);
+            List lista = CompanyQuery.getList(Evento.class, Evento_.stagione, entity);
             if (lista.size()>0) {
                 Notification.show("Impossibile eliminare le stagioni selezionate perché ci sono degli eventi collegati.\nEliminate prima gli eventi.", Notification.Type.WARNING_MESSAGE);
                 cont=false;

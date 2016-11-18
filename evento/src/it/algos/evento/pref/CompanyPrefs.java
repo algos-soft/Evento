@@ -12,6 +12,7 @@ import it.algos.webbase.multiazienda.CompanySessionLib;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
 import it.algos.webbase.web.lib.LibImage;
+import it.algos.webbase.web.lib.LibPref;
 import it.algos.webbase.web.lib.LibResource;
 import it.algos.webbase.web.pref.AbsPref;
 import it.algos.webbase.web.pref.AbsPref.PrefType;

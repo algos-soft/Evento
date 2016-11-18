@@ -66,7 +66,7 @@ public class StatisticaPerEvento extends StatisticaBase {
             wrapper.addNumRappresentazioni(1);
 
             // spazzola le prenotazioni e aggiunge i valori
-            List<Prenotazione> listaPren = (List<Prenotazione>) CompanyQuery.queryList(Prenotazione.class, Prenotazione_.rappresentazione, rapp);
+            List<Prenotazione> listaPren = (List<Prenotazione>) CompanyQuery.getList(Prenotazione.class, Prenotazione_.rappresentazione, rapp);
             List<Scuola> scuole = new ArrayList<Scuola>();
             int numScuole = 0;
             for (Prenotazione pren : listaPren) {

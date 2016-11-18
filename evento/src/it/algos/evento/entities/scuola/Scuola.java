@@ -173,7 +173,7 @@ public class Scuola extends CompanyEntity {
 
 	public static Scuola read(long id) {
 		Scuola instance = null;
-		BaseEntity entity = AQuery.queryById(Scuola.class, id);
+		BaseEntity entity = AQuery.find(Scuola.class, id);
 
 		if (entity != null) {
 			if (entity instanceof Scuola) {

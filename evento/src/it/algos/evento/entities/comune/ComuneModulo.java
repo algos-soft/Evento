@@ -61,7 +61,7 @@ public class ComuneModulo extends CompanyModule {
 		boolean cont=true;
 		for (Object id : getTable().getSelectedIds()) {
 			BaseEntity entity=getTable().getEntity((Long)id);
-			List lista = CompanyQuery.queryList(Scuola.class, Scuola_.comune, entity);
+			List lista = CompanyQuery.getList(Scuola.class, Scuola_.comune, entity);
 			if (lista.size()>0) {
 				Notification.show("Impossibile eliminare i comuni selezionati perché ci sono delle scuole collegate.\nEliminate prima le scuole collegate o cambiate il comune nelle scuole.", Notification.Type.WARNING_MESSAGE);
 				cont=false;

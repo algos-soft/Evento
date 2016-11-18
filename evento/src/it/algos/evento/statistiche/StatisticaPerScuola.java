@@ -71,7 +71,7 @@ public class StatisticaPerScuola extends StatisticaBase {
 		ArrayList<Prenotazione> listaPren;
 
 		for (Rappresentazione rapp : rappresentazioni) {
-			prenotazioni = (List<Prenotazione>) CompanyQuery.queryList(Prenotazione.class, attr, rapp);
+			prenotazioni = (List<Prenotazione>) CompanyQuery.getList(Prenotazione.class, attr, rapp);
 			if (prenotazioni != null) {
 				for (Prenotazione prenot : prenotazioni) {
 					scuola = null;

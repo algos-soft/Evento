@@ -85,9 +85,10 @@ public class Stagione extends CompanyEntity {
     public static Stagione getStagioneCorrente(){
         Stagione stagione=null;
         try {
-            String attrName=Stagione_.corrente.getName();
-            Container.Filter filter =  new Compare.Equal(attrName, true);
-            CompanyEntity e = CompanyQuery.getEntity(Stagione.class, filter);
+//            String attrName=Stagione_.corrente.getName();
+//            Container.Filter filter =  new Compare.Equal(attrName, true);
+            //todo eliminato il filtro (gac)
+            CompanyEntity e = CompanyQuery.getEntity(Stagione.class, Stagione_.corrente,true);
             if (e!=null){
                 stagione=(Stagione)e;
             }

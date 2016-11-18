@@ -165,7 +165,7 @@ public class Lettera extends CompanyEntity {
 	 */
 	public static Lettera find(long id) {
 		Lettera instance = null;
-		BaseEntity entity = AQuery.queryById(Lettera.class, id);
+		BaseEntity entity = AQuery.find(Lettera.class, id);
 
 		if (entity != null) {
 			if (entity instanceof Lettera) {

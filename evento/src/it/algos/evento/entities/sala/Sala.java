@@ -75,7 +75,7 @@ public class Sala extends CompanyEntity {
 	 */
 	public static Sala read(long id) {
 		Sala instance = null;
-		BaseEntity entity = AQuery.queryById(Sala.class, id);
+		BaseEntity entity = AQuery.find(Sala.class, id);
 
 		if (entity != null) {
 			if (entity instanceof Sala) {

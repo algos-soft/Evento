@@ -102,7 +102,7 @@ public class Rappresentazione extends CompanyEntity {
      */
     public static Rappresentazione read(Object id) {
         Rappresentazione instance = null;
-        BaseEntity entity = AQuery.queryById(Rappresentazione.class, id);
+        BaseEntity entity = AQuery.find(Rappresentazione.class, (long)id);
 
         if (entity != null) {
             if (entity instanceof Rappresentazione) {

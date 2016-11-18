@@ -28,15 +28,15 @@ public class EventoEntityQuery <T extends CompanyEntity>{
 	}
 
 	public List<T> queryList(SingularAttribute attr, Object value) {
-		return (List<T>) CompanyQuery.queryList(type, attr, value);
+		return (List<T>) CompanyQuery.getList(type, attr, value);
 	}
 
 	public T queryFirst(SingularAttribute attr, Object value) {
-		return (T) CompanyQuery.queryFirst(type, attr, value);
+		return (T) CompanyQuery.getFirstEntity(type, attr, value);
 	}
 	
 	public T queryOne(SingularAttribute attr, Object value) {
-		return (T) CompanyQuery.queryOne(type, attr, value);
+		return (T) CompanyQuery.getEntity(type, attr, value);
 	}
 	
 	public long getCount() {
@@ -52,7 +52,7 @@ public class EventoEntityQuery <T extends CompanyEntity>{
 	}
 
 	public T getEntity(Filter... filters) {
-		return (T) CompanyQuery.getEntity(type, filters);
+		return (T) CompanyQuery.getFirstEntity(type, filters);
 	}
 
 }
