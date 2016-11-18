@@ -59,7 +59,7 @@ public enum ModelliLettere {
      */
     public String getOggetto() {
         String stringa = "";
-        BaseEntity entity = CompanyQuery.getEntity(Lettera.class, Lettera_.sigla, getDbCode());
+        BaseEntity entity = CompanyQuery.getFirstEntity(Lettera.class, Lettera_.sigla, getDbCode());
         if (entity != null) {
             Lettera lett = (Lettera) entity;
             stringa = lett.getOggetto();
@@ -73,7 +73,7 @@ public enum ModelliLettere {
      */
     public String getTesto() {
         String stringa = "";
-        BaseEntity entity = CompanyQuery.getEntity(Lettera.class, Lettera_.sigla, getDbCode());
+        BaseEntity entity = CompanyQuery.getFirstEntity(Lettera.class, Lettera_.sigla, getDbCode());
         if (entity != null) {
             Lettera lett = (Lettera) entity;
             stringa = lett.getTesto();
@@ -87,7 +87,7 @@ public enum ModelliLettere {
      */
     public Lettera getLettera() {
         Lettera lettera = null;
-        BaseEntity entity = CompanyQuery.getEntity(Lettera.class, Lettera_.sigla, getDbCode());
+        BaseEntity entity = CompanyQuery.getFirstEntity(Lettera.class, Lettera_.sigla, getDbCode());
         if (entity != null) {
             lettera = (Lettera) entity;
         }// end of if cycle

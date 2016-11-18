@@ -247,7 +247,7 @@ public class InsegnanteImport {
     }
 
     private OrdineScuola getOrdine(String sigla) {
-        OrdineScuola ordine = (OrdineScuola) CompanyQuery.getEntity(OrdineScuola.class, OrdineScuola_.sigla, sigla);
+        OrdineScuola ordine = (OrdineScuola) CompanyQuery.getFirstEntity(OrdineScuola.class, OrdineScuola_.sigla, sigla);
         return ordine;
     }
 

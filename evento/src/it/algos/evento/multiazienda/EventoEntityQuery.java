@@ -31,7 +31,7 @@ public class EventoEntityQuery <T extends CompanyEntity>{
 		return (List<T>) CompanyQuery.getList(type, attr, value);
 	}
 
-	public T queryFirst(SingularAttribute attr, Object value) {
+	public T getFirstEntity(SingularAttribute attr, Object value) {
 		return (T) CompanyQuery.getFirstEntity(type, attr, value);
 	}
 	
