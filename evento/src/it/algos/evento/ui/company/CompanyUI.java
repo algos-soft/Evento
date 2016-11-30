@@ -24,6 +24,9 @@ import java.util.logging.Logger;
  */
 @Theme("evento")
 @Title("eVento")
+
+//questo per rendere disponibile il widgetset solo in questa UI.
+//se messo nel servlet, diventa disponibile a tutte le UI del servlet
 //@Widgetset("com.sibvisions.vaadin.Widgetset")
 
 //@PreserveOnRefresh

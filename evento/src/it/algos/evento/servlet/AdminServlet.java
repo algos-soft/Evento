@@ -29,7 +29,8 @@ import java.util.logging.Logger;
  * directly toggle productionMode using a boolean and more
  */
 @WebServlet(value = "/admin/*", asyncSupported = true, displayName = "eVento - admin")
-@VaadinServletConfiguration(productionMode = false, ui = AdminUI.class)
+//widgetset = "com.sibvisions.vaadin.Widgetset" rende disponibile il widgetset a tutte le UI del servlet.
+@VaadinServletConfiguration(productionMode = false, ui = AdminUI.class, widgetset = "com.sibvisions.vaadin.Widgetset")
 public class AdminServlet extends AlgosServlet {
 
     private final static Logger logger = Logger.getLogger(AdminServlet.class.getName());
