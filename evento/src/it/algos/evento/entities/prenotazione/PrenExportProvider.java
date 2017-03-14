@@ -47,6 +47,7 @@ public class PrenExportProvider extends BaseEntityExportProvider {
                 "confermata",
                 "data conferma",
                 "congelata",
+                "note",
 
 
         };
@@ -98,6 +99,7 @@ public class PrenExportProvider extends BaseEntityExportProvider {
         add(() -> values.add(pren.isConfermata()));
         add(() -> values.add(pren.getDataConferma()));
         add(() -> values.add(pren.isCongelata()));
+        add(() -> values.add(pren.getNote()));
 
         return values.toArray(new Object[0]);
     }

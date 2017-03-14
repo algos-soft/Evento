@@ -14,6 +14,7 @@ import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.web.bootstrap.ABootStrap;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.entity.EM;
+import it.algos.webbase.web.form.AForm;
 import it.algos.webbase.web.lib.LibVers;
 import it.algos.webbase.web.query.AQuery;
 import it.algos.webbase.web.toolbar.Toolbar;
