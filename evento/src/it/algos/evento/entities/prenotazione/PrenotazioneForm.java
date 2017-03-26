@@ -367,7 +367,12 @@ public class PrenotazioneForm extends ModuleForm {
                 boolean newValue = Lib.getBool(event.getProperty().getValue());
                 if (newValue == true) {
                     ConfirmDialog dialog = new ConfirmDialog(null, "Questo campo è gestito automaticamente.<br>Sei sicuro di volerlo modificare manualmente?", (dialog1, confirmed) -> {
-                        if (!confirmed) {
+                        if (confirmed) {
+                            // se si accende manualmente Congelata, il flag Confermata viene tolto automaticamente
+                            inValueChange = true;
+                            fieldConfermata.setValue(false);
+                            inValueChange = false;
+                        }else{
                             inValueChange = true;
                             fieldCongelata.setValue(!fieldCongelata.getValue());
                             inValueChange = false;
@@ -384,15 +389,23 @@ public class PrenotazioneForm extends ModuleForm {
         addField(Prenotazione_.confermata, fieldConfermata);
         fieldConfermata.addValueChangeListener(event -> {
             if (!inValueChange) {
-                ConfirmDialog dialog = new ConfirmDialog(null, "Questo campo è gestito automaticamente.<br>Sei sicuro di volerlo modificare manualmente?", (dialog1, confirmed) -> {
-                    if (!confirmed) {
-                        inValueChange = true;
-                        fieldConfermata.setValue(!fieldConfermata.getValue());
-                        inValueChange = false;
-                    }
-                });
-                dialog.setConfirmButtonText("Modifica");
-                dialog.show();
+                boolean newValue = Lib.getBool(event.getProperty().getValue());
+                if(newValue==true){
+                    ConfirmDialog dialog = new ConfirmDialog(null, "Questo campo è gestito automaticamente.<br>Sei sicuro di volerlo modificare manualmente?", (dialog1, confirmed) -> {
+                        if (confirmed) {
+                            // se si accende manualmente Confermata, il flag Congelata viene tolto automaticamente
+                            inValueChange = true;
+                            fieldCongelata.setValue(false);
+                            inValueChange = false;
+                        }else{
+                            inValueChange = true;
+                            fieldConfermata.setValue(!fieldConfermata.getValue());
+                            inValueChange = false;
+                        }
+                    });
+                    dialog.setConfirmButtonText("Modifica");
+                    dialog.show();
+                }
             }
         });
 

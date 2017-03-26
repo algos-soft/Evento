@@ -34,10 +34,12 @@ public class PrenExportProvider extends BaseEntityExportProvider {
                 "n.ridotti",
                 "n.disabili",
                 "n.accomp.",
+                "n.posti tot",
                 "importo interi",
                 "importo ridotti",
                 "importo disabili",
                 "importo accomp.",
+                "importo tot.",
                 "modo pagamento",
                 "scad. pagamento",
                 "pag. confermato",
@@ -86,10 +88,12 @@ public class PrenExportProvider extends BaseEntityExportProvider {
         add(() -> values.add(pren.getNumRidotti()));
         add(() -> values.add(pren.getNumDisabili()));
         add(() -> values.add(pren.getNumAccomp()));
+        add(() -> values.add(pren.getNumTotali()));
         add(() -> values.add(pren.getImportoIntero()));
         add(() -> values.add(pren.getImportoRidotto()));
         add(() -> values.add(pren.getImportoDisabili()));
         add(() -> values.add(pren.getImportoAccomp()));
+        add(() -> values.add(pren.getImportoDaPagare()));
         add(() -> values.add(pren.getModoPagamento().getSigla()));
         add(() -> values.add(pren.getScadenzaPagamento()));
         add(() -> values.add(pren.isPagamentoConfermato()));
