@@ -12,12 +12,19 @@ import com.vaadin.data.Container;
 
 
 import java.awt.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Collection;
 
 /**
  * Custom ExportStreamSource needed to append totals row to the worksheet
  */
 public class PrenExportSource extends ExportStreamSource {
+
+    // values to be injected
+    private int totPosti=998;
+    private float totImporto=12525.34f;
 
     public PrenExportSource(ExportConfiguration config) {
         super(config);
@@ -36,11 +43,11 @@ public class PrenExportSource extends ExportStreamSource {
 
         cell = row.createCell(0);
         cell.setCellType(Cell.CELL_TYPE_STRING);
-        cell.setCellValue("Totale posti prenotati");
+        cell.setCellValue("Totale posti");
 
         cell = row.createCell(1);
         cell.setCellType(Cell.CELL_TYPE_NUMERIC);
-        cell.setCellValue(11);
+        cell.setCellValue(totPosti);
 
         row = addRow();
 
@@ -50,21 +57,9 @@ public class PrenExportSource extends ExportStreamSource {
 
         cell = row.createCell(1);
         cell.setCellType(Cell.CELL_TYPE_NUMERIC);
-        cell.setCellValue(99);
-
-
-//        Container container=getExportConfiguration().getContainer();
-//        Collection ids =  container.getItemIds();
-//
-//        for(Object itemId : ids){
-//            Item item = container.getItem(itemId);
-//            Property prop = item.getItemProperty(Prenotazione_.numTotali);
-//            Object obj = prop.getValue();
-//            int a = 87;
-//            int b=1;
-//        }
-
-
+        BigDecimal bd = new BigDecimal(totImporto);
+        BigDecimal scaled = bd.setScale(2, RoundingMode.HALF_UP);
+        cell.setCellValue(scaled.doubleValue());
 
     }
 }
