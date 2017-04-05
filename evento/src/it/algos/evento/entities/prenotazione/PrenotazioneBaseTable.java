@@ -27,13 +27,11 @@ import it.algos.evento.entities.stagione.Stagione;
 import it.algos.evento.entities.tiporicevuta.TipoRicevuta;
 import it.algos.evento.multiazienda.EQuery;
 import it.algos.evento.pref.CompanyPrefs;
-import it.algos.webbase.domain.company.BaseCompany;
 import it.algos.webbase.multiazienda.*;
 import it.algos.webbase.web.converter.StringToBigDecimalConverter;
 import it.algos.webbase.web.dialog.ConfirmDialog;
 import it.algos.webbase.web.entity.BaseEntity;
 import it.algos.webbase.web.lib.*;
-import it.algos.webbase.web.table.ModuleTable;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -238,7 +236,7 @@ public abstract class PrenotazioneBaseTable extends ETable {
         Root<Prenotazione> root = cq.from(Prenotazione.class);
 
         // applica il filtro totali
-        cq.where(LibFilter.getPredicate(getFilterTotali(), cb, cq, root));
+        cq.where(LibFilter.getPredicate(getFilterTotaliNoCongelate(), cb, cq, root));
 
         if (propertyId.equals(Prenotazione_.numTotali.getName())) {
 
@@ -279,10 +277,64 @@ public abstract class PrenotazioneBaseTable extends ETable {
 
 
     /**
+     * Ritorna il totale per una colonna senza filtrare le prenotazioni congelate
+     * (rimanda direttamente alla superclasse)
+     */
+    public BigDecimal getTotalForColumnNoFilter(Object propertyId) {
+
+        BigDecimal tot = new BigDecimal(0);
+        boolean cont = true;
+
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Number> cq = cb.createQuery(Number.class);
+        Root<Prenotazione> root = cq.from(Prenotazione.class);
+
+        // applica il filtro della tavola
+        cq.where(LibFilter.getPredicate(getCurrentFilter(), cb, cq, root));
+
+        if (propertyId.equals(Prenotazione_.numTotali.getName())) {
+
+            Expression expr = EQuery.getExprPostiPrenotati(cb, root);
+            cq.select(cb.sum(expr));
+
+            TypedQuery<Number> q = getEntityManager().createQuery(cq);
+            Integer num = (Integer) q.getSingleResult();
+            if (num == null) {
+                num = 0;
+            }
+            tot = new BigDecimal(num);
+            cont = false;
+        }
+
+        if (propertyId.equals(Prenotazione_.importoDaPagare.getName())) {
+
+            Expression expr = EQuery.getExprImportoPrevisto(cb, root);
+            cq.select(cb.sum(expr));
+
+            Number num = getEntityManager().createQuery(cq).getSingleResult();
+            if (num != null) {
+                if (num instanceof BigDecimal) {
+                    tot = (BigDecimal) num;
+                }
+            }
+
+            cont = false;
+        }
+
+        if (cont) {
+            tot = super.getTotalForColumn(propertyId);
+        }
+
+        return tot;
+
+    }
+
+
+    /**
      * Ritorna il filtro per filtrare i totali.
      * Il filtro è come quello corrente della table ma in più esclude le prenotazioni congelate.
      */
-    private Filter getFilterTotali() {
+    private Filter getFilterTotaliNoCongelate() {
 
         // crea una nuova lista con i filtri correnti della table
         ArrayList<Filter> filterList = new ArrayList();
@@ -306,6 +358,9 @@ public abstract class PrenotazioneBaseTable extends ETable {
 
         return singleFilter;
     }
+
+
+
 
 
     /**

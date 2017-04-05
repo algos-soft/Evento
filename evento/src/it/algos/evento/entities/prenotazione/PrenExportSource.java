@@ -23,8 +23,8 @@ import java.util.Collection;
 public class PrenExportSource extends ExportStreamSource {
 
     // values to be injected
-    private int totPosti=998;
-    private float totImporto=12525.34f;
+    private int totPosti;
+    private float totImporto;
 
     public PrenExportSource(ExportConfiguration config) {
         super(config);
@@ -61,5 +61,13 @@ public class PrenExportSource extends ExportStreamSource {
         BigDecimal scaled = bd.setScale(2, RoundingMode.HALF_UP);
         cell.setCellValue(scaled.doubleValue());
 
+    }
+
+    public void setTotPosti(int totPosti) {
+        this.totPosti = totPosti;
+    }
+
+    public void setTotImporto(float totImporto) {
+        this.totImporto = totImporto;
     }
 }

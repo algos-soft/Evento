@@ -13,18 +13,23 @@ import it.algos.webbase.web.updown.ExportStreamSource;
  */
 public class PrenExportManager extends ExportManager {
 
+    private PrenExportSource exportSource;
+
     public PrenExportManager(ExportConfiguration config, AbstractComponent comp) {
         super(config, comp);
+        exportSource = new PrenExportSource(getConfig());
     }
 
     @Override
     protected void onConfirm() {
-        ExportStreamSource streamSource = new PrenExportSource(getConfig());
-        ExportStreamResource streamResource=new ExportStreamResource(streamSource);
+        ExportStreamResource streamResource=new ExportStreamResource(exportSource);
         DownloaderExtension downloader = new DownloaderExtension();
         downloader.extend(getComp());
         downloader.setDownloadResource(streamResource);
         close();
     }
 
+    public PrenExportSource getExportSource() {
+        return exportSource;
+    }
 }

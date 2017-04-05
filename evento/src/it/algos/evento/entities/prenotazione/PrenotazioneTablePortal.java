@@ -17,6 +17,7 @@ import it.algos.webbase.web.table.ATable;
 import it.algos.webbase.web.table.TablePortal;
 import it.algos.webbase.web.toolbar.TableToolbar;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
@@ -162,6 +163,13 @@ public class PrenotazioneTablePortal extends TablePortal {
                 ExportConfiguration conf = new ExportConfiguration(Prenotazione.class, "prenotazioni.xls", container, provider);
 //                new ExportManager(conf, PrenotazioneTablePortal.this).show();
                 PrenExportManager exportManager=new PrenExportManager(conf, PrenotazioneTablePortal.this);
+
+                /// inject the totals
+                PrenExportSource source=exportManager.getExportSource();
+                source.setTotImporto(getTotImporto());
+                source.setTotPosti(getTotPosti());
+
+                // show the export manager
                 exportManager.show();
 
             }
@@ -208,6 +216,17 @@ public class PrenotazioneTablePortal extends TablePortal {
 
 
     }// end of method
+
+
+    private int getTotPosti(){
+        BigDecimal bd = getPrenotazioneTable().getTotalForColumnNoFilter(Prenotazione_.numTotali.getName());
+        return bd.intValue();
+    }
+
+    private float getTotImporto(){
+        BigDecimal bd = getPrenotazioneTable().getTotalForColumnNoFilter(Prenotazione_.importoDaPagare.getName());
+        return bd.floatValue();
+    }
 
 
 //    private void test() {
