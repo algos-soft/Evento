@@ -30,6 +30,7 @@ public class PrenExportProvider extends BaseEntityExportProvider {
                 "e-mail referente",
                 "tel. referente",
                 "e-mail scuola",
+                "tel. scuola",
                 "n.interi",
                 "n.ridotti",
                 "n.disabili",
@@ -84,6 +85,7 @@ public class PrenExportProvider extends BaseEntityExportProvider {
         add(() -> values.add(pren.getEmailRiferimento()));
         add(() -> values.add(pren.getTelRiferimento()));
         add(() -> values.add(pren.getScuola().getEmail()));
+        add(() -> values.add(pren.getScuola().getTelefono()));
         add(() -> values.add(pren.getNumInteri()));
         add(() -> values.add(pren.getNumRidotti()));
         add(() -> values.add(pren.getNumDisabili()));
