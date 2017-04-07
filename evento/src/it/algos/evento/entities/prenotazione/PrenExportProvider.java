@@ -57,6 +57,17 @@ public class PrenExportProvider extends BaseEntityExportProvider {
         return titles;
     }
 
+
+
+    /**
+     * @return the indexes of the columns to totalize
+     * (0-based array)
+     */
+    public int[] getTotalizableColumns(){
+        return new int[]{16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 30};
+    }
+
+
     @Override
     public Object[] getExportValues(BaseEntity entity) {
 

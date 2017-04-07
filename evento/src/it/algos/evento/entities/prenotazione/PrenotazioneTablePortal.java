@@ -161,16 +161,17 @@ public class PrenotazioneTablePortal extends TablePortal {
                 Container container = getTable().getContainerDataSource();
                 ExportProvider provider = new PrenExportProvider();
                 ExportConfiguration conf = new ExportConfiguration(Prenotazione.class, "prenotazioni.xls", container, provider);
-//                new ExportManager(conf, PrenotazioneTablePortal.this).show();
-                PrenExportManager exportManager=new PrenExportManager(conf, PrenotazioneTablePortal.this);
+                new ExportManager(conf, PrenotazioneTablePortal.this).show();
 
-                /// inject the totals
-                PrenExportSource source=exportManager.getExportSource();
-                source.setTotImporto(getTotImporto());
-                source.setTotPosti(getTotPosti());
-
-                // show the export manager
-                exportManager.show();
+//                PrenExportManager exportManager=new PrenExportManager(conf, PrenotazioneTablePortal.this);
+//
+//                /// inject the totals
+//                PrenExportSource source=exportManager.getExportSource();
+//                source.setTotImporto(getTotImporto());
+//                source.setTotPosti(getTotPosti());
+//
+//                // show the export manager
+//                exportManager.show();
 
             }
         });
