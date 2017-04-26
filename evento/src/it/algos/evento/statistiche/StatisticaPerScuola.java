@@ -29,6 +29,7 @@ public class StatisticaPerScuola extends StatisticaBase {
 	protected void creaContainer() {
 		container = new IndexedContainer();
 		addContainerProperty(Colonne.scuolaNome);
+		addContainerProperty(Colonne.scuolaOrdine);
 		addContainerProperty(Colonne.comune);
 
 		super.creaContainer();
@@ -110,6 +111,7 @@ public class StatisticaPerScuola extends StatisticaBase {
 	private void addRiga(Scuola scuola, WrapTotali wrap) {
 		Item item = container.getItem(container.addItem());
 		item.getItemProperty(Colonne.scuolaNome.getTitolo()).setValue(scuola.getNome());
+		item.getItemProperty(Colonne.scuolaOrdine.getTitolo()).setValue(scuola.getOrdine().getSigla());
 		item.getItemProperty(Colonne.comune.getTitolo()).setValue(scuola.getComune());
 
 		// aggiunge le colonne standard

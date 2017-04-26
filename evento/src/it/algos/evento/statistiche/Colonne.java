@@ -24,6 +24,8 @@ public enum Colonne {
 
 	scuolaNome("Scuola", String.class, 0),
 
+	scuolaOrdine("Ordine", String.class, 0),
+
 	comune("Comune", Comune.class, ""),
 
 	nomeInsegnante("Insegnante", String.class, ""),
