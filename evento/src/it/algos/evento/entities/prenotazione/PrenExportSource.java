@@ -1,21 +1,12 @@
 package it.algos.evento.entities.prenotazione;
 
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
 import it.algos.webbase.web.importexport.ExportConfiguration;
-import it.algos.webbase.web.importexport.ExportProvider;
 import it.algos.webbase.web.updown.ExportStreamSource;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import com.vaadin.data.Container;
 
-
-import java.awt.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.Collection;
 
 /**
  * Custom ExportStreamSource needed to append totals row to the worksheet

@@ -125,6 +125,7 @@ public class StatisticaPerEvento extends StatisticaBase {
         item.getItemProperty(Colonne.interi.getTitolo()).setValue(numInteri);
         item.getItemProperty(Colonne.ridotti.getTitolo()).setValue(numRidotti);
         item.getItemProperty(Colonne.disabili.getTitolo()).setValue(numOmaggi);
+        item.getItemProperty(Colonne.accomp.getTitolo()).setValue(numAccomp);
         item.getItemProperty(Colonne.totSpettatori.getTitolo()).setValue(wrapEvento.getTotSpettatori());
         item.getItemProperty(Colonne.totPagare.getTitolo()).setValue(pagare.doubleValue());
         item.getItemProperty(Colonne.totPagato.getTitolo()).setValue(pagato.doubleValue());
@@ -134,6 +135,7 @@ public class StatisticaPerEvento extends StatisticaBase {
         wt.setTotInteri(numInteri);
         wt.setTotRidotti(numRidotti);
         wt.setTotDisabili(numOmaggi);
+        wt.setTotAccomp(numAccomp);
         wt.setTotScuole(numScuole);
         wt.setTotRappresentazioni(numRapp);
         wt.setTotCapienza(capienza);
