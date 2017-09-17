@@ -372,7 +372,7 @@ public class PrenotazioneForm extends ModuleForm {
                             inValueChange = true;
                             fieldConfermata.setValue(false);
                             inValueChange = false;
-                        }else{
+                        } else {
                             inValueChange = true;
                             fieldCongelata.setValue(!fieldCongelata.getValue());
                             inValueChange = false;
@@ -390,14 +390,14 @@ public class PrenotazioneForm extends ModuleForm {
         fieldConfermata.addValueChangeListener(event -> {
             if (!inValueChange) {
                 boolean newValue = Lib.getBool(event.getProperty().getValue());
-                if(newValue==true){
+                if (newValue == true) {
                     ConfirmDialog dialog = new ConfirmDialog(null, "Questo campo è gestito automaticamente.<br>Sei sicuro di volerlo modificare manualmente?", (dialog1, confirmed) -> {
                         if (confirmed) {
                             // se si accende manualmente Confermata, il flag Congelata viene tolto automaticamente
                             inValueChange = true;
                             fieldCongelata.setValue(false);
                             inValueChange = false;
-                        }else{
+                        } else {
                             inValueChange = true;
                             fieldConfermata.setValue(!fieldConfermata.getValue());
                             inValueChange = false;
@@ -443,6 +443,22 @@ public class PrenotazioneForm extends ModuleForm {
         addField(Prenotazione_.pagatoBus, field);
 
 
+        field = new CheckBoxField("Richiesto laboratorio");
+        addField(Prenotazione_.richiestoLab, field);
+
+        area = new TextArea("Dettagli");
+        area.setRows(4);
+        addField(Prenotazione_.dettagliLab, area);
+
+        field = new DecimalField("Importo");
+        field.setWidth(WF);
+        addField(Prenotazione_.importoLab, field);
+
+        field = new CheckBoxField("Pagato");
+        addField(Prenotazione_.pagatoLab, field);
+
+
+
     }
 
 
@@ -481,6 +497,13 @@ public class PrenotazioneForm extends ModuleForm {
             tab = tabsheet.addTab(creaTabAltro(), "Bus");
             tab.getComponent().setWidth(width);
         }
+
+        // tab laboratorio (personalizzazione Extrateatro)
+        if (Company.getCurrent().getCompanyCode().equals(EventoApp.EXTRATEATRO_COMPANY_CODE)) {
+            tab = tabsheet.addTab(creaTabLab(), "Laboratorio");
+            tab.getComponent().setWidth(width);
+        }
+
 
         postLayout();
         return tabsheet;
@@ -784,6 +807,38 @@ public class PrenotazioneForm extends ModuleForm {
 
         return panel;
     }
+
+
+    private Component creaTabLab() {
+        Component comp;
+
+        VerticalLayout layout = new VerticalLayout();
+        layout.setMargin(true);
+        layout.setSpacing(true);
+
+        comp = getField(Prenotazione_.richiestoLab);
+        layout.addComponent(comp);
+
+        comp = getField(Prenotazione_.dettagliLab);
+        comp.setWidth("100%");
+        layout.addComponent(comp);
+
+        HorizontalLayout hl = new HorizontalLayout();
+        hl.setSpacing(true);
+        hl.setDefaultComponentAlignment(Alignment.BOTTOM_LEFT);
+        comp = getField(Prenotazione_.importoLab);
+        hl.addComponent(comp);
+        comp = getField(Prenotazione_.pagatoLab);
+        hl.addComponent(comp);
+        layout.addComponent(hl);
+
+
+        Panel panel = new Panel(layout);
+        panel.setCaption("Gestione Laboratorio");
+
+        return panel;
+    }
+
 
 
 

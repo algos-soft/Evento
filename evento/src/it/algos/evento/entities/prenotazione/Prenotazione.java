@@ -226,6 +226,16 @@ public class Prenotazione extends CompanyEntity {
 
     private boolean pagatoBus;
 
+    private boolean richiestoLab;
+
+    @Lob
+    private String dettagliLab = "";
+
+    @Column(precision = 8, scale = 2)
+    private BigDecimal importoLab =new BigDecimal(0);
+
+    private boolean pagatoLab;
+
 
     @OneToMany(mappedBy = "prenotazione")
     @CascadeOnDelete
@@ -669,6 +679,37 @@ public class Prenotazione extends CompanyEntity {
         this.pagatoBus = pagatoBus;
     }
 
+    public boolean isRichiestoLab() {
+        return richiestoLab;
+    }
+
+    public void setRichiestoLab(boolean richiestoLab) {
+        this.richiestoLab = richiestoLab;
+    }
+
+    public String getDettagliLab() {
+        return dettagliLab;
+    }
+
+    public void setDettagliLab(String dettagliLab) {
+        this.dettagliLab = dettagliLab;
+    }
+
+    public BigDecimal getImportoLab() {
+        return importoLab;
+    }
+
+    public void setImportoLab(BigDecimal importoLab) {
+        this.importoLab = importoLab;
+    }
+
+    public boolean isPagatoLab() {
+        return pagatoLab;
+    }
+
+    public void setPagatoLab(boolean pagatoLab) {
+        this.pagatoLab = pagatoLab;
+    }
 
     //	@Transient
 //	public Progetto progetto;

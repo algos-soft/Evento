@@ -101,6 +101,9 @@ public abstract class PrenotazioneBaseTable extends ETable {
         setColumnHeader(Prenotazione_.tipoRicevuta, "tipo ricev");
         setColumnHeader(Prenotazione_.richiestoBus, "Bus R");
         setColumnHeader(Prenotazione_.pagatoBus, "Bus P");
+        setColumnHeader(Prenotazione_.richiestoLab, "Lab R");
+        setColumnHeader(Prenotazione_.pagatoLab, "Lab P");
+
 
         setColumnWidth(Prenotazione_.dataPrenotazione, 80);
         setColumnWidth(Prenotazione_.numTotali, 46);
@@ -137,6 +140,8 @@ public abstract class PrenotazioneBaseTable extends ETable {
         setColumnCollapsed(Prenotazione_.numAccomp.getName(), true);
         setColumnCollapsed(Prenotazione_.richiestoBus.getName(), true);
         setColumnCollapsed(Prenotazione_.pagatoBus.getName(), true);
+        setColumnCollapsed(Prenotazione_.richiestoLab.getName(), true);
+        setColumnCollapsed(Prenotazione_.pagatoLab.getName(), true);
         setColumnCollapsed(Prenotazione_.note.getName(), true);
 
         // generatore di stili per le singole celle
@@ -900,6 +905,8 @@ public abstract class PrenotazioneBaseTable extends ETable {
                 Prenotazione_.numAccomp,
                 Prenotazione_.richiestoBus,
                 Prenotazione_.pagatoBus,
+                Prenotazione_.richiestoLab,
+                Prenotazione_.pagatoLab,
                 Prenotazione_.note
         };
 
