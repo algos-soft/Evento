@@ -21,6 +21,8 @@
 		<!-- Cron4j -->
 		<dependency org="it.sauronsoftware.cron4j" name="cron4j" rev="2.2.5"/>
 
+		<dependency org="net.bull.javamelody" name="javamelody-core" rev="1.82.0"/>
+
 	</dependencies>
 
 

@@ -212,12 +212,18 @@
       <library name="IvyIDEA">
         <CLASSES>
           <root url="jar://$USER_HOME$/.ivy2/cache/it.sauronsoftware.cron4j/cron4j/jars/cron4j-2.2.5.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/net.bull.javamelody/javamelody-core/jars/javamelody-core-1.82.0.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jrobin/jrobin/jars/jrobin-1.5.9.jar!/" />
         </CLASSES>
         <JAVADOC>
           <root url="jar://$USER_HOME$/.ivy2/cache/it.sauronsoftware.cron4j/cron4j/javadocs/cron4j-2.2.5-javadoc.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/net.bull.javamelody/javamelody-core/javadocs/javamelody-core-1.82.0-javadoc.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jrobin/jrobin/javadocs/jrobin-1.5.9-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
           <root url="jar://$USER_HOME$/.ivy2/cache/it.sauronsoftware.cron4j/cron4j/sources/cron4j-2.2.5-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/net.bull.javamelody/javamelody-core/sources/javamelody-core-1.82.0-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jrobin/jrobin/sources/jrobin-1.5.9-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
